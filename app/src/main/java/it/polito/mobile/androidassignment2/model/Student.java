@@ -5,6 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -22,8 +24,24 @@ public class Student {
     private String universityCareer;
     private String[] competences;
     private String[] hobbies;
-    private boolean available;
+    private Boolean available;
+    private String password;
 
+    public Student(String email, String name, String surname, String photoUrl,
+                   String cvUrl, String[] links, String universityCareer,
+                   String[] competences, String[] hobbies, Boolean available, String password) {
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.photoUrl = photoUrl;
+        this.cvUrl = cvUrl;
+        this.links = links;
+        this.universityCareer = universityCareer;
+        this.competences = competences;
+        this.hobbies = hobbies;
+        this.available = available;
+        this.password=password;
+    }
 
     public Student(JSONObject json){
 
@@ -119,7 +137,7 @@ public class Student {
         return hobbies;
     }
 
-    public boolean isAvailable() {
+    public Boolean isAvailable() {
         return available;
     }
 
@@ -138,5 +156,55 @@ public class Student {
                 ", hobbies=" + Arrays.toString(hobbies) +
                 ", available=" + available +
                 '}';
+    }
+
+    public Map<String,String> toFormParams(){
+        Map<String,String> s = new HashMap<>();
+        if(email!=null){
+            s.put("student[email]", email);
+        }
+        if(password!=null){
+            s.put("student[password]", password);
+        }
+        if(name!=null){
+            s.put("student[name]", name);
+        }
+        if(surname!=null){
+            s.put("student[surname]", surname);
+        }
+        if(photoUrl!=null){
+            s.put("student[photo]", photoUrl);
+        }
+        if(cvUrl!=null){
+            s.put("student[cv]", cvUrl);
+        }
+        if(available!=null){
+            s.put("student[availability]", available.toString());
+        }
+        if(universityCareer!=null){
+            s.put("student[university_career]", universityCareer);
+        }
+        if(competences!=null && competences.length>0){
+            String c=competences[0];
+            for(int i=1;i<competences.length;i++){
+                c+=","+competences[i];
+            }
+            s.put("student[competences]", c);
+        }
+        if(links!=null && links.length>0){
+            String c=links[0];
+            for(int i=1;i<links.length;i++){
+                c+=","+links[i];
+            }
+            s.put("student[links]", c);
+        }
+        if(hobbies!=null && hobbies.length>0){
+            String c=hobbies[0];
+            for(int i=1;i<hobbies.length;i++){
+                c+=","+hobbies[i];
+            }
+            s.put("student[hobbies]", c);
+        }
+        return s;
     }
 }

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 
 import it.polito.mobile.androidassignment2.model.ResultProcessor;
 import it.polito.mobile.androidassignment2.model.Student;
@@ -61,6 +62,17 @@ public class ActivityPolijob extends ActionBarActivity {
 
 
         //finish();
+    }
+
+    public void insertNewStudent(View view){
+        StudentTasks.StudentInserter sig = new StudentTasks.StudentInserter(new ResultProcessor<Student>() {
+            @Override
+            public void process(Student s) {
+                ((TextView)findViewById(R.id.response)).setText(s.toString());
+            }
+        });
+        sig.execute(new Student("prova@test.com","Prova","Test","www.mywonderfulphoto.it","cv.test.it", new String[]{"link1","link2"},
+                "Computer Engineering", new String[]{"java","android",".net"}, null,true,"pw"));
     }
 
 }

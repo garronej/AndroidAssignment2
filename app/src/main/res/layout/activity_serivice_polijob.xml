@@ -39,4 +39,13 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Insert a new student"
+        android:id="@+id/button2"
+        android:layout_below="@+id/response"
+        android:layout_centerHorizontal="true"
+        android:onClick="insertNewStudent" />
 </RelativeLayout>

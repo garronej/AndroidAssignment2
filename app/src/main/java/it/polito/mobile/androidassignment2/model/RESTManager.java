@@ -7,6 +7,8 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.Map;
 
 /**
  * Created by mark9 on 28/04/15.
@@ -38,23 +40,34 @@ public class RESTManager {
     public static String POST = "POST";
 
 
-    public static Response send(String method, String relURI, String urlParameters) throws Exception {
-        Log.d("poliJob", "Send method invoked");
+    public static Response send(String method, String relURI, Map<String, String> urlParameters) throws Exception {
+        Log.d("poliJob", "Send method invoked with method "+method);
         String url = BASE_URI+relURI;
-        if(method.equals("GET") && !urlParameters.isEmpty()){
-            url+="?"+urlParameters;
+        String queryString = "";
+        if(!urlParameters.isEmpty()) {
+
+            for (String key : urlParameters.keySet()) {
+                queryString += URLEncoder.encode(key, "UTF-8") + "=" + URLEncoder.encode(urlParameters.get(key), "UTF-8") + "&";
+            }
+            queryString = queryString.substring(0, queryString.length() - 1);
+        }
+        if(method.equals(RESTManager.GET) && !queryString.isEmpty()){
+            url+="?"+queryString;
         }
 
         Log.d("poliJob", "Sending request to  "+url);
+
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         con.setRequestMethod(method);
 
-        if(!method.equals("GET")){
+        if(!method.equals(RESTManager.GET) && !queryString.isEmpty()){
+            Log.d("poliJob", "The request has this as params : "+queryString);
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             con.setDoOutput(true);
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(urlParameters);
+            wr.writeBytes(queryString);
             wr.flush();
             wr.close();
         }
@@ -63,18 +76,20 @@ public class RESTManager {
 
         int responseCode = con.getResponseCode();
         Log.d("poliJob", "Response of HTTP request is "+responseCode);
+        String content="";
+        if(responseCode == 200) {
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
 
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            content=response.toString();
         }
-        in.close();
-
-        return new Response(responseCode, response.toString());
+        return new Response(responseCode, content);
 
     }
 

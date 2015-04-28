@@ -34,4 +34,32 @@ public class StudentTasks {
             }
         }
     }
+
+    public static class StudentInserter extends AsyncTask<Student, Integer, Student> {
+
+        private ResultProcessor<Student> postProcessor;
+
+        public StudentInserter(ResultProcessor<Student> postProcessor){
+            this.postProcessor=postProcessor;
+        }
+
+
+        @Override
+        protected Student doInBackground(Student... params) {
+            Student s = null;
+            try {
+                s=StudentManager.insertNewStudent(params[0]);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return s;
+        }
+
+        @Override
+        protected void onPostExecute(Student student) {
+            if(postProcessor!=null){
+                postProcessor.process(student);
+            }
+        }
+    }
 }
