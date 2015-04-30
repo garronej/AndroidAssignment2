@@ -159,7 +159,7 @@ public class Student {
     }
 
     public Map<String,String> toFormParams(){
-        Map<String,String> s = new HashMap<>();
+        Map<String,String> s = new HashMap<String,String>();
         if(email!=null){
             s.put("student[email]", email);
         }

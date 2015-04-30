@@ -4,18 +4,24 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
 
+
+
 /**
  * Created by mark9 on 28/04/15.
  */
-public class RESTManager {
+class RESTManager {
 
-    public static class Response{
+    protected static class Response{
 
         private int respCode;
         private String content;
@@ -40,7 +46,7 @@ public class RESTManager {
     public static String POST = "POST";
 
 
-    public static Response send(String method, String relURI, Map<String, String> urlParameters) throws Exception {
+    protected static Response send(String method, String relURI, Map<String, String> urlParameters) throws Exception {
         Log.d("poliJob", "Send method invoked with method "+method);
         String url = BASE_URI+relURI;
         String queryString = "";
