@@ -3,26 +3,27 @@ package it.polito.mobile.androidassignment2.businessLogic;
 /**
  * Created by Joseph on 30/04/2015.
  */
+
+
 public class RestApiException extends Exception{
 
-    private int respCode;
+    private int responseCode;
 
 
-    public RestApiException(int respCode) {
-            super("REST API Error Code");
-            this.respCode = respCode;
-        }
+    protected RestApiException(int responseCode, String responseMessage){
 
-    public RestApiException(String message) {
-        super(message);
-        this.respCode = -1;
-    }
+        super(responseMessage);
 
-    public int getRespCode(){
-
-        return this.respCode;
+        this.responseCode = responseCode;
 
     }
+
+    public int getResponseCode(){
+        return this.responseCode;
+    }
+
+
+
 
 
 

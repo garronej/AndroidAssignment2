@@ -14,19 +14,19 @@ import java.util.HashMap;
  */
 class StudentManager {
 
-    private static String BASE_URI = "students";
+    private static final String BASE_URI = "students";
 
 
 
     protected static Student getStudentById(Integer id) throws RestApiException, IOException {
         Student s = null;
 
-        String resp = RESTManager.send(RESTManager.GET, BASE_URI+"/"+id,new HashMap<String, String>());
+        String resp = RESTManager.send(RESTManager.GET, BASE_URI+"/"+id,null);
 
         try {
             return new Student(new JSONObject(resp).getJSONObject("student"));
         } catch (JSONException e) {
-            throw new RestApiException("Internal Error StudentManager");
+            throw new RestApiException(-1,"Internal Error StudentManager");
         }
 
     }
@@ -44,7 +44,7 @@ class StudentManager {
         try {
             return new Student(new JSONObject(resp).getJSONObject("student"));
         } catch (JSONException e) {
-            throw new RestApiException("Internal Error StudentManager");
+            throw new RestApiException(-1,"Internal Error StudentManager");
         }
 
 
