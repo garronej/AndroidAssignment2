@@ -47,81 +47,25 @@ public class Student {
     }
 
 
-    //We have to check if field are well formed.
-    public Student(String email,
-                   String name,
-                   String surname,
-                   URL photoUrl,
-                   URL cvUrl,
-                   URL[] links,
-                   String universityCareer,
-                   String[] competences,
-                   String[] hobbies,
-                   Boolean available,
-                   String password) throws DataFormatException{
-
-        super();
-
-        this.id = null;
-
-        this.email = Student.formatEmail(email);
-
-        this.name = Student.formatName(name);
-
-        this.surname = Student.formatName(surname);
-
-        this.photoUrl = photoUrl;
-        this.cvUrl = cvUrl;
-        this.links = links;
-
-
-        this.universityCareer = Student.toLowerCase(universityCareer);
-
-
-        if( competences != null) {
-            this.competences = new String[competences.length];
-            for (int i = 0; i < competences.length; i++) {
-                this.competences[i] = Student.checkWord(competences[i]);
-            }
-        }
-
-        if( hobbies != null ) {
-            this.hobbies = new String[hobbies.length];
-            for (int i = 0; i < hobbies.length; i++) {
-
-                this.hobbies[i] = Student.checkWord(hobbies[i]);
-
-            }
-        }
-
-        this.available = available;
-
-
-        Student.checkPassword(password);
-
-        this.password=password;
-    }
-
-
     public void manuallySetId(int id){
         this.id = id;
     }
 
     public void setEmail(String email) throws DataFormatException{
 
-        this.email = Student.formatEmail(email);
+        this.email = Utils.formatEmail(email);
 
     }
 
     public void setName(String name) throws DataFormatException{
 
-        this.name = Student.formatName(name);
+        this.name = Utils.formatName(name);
 
     }
 
     public void setSurname(String surname) throws DataFormatException{
 
-        this.surname = Student.formatName(surname);
+        this.surname = Utils.formatName(surname);
     }
 
     public void setPhotoUrl(URL photoUrl ){
@@ -143,7 +87,7 @@ public class Student {
 
     public void setUniversityCareer(String universityCareer) throws DataFormatException{
 
-        this.universityCareer = Student.toLowerCase(universityCareer);
+        this.universityCareer = Utils.toLowerCase(universityCareer);
 
     }
 
@@ -152,7 +96,7 @@ public class Student {
         if( competences != null) {
             this.competences = new String[competences.length];
             for (int i = 0; i < competences.length; i++) {
-                this.competences[i] = Student.checkWord(competences[i]);
+                this.competences[i] = Utils.checkWord(competences[i]);
             }
         }
     }
@@ -163,7 +107,7 @@ public class Student {
             this.hobbies = new String[hobbies.length];
             for (int i = 0; i < hobbies.length; i++) {
 
-                this.hobbies[i] = Student.checkWord(hobbies[i]);
+                this.hobbies[i] = Utils.checkWord(hobbies[i]);
 
             }
         }
@@ -176,88 +120,9 @@ public class Student {
 
     public void setPassword( String password) throws DataFormatException{
 
-        Student.checkPassword(password);
+        Utils.checkPassword(password);
 
         this.password=password;
-    }
-
-
-
-
-    //Check if it's an email and transform "joseph.garrone.GJ@gmail.COm" -> "joseph.garrone.gj@gmail.com"
-    public static String formatEmail(String email)throws DataFormatException{
-
-        if( email == null) return null;
-        if( email == "" ) return null;
-
-        Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
-        Matcher mat = pattern.matcher(email);
-
-        if(!mat.matches()) throw new DataFormatException("Email " + email + " is malformed");
-
-        return Student.toLowerCase(email);
-
-    }
-
-
-    //check name and Transforming garRone into Garrone
-    public static String formatName(String name)throws DataFormatException {
-
-        if( name == null ) return null;
-        if( name == "" ) return null;
-
-        Pattern pattern = Pattern.compile("[A-Za-zéèêîùàò\\-]*");
-        Matcher mat = pattern.matcher(name);
-
-        if(!mat.matches()) throw new DataFormatException("Illegal character in : " + name);
-
-
-        StringBuilder s = new StringBuilder(Student.toLowerCase(name));
-
-
-        s.setCharAt(0, Character.toUpperCase(s.charAt(0)));
-
-        return s.toString();
-
-    }
-
-    public static String toLowerCase( String in ){
-
-        if( in == null ) return null;
-
-
-
-        StringBuilder s = new StringBuilder(in);
-        s.replace(0, s.length(), s.toString().toLowerCase());
-
-        return s.toString();
-
-    }
-
-    public static String checkWord( String in) throws DataFormatException{
-
-
-        if( in == null ) return null;
-        if( in == "" ) return null;
-
-        Pattern pattern = Pattern.compile("[A-Za-z@#$%^&+=éèêîùàò&\\.\\-]+");
-        Matcher mat = pattern.matcher(in);
-
-        if(!mat.matches()) throw new DataFormatException("Forbiden character in : " + in);
-
-        return Student.toLowerCase(in);
-
-    }
-
-    public static void checkPassword( String pwd) throws DataFormatException{
-
-        if( pwd == null) return;
-
-        Pattern pattern = Pattern.compile("^(?=\\S+$).{4,}$");
-        Matcher mat = pattern.matcher(pwd);
-
-        if(!mat.matches()) throw new DataFormatException("Week password : whitespace forbiden, and minumum 4 character");
-
     }
 
 

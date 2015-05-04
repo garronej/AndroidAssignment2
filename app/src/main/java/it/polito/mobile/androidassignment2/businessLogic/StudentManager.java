@@ -70,9 +70,20 @@ class StudentManager {
 
         Map<String,String> params = null;
 
-        if( criteria != null ) params = criteria.toFormParams();
+        if( criteria != null ){
 
-        String resp = RESTManager.send(RESTManager.GET, BASE_URI + "/students", params);
+            if( criteria.getName() == null  &&
+                    criteria.getSurname() == null &&
+                    criteria.getUniversityCareer() == null &&
+                    criteria.getCompetences() == null &&
+                    criteria.isAvailable() == null ){
+                throw new RestApiException(422, "getStudentsMatchingCriteria : no valid search criteria had been specified");
+            }
+
+            params = criteria.toFormParams();
+        }
+
+        String resp = RESTManager.send(RESTManager.GET, BASE_URI, params);
 
         try{
 
@@ -113,7 +124,7 @@ class StudentManager {
         try {
             return new Student(new JSONObject(resp).getJSONObject("student"));
         } catch (JSONException e) {
-            throw new RestApiException(-1,"Internal Error StudentManager in insertNewStudent");
+            throw new RestApiException(-1,"Internal Error StudentManager in updateStudent");
         }
 
     }
