@@ -2,22 +2,31 @@ package it.polito.mobile.androidassignment2.businessLogic;
 
 import android.os.AsyncTask;
 
+import java.util.List;
+
 
 /**
  * Created by Joseph on 30/04/2015.
  */
 class Task {
 
-    protected static int GET_STUDENT_BY_ID = 0;
-    protected static int INSERT_NEW_STUDENT = 1;
+    protected enum Method {
+        GET_STUDENT_BY_ID,
+        INSERT_NEW_STUDENT,
+        GET_STUDENTS_MATCHING_CRITERIA,
+        UPDATE_STUDENT,
+        DELETE_STUDENT
+    }
+
+
 
     protected static class General extends AsyncTask<Object, Void, Object> {
 
         private Object postProcessor;
         private Exception exception = null;
-        private int method;
+        private Method method;
 
-        public General(int method, Object postProcessor){
+        public General(Method method, Object postProcessor){
             this.postProcessor=postProcessor;
             this.method = method;
         }
@@ -28,17 +37,14 @@ class Task {
             Object out = null;
             try {
 
-                if( this.method == Task.GET_STUDENT_BY_ID ) {
-                    //Ici il faut faire un case switch.
-                    out = Manager.getStudentById((Integer) params[0]);
+                switch( this.method){
+                    case GET_STUDENT_BY_ID:  case DELETE_STUDENT:
+                        out = Manager.getStudentById((Integer) params[0]);
+                        break;
+                    case INSERT_NEW_STUDENT: case GET_STUDENTS_MATCHING_CRITERIA: case UPDATE_STUDENT:
+                        out = Manager.insertNewStudent((Student)params[0]);
+                        break;
                 }
-
-
-                if( this.method == Task.INSERT_NEW_STUDENT ) {
-                    //Ici il faut faire un case switch.
-                    out = Manager.insertNewStudent((Student)params[0]);
-                }
-
 
             } catch (Exception exception) {
 
@@ -54,17 +60,23 @@ class Task {
         protected void onPostExecute(Object out) {
             if(postProcessor!=null){
 
-                if( this.method == Task.GET_STUDENT_BY_ID || this.method == Task.INSERT_NEW_STUDENT ) {
-
-                    Manager.ResultProcessor<Student> pp = (Manager.ResultProcessor<Student>)this.postProcessor;
-                    pp.process((Student)out,this.exception);
+                switch( this.method ){
+                    case GET_STUDENT_BY_ID: case INSERT_NEW_STUDENT: case UPDATE_STUDENT:
+                        ((Manager.ResultProcessor<Student>)this.postProcessor).process((Student)out,this.exception);
+                        break;
+                    case DELETE_STUDENT:
+                        ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
+                        break;
+                    case GET_STUDENTS_MATCHING_CRITERIA:
+                        ((Manager.ResultProcessor<List<Student>>)this.postProcessor).process((List<Student>)out,this.exception);
+                        break;
                 }
-
-
-
-
             }
         }
+
+
+
+
     }
 
 

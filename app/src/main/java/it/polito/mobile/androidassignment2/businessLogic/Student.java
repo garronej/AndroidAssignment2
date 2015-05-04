@@ -1,12 +1,23 @@
 package it.polito.mobile.androidassignment2.businessLogic;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.MalformedParameterizedTypeException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.MalformedInputException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.IllegalFormatException;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.DataFormatException;
 
 
 /**
@@ -17,94 +28,343 @@ import java.util.Map;
 //Tdodo manage exception
 public class Student {
 
-    private int id;
-    private String email;
-    private String name;
-    private String surname;
-    private String photoUrl;
-    private String cvUrl;
-    private String[] links;
-    private String universityCareer;
-    private String[] competences;
-    private String[] hobbies;
-    private Boolean available;
-    private String password;
+    private Integer id = null;
+    private String email = null;
+    private String name = null;
+    private String surname = null;
+    private URL photoUrl = null;
+    private URL cvUrl = null;
+    private URL[] links = null;
+    private String universityCareer = null;
+    private String[] competences = null;
+    private String[] hobbies = null;
+    private Boolean available = null;
+    private String password = null;
+
+
+    public Student(){
+        super();
+    }
 
 
     //We have to check if field are well formed.
-    public Student(String email, String name, String surname, String photoUrl,
-                   String cvUrl, String[] links, String universityCareer,
-                   String[] competences, String[] hobbies, Boolean available, String password) {
-        this.email = email;
-        this.name = name;
-        this.surname = surname;
+    public Student(String email,
+                   String name,
+                   String surname,
+                   URL photoUrl,
+                   URL cvUrl,
+                   URL[] links,
+                   String universityCareer,
+                   String[] competences,
+                   String[] hobbies,
+                   Boolean available,
+                   String password) throws DataFormatException{
+
+        super();
+
+        this.id = null;
+
+        this.email = Student.formatEmail(email);
+
+        this.name = Student.formatName(name);
+
+        this.surname = Student.formatName(surname);
+
         this.photoUrl = photoUrl;
         this.cvUrl = cvUrl;
         this.links = links;
-        this.universityCareer = universityCareer;
-        this.competences = competences;
-        this.hobbies = hobbies;
+
+
+        this.universityCareer = Student.toLowerCase(universityCareer);
+
+
+        if( competences != null) {
+            this.competences = new String[competences.length];
+            for (int i = 0; i < competences.length; i++) {
+                this.competences[i] = Student.checkWord(competences[i]);
+            }
+        }
+
+        if( hobbies != null ) {
+            this.hobbies = new String[hobbies.length];
+            for (int i = 0; i < hobbies.length; i++) {
+
+                this.hobbies[i] = Student.checkWord(hobbies[i]);
+
+            }
+        }
+
         this.available = available;
+
+
+        Student.checkPassword(password);
+
         this.password=password;
     }
 
 
+    public void manuallySetId(int id){
+        this.id = id;
+    }
+
+    public void setEmail(String email) throws DataFormatException{
+
+        this.email = Student.formatEmail(email);
+
+    }
+
+    public void setName(String name) throws DataFormatException{
+
+        this.name = Student.formatName(name);
+
+    }
+
+    public void setSurname(String surname) throws DataFormatException{
+
+        this.surname = Student.formatName(surname);
+    }
+
+    public void setPhotoUrl(URL photoUrl ){
+        this.photoUrl = photoUrl;
+    }
+
+
+    public void setCvUrl(URL cvUrl){
+
+        this.cvUrl = cvUrl;
+
+    }
+
+
+    public void setLinks(URL[] links){
+        this.links = links;
+    }
+
+
+    public void setUniversityCareer(String universityCareer) throws DataFormatException{
+
+        this.universityCareer = Student.toLowerCase(universityCareer);
+
+    }
+
+    public void setCompetences( String[] competences) throws DataFormatException{
+
+        if( competences != null) {
+            this.competences = new String[competences.length];
+            for (int i = 0; i < competences.length; i++) {
+                this.competences[i] = Student.checkWord(competences[i]);
+            }
+        }
+    }
+
+    public void setHobbies( String[] hobbies) throws DataFormatException{
+
+        if( hobbies != null ) {
+            this.hobbies = new String[hobbies.length];
+            for (int i = 0; i < hobbies.length; i++) {
+
+                this.hobbies[i] = Student.checkWord(hobbies[i]);
+
+            }
+        }
+
+    }
+
+    public void setAvailable( boolean available ){
+        this.available = available;
+    }
+
+    public void setPassword( String password) throws DataFormatException{
+
+        Student.checkPassword(password);
+
+        this.password=password;
+    }
+
+
+
+
+    //Check if it's an email and transform "joseph.garrone.GJ@gmail.COm" -> "joseph.garrone.gj@gmail.com"
+    public static String formatEmail(String email)throws DataFormatException{
+
+        if( email == null) return null;
+        if( email == "" ) return null;
+
+        Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
+        Matcher mat = pattern.matcher(email);
+
+        if(!mat.matches()) throw new DataFormatException("Email " + email + " is malformed");
+
+        return Student.toLowerCase(email);
+
+    }
+
+
+    //check name and Transforming garRone into Garrone
+    public static String formatName(String name)throws DataFormatException {
+
+        if( name == null ) return null;
+        if( name == "" ) return null;
+
+        Pattern pattern = Pattern.compile("[A-Za-zéèêîùàò\\-]*");
+        Matcher mat = pattern.matcher(name);
+
+        if(!mat.matches()) throw new DataFormatException("Illegal character in : " + name);
+
+
+        StringBuilder s = new StringBuilder(Student.toLowerCase(name));
+
+
+        s.setCharAt(0, Character.toUpperCase(s.charAt(0)));
+
+        return s.toString();
+
+    }
+
+    public static String toLowerCase( String in ){
+
+        if( in == null ) return null;
+
+
+
+        StringBuilder s = new StringBuilder(in);
+        s.replace(0, s.length(), s.toString().toLowerCase());
+
+        return s.toString();
+
+    }
+
+    public static String checkWord( String in) throws DataFormatException{
+
+
+        if( in == null ) return null;
+        if( in == "" ) return null;
+
+        Pattern pattern = Pattern.compile("[A-Za-z@#$%^&+=éèêîùàò&\\.\\-]+");
+        Matcher mat = pattern.matcher(in);
+
+        if(!mat.matches()) throw new DataFormatException("Forbiden character in : " + in);
+
+        return Student.toLowerCase(in);
+
+    }
+
+    public static void checkPassword( String pwd) throws DataFormatException{
+
+        if( pwd == null) return;
+
+        Pattern pattern = Pattern.compile("^(?=\\S+$).{4,}$");
+        Matcher mat = pattern.matcher(pwd);
+
+        if(!mat.matches()) throw new DataFormatException("Week password : whitespace forbiden, and minumum 4 character");
+
+    }
+
+
+
+
     //We asume the JSON object sended are well formed.
-    public Student(JSONObject json){
+    protected Student(JSONObject json){
+
 
         try {
-            if (json.has("id")) {
-                id = json.getInt("id");
+
+            String buff;
+
+            this.id = json.getInt("id");
+
+
+            this.email = json.getString("email");
+
+            buff = json.getString("name");
+
+            if( !buff.equals("null")){
+                this.name = buff;
             }
-            if (json.has("email")) {
-                email = json.getString("email");
+
+
+            buff = json.getString("surname");
+
+            if( !buff.equals("null")){
+                this.surname = buff;
             }
-            if (json.has("name")) {
-                name = json.getString("name");
+
+
+            buff = json.getString("photo");
+
+            if ( !buff.equals("null") ) {
+
+                this.photoUrl = new URL(buff);
+
             }
-            if (json.has("surname")) {
-                surname = json.getString("surname");
+
+            buff = json.getString("cv");
+
+            if( !buff.equals("null")){
+                this.cvUrl = new URL(buff);
             }
-            if (json.has("photo")) {
-                photoUrl = json.getString("photo");
+
+            buff = json.getString("university_career");
+
+            if( !buff.equals("null")){
+                this.universityCareer = buff;
             }
-            if (json.has("cv")) {
-                cvUrl = json.getString("cv");
-            }
-            if (json.has("university_career")) {
-                universityCareer = json.getString("university_career");
-            }
-            if (json.has("availability")) {
-                available = json.getBoolean("availability");
-            }
-            if (json.has("links")) {
+
+
+            this.available = json.getBoolean("availability");
+
+
+            buff = json.getString("links");
+
+            if( !buff.equals("null") ){
+
                 JSONArray jsonLinks = json.getJSONArray("links");
-                links=new String[jsonLinks.length()];
-                for(int i = 0; i<jsonLinks.length(); i++){
-                    links[i] = jsonLinks.getString(i);
+
+                links = new URL[jsonLinks.length()];
+                for (int i = 0; i < jsonLinks.length(); i++) {
+                    links[i] = new URL(jsonLinks.getString(i));
                 }
+
             }
-            if (json.has("competences")) {
+
+
+
+            buff = json.getString("competences");
+
+
+
+            if( !buff.equals("null")){
+
                 JSONArray jsonComps = json.getJSONArray("competences");
                 competences=new String[jsonComps.length()];
                 for(int i = 0; i<jsonComps.length(); i++){
                     competences[i] = jsonComps.getString(i);
                 }
+
             }
-            if (json.has("hobbies")) {
+
+                buff = json.getString("hobbies");
+
+            if( !buff.equals("null")) {
+
+
                 JSONArray jsonHobbies = json.getJSONArray("hobbies");
-                hobbies=new String[jsonHobbies.length()];
-                for(int i = 0; i<jsonHobbies.length(); i++){
+                hobbies = new String[jsonHobbies.length()];
+                for (int i = 0; i < jsonHobbies.length(); i++) {
                     hobbies[i] = jsonHobbies.getString(i);
                 }
+
             }
-        }catch (JSONException e){
-            //should never be here
+
+
+        }catch (Exception e){
+
+            //Should nor append
         }
     }
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -120,15 +380,15 @@ public class Student {
         return surname;
     }
 
-    public String getPhotoUrl() {
+    public URL getPhotoUrl() {
         return photoUrl;
     }
 
-    public String getCvUrl() {
+    public URL getCvUrl() {
         return cvUrl;
     }
 
-    public String[] getLinks() {
+    public URL[] getLinks() {
         return links;
     }
 
@@ -147,6 +407,8 @@ public class Student {
     public Boolean isAvailable() {
         return available;
     }
+
+    public Boolean isSetPassword() { return (this.password != null); }
 
     @Override
     public String toString() {
@@ -180,10 +442,10 @@ public class Student {
             s.put("student[surname]", surname);
         }
         if(photoUrl!=null){
-            s.put("student[photo]", photoUrl);
+            s.put("student[photo]", photoUrl.toString());
         }
         if(cvUrl!=null){
-            s.put("student[cv]", cvUrl);
+            s.put("student[cv]", cvUrl.toString());
         }
         if(available!=null){
             s.put("student[availability]", available.toString());
@@ -196,12 +458,13 @@ public class Student {
             for(int i=1;i<competences.length;i++){
                 c+=","+competences[i];
             }
+
             s.put("student[competences]", c);
         }
         if(links!=null && links.length>0){
-            String c=links[0];
+            String c=links[0].toString();
             for(int i=1;i<links.length;i++){
-                c+=","+links[i];
+                c+=","+links[i].toString();
             }
             s.put("student[links]", c);
         }

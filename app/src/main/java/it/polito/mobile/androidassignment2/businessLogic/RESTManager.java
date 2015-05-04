@@ -73,9 +73,6 @@ class RESTManager {
         con.setRequestMethod(method);
 
 
-
-
-
         if ( !method.equals(RESTManager.GET) && !queryString.isEmpty()) {
 
 
@@ -95,8 +92,6 @@ class RESTManager {
         }
 
         //con.setRequestProperty("User-Agent", USER_AGENT);
-
-
 
 
         if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -119,6 +114,7 @@ class RESTManager {
 
     private static String bufferedReaderToString(BufferedReader in) throws IOException{
 
+            if( in == null ) return null;
 
             String inputLine;
             StringBuffer response = new StringBuffer();

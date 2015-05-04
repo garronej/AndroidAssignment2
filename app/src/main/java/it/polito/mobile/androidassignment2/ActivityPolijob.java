@@ -3,12 +3,15 @@ package it.polito.mobile.androidassignment2;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import it.polito.mobile.androidassignment2.businessLogic.*;
 
@@ -19,6 +22,7 @@ public class ActivityPolijob extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serivice_polijob);
+
     }
 
     //the post treatment.
@@ -57,6 +61,7 @@ public class ActivityPolijob extends ActionBarActivity {
         }
     };
 
+
     public void send(View view) {
 
         //The id we are searching for.
@@ -84,15 +89,24 @@ public class ActivityPolijob extends ActionBarActivity {
 
 
         //The id we are searching for.
-        Student s = new Student(
-                "prova@test.com","Prova",
-                "Test","www.mywonderfulphoto.it",
-                "cv.test.it",
-                new String[]{"link1","link2"},
-                "Computer Engineering",
-                new String[]{"java","android",".net"},
-                null,true,"pw");
 
+        Student s = null;
+        try {
+
+            s = new Student();
+
+            s.setEmail("JoSePh.garrone.GJ@gmail.com");
+            s.setName("gaRRone");
+            s.setSurname("Joseph");
+            s.setUniversityCareer("Computer EngineEring");
+            s.setCompetences(new String[]{"java", "android", ".net", "C#", "C-"});
+            s.setPassword("MaisOuiCestClaire");
+            s.setCvUrl(new URL("http://cv.test.it"));
+
+        }catch(Exception e){
+
+            //Welformed here.
+        }
 
         ((TextView)findViewById(R.id.response)).setText("Loading ...");
         Manager.insertNewStudent(s , resultProcessor );
