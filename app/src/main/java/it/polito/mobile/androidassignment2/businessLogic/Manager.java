@@ -213,4 +213,63 @@ public class Manager {
     }
 
 
+    /* --------------------------- Offer -----------------------*/
+
+
+    public static Offer getOfferById(int id) throws RestApiException, IOException {
+        return OfferManager.getOfferById(id);
+    }
+
+    public static void getOfferById( int id, ResultProcessor<Offer> postProcessor){
+        (new Task.General(Task.Method.GET_OFFER_BY_ID, postProcessor)).execute(id);
+    }
+
+
+
+    public static Offer insertNewOffer(Offer newOffer) throws RestApiException, IOException {
+
+        return OfferManager.insertNewOffer(newOffer);
+
+    }
+
+
+    public static void insertNewOffer(Offer newOffer, ResultProcessor<Offer> postProcessor){
+
+        (new Task.General(Task.Method.INSERT_NEW_OFFER, postProcessor)).execute(newOffer);
+
+    }
+
+
+
+    public static List<Offer> getOfferMatchingCriteria( Offer criteria ) throws RestApiException, IOException {
+        return OfferManager.getOfferMatchingCriteria(criteria);
+    }
+
+    public static void getOfferMatchingCriteria( Offer criteria, ResultProcessor<List<Offer>> postProcessor){
+
+        (new Task.General(Task.Method.GET_OFFER_MATCHING_CRITERIA, postProcessor)).execute(criteria);
+    }
+
+
+    public static Offer updateOffer( Offer offerToUpdate ) throws IOException, RestApiException {
+        return OfferManager.updateOffer(offerToUpdate);
+    }
+
+    public static void updateOffer( Offer offerToUpdate, ResultProcessor<Offer> postProcessor){
+        (new Task.General(Task.Method.UPDATE_OFFER,postProcessor)).execute(offerToUpdate);
+    }
+
+
+
+    protected static Integer deleteOffer( int id ) throws IOException, RestApiException {
+        return OfferManager.deleteOffer(id);
+    }
+
+    protected static void deleteOffer( int id, ResultProcessor<Integer> postProcessor){
+        (new Task.General(Task.Method.DELETE_OFFER,postProcessor)).execute(id);
+    }
+
+
+
+
 }

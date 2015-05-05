@@ -13,20 +13,24 @@ class Task {
     protected enum Method {
         GET_STUDENT_BY_ID,
         GET_COMPANY_BY_ID,
+        GET_OFFER_BY_ID,
 
         INSERT_NEW_STUDENT,
         INSERT_NEW_COMPANY,
+        INSERT_NEW_OFFER,
 
         GET_STUDENTS_MATCHING_CRITERIA,
         GET_COMPANIES_MATCHING_CRITERIA,
+        GET_OFFER_MATCHING_CRITERIA,
 
         UPDATE_STUDENT,
         UPDATE_COMPANY,
+        UPDATE_OFFER,
 
         DELETE_STUDENT,
         DELETE_COMPANY,
+        DELETE_OFFER,
 
-        LOGIN_STUDENT,
         LOGIN
     }
 
@@ -56,14 +60,6 @@ class Task {
                     case DELETE_STUDENT:
                         out = Manager.deleteStudent((Integer) params[0]);
                         break;
-
-                    case GET_COMPANY_BY_ID:
-                        out = Manager.getCompanyById((Integer) params[0]);
-                        break;
-                    case DELETE_COMPANY:
-                        out = Manager.deleteCompany((Integer) params[0]);
-                        break;
-
                     case INSERT_NEW_STUDENT:
                         out = Manager.insertNewStudent((Student)params[0]);
                         break;
@@ -83,8 +79,36 @@ class Task {
                     case UPDATE_COMPANY:
                         out = Manager.updateCompany((Company)params[0]);
                         break;
+
+                    case GET_COMPANY_BY_ID:
+                        out = Manager.getCompanyById((Integer) params[0]);
+                        break;
+                    case DELETE_COMPANY:
+                        out = Manager.deleteCompany((Integer) params[0]);
+                        break;
+
+
+                    case GET_OFFER_BY_ID:
+                        out = Manager.getOfferById((Integer) params[0]);
+                        break;
+                    case DELETE_OFFER:
+                        out = Manager.deleteOffer((Integer) params[0]);
+                        break;
+                    case INSERT_NEW_OFFER:
+                        out = Manager.insertNewOffer((Offer)params[0]);
+                        break;
+                    case GET_OFFER_MATCHING_CRITERIA:
+                        out = Manager.getOfferMatchingCriteria((Offer)params[0]);
+                        break;
+                    case UPDATE_OFFER:
+                        out = Manager.updateOffer((Offer)params[0]);
+                        break;
+
+
+
                     case LOGIN:
                         out = Session.login((Session.LoginInfo)params[0]);
+                        break;
 
                 }
 
@@ -111,7 +135,13 @@ class Task {
                         ((Manager.ResultProcessor<Company>)this.postProcessor).process((Company)out,this.exception);
                         break;
 
-                    case DELETE_STUDENT: case DELETE_COMPANY:
+                    case GET_OFFER_BY_ID: case INSERT_NEW_OFFER: case UPDATE_OFFER:
+                        ((Manager.ResultProcessor<Offer>)this.postProcessor).process((Offer)out,this.exception);
+                        break;
+
+
+
+                    case DELETE_STUDENT: case DELETE_COMPANY: case DELETE_OFFER:
                         ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
                         break;
 
@@ -122,6 +152,11 @@ class Task {
                     case GET_COMPANIES_MATCHING_CRITERIA:
                         ((Manager.ResultProcessor<List<Company>>)this.postProcessor).process((List<Company>)out,this.exception);
                         break;
+
+                    case GET_OFFER_MATCHING_CRITERIA:
+                        ((Manager.ResultProcessor<List<Offer>>)this.postProcessor).process((List<Offer>)out,this.exception);
+                        break;
+
                     case LOGIN:
                         ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
                         break;

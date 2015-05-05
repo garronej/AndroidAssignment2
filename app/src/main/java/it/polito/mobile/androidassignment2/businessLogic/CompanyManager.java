@@ -131,5 +131,123 @@ class CompanyManager {
     }
 
 
+    protected static List<Offer> getOfferMatchingCriteria( Offer criteria ) throws RestApiException, IOException {
+
+        Map<String,String> params = null;
+
+        if( criteria != null ){
+
+            if( criteria.getKindOfContract() == null  &&
+                    criteria.getDescriptionOfWork() == null &&
+                    criteria.getCompanyName() == null)
+                throw new RestApiException(422, "OfferManager : getOfferMatchingCriteria :" +
+                        " no valid search criteria had been specified");
+
+
+            params = criteria.toFormParams();
+        }
+
+        String resp = RESTManager.send(RESTManager.GET, BASE_URI, params);
+
+        try{
+
+
+            JSONArray offersJson = (new JSONObject(resp)).getJSONArray("offers");
+
+            List<Offer> offers = new ArrayList<Offer>();
+
+
+
+            for( int i = 0; i < offersJson.length(); i++){
+
+                JSONObject offerJson = offersJson.getJSONObject(i);
+
+                offers.add( new Offer(offerJson) );
+            }
+
+            return offers;
+
+
+        } catch (JSONException e) {
+            throw new RestApiException(-1,"Internal Error OfferManager in getOfferMatchingCriteria");
+        }
+
+    }
+
+
+
+
+    /*
+
+    TODO  : Intervert company and student !
+
+
+
+        protected static List<Company> getFavouriteCompanyOfStudent(int studentId) throws IOException, RestApiException{
+
+        List<Company> companies = new ArrayList<Company>();
+
+        String resp = RESTManager.send(RESTManager.GET, BASE_URI+"/"+ studentId + "/favs/companies", null);
+
+
+        try {
+            JSONObject obj = new JSONObject(resp);
+
+            JSONArray arr = obj.getJSONArray("fav_companies");
+
+            for( int i = 0; i<arr.length(); i++)
+                companies.add( new Company(arr.getJSONObject(i).getJSONObject("company")));
+
+            return companies;
+
+        }catch(JSONException e){
+            throw new RestApiException(-1,"Internal Error StudentManager in getFavouriteCompanyOfStudent()");
+        }
+
+    }
+
+
+    protected static Company addFavouriteCompanyForStudent(int studentId, int companyId)
+            throws IOException, RestApiException{
+
+        Map<String,String> param = new HashMap<String, String>();
+
+        param.put("fav_company[company_id]", Integer.toString(companyId));
+
+        String resp = RESTManager.send(RESTManager.POST, BASE_URI+"/"+ studentId + "/favs/companies", param);
+
+        try{
+
+            JSONObject obj = new JSONObject(resp);
+
+            return new Company(obj.getJSONObject("fav_company").getJSONObject("company"));
+
+
+        }catch(JSONException e){
+            throw new RestApiException(-1,"Internal Error StudentManager in addFavouriteCompanyForStudent()");
+        }
+    }
+
+
+    protected static Integer deleteAFavouriteCompanyOfAStudent( int studentId, int companyId)
+            throws IOException, RestApiException{
+
+
+        RESTManager.send(RESTManager.DELETE, BASE_URI+"/"+ studentId + "/favs/companies/" + companyId, null);
+
+
+        return 0;
+
+    }
+
+
+
+
+
+     */
+
+
+
+
 
 }

@@ -116,7 +116,7 @@ class StudentManager {
         if( studentToUpdate == null ) throw new RestApiException(422,"updateStudent : input student is null");
 
         if( studentToUpdate.getId() == null ){
-            throw new RestApiException(422, "insertNewStudent : id is not set in the imputed student");
+            throw new RestApiException(422, "updateStudent : id is not set in the imputed student");
         }
 
         String resp = RESTManager.send(RESTManager.PUT, BASE_URI+"/"+studentToUpdate.getId(), studentToUpdate.toFormParams());
@@ -138,15 +138,122 @@ class StudentManager {
     }
 
 
+    protected static List<Company> getFavouriteCompanyOfStudent(int studentId) throws IOException, RestApiException{
+
+        List<Company> companies = new ArrayList<Company>();
+
+        String resp = RESTManager.send(RESTManager.GET, BASE_URI+"/"+ studentId + "/favs/companies", null);
+
+
+        try {
+            JSONObject obj = new JSONObject(resp);
+
+            JSONArray arr = obj.getJSONArray("fav_companies");
+
+            for( int i = 0; i<arr.length(); i++)
+                companies.add( new Company(arr.getJSONObject(i).getJSONObject("company")));
+
+            return companies;
+
+        }catch(JSONException e){
+            throw new RestApiException(-1,"Internal Error StudentManager in getFavouriteCompanyOfStudent()");
+        }
+
+    }
+
+
+    protected static Company addFavouriteCompanyForStudent(int studentId, int companyId)
+            throws IOException, RestApiException{
+
+        Map<String,String> param = new HashMap<String, String>();
+
+        param.put("fav_company[company_id]", Integer.toString(companyId));
+
+        String resp = RESTManager.send(RESTManager.POST, BASE_URI+"/"+ studentId + "/favs/companies", param);
+
+        try{
+
+            JSONObject obj = new JSONObject(resp);
+
+            return new Company(obj.getJSONObject("fav_company").getJSONObject("company"));
+
+
+        }catch(JSONException e){
+            throw new RestApiException(-1,"Internal Error StudentManager in addFavouriteCompanyForStudent()");
+        }
+    }
+
+
+    protected static Integer deleteAFavouriteCompanyOfAStudent( int studentId, int companyId)
+            throws IOException, RestApiException{
+
+
+        RESTManager.send(RESTManager.DELETE, BASE_URI+"/"+ studentId + "/favs/companies/" + companyId, null);
+
+
+        return 0;
+
+    }
 
 
 
 
+    protected static List<Offer> getFavouriteOfferOfStudent(int studentId) throws IOException, RestApiException{
+
+        List<Offer> companies = new ArrayList<Offer>();
+
+        String resp = RESTManager.send(RESTManager.GET, BASE_URI+"/"+ studentId + "/favs/offers", null);
 
 
+        try {
+            JSONObject obj = new JSONObject(resp);
+
+            JSONArray arr = obj.getJSONArray("fav_offers");
+
+            for( int i = 0; i<arr.length(); i++)
+                companies.add( new Offer(arr.getJSONObject(i).getJSONObject("offer")));
+
+            return companies;
+
+        }catch(JSONException e){
+            throw new RestApiException(-1,"Internal Error StudentManager in getFavouriteOfferOfStudent()");
+        }
+
+    }
 
 
+    protected static Offer addFavouriteOfferForStudent(int studentId, int offerId)
+            throws IOException, RestApiException{
 
+        Map<String,String> param = new HashMap<String, String>();
+
+        param.put("fav_offer[offer_id]", Integer.toString(offerId));
+
+        String resp = RESTManager.send(RESTManager.POST, BASE_URI+"/"+ studentId + "/favs/offers", param);
+
+        try{
+
+            JSONObject obj = new JSONObject(resp);
+
+            return new Offer(obj.getJSONObject("fav_offer").getJSONObject("offer"));
+
+
+        }catch(JSONException e){
+            throw new RestApiException(-1,"Internal Error StudentManager in addFavouriteOfferForStudent()");
+        }
+    }
+
+
+    protected static Integer deleteAFavouriteOfferOfAStudent( int studentId, int offerId)
+            throws IOException, RestApiException{
+
+
+        RESTManager.send(RESTManager.DELETE, BASE_URI+"/"+ studentId + "/favs/companies/" + offerId, null);
+
+
+        return 0;
+
+    }
 
 
 }

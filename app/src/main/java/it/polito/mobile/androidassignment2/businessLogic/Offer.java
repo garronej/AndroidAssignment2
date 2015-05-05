@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.DataFormatException;
 
 /**
  * Created by Joseph on 04/05/2015.
@@ -19,11 +20,34 @@ public class Offer {
     private String descriptionOfWork = null;
     private Integer durationMonths = null;
 
+    private String companyName = null;
+
+
+    public void setCompanyName(String companyName) throws DataFormatException{
+
+        if( this.id != null || this.companyId != null )
+            throw new DataFormatException("Offer : Error in setCompanyName, the field" +
+                    " companyIf and id are already filled, consistency error.");
+
+        this.companyName = companyName;
+
+    }
+
+    public String getCompanyName(){
+        return this.companyName;
+    }
+
+
     public Offer(){
         super();
     }
 
-    public void manuallySetId( int id ){
+    public void manuallySetId( int id ) throws DataFormatException{
+
+        if( this.companyName != null )
+            throw new DataFormatException("Offer : Error in manuallySetId, the field" +
+                    " companyName is filled, consistency error ");
+
         this.id = id;
     }
 
@@ -33,7 +57,12 @@ public class Offer {
 
 
 
-    public void setCompanyId( int companyId ){
+    public void setCompanyId( int companyId ) throws DataFormatException{
+
+        if( this.companyName != null )
+            throw new DataFormatException("Offer : Error in setCompanyId, the field" +
+                    " companyName is filled already, consistency error ");
+
         this.companyId = companyId;
     }
 
@@ -50,7 +79,7 @@ public class Offer {
     }
 
     public void setDescriptionOfWork( String descriptionOfWork){
-        this.descriptionOfWork = descriptionOfWork;
+        this.descriptionOfWork = Utils.toLowerCase(descriptionOfWork);
     }
 
     public String getDescriptionOfWork(){
@@ -96,6 +125,7 @@ public class Offer {
         return "Student{" + '\n' +
                 "id=" + this.id + '\n' +
                 ", companyId='" + this.companyId + '\'' + '\n' +
+                ", companyName='" + this.companyName + '\'' + '\n' +
                 ", kindOfContract='" + this.kindOfContract + '\'' + '\n' +
                 ", durationMonth='" + this.durationMonths + '\'' + '\n' +
                 '}';
@@ -121,6 +151,12 @@ public class Offer {
         if(this.durationMonths!=null){
             s.put("offer[duration_months]", this.durationMonths.toString());
         }
+
+        if(this.companyName!=null){
+            s.put("offer[company]", this.companyName);
+        }
+
+
 
         return s;
     }

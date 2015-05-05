@@ -174,7 +174,7 @@ public class Session {
         log.email = email;
         log.password = password;
 
-        (new Task.General(Task.Method.LOGIN_STUDENT, postProcessor)).execute(log);
+        (new Task.General(Task.Method.LOGIN, postProcessor)).execute(log);
 
     }
 
