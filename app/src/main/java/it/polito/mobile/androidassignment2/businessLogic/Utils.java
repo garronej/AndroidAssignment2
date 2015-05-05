@@ -50,6 +50,7 @@ class Utils {
     protected static String toLowerCase( String in ){
 
         if( in == null ) return null;
+        if( in == "" ) return null;
 
 
 
@@ -60,21 +61,6 @@ class Utils {
 
     }
 
-    //Check for illegal character and put to lower case.
-    protected static String checkWord( String in) throws DataFormatException{
-
-
-        if( in == null ) return null;
-        if( in == "" ) return null;
-
-        Pattern pattern = Pattern.compile("[A-Za-z@#$%^&+=éèêîùàò&\\.\\-\\ ]+");
-        Matcher mat = pattern.matcher(in);
-
-        if(!mat.matches()) throw new DataFormatException("Forbiden character in : " + in);
-
-        return toLowerCase(in);
-
-    }
 
     //Check password having more than 4 char and no space.
     protected static void checkPassword( String pwd) throws DataFormatException{

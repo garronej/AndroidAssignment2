@@ -71,7 +71,7 @@ public class Company {
             this.clients = new String[clients.length];
             for (int i = 0; i < clients.length; i++) {
 
-                this.clients[i] = Utils.checkWord(clients[i]);
+                this.clients[i] = Utils.toLowerCase(clients[i]);
 
             }
         }

@@ -18,6 +18,8 @@ import it.polito.mobile.androidassignment2.businessLogic.*;
 
 public class ActivityPolijob extends ActionBarActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,8 @@ public class ActivityPolijob extends ActionBarActivity {
                 message = s.toString();
 
             }
+
+
 
             ((TextView)findViewById(R.id.response)).setText(message);
         }

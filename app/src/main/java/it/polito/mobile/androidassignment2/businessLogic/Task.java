@@ -24,7 +24,10 @@ class Task {
         UPDATE_COMPANY,
 
         DELETE_STUDENT,
-        DELETE_COMPANY
+        DELETE_COMPANY,
+
+        LOGIN_STUDENT,
+        LOGIN
     }
 
 
@@ -80,6 +83,9 @@ class Task {
                     case UPDATE_COMPANY:
                         out = Manager.updateCompany((Company)params[0]);
                         break;
+                    case LOGIN:
+                        out = Session.login((Session.LoginInfo)params[0]);
+
                 }
 
             } catch (Exception exception) {
@@ -116,6 +122,10 @@ class Task {
                     case GET_COMPANIES_MATCHING_CRITERIA:
                         ((Manager.ResultProcessor<List<Company>>)this.postProcessor).process((List<Company>)out,this.exception);
                         break;
+                    case LOGIN:
+                        ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
+                        break;
+
                 }
             }
         }

@@ -96,7 +96,7 @@ public class Student {
         if( competences != null) {
             this.competences = new String[competences.length];
             for (int i = 0; i < competences.length; i++) {
-                this.competences[i] = Utils.checkWord(competences[i]);
+                this.competences[i] = Utils.toLowerCase(competences[i]);
             }
         }
     }
@@ -107,7 +107,7 @@ public class Student {
             this.hobbies = new String[hobbies.length];
             for (int i = 0; i < hobbies.length; i++) {
 
-                this.hobbies[i] = Utils.checkWord(hobbies[i]);
+                this.hobbies[i] = Utils.toLowerCase(hobbies[i]);
 
             }
         }
