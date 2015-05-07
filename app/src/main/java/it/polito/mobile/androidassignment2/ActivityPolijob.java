@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 
 import it.polito.mobile.androidassignment2.businessLogic.*;
-
+import it.polito.mobile.androidassignment2.s3client.Util;
+import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
 
 public class ActivityPolijob extends ActionBarActivity {
@@ -59,6 +60,7 @@ public class ActivityPolijob extends ActionBarActivity {
 
         }
 
+        TransferController.download(this, new String[] { Util.getCredProvider(this).getIdentityId() + "/image%3A30.png" });
         //the post treatment.
         Manager.ResultProcessor<Student> resultProcessor = new Manager.ResultProcessor<Student>() {
             @Override
