@@ -53,6 +53,8 @@ class RESTManager {
             queryString = queryString.substring(0, queryString.length() - 1);
         }
 
+        Log.v("aezr","querryString = " + queryString);
+
 
         if (method.equals(RESTManager.GET) && !queryString.isEmpty()) {
             url += "?" + queryString;

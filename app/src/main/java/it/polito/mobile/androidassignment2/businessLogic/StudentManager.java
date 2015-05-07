@@ -81,6 +81,7 @@ class StudentManager {
             }
 
             params = criteria.toFormParams();
+
         }
 
         String resp = RESTManager.send(RESTManager.GET, BASE_URI, params);
