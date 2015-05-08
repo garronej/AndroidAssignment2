@@ -157,7 +157,7 @@ public class MainActivity extends Activity {
         if (resCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
             if (uri != null) {
-                TransferController.upload(this, uri);
+                TransferController.upload(this, uri, "");
             }
         }
     }

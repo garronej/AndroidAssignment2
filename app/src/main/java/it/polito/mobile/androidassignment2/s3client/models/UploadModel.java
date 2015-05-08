@@ -17,6 +17,7 @@ package it.polito.mobile.androidassignment2.s3client.models;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -50,6 +51,8 @@ import it.polito.mobile.androidassignment2.s3client.Util;
  */
 public class UploadModel extends TransferModel {
     private static final String TAG = "UploadModel";
+    public static final String INTENT_UPLOADED = "it.polito.mobile.UPLOAD_FINISHED";
+    public static final String EXTRA_FILENAME = "uploadedFilename";
 
     private Upload mUpload;
     private PersistableUpload mPersistableUpload;
@@ -57,6 +60,8 @@ public class UploadModel extends TransferModel {
     private Status mStatus;
     private File mFile;
     private String mExtension;
+    private String mFolder ="";
+    private String actualS3Filename="";
 
     public UploadModel(Context context, Uri uri, TransferManager manager) {
         super(context, uri, manager);
@@ -69,6 +74,10 @@ public class UploadModel extends TransferModel {
             public void progressChanged(ProgressEvent event) {
                 if (event.getEventCode() == ProgressEvent.COMPLETED_EVENT_CODE) {
                     mStatus = Status.COMPLETED;
+                    Intent intent = new Intent(INTENT_UPLOADED);
+                    intent.putExtra(EXTRA_FILENAME,actualS3Filename);
+                    getContext().sendBroadcast(intent);
+
                     if (mFile != null) {
                         mFile.delete();
                     }
@@ -77,11 +86,11 @@ public class UploadModel extends TransferModel {
         };
     }
 
-    public Runnable getUploadRunnable() {
+    public Runnable getUploadRunnable(final String folder) {
         return new Runnable() {
             @Override
             public void run() {
-                upload();
+                upload(folder);
             }
         };
     }
@@ -132,21 +141,23 @@ public class UploadModel extends TransferModel {
                 mPersistableUpload = null;
             } else {
                 // if it was actually aborted, start a new one
-                upload();
+                upload(mFolder);
             }
         }
     }
 
-    public void upload() {
+    public void upload(String folder) {
+        if(folder==null) folder="";
+        mFolder=folder;
         if (mFile == null) {
             saveTempFile();
         }
         if (mFile != null) {
             try {
-                mUpload = getTransferManager().upload(
-                        Constants.BUCKET_NAME.toLowerCase(Locale.US),
-                        Util.getPrefix(getContext()) + super.getFileName() + "."
-                                + mExtension,
+                actualS3Filename=Util.getPrefix(getContext()) + (folder==""?"":folder+"/") + super.getFileName() + "."
+                                + mExtension;
+                mUpload = getTransferManager().upload(Constants.BUCKET_NAME.toLowerCase(Locale.US),
+                        actualS3Filename,
                         mFile);
                 mUpload.addProgressListener(mListener);
             } catch (Exception e) {

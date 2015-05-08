@@ -63,7 +63,7 @@ public class NetworkService extends IntentService {
                 download(intent.getStringArrayExtra(S3_KEYS_EXTRA));
             } else if (intent.getAction().equals(Intent.ACTION_SEND) &&
                     intent.getData() != null) {
-                upload(intent.getData());
+                upload(intent.getData(),intent.getStringExtra("folder"));
             } else if (intent.getIntExtra(NOTIF_ID_EXTRA, DEFAULT_INT)
                 != DEFAULT_INT) {
                 int notifId = intent.getIntExtra(NOTIF_ID_EXTRA, DEFAULT_INT);
@@ -102,8 +102,8 @@ public class NetworkService extends IntentService {
     }
 
     /* We use a new thread for upload because we have to copy the file */
-    private void upload(Uri uri) {
+    private void upload(Uri uri, String folder) {
         UploadModel model = new UploadModel(this, uri, mTransferManager);
-        new Thread(model.getUploadRunnable()).run();
+        new Thread(model.getUploadRunnable(folder)).run();
     }
 }
