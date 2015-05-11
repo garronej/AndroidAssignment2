@@ -261,15 +261,67 @@ public class Manager {
 
 
 
-    protected static Integer deleteOffer( int id ) throws IOException, RestApiException {
+    public static Integer deleteOffer( int id ) throws IOException, RestApiException {
         return OfferManager.deleteOffer(id);
     }
 
-    protected static void deleteOffer( int id, ResultProcessor<Integer> postProcessor){
+    public static void deleteOffer( int id, ResultProcessor<Integer> postProcessor){
         (new Task.General(Task.Method.DELETE_OFFER,postProcessor)).execute(id);
     }
 
 
+    public static List<Company> getFavouriteCompanyOfStudent(int studentId) throws IOException, RestApiException{
+        return StudentManager.getFavouriteCompanyOfStudent(studentId);
+    }
 
+    public static void getFavouriteCompanyOfStudent(int studentId, ResultProcessor<List<Company>> postProcessor){
+        (new Task.General(Task.Method.GET_FAVOURITE_COMPANY_OF_STUDENT,postProcessor)).execute(studentId);
+    }
+
+
+
+    public static Company addFavouriteCompanyForStudent(int studentId, int companyId) throws IOException, RestApiException{
+        return StudentManager.addFavouriteCompanyForStudent(studentId, companyId);
+    }
+
+    public static void addFavouriteCompanyForStudent(int studentId, int companyId, ResultProcessor<Company> postProcessor){
+        (new Task.General(Task.Method.ADD_FAVOURITE_COMPANY_FOR_STUDENT,postProcessor)).execute(studentId,companyId);
+    }
+
+
+    public static Integer deleteAFavouriteCompanyOfAStudent( int studentId, int companyId) throws IOException, RestApiException{
+        return StudentManager.deleteAFavouriteCompanyOfAStudent(studentId,companyId);
+    }
+
+
+    public static void deleteAFavouriteCompanyOfAStudent( int studentId, int companyId, ResultProcessor<Integer> postProcessor){
+        (new Task.General(Task.Method.DELETE_A_FAVOURITE_COMPANY_OF_A_STUDENT,postProcessor)).execute(studentId,companyId);
+    }
+
+    public static List<Offer> getFavouriteOfferOfStudent(int studentId) throws IOException, RestApiException{
+        return StudentManager.getFavouriteOfferOfStudent(studentId);
+    }
+
+    public static void getFavouriteOfferOfStudent(int studentId, ResultProcessor<List<Offer>> postProcessor){
+        (new Task.General(Task.Method.GET_FAVOURITE_OFFER_OF_STUDENT,postProcessor)).execute(studentId);
+    }
+
+    public static Offer addFavouriteOfferForStudent(int studentId, int offerId) throws IOException, RestApiException{
+        return StudentManager.addFavouriteOfferForStudent(studentId,offerId);
+    }
+
+    public static void addFavouriteOfferForStudent(int studentId, int offerId, ResultProcessor<Offer> postProcessor){
+        (new Task.General(Task.Method.ADD_FAVOURITE_OFFER_FOR_STUDENT,postProcessor)).execute(studentId, offerId);
+    }
+
+
+    public static Integer deleteAFavouriteOfferOfAStudent( int studentId, int offerId) throws IOException, RestApiException{
+        return StudentManager.deleteAFavouriteOfferOfAStudent(studentId,offerId);
+    }
+
+    public static void deleteAFavouriteOfferOfAStudent( int studentId, int offerId, ResultProcessor<Integer> postProcessor){
+        (new Task.General(Task.Method.DELETE_A_FAVOURITE_OFFER_OF_A_STUDENT,postProcessor)).execute(studentId, offerId);
+
+    }
 
 }

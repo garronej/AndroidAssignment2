@@ -76,6 +76,8 @@ public class Offer {
         return this.company.getId();
     }
 
+    public String getCompanyName() { return this.company.getName();}
+
     public void setKindOfContract( String kindOfContract ){
         this.kindOfContract = Utils.toLowerCase(kindOfContract);
     }
@@ -111,7 +113,7 @@ public class Offer {
 
             this.id = json.getInt("id");
 
-            this.companyId = json.getInt("company_id");
+            this.company = new Company(json.getJSONObject("company"));
 
             this.kindOfContract = json.getString("kind_of_contract");
 
@@ -129,10 +131,10 @@ public class Offer {
     @Override
     public String toString() {
         return "Offer{" + '\n' +
-                " id=" + this.id + "\n," +
-                " companyId='" + this.companyId + '\'' + "\n," +
-                " companyName='" + this.companyName + '\'' + ",\n" +
+                " id=" + this.id + ",\n" +
+                " companyId='" + this.company.getId() + '\'' + ",\n" +
                 " kindOfContract='" + this.kindOfContract + '\'' + ",\n" +
+                " descriptionOfWork='" + this.descriptionOfWork + '\'' + ",\n" +
                 " durationMonth='" + this.durationMonths + '\'' + "\n" +
                 '}';
     }
@@ -145,8 +147,8 @@ public class Offer {
         if(this.id!=null){
             s.put("offer[id]", this.id.toString());
         }
-        if(this.companyId!=null){
-            s.put("offer[company_id]", this.companyId.toString());
+        if(this.company.getId()!=null){
+            s.put("offer[company_id]", this.company.getId().toString());
         }
         if(this.kindOfContract!=null){
             s.put("offer[kind_of_contract]", this.kindOfContract);
@@ -158,8 +160,8 @@ public class Offer {
             s.put("offer[duration_months]", this.durationMonths.toString());
         }
 
-        if(this.companyName!=null){
-            s.put("offer[company]", this.companyName);
+        if(this.company.getName()!=null){
+            s.put("offer[company]", this.company.getName());
         }
 
         return s;

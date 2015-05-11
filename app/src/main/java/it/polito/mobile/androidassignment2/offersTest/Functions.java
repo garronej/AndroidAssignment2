@@ -68,15 +68,15 @@ public class Functions extends Fragment {
 
 
 
-                                Manager.deleteCompany(offer.getId(), new Manager.ResultProcessor<Integer>() {
+                                Manager.deleteOffer(offer.getId(), new Manager.ResultProcessor<Integer>() {
 
                                     @Override
                                     public void process(Integer arg, Exception e) {
 
                                         if (e == null) {
 
-                                            textView1.setText(textView1.getText() + "Deleted offer of "
-                                                    + offer.getCompanyName()+ ", kind of contract : " + offer.getKindOfContract() + "\n");
+                                            textView1.setText(textView1.getText() + "Deleted offer id : " + offer.getId() + " of company : " + offer.getCompanyName() +"\n");
+
                                         } else {
                                             textView1.setText(textView1.getText() + processException(e) + "\n");
                                         }
@@ -111,8 +111,7 @@ public class Functions extends Fragment {
                     @Override
                     public void process(Offer arg, Exception e) {
                         if (e == null) {
-                            textView2.setText(textView2.getText() + "Offer " + arg.getCompanyName()
-                                    + ", kind of contract : " + arg.getKindOfContract()+'\n');
+                            textView2.setText(textView2.getText() + "Created offer id : " + arg.getId() + " of company : " + arg.getCompanyName() +"\n");
                         } else {
                             textView2.setText(textView2.getText() + processException(e) + '\n');
                         }

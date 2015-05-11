@@ -139,6 +139,12 @@ class StudentManager {
     }
 
 
+
+
+
+
+
+
     protected static List<Company> getFavouriteCompanyOfStudent(int studentId) throws IOException, RestApiException{
 
         List<Company> companies = new ArrayList<Company>();

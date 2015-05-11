@@ -97,35 +97,6 @@ public class Company {
         this.password=password;
     }
 
-    //When it is done store somewhere
-
-
-    public void getOffer(Manager.ResultProcessor<List<Offer>> postProcessor) throws DataFormatException{
-        this.getOffer(null,null,postProcessor);
-    }
-
-
-    public void getOffer(String kindOfContract,
-                                  String descriptionOfWork,
-                                  Manager.ResultProcessor<List<Offer>> postProcessor) throws DataFormatException{
-
-
-
-        if( this.id == null ) throw new DataFormatException("Company, getBelongingOffer : Company id is not set !");
-
-        Offer criteria = new Offer();
-
-        criteria.setCompanyId(this.id);
-        criteria.setKindOfContract(kindOfContract);
-        criteria.setDescriptionOfWork(descriptionOfWork);
-
-        (new Task.General(Task.Method.GET_OFFER_MATCHING_CRITERIA, postProcessor)).execute(criteria);
-
-    }
-
-
-
-
 
 
     //We asume the JSON object sended are well formed.
