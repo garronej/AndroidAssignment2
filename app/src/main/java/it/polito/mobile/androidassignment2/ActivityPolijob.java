@@ -108,7 +108,7 @@ public class ActivityPolijob extends ActionBarActivity {
             s.setUniversityCareer("Computer EngineEring");
             s.setCompetences(new String[]{"java", "android", ".net", "C#", "C-"});
             s.setPassword("MaisOuiCestClaire");
-            s.setCvUrl(new URL("http://cv.test.it"));
+            s.setCvUrl("http://cv.test.it");
 
         }catch(Exception e){
 

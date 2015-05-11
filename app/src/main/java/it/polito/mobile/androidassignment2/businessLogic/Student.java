@@ -32,8 +32,8 @@ public class Student {
     private String email = null;
     private String name = null;
     private String surname = null;
-    private URL photoUrl = null;
-    private URL cvUrl = null;
+    private String photoUrl = null;
+    private String cvUrl = null;
     private URL[] links = null;
     private String universityCareer = null;
     private String[] competences = null;
@@ -68,12 +68,12 @@ public class Student {
         this.surname = Utils.formatName(surname);
     }
 
-    public void setPhotoUrl(URL photoUrl ){
+    public void setPhotoUrl(String photoUrl ){
         this.photoUrl = photoUrl;
     }
 
 
-    public void setCvUrl(URL cvUrl){
+    public void setCvUrl(String cvUrl){
 
         this.cvUrl = cvUrl;
 
@@ -159,14 +159,14 @@ public class Student {
 
             if ( !buff.equals("null") ) {
 
-                this.photoUrl = new URL(buff);
+                this.photoUrl = buff;
 
             }
 
             buff = json.getString("cv");
 
             if( !buff.equals("null")){
-                this.cvUrl = new URL(buff);
+                this.cvUrl = buff;
             }
 
             buff = json.getString("university_career");
@@ -245,11 +245,11 @@ public class Student {
         return surname;
     }
 
-    public URL getPhotoUrl() {
+    public String getPhotoUrl() {
         return photoUrl;
     }
 
-    public URL getCvUrl() {
+    public String getCvUrl() {
         return cvUrl;
     }
 
@@ -307,10 +307,10 @@ public class Student {
             s.put("student[surname]", surname);
         }
         if(photoUrl!=null){
-            s.put("student[photo]", photoUrl.toString());
+            s.put("student[photo]", photoUrl);
         }
         if(cvUrl!=null){
-            s.put("student[cv]", cvUrl.toString());
+            s.put("student[cv]", cvUrl);
         }
         if(available!=null){
             s.put("student[availability]", available.toString());

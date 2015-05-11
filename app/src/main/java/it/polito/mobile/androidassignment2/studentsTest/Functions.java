@@ -138,12 +138,12 @@ public class Functions extends Fragment {
                     s.setName("GaRRone");
                     s.setSurname("Joseph");
                     s.setPassword("stupid2");
-                    s.setCvUrl(new URL("http://cloud.garrone.org/poliJobs/cvs/garronejoseph.pdf"));
+                    s.setCvUrl("http://cloud.garrone.org/poliJobs/cvs/garronejoseph.pdf");
                     s.setAvailable(false);
                     s.setCompetences(new String[]{"porn knowelage","fast masturbation"});
                     s.setHobbies(new String[]{"porn","masturbation"});
                     s.setLinks(new URL[]{ new URL("http://seedbox.garrone.org"), new URL("http://etophy.fr")});
-                    s.setPhotoUrl(new URL("http://cloud.garrone.org/mwa.png"));
+                    s.setPhotoUrl("http://cloud.garrone.org/mwa.png");
                 }catch( Exception e){
                     textView2.setText("Error creating student dupon paulgarrone joseph, exception message : " + e.getMessage());
                     return;
@@ -159,12 +159,12 @@ public class Functions extends Fragment {
                     s.setName("dupon");
                     s.setSurname("paul");
                     s.setPassword("stupid2");
-                    s.setCvUrl(new URL("http://cloud.garrone.org/poliJobs/cvs/duponpaul.pdf"));
+                    s.setCvUrl("http://cloud.garrone.org/poliJobs/cvs/duponpaul.pdf");
                     s.setAvailable(false);
                     s.setCompetences(new String[]{"all","I know everything"});
                     s.setHobbies(new String[]{"Reading","Writing","getting nobel price"});
                     s.setLinks(new URL[]{ new URL("http://seedbox.dupon.org")});
-                    s.setPhotoUrl(new URL("http://cloud.dupon.org/mwa.png"));
+                    s.setPhotoUrl("http://cloud.dupon.org/mwa.png");
                 }catch( Exception e){
                     textView2.setText("Error creating student dupon paul, exception message : " + e.getMessage());
                     return;
