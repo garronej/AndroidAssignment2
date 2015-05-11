@@ -402,6 +402,22 @@ public class Manager {
         return t;
     }
 
+    public static Task.General getStudentsForJobOffer( int jobOffer, Student student, ResultProcessor<Integer> postProcessor){
+        Task.General t= new Task.General(Task.Method.GET_STUDENTS_FOR_JOB_OFFER,postProcessor);
+        t.execute(jobOffer, student);
+        return t;
+    }
+
+    public static Task.General subscribeStudentForJobOffer( int jobOffer, Student student, ResultProcessor<Integer> postProcessor){
+        Task.General t= new Task.General(Task.Method.SUBSCRIBE_STUDENTS_FOR_JOB_OFFER,postProcessor);
+        t.execute(jobOffer, student.getId());
+        return t;
+    }
+    public static Task.General unsubscribeStudentForJobOffer( int jobOffer, Student student, ResultProcessor<Integer> postProcessor){
+        Task.General t= new Task.General(Task.Method.UNSUBSCRIBE_STUDENTS_FOR_JOB_OFFER,postProcessor);
+        t.execute(jobOffer, student.getId());
+        return t;
+    }
 
 
 }

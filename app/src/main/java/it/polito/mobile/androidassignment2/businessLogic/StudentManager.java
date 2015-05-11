@@ -195,7 +195,7 @@ class StudentManager {
             throws IOException, RestApiException{
 
 
-        RESTManager.send(RESTManager.DELETE, BASE_URI+"/"+ studentId + "/favs/companies/" + companyId, null);
+        RESTManager.send(RESTManager.DELETE, BASE_URI + "/" + studentId + "/favs/companies/" + companyId, null);
 
 
         return 0;
@@ -255,12 +255,76 @@ class StudentManager {
             throws IOException, RestApiException{
 
 
-        RESTManager.send(RESTManager.DELETE, BASE_URI+"/"+ studentId + "/favs/companies/" + offerId, null);
+        RESTManager.send(RESTManager.DELETE, BASE_URI + "/" + studentId + "/favs/companies/" + offerId, null);
 
 
         return 0;
 
     }
+
+
+
+    protected static List<Student> getStudentsForJobOffer( Integer idJobOffer, Student criteria ) throws RestApiException, IOException {
+
+        Map<String,String> params = new HashMap<>();
+
+        if( criteria != null ){
+
+            params = criteria.toFormParams();
+
+        }
+
+        params.put("idOffer", idJobOffer.toString());
+
+
+
+        String resp = RESTManager.send(RESTManager.GET, BASE_URI, params);
+
+        try{
+
+
+            JSONArray studentsJson = (new JSONObject(resp)).getJSONArray("students");
+
+            List<Student> students = new ArrayList<Student>();
+
+
+
+            for( int i = 0; i < studentsJson.length(); i++){
+
+                JSONObject studentJson = studentsJson.getJSONObject(i);
+
+                students.add( new Student(studentJson) );
+            }
+
+            return students;
+
+
+        } catch (JSONException e) {
+            throw new RestApiException(-1,"Internal Error StudentManager in getStudentMatchingCriteria");
+        }
+
+    }
+
+
+    protected static Integer subscribeJobOffer(Integer idJobOffer, Integer idStudentOffer)
+            throws IOException, RestApiException{
+
+        RESTManager.send(RESTManager.POST, BASE_URI + "/" + idStudentOffer + "/job_offer/" + idJobOffer, null);
+        return 0;
+
+    }
+
+
+    protected static Integer unsubscribeJobOffer(Integer idJobOffer, Integer idStudentOffer)
+            throws IOException, RestApiException{
+
+        RESTManager.send(RESTManager.DELETE, BASE_URI + "/" + idStudentOffer + "/job_offer/" + idJobOffer, null);
+        return 0;
+
+    }
+
+
+
 
 
 }

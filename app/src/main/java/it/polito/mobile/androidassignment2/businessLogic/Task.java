@@ -44,7 +44,11 @@ public class Task {
         ADD_FAVOURITE_STUDENT_FOR_COMPANY,
         DELETE_A_FAVOURITE_STUDENT_OF_A_COMPANY,
 
-        LOGIN
+        LOGIN,
+
+        GET_STUDENTS_FOR_JOB_OFFER,
+        SUBSCRIBE_STUDENTS_FOR_JOB_OFFER,
+        UNSUBSCRIBE_STUDENTS_FOR_JOB_OFFER
     }
 
 
@@ -74,23 +78,23 @@ public class Task {
                         out = Manager.deleteStudent((Integer) params[0]);
                         break;
                     case INSERT_NEW_STUDENT:
-                        out = Manager.insertNewStudent((Student)params[0]);
+                        out = Manager.insertNewStudent((Student) params[0]);
                         break;
                     case GET_STUDENTS_MATCHING_CRITERIA:
-                        out = Manager.getStudentsMatchingCriteria((Student)params[0]);
+                        out = Manager.getStudentsMatchingCriteria((Student) params[0]);
                         break;
                     case UPDATE_STUDENT:
-                        out = Manager.updateStudent((Student)params[0]);
+                        out = Manager.updateStudent((Student) params[0]);
                         break;
 
                     case INSERT_NEW_COMPANY:
-                        out = Manager.insertNewCompany((Company)params[0]);
+                        out = Manager.insertNewCompany((Company) params[0]);
                         break;
                     case GET_COMPANIES_MATCHING_CRITERIA:
-                        out = Manager.getCompaniesMatchingCriteria((Company)params[0]);
+                        out = Manager.getCompaniesMatchingCriteria((Company) params[0]);
                         break;
                     case UPDATE_COMPANY:
-                        out = Manager.updateCompany((Company)params[0]);
+                        out = Manager.updateCompany((Company) params[0]);
                         break;
 
                     case GET_COMPANY_BY_ID:
@@ -108,52 +112,63 @@ public class Task {
                         out = Manager.deleteOffer((Integer) params[0]);
                         break;
                     case INSERT_NEW_OFFER:
-                        out = Manager.insertNewOffer((Offer)params[0]);
+                        out = Manager.insertNewOffer((Offer) params[0]);
                         break;
                     case GET_OFFER_MATCHING_CRITERIA:
-                        out = Manager.getOffersMatchingCriteria((Offer)params[0]);
+                        out = Manager.getOffersMatchingCriteria((Offer) params[0]);
                         break;
                     case UPDATE_OFFER:
-                        out = Manager.updateOffer((Offer)params[0]);
+                        out = Manager.updateOffer((Offer) params[0]);
                         break;
 
                     case GET_FAVOURITE_COMPANY_OF_STUDENT :
                         out = Manager.getFavouriteCompanyOfStudent((Integer) params[0]);
                         break;
                     case ADD_FAVOURITE_COMPANY_FOR_STUDENT :
-                        out = Manager.addFavouriteCompanyForStudent((Integer)params[0],(Integer)params[1]);
+                        out = Manager.addFavouriteCompanyForStudent((Integer) params[0], (Integer) params[1]);
                         break;
                     case DELETE_A_FAVOURITE_COMPANY_OF_A_STUDENT :
-                        out = Manager.deleteAFavouriteCompanyOfAStudent((Integer)params[0],(Integer)params[1]);
+                        out = Manager.deleteAFavouriteCompanyOfAStudent((Integer) params[0], (Integer) params[1]);
                         break;
                     case GET_FAVOURITE_OFFER_OF_STUDENT :
                         out = Manager.getFavouriteOfferOfStudent((Integer) params[0]);
                         break;
                     case ADD_FAVOURITE_OFFER_FOR_STUDENT:
-                        out = Manager.addFavouriteOfferForStudent((Integer)params[0],(Integer)params[1]);
+                        out = Manager.addFavouriteOfferForStudent((Integer) params[0], (Integer) params[1]);
                         break;
                     case DELETE_A_FAVOURITE_OFFER_OF_A_STUDENT :
-                        out = Manager.deleteAFavouriteOfferOfAStudent((Integer)params[0],(Integer)params[1]);
+                        out = Manager.deleteAFavouriteOfferOfAStudent((Integer) params[0], (Integer) params[1]);
                         break;
 
 
 
                     case GET_FAVOURITE_STUDENT_OF_COMPANY :
-                        out = Manager.getFavouriteStudentOfCompany((Integer)params[0]);
+                        out = Manager.getFavouriteStudentOfCompany((Integer) params[0]);
                         break;
 
                     case ADD_FAVOURITE_STUDENT_FOR_COMPANY :
-                        out = Manager.addFavouriteOfferForStudent((Integer)params[0],(Integer)params[1]);
+                        out = Manager.addFavouriteOfferForStudent((Integer) params[0], (Integer) params[1]);
                         break;
 
                     case DELETE_A_FAVOURITE_STUDENT_OF_A_COMPANY :
-                        out = Manager.deleteAFavouriteStudentOfACompany((Integer)params[0],(Integer)params[1]);
+                        out = Manager.deleteAFavouriteStudentOfACompany((Integer) params[0], (Integer) params[1]);
                         break;
 
 
 
                     case LOGIN:
-                        out = Session.login((Session.LoginInfo)params[0]);
+                        out = Session.login((Session.LoginInfo) params[0]);
+                        break;
+
+                    case GET_STUDENTS_FOR_JOB_OFFER:
+                        out = StudentManager.getStudentsForJobOffer((int) params[0], (Student) params[1]);
+                        break;
+
+                    case SUBSCRIBE_STUDENTS_FOR_JOB_OFFER:
+                        out = StudentManager.subscribeJobOffer((int) params[0], (int) params[1]);
+                        break;
+                    case UNSUBSCRIBE_STUDENTS_FOR_JOB_OFFER:
+                        out = StudentManager.unsubscribeJobOffer((int) params[0], (int) params[1]);
                         break;
 
                 }
@@ -219,6 +234,18 @@ public class Task {
 
                     case LOGIN:
                         ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
+                        break;
+
+                    case GET_STUDENTS_FOR_JOB_OFFER:
+
+                        ((Manager.ResultProcessor<List<Student>>)this.postProcessor).process((List<Student>)out,this.exception);
+                        break;
+
+                    case SUBSCRIBE_STUDENTS_FOR_JOB_OFFER:
+                    case UNSUBSCRIBE_STUDENTS_FOR_JOB_OFFER:
+
+                        ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
+
                         break;
 
                 }
