@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -60,8 +61,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
+		// Set up the login form.
+		mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+		populateAutoComplete();
 
-		if(getPreferences(MODE_PRIVATE).contains("EMAIL")
+		mPasswordView = (EditText) findViewById(R.id.password);
+		mLoginFormView = findViewById(R.id.login_form);
+		mProgressView = findViewById(R.id.login_progress);
+		//TODO: ripristinare
+
+		/*if(getPreferences(MODE_PRIVATE).contains("EMAIL")
 				&& getPreferences(MODE_PRIVATE).contains("PWD")){
 
 
@@ -70,21 +79,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 
 
-		}
+		}*/
 
 
 
 
-		// Set up the login form.
-		mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-		populateAutoComplete();
-
-		mPasswordView = (EditText) findViewById(R.id.password);
 		mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
 				if (id == R.id.login || id == EditorInfo.IME_NULL) {
-					attemptLogin(mEmailView.getText().toString(),mPasswordView.getText().toString());
+					attemptLogin(mEmailView.getText().toString(), mPasswordView.getText().toString());
 					return true;
 				}
 				return false;
@@ -98,15 +102,33 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 				attemptLogin(mEmailView.getText().toString(), mPasswordView.getText().toString());
 			}
 		});
+		((Button) findViewById(R.id.register)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i =new Intent(LoginActivity.this, AlertStudentOrCompany.class);
+				i.putExtra("EMAIL", mEmailView.getText().toString());
+				i.putExtra("PWD", mPasswordView.getText().toString());
+				startActivityForResult(i, 1);
+			}
+		});
 
-		mLoginFormView = findViewById(R.id.login_form);
-		mProgressView = findViewById(R.id.login_progress);
+
+
 	}
 
 	private void populateAutoComplete() {
 		getLoaderManager().initLoader(0, null, this);
 	}
 
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == 1 && resultCode == Activity.RESULT_OK){
+			attemptLogin(mEmailView.getText().toString(), mPasswordView.getText().toString());
+		}
+
+	}
 
 	/**
 	 * Attempts to sign in or register the account specified by the login form.

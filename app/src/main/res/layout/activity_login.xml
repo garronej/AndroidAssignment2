@@ -29,7 +29,8 @@
     <LinearLayout
         android:id="@+id/email_login_form"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
         android:orientation="vertical">
 
         <AutoCompleteTextView
@@ -55,11 +56,30 @@
 
         <Button
             android:id="@+id/email_sign_in_button"
-            style="?android:textAppearanceSmall"
+            android:background="#02bac2"
+            android:textColor="#ffffff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+
             android:text="@string/action_sign_in"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register_label"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            />
+
+        <Button
+            android:id="@+id/register"
+            android:background="#02bac2"
+            android:textColor="#ffffff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register"
             android:textStyle="bold"/>
 
     </LinearLayout>

@@ -29,7 +29,16 @@
             android:name=".FragmentsHolder"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name=".AlertStudentOrCompany"
+            android:label="@string/app_name"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity" />
 
+        </activity>
 
 
         <activity
