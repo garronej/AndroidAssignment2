@@ -40,6 +40,12 @@ public class Results extends Fragment {
                 ((TextView) rootLayout.findViewById(R.id.textView)).setText("Loading...");
 
                 Manager.getOffersMatchingCriteria(null, new Manager.ResultProcessor<List<Offer>>() {
+
+                    @Override
+                    public void cancel() {
+
+                    }
+
                     @Override
                     public void process(List<Offer> offers, Exception exception) {
 

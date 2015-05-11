@@ -52,6 +52,12 @@ public class Functions extends Fragment {
 
                 Manager.getCompaniesMatchingCriteria(null, new Manager.ResultProcessor<List<Company>>() {
 
+
+                    @Override
+                    public void cancel() {
+
+                    }
+
                     @Override
                     public void process(List<Company> companies, Exception exception) {
 
@@ -68,6 +74,11 @@ public class Functions extends Fragment {
 
 
                                 Manager.deleteCompany(company.getId(), new Manager.ResultProcessor<Integer>() {
+
+                                    @Override
+                                    public void cancel() {
+
+                                    }
 
                                     @Override
                                     public void process(Integer arg, Exception e) {
@@ -105,6 +116,11 @@ public class Functions extends Fragment {
 
 
                 Manager.ResultProcessor<Company> postProcessor = new Manager.ResultProcessor<Company>() {
+
+                    @Override
+                    public void cancel() {
+
+                    }
 
                     @Override
                     public void process(Company arg, Exception e) {
@@ -200,6 +216,11 @@ public class Functions extends Fragment {
                 Manager.getCompaniesMatchingCriteria(criteria, new Manager.ResultProcessor<List<Company>>() {
 
                     @Override
+                    public void cancel() {
+
+                    }
+
+                    @Override
                     public void process(List<Company> arg, Exception e) {
 
                         if (e == null) {
@@ -232,6 +253,12 @@ public class Functions extends Fragment {
                                 }
 
                                 Manager.updateCompany(criteria, new Manager.ResultProcessor<Company>() {
+
+                                    @Override
+                                    public void cancel() {
+
+                                    }
+
                                     @Override
                                     public void process(Company arg, Exception e) {
 

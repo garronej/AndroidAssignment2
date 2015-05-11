@@ -61,6 +61,11 @@ public class ActivityPolijob extends ActionBarActivity {
 
             ((TextView)findViewById(R.id.response)).setText(message);
         }
+
+        @Override
+        public void cancel() {
+
+        }
     };
 
 

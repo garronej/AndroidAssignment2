@@ -107,7 +107,7 @@ public class Session {
         params.put("session[password]", password);
 
 
-        String resp = RESTManager.send(RESTManager.GET, "session",params);
+        String resp = RESTManager.send(RESTManager.POST, "session",params);
 
         try {
 
@@ -141,12 +141,12 @@ public class Session {
 
         if( obj.getClass() == Student.class){
             this.studentLogged = (Student)obj;
-            this.favCompanies = Manager.getFavouriteCompanyOfStudent(this.studentLogged.getId());
-            this.offers = Manager.getFavouriteOfferOfStudent(this.studentLogged.getId());
+            //this.favCompanies = Manager.getFavouriteCompanyOfStudent(this.studentLogged.getId());
+            //this.offers = Manager.getFavouriteOfferOfStudent(this.studentLogged.getId());
 
         }else if( obj.getClass() == Company.class ){
             this.companyLogged = (Company)obj;
-            this.favStudents = Manager.getFavouriteStudentOfCompany(this.companyLogged.getId());
+            //this.favStudents = Manager.getFavouriteStudentOfCompany(this.companyLogged.getId());
 
 
             Offer criteria = new Offer();
@@ -179,13 +179,14 @@ public class Session {
     //If login fail => ResApiException.
     //If Email malformed => DataFormatException
     //If network problem IOException
-    public static void login( String email, String password, Manager.ResultProcessor<Integer> postProcessor ){
+    public static Task.General login( String email, String password, Manager.ResultProcessor<Integer> postProcessor ){
 
         Session.LoginInfo log = new Session.LoginInfo();
         log.email = email;
         log.password = password;
-
-        (new Task.General(Task.Method.LOGIN, postProcessor)).execute(log);
+        Task.General t = new Task.General(Task.Method.LOGIN, postProcessor);
+        t.execute(log);
+        return t;
 
     }
 

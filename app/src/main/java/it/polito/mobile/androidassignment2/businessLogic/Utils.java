@@ -7,10 +7,10 @@ import java.util.zip.DataFormatException;
 /**
  * Created by Joseph on 04/05/2015.
  */
-class Utils {
+public class Utils {
 
     //Check if it's an email and transform "joseph.garrone.GJ@gmail.COm" -> "joseph.garrone.gj@gmail.com"
-    protected static String formatEmail(String email)throws DataFormatException {
+    public static String formatEmail(String email)throws DataFormatException {
 
         if( email == null) return null;
         if( email == "" ) return null;
@@ -63,7 +63,7 @@ class Utils {
 
 
     //Check password having more than 4 char and no space.
-    protected static void checkPassword( String pwd) throws DataFormatException{
+    public static void checkPassword( String pwd) throws DataFormatException{
 
         if( pwd == null) return;
 

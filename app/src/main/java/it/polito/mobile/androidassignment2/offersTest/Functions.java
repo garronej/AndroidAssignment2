@@ -52,6 +52,10 @@ public class Functions extends Fragment {
                 textView1.setText("");
 
                 Manager.getOffersMatchingCriteria(null, new Manager.ResultProcessor<List<Offer>>() {
+                    @Override
+                    public void cancel() {
+
+                    }
 
                     @Override
                     public void process(List<Offer> offers, Exception exception) {
@@ -69,6 +73,10 @@ public class Functions extends Fragment {
 
 
                                 Manager.deleteOffer(offer.getId(), new Manager.ResultProcessor<Integer>() {
+                                    @Override
+                                    public void cancel() {
+
+                                    }
 
                                     @Override
                                     public void process(Integer arg, Exception e) {
@@ -107,6 +115,10 @@ public class Functions extends Fragment {
 
 
                 final Manager.ResultProcessor<Offer> postProcessor = new Manager.ResultProcessor<Offer>() {
+                    @Override
+                    public void cancel() {
+
+                    }
 
                     @Override
                     public void process(Offer arg, Exception e) {
@@ -131,6 +143,10 @@ public class Functions extends Fragment {
 
 
                 Manager.getCompaniesMatchingCriteria(criteria,new Manager.ResultProcessor<List<Company>>(){
+                    @Override
+                    public void cancel() {
+
+                    }
 
                     @Override
                     public void process(List<Company> arg, Exception e) {
@@ -160,6 +176,10 @@ public class Functions extends Fragment {
                 });
 
                 Manager.getCompaniesMatchingCriteria(criteria,new Manager.ResultProcessor<List<Company>>(){
+                    @Override
+                    public void cancel() {
+
+                    }
 
                     @Override
                     public void process(List<Company> arg, Exception e) {
@@ -199,6 +219,10 @@ public class Functions extends Fragment {
 
 
                 Manager.getCompaniesMatchingCriteria(criteria,new Manager.ResultProcessor<List<Company>>(){
+                    @Override
+                    public void cancel() {
+
+                    }
 
                     @Override
                     public void process(List<Company> arg, Exception e) {
@@ -252,6 +276,10 @@ public class Functions extends Fragment {
 
 
                 Manager.getOffersMatchingCriteria(criteria, new Manager.ResultProcessor<List<Offer>>() {
+                    @Override
+                    public void cancel() {
+
+                    }
 
                     @Override
                     public void process(List<Offer> arg, Exception e) {
@@ -275,6 +303,11 @@ public class Functions extends Fragment {
                                 }
 
                                 Manager.updateOffer(criteria, new Manager.ResultProcessor<Offer>() {
+                                    @Override
+                                    public void cancel() {
+
+                                    }
+
                                     @Override
                                     public void process(Offer arg, Exception e) {
 

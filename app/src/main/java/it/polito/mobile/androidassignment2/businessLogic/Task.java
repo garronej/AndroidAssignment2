@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Joseph on 30/04/2015.
  */
-class Task {
+public class Task {
 
     protected enum Method {
         GET_STUDENT_BY_ID,
@@ -49,7 +49,7 @@ class Task {
 
 
 
-    protected static class General extends AsyncTask<Object, Void, Object> {
+    public static class General extends AsyncTask<Object, Void, Object> {
 
         private Object postProcessor;
         private Exception exception = null;
@@ -223,11 +223,16 @@ class Task {
 
                 }
             }
+
+
         }
 
 
-
-
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            ((Manager.ResultProcessor<Integer>)this.postProcessor).cancel();
+        }
     }
 
 

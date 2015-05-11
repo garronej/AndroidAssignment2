@@ -39,6 +39,12 @@ public class Results extends Fragment {
                 ((TextView) rootLayout.findViewById(R.id.textView)).setText("Loading...");
 
                 Manager.getStudentsMatchingCriteria(null, new Manager.ResultProcessor<List<Student>>() {
+
+                    @Override
+                    public void cancel() {
+
+                    }
+
                     @Override
                     public void process(List<Student> students, Exception exception) {
 

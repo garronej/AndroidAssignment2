@@ -12,8 +12,10 @@ public class Manager {
 
 
     //Interface to implement the post treatment of the method.
-    public interface ResultProcessor<T> {
+    public interface  ResultProcessor<T> {
         public void process(T arg, Exception e);
+
+        public void cancel();
     }
 
 

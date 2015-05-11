@@ -52,6 +52,11 @@ public class Functions extends Fragment {
                 Manager.getStudentsMatchingCriteria(null, new Manager.ResultProcessor<List<Student>>(){
 
                     @Override
+                    public void cancel() {
+
+                    }
+
+                    @Override
                     public void process(List<Student> students, Exception exception) {
 
 
@@ -64,6 +69,11 @@ public class Functions extends Fragment {
 
 
                                 Manager.deleteStudent(student.getId(), new Manager.ResultProcessor<Integer>(){
+
+                                    @Override
+                                    public void cancel() {
+
+                                    }
 
                                     @Override
                                     public void process(Integer arg, Exception e) {
@@ -103,6 +113,11 @@ public class Functions extends Fragment {
 
 
                 Manager.ResultProcessor<Student> postProcessor = new Manager.ResultProcessor<Student>(){
+
+                    @Override
+                    public void cancel() {
+
+                    }
 
                     @Override
                     public void process(Student arg, Exception e) {
@@ -199,6 +214,11 @@ public class Functions extends Fragment {
                 Manager.getStudentsMatchingCriteria(criteria, new Manager.ResultProcessor<List<Student>>() {
 
                     @Override
+                    public void cancel() {
+
+                    }
+
+                    @Override
                     public void process(List<Student> arg, Exception e) {
 
                         if (e == null) {
@@ -219,6 +239,12 @@ public class Functions extends Fragment {
                                 }
 
                                 Manager.updateStudent(criteria, new Manager.ResultProcessor<Student>() {
+
+                                    @Override
+                                    public void cancel() {
+
+                                    }
+
                                     @Override
                                     public void process(Student arg, Exception e) {
                                         if (e == null) {
