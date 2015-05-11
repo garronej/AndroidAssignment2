@@ -324,4 +324,45 @@ public class Manager {
 
     }
 
+
+
+
+
+
+
+    public static List<Student> getFavouriteStudentOfCompany(int companyId) throws IOException, RestApiException{
+        return CompanyManager.getFavouriteStudentOfCompany(companyId);
+    }
+
+
+    public static void getFavouriteStudentOfCompany(int companyId, Manager.ResultProcessor<List<Student>> postProcessor){
+        (new Task.General(Task.Method.GET_FAVOURITE_STUDENT_OF_COMPANY,postProcessor)).execute(companyId);
+    }
+
+
+
+    public static Student addFavouriteStudentForCompany(int companyId, int studentId) throws IOException, RestApiException{
+        return CompanyManager.addFavouriteStudentForCompany(companyId,studentId);
+    }
+
+    public static void addFavouriteStudentForCompany(int companyId, int studentId, Manager.ResultProcessor<Student> postProcessor ){
+        (new Task.General(Task.Method.ADD_FAVOURITE_STUDENT_FOR_COMPANY,postProcessor)).execute(companyId,studentId);
+    }
+
+
+    public static Integer deleteAFavouriteStudentOfACompany( int companyId, int studentId) throws IOException, RestApiException{
+        return CompanyManager.deleteAFavouriteStudentOfACompany(companyId, studentId);
+    }
+
+    public static void deleteAFavouriteStudentOfACompany( int companyId, int studentId, ResultProcessor<Integer> postProcessor){
+        (new Task.General(Task.Method.DELETE_A_FAVOURITE_STUDENT_OF_A_COMPANY,postProcessor)).execute(companyId,studentId);
+    }
+
+
+
+
+
+
+
+
 }

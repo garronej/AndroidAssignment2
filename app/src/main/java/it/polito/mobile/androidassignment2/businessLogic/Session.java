@@ -141,11 +141,22 @@ public class Session {
 
         if( obj.getClass() == Student.class){
             this.studentLogged = (Student)obj;
+            this.favCompanies = Manager.getFavouriteCompanyOfStudent(this.studentLogged.getId());
+            this.offers = Manager.getFavouriteOfferOfStudent(this.studentLogged.getId());
+
         }else if( obj.getClass() == Company.class ){
             this.companyLogged = (Company)obj;
+            this.favStudents = Manager.getFavouriteStudentOfCompany(this.companyLogged.getId());
+
+
+            Offer criteria = new Offer();
+
+            criteria.setCompanyId(this.companyLogged.getId());
+
+            this.offers = Manager.getOffersMatchingCriteria(criteria);
         }
 
-        //Get favourite
+
 
     }
 

@@ -39,6 +39,11 @@ class Task {
         ADD_FAVOURITE_OFFER_FOR_STUDENT,
         DELETE_A_FAVOURITE_OFFER_OF_A_STUDENT,
 
+
+        GET_FAVOURITE_STUDENT_OF_COMPANY,
+        ADD_FAVOURITE_STUDENT_FOR_COMPANY,
+        DELETE_A_FAVOURITE_STUDENT_OF_A_COMPANY,
+
         LOGIN
     }
 
@@ -133,6 +138,20 @@ class Task {
 
 
 
+                    case GET_FAVOURITE_STUDENT_OF_COMPANY :
+                        out = Manager.getFavouriteStudentOfCompany((Integer)params[0]);
+                        break;
+
+                    case ADD_FAVOURITE_STUDENT_FOR_COMPANY :
+                        out = Manager.addFavouriteOfferForStudent((Integer)params[0],(Integer)params[1]);
+                        break;
+
+                    case DELETE_A_FAVOURITE_STUDENT_OF_A_COMPANY :
+                        out = Manager.deleteAFavouriteStudentOfACompany((Integer)params[0],(Integer)params[1]);
+                        break;
+
+
+
                     case LOGIN:
                         out = Session.login((Session.LoginInfo)params[0]);
                         break;
@@ -154,33 +173,47 @@ class Task {
             if(postProcessor!=null){
 
                 switch( this.method ){
-                    case GET_STUDENT_BY_ID: case INSERT_NEW_STUDENT: case UPDATE_STUDENT:
+                    case GET_STUDENT_BY_ID:
+                    case INSERT_NEW_STUDENT:
+                    case UPDATE_STUDENT:
+                    case ADD_FAVOURITE_STUDENT_FOR_COMPANY :
                         ((Manager.ResultProcessor<Student>)this.postProcessor).process((Student)out,this.exception);
                         break;
 
-                    case GET_COMPANY_BY_ID: case INSERT_NEW_COMPANY: case UPDATE_COMPANY: case ADD_FAVOURITE_COMPANY_FOR_STUDENT :
+                    case GET_COMPANY_BY_ID:
+                    case INSERT_NEW_COMPANY:
+                    case UPDATE_COMPANY:
+                    case ADD_FAVOURITE_COMPANY_FOR_STUDENT :
                         ((Manager.ResultProcessor<Company>)this.postProcessor).process((Company)out,this.exception);
                         break;
-
-                    case GET_OFFER_BY_ID: case INSERT_NEW_OFFER: case UPDATE_OFFER: case ADD_FAVOURITE_OFFER_FOR_STUDENT:
+                    case GET_OFFER_BY_ID:
+                    case INSERT_NEW_OFFER:
+                    case UPDATE_OFFER:
+                    case ADD_FAVOURITE_OFFER_FOR_STUDENT:
                         ((Manager.ResultProcessor<Offer>)this.postProcessor).process((Offer)out,this.exception);
                         break;
 
-
-
-                    case DELETE_STUDENT: case DELETE_COMPANY: case DELETE_OFFER: case DELETE_A_FAVOURITE_COMPANY_OF_A_STUDENT : case DELETE_A_FAVOURITE_OFFER_OF_A_STUDENT :
+                    case DELETE_STUDENT:
+                    case DELETE_COMPANY:
+                    case DELETE_OFFER:
+                    case DELETE_A_FAVOURITE_COMPANY_OF_A_STUDENT :
+                    case DELETE_A_FAVOURITE_OFFER_OF_A_STUDENT :
+                    case DELETE_A_FAVOURITE_STUDENT_OF_A_COMPANY :
                         ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
                         break;
 
                     case GET_STUDENTS_MATCHING_CRITERIA:
+                    case GET_FAVOURITE_STUDENT_OF_COMPANY :
                         ((Manager.ResultProcessor<List<Student>>)this.postProcessor).process((List<Student>)out,this.exception);
                         break;
 
-                    case GET_COMPANIES_MATCHING_CRITERIA: case GET_FAVOURITE_COMPANY_OF_STUDENT :
+                    case GET_COMPANIES_MATCHING_CRITERIA:
+                    case GET_FAVOURITE_COMPANY_OF_STUDENT :
                         ((Manager.ResultProcessor<List<Company>>)this.postProcessor).process((List<Company>)out,this.exception);
                         break;
 
-                    case GET_OFFER_MATCHING_CRITERIA: case GET_FAVOURITE_OFFER_OF_STUDENT :
+                    case GET_OFFER_MATCHING_CRITERIA:
+                    case GET_FAVOURITE_OFFER_OF_STUDENT :
                         ((Manager.ResultProcessor<List<Offer>>)this.postProcessor).process((List<Offer>)out,this.exception);
                         break;
 

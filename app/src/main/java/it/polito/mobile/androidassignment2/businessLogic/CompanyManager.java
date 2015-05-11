@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -189,63 +190,63 @@ class CompanyManager {
 
 
 
-    /*
-
-    TODO  : Intervert company and student !
 
 
+    //TODO  : Intervert company and student !
 
-        protected static List<Company> getFavouriteCompanyOfStudent(int studentId) throws IOException, RestApiException{
 
-        List<Company> companies = new ArrayList<Company>();
 
-        String resp = RESTManager.send(RESTManager.GET, BASE_URI+"/"+ studentId + "/favs/companies", null);
+        protected static List<Student> getFavouriteStudentOfCompany(int companyId) throws IOException, RestApiException{
+
+        List<Student> students = new ArrayList<Student>();
+
+        String resp = RESTManager.send(RESTManager.GET, BASE_URI+"/"+ companyId + "/favs/students", null);
 
 
         try {
             JSONObject obj = new JSONObject(resp);
 
-            JSONArray arr = obj.getJSONArray("fav_companies");
+            JSONArray arr = obj.getJSONArray("fav_students");
 
             for( int i = 0; i<arr.length(); i++)
-                companies.add( new Company(arr.getJSONObject(i).getJSONObject("company")));
+                students.add( new Student(arr.getJSONObject(i).getJSONObject("student")));
 
-            return companies;
+            return students;
 
         }catch(JSONException e){
-            throw new RestApiException(-1,"Internal Error StudentManager in getFavouriteCompanyOfStudent()");
+            throw new RestApiException(-1,"Internal Error CompanyManager in getFavouriteStudentOfCompany()");
         }
 
     }
 
 
-    protected static Company addFavouriteCompanyForStudent(int studentId, int companyId)
+    protected static Student addFavouriteStudentForCompany(int companyId, int studentId)
             throws IOException, RestApiException{
 
         Map<String,String> param = new HashMap<String, String>();
 
-        param.put("fav_company[company_id]", Integer.toString(companyId));
+        param.put("fav_student[student_id]", Integer.toString(studentId));
 
-        String resp = RESTManager.send(RESTManager.POST, BASE_URI+"/"+ studentId + "/favs/companies", param);
+        String resp = RESTManager.send(RESTManager.POST, BASE_URI+"/"+ companyId + "/favs/students", param);
 
         try{
 
             JSONObject obj = new JSONObject(resp);
 
-            return new Company(obj.getJSONObject("fav_company").getJSONObject("company"));
+            return new Student(obj.getJSONObject("fav_student").getJSONObject("student"));
 
 
         }catch(JSONException e){
-            throw new RestApiException(-1,"Internal Error StudentManager in addFavouriteCompanyForStudent()");
+            throw new RestApiException(-1,"Internal Error CompanyManager in addFavouriteStudentForCompany()");
         }
     }
 
 
-    protected static Integer deleteAFavouriteCompanyOfAStudent( int studentId, int companyId)
+    protected static Integer deleteAFavouriteStudentOfACompany( int companyId, int studentId)
             throws IOException, RestApiException{
 
 
-        RESTManager.send(RESTManager.DELETE, BASE_URI+"/"+ studentId + "/favs/companies/" + companyId, null);
+        RESTManager.send(RESTManager.DELETE, BASE_URI+"/"+ companyId + "/favs/students/" + studentId, null);
 
 
         return 0;
@@ -256,7 +257,6 @@ class CompanyManager {
 
 
 
-     */
 
 
 

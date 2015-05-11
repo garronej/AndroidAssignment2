@@ -68,21 +68,6 @@ class OfferManager {
 
         if( criteria != null ){
 
-            if( criteria.getId() != null )
-                throw new RestApiException(422, "OfferManager : getOfferMatchingCriteria, " +
-                        "id field should not be set");
-
-
-            if( criteria.getKindOfContract() == null  &&
-                    criteria.getDescriptionOfWork() == null &&
-                    criteria.getCompanyName() == null)
-
-                throw new RestApiException(422, "OfferManager : getOfferMatchingCriteria :" +
-                        " no valid search criteria had been specified");
-
-
-            params = criteria.toFormParams();
-
             if( criteria.getCompanyId() != null ){
                 companyId = criteria.getCompanyId();
 
@@ -90,6 +75,9 @@ class OfferManager {
                         criteria.getDescriptionOfWork() == null &&
                         criteria.getDurationMonths() == null)
                     params = null;
+                else{
+                    params = criteria.toFormParams();
+                }
             }
         }
 
