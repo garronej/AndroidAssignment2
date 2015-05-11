@@ -154,7 +154,7 @@ public class Manager {
     }
 
     /*Asyncronical vertion */
-    public static void insertNewCompany(Student newCompany,  Manager.ResultProcessor<Company> postProcessor){
+    public static void insertNewCompany(Company newCompany,  Manager.ResultProcessor<Company> postProcessor){
         (new Task.General(Task.Method.INSERT_NEW_COMPANY, postProcessor)).execute(newCompany);
     }
 
@@ -241,11 +241,11 @@ public class Manager {
 
 
 
-    public static List<Offer> getOfferMatchingCriteria( Offer criteria ) throws RestApiException, IOException {
+    public static List<Offer> getOffersMatchingCriteria( Offer criteria ) throws RestApiException, IOException {
         return OfferManager.getOfferMatchingCriteria(criteria);
     }
 
-    public static void getOfferMatchingCriteria( Offer criteria, ResultProcessor<List<Offer>> postProcessor){
+    public static void getOffersMatchingCriteria( Offer criteria, ResultProcessor<List<Offer>> postProcessor){
 
         (new Task.General(Task.Method.GET_OFFER_MATCHING_CRITERIA, postProcessor)).execute(criteria);
     }

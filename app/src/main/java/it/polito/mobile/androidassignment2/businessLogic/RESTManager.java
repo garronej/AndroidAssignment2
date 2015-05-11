@@ -35,6 +35,7 @@ class RESTManager {
 
         String url = BASE_URI + relURI;
         String queryString = "";
+        String arg;
 
 
         if (urlParameters != null && !urlParameters.isEmpty()) {
@@ -43,7 +44,18 @@ class RESTManager {
 
 
                 try {
-                    queryString += URLEncoder.encode(key, "UTF-8") + "=" + URLEncoder.encode(urlParameters.get(key), "UTF-8") + "&";
+
+                    if ( method.equals("GET")){
+
+                        arg = key.substring(key.indexOf("[")+1,key.indexOf("]"));
+
+                    }else{
+                        arg = URLEncoder.encode(key, "UTF-8");
+                    }
+
+
+
+                    queryString += arg  + "=" + URLEncoder.encode(urlParameters.get(key), "UTF-8") + "&";
                 } catch (UnsupportedEncodingException e) {
                     throw new RestApiException(-1, "Internal Error RESTManager" + e.getMessage());
                 }
@@ -53,12 +65,18 @@ class RESTManager {
             queryString = queryString.substring(0, queryString.length() - 1);
         }
 
-        Log.v("aezr","querryString = " + queryString);
+
+
+        Log.v("REST","method = " + method + ", url = " + url + ",queryString = " + queryString);
+
+
 
 
         if (method.equals(RESTManager.GET) && !queryString.isEmpty()) {
             url += "?" + queryString;
         }
+
+
 
 
         URL obj = null;

@@ -1,5 +1,7 @@
 package it.polito.mobile.androidassignment2.businessLogic;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,7 +17,7 @@ import java.util.Map;
 class OfferManager {
 
 
-    private static final String BASE_URI = "offer";
+    private static final String BASE_URI = "offers";
 
     protected static Offer getOfferById(int id) throws RestApiException, IOException {
         Offer s = null;
@@ -101,9 +103,10 @@ class OfferManager {
             resp = RESTManager.send(RESTManager.GET, BASE_URI, params);
         }
 
+        Log.v("OfferManager", "resp = " + resp);
+
 
         try{
-
 
             JSONArray offersJson = (new JSONObject(resp)).getJSONArray("offers");
 

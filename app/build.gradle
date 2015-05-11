@@ -22,4 +22,20 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
+    compile files('libs/aws-android-sdk-autoscaling-2.2.1.jar')
+    compile files('libs/aws-android-sdk-cloudwatch-2.2.1.jar')
+    compile files('libs/aws-android-sdk-core-2.2.1.jar')
+    compile files('libs/aws-android-sdk-ddb-2.2.1.jar')
+    compile files('libs/aws-android-sdk-ddb-mapper-2.2.1.jar')
+    compile files('libs/aws-android-sdk-ec2-2.2.1.jar')
+    compile files('libs/aws-android-sdk-elb-2.2.1.jar')
+    compile files('libs/aws-android-sdk-kinesis-2.2.1.jar')
+    compile files('libs/aws-android-sdk-lambda-2.2.1.jar')
+    compile files('libs/aws-android-sdk-machinelearning-2.2.1.jar')
+    compile files('libs/aws-android-sdk-mobilenalytics-2.2.1.jar')
+    compile files('libs/aws-android-sdk-s3-2.2.1.jar')
+    compile files('libs/aws-android-sdk-sdb-2.2.1.jar')
+    compile files('libs/aws-android-sdk-ses-2.2.1.jar')
+    compile files('libs/aws-android-sdk-sns-2.2.1.jar')
+    compile files('libs/aws-android-sdk-sqs-2.2.1.jar')
 }

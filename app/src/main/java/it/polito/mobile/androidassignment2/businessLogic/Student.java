@@ -277,18 +277,18 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", photoUrl='" + photoUrl + '\'' +
-                ", cvUrl='" + cvUrl + '\'' +
-                ", links=" + Arrays.toString(links) +
-                ", universityCareer='" + universityCareer + '\'' +
-                ", competences=" + Arrays.toString(competences) +
-                ", hobbies=" + Arrays.toString(hobbies) +
-                ", available=" + available +
+        return "Student{" + "\n" +
+                "  id=" + id + ",\n" +
+                "  email='" + email + "',\n" +
+                "  name='" + name + "',\n" +
+                "  surname='" + surname + "',\n" +
+                "  photoUrl='" + photoUrl + "',\n" +
+                "  cvUrl='" + cvUrl + "',\n" +
+                "  links=" + Arrays.toString(links) + ",\n" +
+                "  universityCareer='" + universityCareer + "',\n" +
+                "  competences=" + Arrays.toString(competences) + ",\n" +
+                "  hobbies=" + Arrays.toString(hobbies) + ",\n" +
+                "  available=" + available + ",\n" +
                 '}';
     }
 

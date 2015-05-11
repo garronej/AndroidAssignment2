@@ -98,7 +98,7 @@ class Task {
                         out = Manager.insertNewOffer((Offer)params[0]);
                         break;
                     case GET_OFFER_MATCHING_CRITERIA:
-                        out = Manager.getOfferMatchingCriteria((Offer)params[0]);
+                        out = Manager.getOffersMatchingCriteria((Offer)params[0]);
                         break;
                     case UPDATE_OFFER:
                         out = Manager.updateOffer((Offer)params[0]);

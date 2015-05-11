@@ -15,27 +15,33 @@ import java.util.zip.DataFormatException;
 public class Offer {
 
     private Integer id = null;
-    private Integer companyId =null;
+
     private String kindOfContract= null;
     private String descriptionOfWork = null;
     private Integer durationMonths = null;
 
-    private String companyName = null;
+
+
+
+    private Company company = new Company();
+
+
+    public Company getCompany(){
+        return this.company;
+    }
 
 
     public void setCompanyName(String companyName) throws DataFormatException{
 
-        if( this.id != null || this.companyId != null )
+        if( this.id != null || this.company.getId() != null )
             throw new DataFormatException("Offer : Error in setCompanyName, the field" +
                     " companyIf and id are already filled, consistency error.");
 
-        this.companyName = companyName;
+        this.company.setName(companyName);
 
     }
 
-    public String getCompanyName(){
-        return this.companyName;
-    }
+
 
 
     public Offer(){
@@ -44,7 +50,7 @@ public class Offer {
 
     public void manuallySetId( int id ) throws DataFormatException{
 
-        if( this.companyName != null )
+        if( this.company.getName() != null )
             throw new DataFormatException("Offer : Error in manuallySetId, the field" +
                     " companyName is filled, consistency error ");
 
@@ -59,15 +65,15 @@ public class Offer {
 
     public void setCompanyId( int companyId ) throws DataFormatException{
 
-        if( this.companyName != null )
+        if( this.company.getName() != null )
             throw new DataFormatException("Offer : Error in setCompanyId, the field" +
                     " companyName is filled already, consistency error ");
 
-        this.companyId = companyId;
+        this.company.manuallySetId(companyId);
     }
 
     public Integer getCompanyId(){
-        return this.companyId;
+        return this.company.getId();
     }
 
     public void setKindOfContract( String kindOfContract ){
@@ -122,12 +128,12 @@ public class Offer {
 
     @Override
     public String toString() {
-        return "Student{" + '\n' +
-                "id=" + this.id + '\n' +
-                ", companyId='" + this.companyId + '\'' + '\n' +
-                ", companyName='" + this.companyName + '\'' + '\n' +
-                ", kindOfContract='" + this.kindOfContract + '\'' + '\n' +
-                ", durationMonth='" + this.durationMonths + '\'' + '\n' +
+        return "Offer{" + '\n' +
+                " id=" + this.id + "\n," +
+                " companyId='" + this.companyId + '\'' + "\n," +
+                " companyName='" + this.companyName + '\'' + ",\n" +
+                " kindOfContract='" + this.kindOfContract + '\'' + ",\n" +
+                " durationMonth='" + this.durationMonths + '\'' + "\n" +
                 '}';
     }
 
@@ -155,8 +161,6 @@ public class Offer {
         if(this.companyName!=null){
             s.put("offer[company]", this.companyName);
         }
-
-
 
         return s;
     }

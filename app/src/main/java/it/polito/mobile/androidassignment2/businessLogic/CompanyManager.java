@@ -1,5 +1,7 @@
 package it.polito.mobile.androidassignment2.businessLogic;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +45,7 @@ class CompanyManager {
         if( newCompany == null ) throw new RestApiException(422,"insertNewCompany : input company is null");
 
         if( newCompany.getEmail() == null || !newCompany.isSetPassword() ){
-            throw new RestApiException(422, "insertNewStudent : Email and password are compulsory");
+            throw new RestApiException(422, "insertNewCompany : Email and password are compulsory");
         }
 
         String resp = RESTManager.send(RESTManager.POST, BASE_URI,newCompany.toFormParams());
@@ -53,7 +55,7 @@ class CompanyManager {
         try {
             return new Company(new JSONObject(resp).getJSONObject("company"));
         } catch (JSONException e) {
-            throw new RestApiException(-1,"Internal Error CompanyManager in insertNewCompany");
+            throw new RestApiException(-1,"Internal Error CompanyManager in insertNewCompany" + e.getMessage());
         }
 
     }
@@ -78,6 +80,8 @@ class CompanyManager {
 
         String resp = RESTManager.send(RESTManager.GET, BASE_URI, params);
 
+        Log.v("CoMa", "resp = " + resp);
+
         try{
 
 
@@ -90,6 +94,14 @@ class CompanyManager {
             for( int i = 0; i < companiesJson.length(); i++){
 
                 JSONObject companyJson = companiesJson.getJSONObject(i);
+
+                Log.v("CoMa","companyJson.toString() = " + companyJson.toString());
+
+                Company tmp = new Company(companyJson);
+
+                Log.v("CoMa","tmp.toString() = " + tmp.toString());
+
+
 
                 companies.add( new Company(companyJson) );
             }

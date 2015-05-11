@@ -1,6 +1,9 @@
 package it.polito.mobile.androidassignment2.businessLogic;
 
 
+import android.util.Log;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -28,11 +31,11 @@ public class Company {
 
 
 
+
+
     public Company(){
         super();
     }
-
-
 
     public void manuallySetId(int id){
         this.id = id;
@@ -49,7 +52,6 @@ public class Company {
         this.name = Utils.formatName(name);
 
     }
-
 
     public void setLogoUrl(URL logoUrl ){
         this.logoUrl = logoUrl;
@@ -163,7 +165,7 @@ public class Company {
 
 
 
-            this.id = json.getInt("number_of_workers");
+            this.numberOfWorkers = json.getInt("number_of_workers");
 
 
 
@@ -171,9 +173,10 @@ public class Company {
 
             if( !buff.equals("null")){
 
-                List<String> items = Arrays.asList(buff.split("\\s*,\\s*"));
-
-                this.clients = items.toArray(new String[items.size()]);
+                JSONArray jsonClients = json.getJSONArray("clients");
+                this.clients=new String[jsonClients.length()];
+                for(int i = 0; i<jsonClients.length(); i++)
+                    this.clients[i] = jsonClients.getString(i);
 
             }
 
@@ -196,7 +199,7 @@ public class Company {
 
         }catch (Exception e){
 
-            //Should nor append
+            Log.v("azert", "creating company from json : " + e.getMessage());
         }
     }
 
@@ -250,16 +253,16 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Student{" + '\n' +
-                "id=" + this.id + '\n' +
-                ", email='" + this.email + '\'' + '\n' +
-                ", name='" + this.name + '\'' + '\n' +
-                ", logoUrl='" + this.logoUrl.toString() + '\'' + '\n' +
-                ", mission='" + this.mission + '\'' + '\n' +
-                "number_of_workers=" + this.numberOfWorkers.toString() + '\n' +
-                "clients='" + Arrays.toString(this.clients) + '\n' +
-                ", location='" + this.location + '\'' + '\n' +
-                ", description='" + this.description + '\'' + '\n' +
+        return "Company{" + ",\n" +
+                " id=" + this.id + ",\n" +
+                " email='" + this.email + '\'' + ",\n" +
+                " name='" + this.name + '\'' + ",\n" +
+                " logoUrl='" + this.logoUrl + '\'' + ",\n" +
+                " mission='" + this.mission + '\'' + ",\n" +
+                " number_of_workers=" + this.numberOfWorkers + ",\n" +
+                " clients=" + Arrays.toString(this.clients) + ",\n" +
+                " location='" + this.location + '\'' + ",\n" +
+                " description='" + this.description + '\'' + ",\n" +
                 '}';
     }
 
@@ -276,7 +279,7 @@ public class Company {
         }
 
         if(this.logoUrl!=null){
-            s.put("company[photo]", this.logoUrl.toString());
+            s.put("company[logo]", this.logoUrl.toString());
         }
 
         if(this.mission!=null){
@@ -308,8 +311,6 @@ public class Company {
         if(this.description!=null){
             s.put("company[description]", this.description);
         }
-
-
 
         return s;
     }
