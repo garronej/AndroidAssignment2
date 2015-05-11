@@ -34,8 +34,12 @@ public class Manager {
     }
 
     /* Asycronical vertion */
-    public static void getStudentById(int i, Manager.ResultProcessor<Student> postProcessor){
-        (new Task.General(Task.Method.GET_STUDENT_BY_ID, postProcessor)).execute(i);
+    public static Task.General getStudentById(int i, Manager.ResultProcessor<Student> postProcessor){
+
+        Task.General t = new Task.General(Task.Method.GET_STUDENT_BY_ID, postProcessor);
+        t.execute(i);
+        return t;
+
     }
 
 
@@ -56,8 +60,10 @@ public class Manager {
     }
 
     /*Asyncronical vertion */
-    public static void insertNewStudent(Student newStudent,  Manager.ResultProcessor<Student> postProcessor){
-        (new Task.General(Task.Method.INSERT_NEW_STUDENT, postProcessor)).execute(newStudent);
+    public static Task.General insertNewStudent(Student newStudent,  Manager.ResultProcessor<Student> postProcessor){
+        Task.General t = new Task.General(Task.Method.INSERT_NEW_STUDENT, postProcessor);
+        t.execute(newStudent);
+        return t;
     }
 
 
@@ -76,8 +82,10 @@ public class Manager {
     }
 
     /*Asyncronical vertion */
-    public static void getStudentsMatchingCriteria( Student criteria, Manager.ResultProcessor<List<Student>> postProcessor ){
-        (new Task.General(Task.Method.GET_STUDENTS_MATCHING_CRITERIA, postProcessor)).execute(criteria);
+    public static Task.General getStudentsMatchingCriteria( Student criteria, Manager.ResultProcessor<List<Student>> postProcessor ){
+        Task.General t = new Task.General(Task.Method.GET_STUDENTS_MATCHING_CRITERIA, postProcessor);
+        t.execute(criteria);
+        return t;
     }
 
 
@@ -94,8 +102,10 @@ public class Manager {
     }
 
     /*Asyncronical vertion */
-    public static void updateStudent(  Student studentToUpdate, Manager.ResultProcessor<Student> postProcessor ){
-        (new Task.General(Task.Method.UPDATE_STUDENT, postProcessor)).execute(studentToUpdate);
+    public static Task.General updateStudent(  Student studentToUpdate, Manager.ResultProcessor<Student> postProcessor ){
+        Task.General t = new Task.General(Task.Method.UPDATE_STUDENT, postProcessor);
+        t.execute(studentToUpdate);
+        return t;
     }
 
 
@@ -112,8 +122,10 @@ public class Manager {
     }
 
     /*Asyncronical vertion */
-    public static void deleteStudent(  int id, Manager.ResultProcessor<Integer> postProcessor ){
-        (new Task.General(Task.Method.DELETE_STUDENT, postProcessor)).execute(id);
+    public static Task.General deleteStudent(  int id, Manager.ResultProcessor<Integer> postProcessor ){
+        Task.General t = new Task.General(Task.Method.DELETE_STUDENT, postProcessor);
+        t.execute(id);
+        return t;
     }
 
 
@@ -137,8 +149,10 @@ public class Manager {
     }
 
     /* Asycronical vertion */
-    public static void getCompanyById(int i, Manager.ResultProcessor<Company> postProcessor){
-        (new Task.General(Task.Method.GET_COMPANY_BY_ID, postProcessor)).execute(i);
+    public static Task.General getCompanyById(int i, Manager.ResultProcessor<Company> postProcessor){
+        Task.General t = new Task.General(Task.Method.GET_COMPANY_BY_ID, postProcessor);
+        t.execute(i);
+        return t;
     }
 
 
@@ -156,8 +170,10 @@ public class Manager {
     }
 
     /*Asyncronical vertion */
-    public static void insertNewCompany(Company newCompany,  Manager.ResultProcessor<Company> postProcessor){
-        (new Task.General(Task.Method.INSERT_NEW_COMPANY, postProcessor)).execute(newCompany);
+    public static Task.General insertNewCompany(Company newCompany,  Manager.ResultProcessor<Company> postProcessor){
+        Task.General t = new Task.General(Task.Method.INSERT_NEW_COMPANY, postProcessor);
+        t.execute(newCompany);
+        return t;
     }
 
 
@@ -174,8 +190,10 @@ public class Manager {
     }
 
     /*Asyncronical vertion */
-    public static void getCompaniesMatchingCriteria( Company criteria, Manager.ResultProcessor<List<Company>> postProcessor ){
-        (new Task.General(Task.Method.GET_COMPANIES_MATCHING_CRITERIA, postProcessor)).execute(criteria);
+    public static Task.General getCompaniesMatchingCriteria( Company criteria, Manager.ResultProcessor<List<Company>> postProcessor ){
+        Task.General t = new Task.General(Task.Method.GET_COMPANIES_MATCHING_CRITERIA, postProcessor);
+        t.execute(criteria);
+        return t;
     }
 
 
@@ -192,8 +210,10 @@ public class Manager {
     }
 
     /*Asyncronical vertion */
-    public static void updateCompany(  Company companyToUpdate, Manager.ResultProcessor<Company> postProcessor ){
-        (new Task.General(Task.Method.UPDATE_COMPANY, postProcessor)).execute(companyToUpdate);
+    public static Task.General updateCompany(  Company companyToUpdate, Manager.ResultProcessor<Company> postProcessor ){
+        Task.General t = new Task.General(Task.Method.UPDATE_COMPANY, postProcessor);
+        t.execute(companyToUpdate);
+        return t;
     }
 
 
@@ -210,8 +230,10 @@ public class Manager {
     }
 
     /*Asyncronical vertion */
-    public static void deleteCompany(  int id, Manager.ResultProcessor<Integer> postProcessor ){
-        (new Task.General(Task.Method.DELETE_COMPANY, postProcessor)).execute(id);
+    public static Task.General deleteCompany(  int id, Manager.ResultProcessor<Integer> postProcessor ){
+        Task.General t = new Task.General(Task.Method.DELETE_COMPANY, postProcessor);
+        t.execute(id);
+        return t;
     }
 
 
@@ -222,8 +244,10 @@ public class Manager {
         return OfferManager.getOfferById(id);
     }
 
-    public static void getOfferById( int id, ResultProcessor<Offer> postProcessor){
-        (new Task.General(Task.Method.GET_OFFER_BY_ID, postProcessor)).execute(id);
+    public static Task.General getOfferById( int id, ResultProcessor<Offer> postProcessor){
+        Task.General t = new Task.General(Task.Method.GET_OFFER_BY_ID, postProcessor);
+        t.execute(id);
+        return t;
     }
 
 
@@ -235,10 +259,10 @@ public class Manager {
     }
 
 
-    public static void insertNewOffer(Offer newOffer, ResultProcessor<Offer> postProcessor){
-
-        (new Task.General(Task.Method.INSERT_NEW_OFFER, postProcessor)).execute(newOffer);
-
+    public static Task.General insertNewOffer(Offer newOffer, ResultProcessor<Offer> postProcessor){
+        Task.General t = new Task.General(Task.Method.INSERT_NEW_OFFER, postProcessor);
+        t.execute(newOffer);
+        return t;
     }
 
 
@@ -247,9 +271,10 @@ public class Manager {
         return OfferManager.getOfferMatchingCriteria(criteria);
     }
 
-    public static void getOffersMatchingCriteria( Offer criteria, ResultProcessor<List<Offer>> postProcessor){
-
-        (new Task.General(Task.Method.GET_OFFER_MATCHING_CRITERIA, postProcessor)).execute(criteria);
+    public static Task.General getOffersMatchingCriteria( Offer criteria, ResultProcessor<List<Offer>> postProcessor){
+        Task.General t = new Task.General(Task.Method.GET_OFFER_MATCHING_CRITERIA, postProcessor);
+        t.execute(criteria);
+        return t;
     }
 
 
@@ -257,8 +282,10 @@ public class Manager {
         return OfferManager.updateOffer(offerToUpdate);
     }
 
-    public static void updateOffer( Offer offerToUpdate, ResultProcessor<Offer> postProcessor){
-        (new Task.General(Task.Method.UPDATE_OFFER,postProcessor)).execute(offerToUpdate);
+    public static Task.General updateOffer( Offer offerToUpdate, ResultProcessor<Offer> postProcessor){
+        Task.General t=new Task.General(Task.Method.UPDATE_OFFER,postProcessor);
+        t.execute(offerToUpdate);
+        return t;
     }
 
 
@@ -267,8 +294,10 @@ public class Manager {
         return OfferManager.deleteOffer(id);
     }
 
-    public static void deleteOffer( int id, ResultProcessor<Integer> postProcessor){
-        (new Task.General(Task.Method.DELETE_OFFER,postProcessor)).execute(id);
+    public static Task.General deleteOffer( int id, ResultProcessor<Integer> postProcessor){
+        Task.General t = new Task.General(Task.Method.DELETE_OFFER,postProcessor);
+        t.execute(id);
+        return t;
     }
 
 
@@ -276,8 +305,10 @@ public class Manager {
         return StudentManager.getFavouriteCompanyOfStudent(studentId);
     }
 
-    public static void getFavouriteCompanyOfStudent(int studentId, ResultProcessor<List<Company>> postProcessor){
-        (new Task.General(Task.Method.GET_FAVOURITE_COMPANY_OF_STUDENT,postProcessor)).execute(studentId);
+    public static Task.General getFavouriteCompanyOfStudent(int studentId, ResultProcessor<List<Company>> postProcessor){
+        Task.General t = new Task.General(Task.Method.GET_FAVOURITE_COMPANY_OF_STUDENT,postProcessor);
+        t.execute(studentId);
+        return t;
     }
 
 
@@ -286,8 +317,10 @@ public class Manager {
         return StudentManager.addFavouriteCompanyForStudent(studentId, companyId);
     }
 
-    public static void addFavouriteCompanyForStudent(int studentId, int companyId, ResultProcessor<Company> postProcessor){
-        (new Task.General(Task.Method.ADD_FAVOURITE_COMPANY_FOR_STUDENT,postProcessor)).execute(studentId,companyId);
+    public static Task.General addFavouriteCompanyForStudent(int studentId, int companyId, ResultProcessor<Company> postProcessor){
+        Task.General t = new Task.General(Task.Method.ADD_FAVOURITE_COMPANY_FOR_STUDENT,postProcessor);
+        t.execute(studentId, companyId);
+        return t;
     }
 
 
@@ -296,24 +329,30 @@ public class Manager {
     }
 
 
-    public static void deleteAFavouriteCompanyOfAStudent( int studentId, int companyId, ResultProcessor<Integer> postProcessor){
-        (new Task.General(Task.Method.DELETE_A_FAVOURITE_COMPANY_OF_A_STUDENT,postProcessor)).execute(studentId,companyId);
+    public static Task.General deleteAFavouriteCompanyOfAStudent( int studentId, int companyId, ResultProcessor<Integer> postProcessor){
+        Task.General t =new Task.General(Task.Method.DELETE_A_FAVOURITE_COMPANY_OF_A_STUDENT,postProcessor);
+        t.execute(studentId, companyId);
+        return t;
     }
 
     public static List<Offer> getFavouriteOfferOfStudent(int studentId) throws IOException, RestApiException{
         return StudentManager.getFavouriteOfferOfStudent(studentId);
     }
 
-    public static void getFavouriteOfferOfStudent(int studentId, ResultProcessor<List<Offer>> postProcessor){
-        (new Task.General(Task.Method.GET_FAVOURITE_OFFER_OF_STUDENT,postProcessor)).execute(studentId);
+    public static Task.General getFavouriteOfferOfStudent(int studentId, ResultProcessor<List<Offer>> postProcessor){
+        Task.General t = new Task.General(Task.Method.GET_FAVOURITE_OFFER_OF_STUDENT,postProcessor);
+        t.execute(studentId);
+        return t;
     }
 
     public static Offer addFavouriteOfferForStudent(int studentId, int offerId) throws IOException, RestApiException{
         return StudentManager.addFavouriteOfferForStudent(studentId,offerId);
     }
 
-    public static void addFavouriteOfferForStudent(int studentId, int offerId, ResultProcessor<Offer> postProcessor){
-        (new Task.General(Task.Method.ADD_FAVOURITE_OFFER_FOR_STUDENT,postProcessor)).execute(studentId, offerId);
+    public static Task.General addFavouriteOfferForStudent(int studentId, int offerId, ResultProcessor<Offer> postProcessor){
+        Task.General t = new Task.General(Task.Method.ADD_FAVOURITE_OFFER_FOR_STUDENT,postProcessor);
+        t.execute(studentId, offerId);
+        return t;
     }
 
 
@@ -321,15 +360,12 @@ public class Manager {
         return StudentManager.deleteAFavouriteOfferOfAStudent(studentId,offerId);
     }
 
-    public static void deleteAFavouriteOfferOfAStudent( int studentId, int offerId, ResultProcessor<Integer> postProcessor){
-        (new Task.General(Task.Method.DELETE_A_FAVOURITE_OFFER_OF_A_STUDENT,postProcessor)).execute(studentId, offerId);
+    public static Task.General deleteAFavouriteOfferOfAStudent( int studentId, int offerId, ResultProcessor<Integer> postProcessor){
+        Task.General t = new Task.General(Task.Method.DELETE_A_FAVOURITE_OFFER_OF_A_STUDENT,postProcessor);
+        t.execute(studentId, offerId);
+        return t;
 
     }
-
-
-
-
-
 
 
     public static List<Student> getFavouriteStudentOfCompany(int companyId) throws IOException, RestApiException{
@@ -337,8 +373,10 @@ public class Manager {
     }
 
 
-    public static void getFavouriteStudentOfCompany(int companyId, Manager.ResultProcessor<List<Student>> postProcessor){
-        (new Task.General(Task.Method.GET_FAVOURITE_STUDENT_OF_COMPANY,postProcessor)).execute(companyId);
+    public static Task.General getFavouriteStudentOfCompany(int companyId, Manager.ResultProcessor<List<Student>> postProcessor){
+        Task.General t = new Task.General(Task.Method.GET_FAVOURITE_STUDENT_OF_COMPANY,postProcessor);
+        t.execute(companyId);
+        return t;
     }
 
 
@@ -347,8 +385,10 @@ public class Manager {
         return CompanyManager.addFavouriteStudentForCompany(companyId,studentId);
     }
 
-    public static void addFavouriteStudentForCompany(int companyId, int studentId, Manager.ResultProcessor<Student> postProcessor ){
-        (new Task.General(Task.Method.ADD_FAVOURITE_STUDENT_FOR_COMPANY,postProcessor)).execute(companyId,studentId);
+    public static Task.General addFavouriteStudentForCompany(int companyId, int studentId, Manager.ResultProcessor<Student> postProcessor ){
+        Task.General t = new Task.General(Task.Method.ADD_FAVOURITE_STUDENT_FOR_COMPANY,postProcessor);
+        t.execute(companyId, studentId);
+        return t;
     }
 
 
@@ -356,14 +396,11 @@ public class Manager {
         return CompanyManager.deleteAFavouriteStudentOfACompany(companyId, studentId);
     }
 
-    public static void deleteAFavouriteStudentOfACompany( int companyId, int studentId, ResultProcessor<Integer> postProcessor){
-        (new Task.General(Task.Method.DELETE_A_FAVOURITE_STUDENT_OF_A_COMPANY,postProcessor)).execute(companyId,studentId);
+    public static Task.General deleteAFavouriteStudentOfACompany( int companyId, int studentId, ResultProcessor<Integer> postProcessor){
+        Task.General t= new Task.General(Task.Method.DELETE_A_FAVOURITE_STUDENT_OF_A_COMPANY,postProcessor);
+        t.execute(companyId, studentId);
+        return t;
     }
-
-
-
-
-
 
 
 
