@@ -42,6 +42,8 @@ import it.polito.mobile.androidassignment2.s3client.Constants;
  */
 public class DownloadModel extends TransferModel {
     private static final String TAG = "DownloadModel";
+    public static final String INTENT_DOWNLOADED = "it.polito.mobile.DOWNLOAD_FINISHED";
+    public static final String EXTRA_FILE_URI = "downloadedFileURI";
 
     private Download mDownload;
     private PersistableDownload mPersistableDownload;
@@ -59,13 +61,13 @@ public class DownloadModel extends TransferModel {
             public void progressChanged(ProgressEvent event) {
                 if (event.getEventCode() == ProgressEvent.COMPLETED_EVENT_CODE) {
 
-                    Intent mediaScanIntent = new Intent(
-                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                    mediaScanIntent.setData(mUri);
-                    getContext().sendBroadcast(mediaScanIntent);
+                    Intent intent = new Intent(INTENT_DOWNLOADED);
 
+                    intent.putExtra(EXTRA_FILE_URI, mUri.toString());
+                    //intent.setData(mUri);
+                    getContext().sendBroadcast(intent);
+                    Log.d("poliJob", "Sending broadcast intent " + INTENT_DOWNLOADED);
                     mStatus = Status.COMPLETED;
-                    Log.d("poliJob", "Completed download of "+mUri);
 
                 }
             }

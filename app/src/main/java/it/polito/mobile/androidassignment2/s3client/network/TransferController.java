@@ -33,10 +33,11 @@ public class TransferController {
         context.startService(intent);
     }
 
-    public static void upload(Context context, Uri uri) {
+    public static void upload(Context context, Uri uri, String folder) {
         Intent intent = new Intent(context, NetworkService.class);
         intent.setAction(Intent.ACTION_SEND);
         intent.setData(uri);
+        intent.putExtra("folder", folder);
         context.startService(intent);
     }
 
