@@ -274,7 +274,7 @@ class StudentManager {
 
         }
 
-        params.put("idOffer", idJobOffer.toString());
+        params.put("offer_applied_id", idJobOffer.toString());
 
 
 
@@ -309,7 +309,10 @@ class StudentManager {
     protected static Integer subscribeJobOffer(Integer idJobOffer, Integer idStudentOffer)
             throws IOException, RestApiException{
 
-        RESTManager.send(RESTManager.POST, BASE_URI + "/" + idStudentOffer + "/job_offer/" + idJobOffer, null);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("application[offer_id]", idJobOffer.toString());
+
+        RESTManager.send(RESTManager.POST, BASE_URI + "/" + idStudentOffer + "/applications/offers/", params);
         return 0;
 
     }
@@ -318,7 +321,7 @@ class StudentManager {
     protected static Integer unsubscribeJobOffer(Integer idJobOffer, Integer idStudentOffer)
             throws IOException, RestApiException{
 
-        RESTManager.send(RESTManager.DELETE, BASE_URI + "/" + idStudentOffer + "/job_offer/" + idJobOffer, null);
+        RESTManager.send(RESTManager.DELETE, BASE_URI + "/" + idStudentOffer + "/applications/offers/" + idJobOffer, null);
         return 0;
 
     }
