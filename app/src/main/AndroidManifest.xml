@@ -37,11 +37,13 @@
 
         </activity>
 
-
-
         <service
             android:name=".s3client.network.NetworkService"
             android:exported="false" />
+
+
+
+
 
 
     </application>
