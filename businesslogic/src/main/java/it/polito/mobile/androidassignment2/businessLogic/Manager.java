@@ -11,144 +11,34 @@ public class Manager {
 
 
 
-    //Interface to implement the post treatment of the method.
+    /*Interface to implement the post treatment of the asynchronous version of the Manager method.*/
     public interface  ResultProcessor<T> {
-        public void process(T arg, Exception e);
-
-        public void cancel();
-    }
-
-
-    /* -------------- Students --------------------- */
-
-    /**
-     * The method allows to retrieve all the informations
-     * about a student (with a given id).
-     *
-     * @param id the id of the student to be retrieved
-     * @return A Student object representing the student if it exists.
-     * @throws Exception Network related exception can be thrown or error code, ( error code -1 is internal error ).
-     */
-    public static Student getStudentById(int id) throws RestApiException, IOException {
-        return StudentManager.getStudentById(id);
-    }
-
-    /* Asycronical vertion */
-    public static Task.General getStudentById(int i, ResultProcessor<Student> postProcessor){
-
-        Task.General t = new Task.General(Task.Method.GET_STUDENT_BY_ID, postProcessor);
-        t.execute(i);
-        return t;
-
+        void process(T arg, Exception e);
+        void cancel();
     }
 
 
 
+
+     /* --------------------- Company -----------------------*/
 
 
 
     /**
      *
-     * Insert a new student in the database
+     * Get Company object from it's id.
      *
-     * @param newStudent a Student object representing the student to be inserted.
-     * @return a Student object representing the inserted object.
-     * @throws Exception Network related exceptions can be thrown
-     */
-    public static Student insertNewStudent(Student newStudent) throws RestApiException, IOException {
-        return StudentManager.insertNewStudent(newStudent);
-    }
-
-    /*Asyncronical vertion */
-    public static Task.General insertNewStudent(Student newStudent,  ResultProcessor<Student> postProcessor){
-        Task.General t = new Task.General(Task.Method.INSERT_NEW_STUDENT, postProcessor);
-        t.execute(newStudent);
-        return t;
-    }
-
-
-
-
-    /**
-     *
-     * Get all student matching seatch criteria in the database
-     *
-     * @param criteria a Student object representing the criteria to be matched in the search.
-     * @return A list of student, if no student match a list of zero ellement.
-     * @throws Exception Network related exceptions can be thrown
-     */
-    public static List<Student> getStudentsMatchingCriteria( Student criteria ) throws RestApiException, IOException {
-        return StudentManager.getStudentsMatchingCriteria(criteria);
-    }
-
-    /*Asyncronical version */
-    public static Task.General getStudentsMatchingCriteria( Student criteria, ResultProcessor<List<Student>> postProcessor ){
-        Task.General t = new Task.General(Task.Method.GET_STUDENTS_MATCHING_CRITERIA, postProcessor);
-        t.execute(criteria);
-        return t;
-    }
-
-
-    /**
-     *
-     * Update the information about a specific student in the database.
-     *
-     * @param studentToUpdate a Student object, id must be set by using the mauallySetId, .
-     * @return the new student.
-     * @throws Exception Network related exceptions can be thrown
-     */
-    public static Student updateStudent( Student studentToUpdate ) throws IOException, RestApiException {
-        return StudentManager.updateStudent(studentToUpdate);
-    }
-
-    /*Asyncronical vertion */
-    public static Task.General updateStudent(  Student studentToUpdate, ResultProcessor<Student> postProcessor ){
-        Task.General t = new Task.General(Task.Method.UPDATE_STUDENT, postProcessor);
-        t.execute(studentToUpdate);
-        return t;
-    }
-
-
-    /**
-     *
-     * Delete a specific student
-     *
-     * @param id the id of the student to delete.
-     * @return 0 if success.
-     * @throws Exception Network related exceptions can be thrown
-     */
-    public static Integer deleteStudent( int id) throws IOException, RestApiException {
-        return StudentManager.deleteStudent(id);
-    }
-
-    /*Asyncronical vertion */
-    public static Task.General deleteStudent(  int id, ResultProcessor<Integer> postProcessor ){
-        Task.General t = new Task.General(Task.Method.DELETE_STUDENT, postProcessor);
-        t.execute(id);
-        return t;
-    }
-
-
-
-
-    /*---------------------Companies ----------------------*/
-
-
-
-
-    /**
-     * The method allows to retrieve all the informations
-     * about a company (with a given id).
-     *
-     * @param id the id of the company to be retrieved
-     * @return A Company object representing the company if it exists, null otherwise.
-     * @throws Exception Network related exception can be thrown or error code, ( error code -1 is internal error ).
+     * @param id the id of the company.
+     * @return Company retrieved.
+     * @throws RestApiException when known, unpredictable error occur server side ( e.g. Trying to retreve unexsisting Offer).
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occured => Must report to be corrected.
+     *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
      */
     public static Company getCompanyById(int id) throws RestApiException, IOException {
         return CompanyManager.getCompanyById(id);
     }
 
-    /* Asycronical vertion */
+    /* Asynchronous version */
     public static Task.General getCompanyById(int i, ResultProcessor<Company> postProcessor){
         Task.General t = new Task.General(Task.Method.GET_COMPANY_BY_ID, postProcessor);
         t.execute(i);
@@ -156,20 +46,39 @@ public class Manager {
     }
 
 
-
     /**
      *
-     * Insert a new company in the database
+     * Insert a new company in the database.
      *
-     * @param newCompany a Company object representing the student to be inserted.
-     * @return a Company object representing the inserted object.
-     * @throws Exception Network related exceptions can be thrown
+     * @param newCompany, Company object that describe the offer to be inserted.
+     *                  The mandatory field are :
+     *                      -email ( e.g. call newCompany.setEmail("company1@gamil.com"))
+     *                      -password ( e.g call newCompany.setPassword("company1pass") )
+     *                  Optional field are :
+     *                      -name
+     *                      -logo
+     *                      -mission
+     *                      -number_of_worker
+     *                      -clients
+     *                      -location
+     *                      -description
+     *
+     *                    Note : Do not set the company id ( with newCompany.manuallySetId(...) ),
+     *                    the id is going to be automaticaly generated server side.
+
+     *
+     * @return the Company object created witch correspond to the object passed in input but with
+     * the id field set ( e.g outOffer.getId() != null ).
+     *
+     * @throws RestApiException when known, unpredictable error occur server side.
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occured => Must report to be corrected.
+     *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
      */
     public static Company insertNewCompany(Company newCompany) throws RestApiException, IOException {
         return CompanyManager.insertNewCompany(newCompany);
     }
 
-    /*Asyncronical vertion */
+    /* Asynchronous version */
     public static Task.General insertNewCompany(Company newCompany,  ResultProcessor<Company> postProcessor){
         Task.General t = new Task.General(Task.Method.INSERT_NEW_COMPANY, postProcessor);
         t.execute(newCompany);
@@ -179,17 +88,33 @@ public class Manager {
 
     /**
      *
-     * Get all companies matching search criteria in the database
+     * Search for company matching criteria.
      *
-     * @param criteria a Company object representing the criteria to be matched in the search.
-     * @return A list of Company.
-     * @throws Exception Network related exceptions can be thrown
+     * @param criteria, company object that describe the search criteria to be matched.
+     *
+     *                  It can be null if you want to retrieve all offer of the database.
+     *
+     *                  Possible search criteria are :
+     *                      -name
+     *                      -location
+     *                      -description
+     *                      -mission
+     *
+     *                  Note : id of the newOffer object must not be set, if you want to retreve a
+     *                  specific company use getCompanyById ( e.g. do not call newOffer.manuallySetId(666); )
+     *
+     * @return List of offer matching ALL criteria specified.
+     *
+     * @throws RestApiException when known, unpredictable error occur server side.
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occured => Must report to be corrected.
+     *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
+     *
      */
     public static List<Company> getCompaniesMatchingCriteria( Company criteria ) throws RestApiException, IOException {
         return CompanyManager.getCompaniesMatchingCriteria(criteria);
     }
 
-    /*Asyncronical vertion */
+    /* Asynchronous version */
     public static Task.General getCompaniesMatchingCriteria( Company criteria, ResultProcessor<List<Company>> postProcessor ){
         Task.General t = new Task.General(Task.Method.GET_COMPANIES_MATCHING_CRITERIA, postProcessor);
         t.execute(criteria);
@@ -199,17 +124,32 @@ public class Manager {
 
     /**
      *
-     * Update the information about a specific company in the database.
+     * Update an company of the database.
      *
-     * @param companyToUpdate a Company object, id must be set by using the mauallySetId, .
-     * @return the new company.
-     * @throws Exception Network related exceptions can be thrown
+     * @param companyToUpdate, company object witch specify what to update.
+     *
+     *                  It can't be null.
+     *                  You must manually set the id of the companyToUpdate object to match the
+     *                  id value of the company you want to update in the database ( e.g. call
+     *                  companyToUpdate.manuallySetId(34) )
+     *
+     *                  Possible modifiable field :
+     *                      -name
+     *                      -location
+     *                      -description
+     *                      -mission
+     *
+     * @return The company after modification.
+     *
+     * @throws RestApiException when known, unpredictable error occur server side.
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occurred => Must report to be corrected.
+     *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
      */
     public static Company updateCompany( Company companyToUpdate ) throws IOException, RestApiException {
         return CompanyManager.updateCompany(companyToUpdate);
     }
 
-    /*Asyncronical vertion */
+    /* Asynchronous version */
     public static Task.General updateCompany(  Company companyToUpdate, ResultProcessor<Company> postProcessor ){
         Task.General t = new Task.General(Task.Method.UPDATE_COMPANY, postProcessor);
         t.execute(companyToUpdate);
@@ -219,17 +159,19 @@ public class Manager {
 
     /**
      *
-     * Delete a specific company
+     * Delete a company with specific id.
      *
      * @param id the id of the company to delete.
      * @return 0 if success.
-     * @throws Exception Network related exceptions can be thrown
+     * @throws RestApiException when known, unpredictable error occur server side ( e.g. Trying to retreve unexsisting Offer).
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occured => Must report to be corrected.
+     *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
      */
     public static Integer deleteCompany( int id) throws IOException, RestApiException {
         return CompanyManager.deleteCompany(id);
     }
 
-    /*Asyncronical vertion */
+    /* Asynchronous version */
     public static Task.General deleteCompany(  int id, ResultProcessor<Integer> postProcessor ){
         Task.General t = new Task.General(Task.Method.DELETE_COMPANY, postProcessor);
         t.execute(id);
@@ -237,9 +179,19 @@ public class Manager {
     }
 
 
-    /* --------------------------- Offer -----------------------*/
 
 
+    /* --------------------- Offer -----------------------*/
+    /**
+     *
+     * Get offer object from it's id.
+     *
+     * @param id the id of the offer.
+     * @return Offer retrieved.
+     * @throws RestApiException when known, unpredictable error occur server side ( e.g. Trying to retreve unexsisting Offer).
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occured => Must report to be corrected.
+     *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
+     */
     public static Offer getOfferById(int id) throws RestApiException, IOException {
         return OfferManager.getOfferById(id);
     }
@@ -251,14 +203,34 @@ public class Manager {
     }
 
 
-
+    /**
+     *
+     * Insert a new offer in the database.
+     *
+     * @param newOffer, Offer object that describe the offer to be inserted.
+     *                  The mandatory field are :
+     *                      -company_id ( e.g. call newOffer.setCompanyId(23)) must refer to an existing company's id.
+     *                      -kind_of_contract ( e.g call newOffer.setKindOfContract("internship") )
+     *                      -description_of_work ( e.g call newOffer.setDescriptionOfWork("Do some programing work") )
+     *                      -duration_months ( e.g. call newOffer.setDuratiionMonths(4) )
+     *
+     *                  Note : id of the newOffer object must not be set, it will be automaticaly generated
+     *                  server side ( e.g. do not call newOffer.manuallySetId(666); )
+     *
+     * @return the offer object created witch corespond to the object passed in input but with the id set
+     *          ( e.g outOffer.getId() != null ).
+     *
+     * @throws RestApiException when known, unpredictible error occur server side.
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occured => Must report to be corrected.
+     *          IOEcxception when there is a problem with the network connection ( e.g. DNS resolution fail )
+     */
     public static Offer insertNewOffer(Offer newOffer) throws RestApiException, IOException {
 
         return OfferManager.insertNewOffer(newOffer);
 
     }
 
-
+    /* Asynchronous version */
     public static Task.General insertNewOffer(Offer newOffer, ResultProcessor<Offer> postProcessor){
         Task.General t = new Task.General(Task.Method.INSERT_NEW_OFFER, postProcessor);
         t.execute(newOffer);
@@ -267,10 +239,34 @@ public class Manager {
 
 
 
+    /**
+     *
+     * Search for offers matching criteria.
+     *
+     * @param criteria, Offer object that describe the search criteria.
+     *
+     *                  It can be null if you want to retreve all offer of the database.
+     *
+     *                  Possible search criteria are :
+     *                      -company_id OR company_name ( e.g. call criteria.setCompanyId(23) or criteria.setCompanyName("Apple") )
+     *                      -kind_of_contract ( e.g call criteria.setKindOfContract("internship") )
+     *                      -description_of_work ( e.g call criteria.setDescriptionOfWork("Do some programing work") )
+     *                      -duration_months ( e.g. call criteria.setDuratiionMonths(4) )
+     *
+     *                  Note : id of the newOffer object must not be set, it will be automaticaly generated
+     *                  server side ( e.g. do not call newOffer.manuallySetId(666); )
+     *
+     * @return List of offer matching ALL criteria specified.
+     *
+     * @throws RestApiException when known, unpredictable error occur server side.
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occured => Must report to be corrected.
+     *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
+     */
     public static List<Offer> getOffersMatchingCriteria( Offer criteria ) throws RestApiException, IOException {
         return OfferManager.getOfferMatchingCriteria(criteria);
     }
 
+    /* Asynchronous version */
     public static Task.General getOffersMatchingCriteria( Offer criteria, ResultProcessor<List<Offer>> postProcessor){
         Task.General t = new Task.General(Task.Method.GET_OFFER_MATCHING_CRITERIA, postProcessor);
         t.execute(criteria);
@@ -278,10 +274,38 @@ public class Manager {
     }
 
 
+
+
+    /**
+     *
+     * Update an offer in the database.
+     *
+     * @param offerToUpdate, Offer object witch specyfy what to update.
+     *
+     *                  It can't be null! You must manualy set the id of offerToUpdate to match the
+     *                  id value of the offer you want to update in the database ( e.g. call
+     *                  offerToUpdate.manuallySetId(34) )
+     *
+     *                  Possible modifiable field :
+     *                      -company_id ( and not company_name ! ) ( e.g. call offerToUpdate.setCompanyId(23))
+     *                      -kind_of_contract ( e.g call offerToUpdate.setKindOfContract("internship") )
+     *                      -description_of_work ( e.g call offerToUpdate.setDescriptionOfWork("Do some programing work") )
+     *                      -duration_months ( e.g. call offerToUpdate.setDurationMonths(4) )
+     *
+     *                  Note : id of the newOffer object must not be set, it will be automaticaly generated
+     *                  server side ( e.g. do not call newOffer.manuallySetId(666); )
+     *
+     * @return The offer after modification.
+     *
+     * @throws RestApiException when known, unpredictable error occur server side.
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occurred => Must report to be corrected.
+     *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
+     */
     public static Offer updateOffer( Offer offerToUpdate ) throws IOException, RestApiException {
         return OfferManager.updateOffer(offerToUpdate);
     }
 
+    /* Asynchronous version */
     public static Task.General updateOffer( Offer offerToUpdate, ResultProcessor<Offer> postProcessor){
         Task.General t=new Task.General(Task.Method.UPDATE_OFFER,postProcessor);
         t.execute(offerToUpdate);
@@ -290,15 +314,146 @@ public class Manager {
 
 
 
+    /**
+     *
+     * Delet an offer with specific id.
+     *
+     * @param id the id of the offer to delete.
+     * @return 0 if success.
+     * @throws RestApiException when known, unpredictable error occur server side ( e.g. Trying to retreve unexsisting Offer).
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occured => Must report to be corrected.
+     *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
+     */
     public static Integer deleteOffer( int id ) throws IOException, RestApiException {
         return OfferManager.deleteOffer(id);
     }
 
+    /* Asynchronous version */
     public static Task.General deleteOffer( int id, ResultProcessor<Integer> postProcessor){
         Task.General t = new Task.General(Task.Method.DELETE_OFFER,postProcessor);
         t.execute(id);
         return t;
     }
+
+
+
+
+
+
+
+
+    /* --------------------- Student -----------------------*/
+
+
+    public static Student getStudentById(int id) throws RestApiException, IOException {
+        return StudentManager.getStudentById(id);
+    }
+
+
+    public static Task.General getStudentById(int i, ResultProcessor<Student> postProcessor){
+
+        Task.General t = new Task.General(Task.Method.GET_STUDENT_BY_ID, postProcessor);
+        t.execute(i);
+        return t;
+
+    }
+
+
+
+    public static Student insertNewStudent(Student newStudent) throws RestApiException, IOException {
+        return StudentManager.insertNewStudent(newStudent);
+    }
+
+
+    public static Task.General insertNewStudent(Student newStudent,  ResultProcessor<Student> postProcessor){
+        Task.General t = new Task.General(Task.Method.INSERT_NEW_STUDENT, postProcessor);
+        t.execute(newStudent);
+        return t;
+    }
+
+
+
+    public static List<Student> getStudentsMatchingCriteria( Student criteria ) throws RestApiException, IOException {
+        return StudentManager.getStudentsMatchingCriteria(criteria);
+    }
+
+
+    public static Task.General getStudentsMatchingCriteria( Student criteria, ResultProcessor<List<Student>> postProcessor ){
+        Task.General t = new Task.General(Task.Method.GET_STUDENTS_MATCHING_CRITERIA, postProcessor);
+        t.execute(criteria);
+        return t;
+    }
+
+
+
+    public static Student updateStudent( Student studentToUpdate ) throws IOException, RestApiException {
+        return StudentManager.updateStudent(studentToUpdate);
+    }
+
+
+    public static Task.General updateStudent(  Student studentToUpdate, ResultProcessor<Student> postProcessor ){
+        Task.General t = new Task.General(Task.Method.UPDATE_STUDENT, postProcessor);
+        t.execute(studentToUpdate);
+        return t;
+    }
+
+
+
+    public static Integer deleteStudent( int id) throws IOException, RestApiException {
+        return StudentManager.deleteStudent(id);
+    }
+
+
+    public static Task.General deleteStudent(  int id, ResultProcessor<Integer> postProcessor ){
+        Task.General t = new Task.General(Task.Method.DELETE_STUDENT, postProcessor);
+        t.execute(id);
+        return t;
+    }
+
+
+
+    /* --------------------- Favourite management -----------------------*/
+
+
+
+
+    public static List<Student> getFavouriteStudentOfCompany(int companyId) throws IOException, RestApiException{
+        return CompanyManager.getFavouriteStudentOfCompany(companyId);
+    }
+
+
+    public static Task.General getFavouriteStudentOfCompany(int companyId, ResultProcessor<List<Student>> postProcessor){
+        Task.General t = new Task.General(Task.Method.GET_FAVOURITE_STUDENT_OF_COMPANY,postProcessor);
+        t.execute(companyId);
+        return t;
+    }
+
+
+    public static Student addFavouriteStudentForCompany(int companyId, int studentId) throws IOException, RestApiException{
+        return CompanyManager.addFavouriteStudentForCompany(companyId, studentId);
+    }
+
+    public static Task.General addFavouriteStudentForCompany(int companyId, int studentId, ResultProcessor<Student> postProcessor ){
+        Task.General t = new Task.General(Task.Method.ADD_FAVOURITE_STUDENT_FOR_COMPANY,postProcessor);
+        t.execute(companyId, studentId);
+        return t;
+    }
+
+
+    public static Integer deleteAFavouriteStudentOfACompany( int companyId, int studentId) throws IOException, RestApiException{
+        return CompanyManager.deleteAFavouriteStudentOfACompany(companyId, studentId);
+    }
+
+    public static Task.General deleteAFavouriteStudentOfACompany( int companyId, int studentId, ResultProcessor<Integer> postProcessor){
+        Task.General t= new Task.General(Task.Method.DELETE_A_FAVOURITE_STUDENT_OF_A_COMPANY,postProcessor);
+        t.execute(companyId, studentId);
+        return t;
+    }
+
+
+
+
+
 
 
     public static List<Company> getFavouriteCompanyOfStudent(int studentId) throws IOException, RestApiException{
@@ -325,7 +480,7 @@ public class Manager {
 
 
     public static Integer deleteAFavouriteCompanyOfAStudent( int studentId, int companyId) throws IOException, RestApiException{
-        return StudentManager.deleteAFavouriteCompanyOfAStudent(studentId,companyId);
+        return StudentManager.deleteAFavouriteCompanyOfAStudent(studentId, companyId);
     }
 
 
@@ -346,7 +501,7 @@ public class Manager {
     }
 
     public static Offer addFavouriteOfferForStudent(int studentId, int offerId) throws IOException, RestApiException{
-        return StudentManager.addFavouriteOfferForStudent(studentId,offerId);
+        return StudentManager.addFavouriteOfferForStudent(studentId, offerId);
     }
 
     public static Task.General addFavouriteOfferForStudent(int studentId, int offerId, ResultProcessor<Offer> postProcessor){
@@ -357,7 +512,7 @@ public class Manager {
 
 
     public static Integer deleteAFavouriteOfferOfAStudent( int studentId, int offerId) throws IOException, RestApiException{
-        return StudentManager.deleteAFavouriteOfferOfAStudent(studentId,offerId);
+        return StudentManager.deleteAFavouriteOfferOfAStudent(studentId, offerId);
     }
 
     public static Task.General deleteAFavouriteOfferOfAStudent( int studentId, int offerId, ResultProcessor<Integer> postProcessor){
@@ -368,56 +523,49 @@ public class Manager {
     }
 
 
-    public static List<Student> getFavouriteStudentOfCompany(int companyId) throws IOException, RestApiException{
-        return CompanyManager.getFavouriteStudentOfCompany(companyId);
+
+
+    public static Integer subscribeStudentOfJobOffer( int offerId, int studentId) throws IOException, RestApiException{
+        return StudentManager.subscribeStudentOfJobOffer(offerId, studentId);
     }
 
 
-    public static Task.General getFavouriteStudentOfCompany(int companyId, ResultProcessor<List<Student>> postProcessor){
-        Task.General t = new Task.General(Task.Method.GET_FAVOURITE_STUDENT_OF_COMPANY,postProcessor);
-        t.execute(companyId);
+    //TODO test
+    public static Task.General subscribeStudentOfJobOffer( int offerId, int studentId, ResultProcessor<Integer> postProcessor){
+        Task.General t= new Task.General(Task.Method.SUBSCRIBE_STUDENTS_OF_JOB_OFFER,postProcessor);
+        t.execute(offerId, studentId);
         return t;
     }
 
 
 
-    public static Student addFavouriteStudentForCompany(int companyId, int studentId) throws IOException, RestApiException{
-        return CompanyManager.addFavouriteStudentForCompany(companyId,studentId);
+
+    public static Integer unsubscribeStudentOfJobOffer( int offerId, int studentId ) throws IOException, RestApiException {
+        return StudentManager.unsubscribeStudentOfJobOffer(offerId,studentId);
     }
 
-    public static Task.General addFavouriteStudentForCompany(int companyId, int studentId, ResultProcessor<Student> postProcessor ){
-        Task.General t = new Task.General(Task.Method.ADD_FAVOURITE_STUDENT_FOR_COMPANY,postProcessor);
-        t.execute(companyId, studentId);
+
+    //TODO test
+    public static Task.General unsubscribeStudentOfJobOffer( int offerId, int studentId, ResultProcessor<Integer> postProcessor){
+        Task.General t= new Task.General(Task.Method.UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER,postProcessor);
+        t.execute(offerId, studentId);
         return t;
     }
 
 
-    public static Integer deleteAFavouriteStudentOfACompany( int companyId, int studentId) throws IOException, RestApiException{
-        return CompanyManager.deleteAFavouriteStudentOfACompany(companyId, studentId);
+
+
+    public static List<Student> getStudentsOfJobOffer( int jobOffer, Student criteria ) throws IOException, RestApiException {
+        return StudentManager.getStudentsOfJobOffer(jobOffer,criteria);
     }
 
-    public static Task.General deleteAFavouriteStudentOfACompany( int companyId, int studentId, ResultProcessor<Integer> postProcessor){
-        Task.General t= new Task.General(Task.Method.DELETE_A_FAVOURITE_STUDENT_OF_A_COMPANY,postProcessor);
-        t.execute(companyId, studentId);
-        return t;
-    }
-
-    public static Task.General getStudentsForJobOffer( int jobOffer, Student student, ResultProcessor<Integer> postProcessor){
-        Task.General t= new Task.General(Task.Method.GET_STUDENTS_FOR_JOB_OFFER,postProcessor);
-        t.execute(jobOffer, student);
+    //TODO test
+    public static Task.General getStudentsOfJobOffer( int jobOffer, Student criteria, ResultProcessor<Student> postProcessor){
+        Task.General t= new Task.General(Task.Method.GET_STUDENTS_OF_JOB_OFFER,postProcessor);
+        t.execute(jobOffer, criteria);
         return t;
     }
 
-    public static Task.General subscribeStudentForJobOffer( int jobOffer, Student student, ResultProcessor<Integer> postProcessor){
-        Task.General t= new Task.General(Task.Method.SUBSCRIBE_STUDENTS_FOR_JOB_OFFER,postProcessor);
-        t.execute(jobOffer, student.getId());
-        return t;
-    }
-    public static Task.General unsubscribeStudentForJobOffer( int jobOffer, Student student, ResultProcessor<Integer> postProcessor){
-        Task.General t= new Task.General(Task.Method.UNSUBSCRIBE_STUDENTS_FOR_JOB_OFFER,postProcessor);
-        t.execute(jobOffer, student.getId());
-        return t;
-    }
 
 
 }

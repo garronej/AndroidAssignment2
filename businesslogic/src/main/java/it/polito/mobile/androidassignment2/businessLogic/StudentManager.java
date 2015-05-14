@@ -262,7 +262,7 @@ class StudentManager {
 
 
 
-    protected static List<Student> getStudentsForJobOffer( Integer idJobOffer, Student criteria ) throws RestApiException, IOException {
+    protected static List<Student> getStudentsOfJobOffer( Integer idJobOffer, Student criteria ) throws RestApiException, IOException {
 
         Map<String,String> params = new HashMap<>();
 
@@ -304,7 +304,7 @@ class StudentManager {
     }
 
 
-    protected static Integer subscribeJobOffer(Integer idJobOffer, Integer idStudentOffer)
+    protected static Integer subscribeStudentOfJobOffer(Integer idJobOffer, Integer idStudentOffer)
             throws IOException, RestApiException{
 
         HashMap<String, String> params = new HashMap<>();
@@ -316,7 +316,7 @@ class StudentManager {
     }
 
 
-    protected static Integer unsubscribeJobOffer(Integer idJobOffer, Integer idStudentOffer)
+    protected static Integer unsubscribeStudentOfJobOffer(Integer idJobOffer, Integer idStudentOffer)
             throws IOException, RestApiException{
 
         RESTManager.send(RESTManager.DELETE, BASE_URI + "/" + idStudentOffer + "/applications/offers/" + idJobOffer, null);

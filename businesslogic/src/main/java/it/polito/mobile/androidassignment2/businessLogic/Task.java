@@ -46,9 +46,10 @@ public class Task {
 
         LOGIN,
 
-        GET_STUDENTS_FOR_JOB_OFFER,
-        SUBSCRIBE_STUDENTS_FOR_JOB_OFFER,
-        UNSUBSCRIBE_STUDENTS_FOR_JOB_OFFER
+        GET_STUDENTS_OF_JOB_OFFER,
+        SUBSCRIBE_STUDENTS_OF_JOB_OFFER,
+        UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER
+
     }
 
 
@@ -160,15 +161,15 @@ public class Task {
                         out = Session.login((Session.LoginInfo) params[0]);
                         break;
 
-                    case GET_STUDENTS_FOR_JOB_OFFER:
-                        out = StudentManager.getStudentsForJobOffer((int) params[0], (Student) params[1]);
+                    case GET_STUDENTS_OF_JOB_OFFER:
+                        out = Manager.getStudentsOfJobOffer((int) params[0], (Student) params[1]);
                         break;
 
-                    case SUBSCRIBE_STUDENTS_FOR_JOB_OFFER:
-                        out = StudentManager.subscribeJobOffer((int) params[0], (int) params[1]);
+                    case SUBSCRIBE_STUDENTS_OF_JOB_OFFER:
+                        out = Manager.subscribeStudentOfJobOffer((int) params[0], (int) params[1]);
                         break;
-                    case UNSUBSCRIBE_STUDENTS_FOR_JOB_OFFER:
-                        out = StudentManager.unsubscribeJobOffer((int) params[0], (int) params[1]);
+                    case UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER:
+                        out = Manager.unsubscribeStudentOfJobOffer((int) params[0], (int) params[1]);
                         break;
 
                 }
@@ -236,13 +237,13 @@ public class Task {
                         ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
                         break;
 
-                    case GET_STUDENTS_FOR_JOB_OFFER:
+                    case GET_STUDENTS_OF_JOB_OFFER:
 
                         ((Manager.ResultProcessor<List<Student>>)this.postProcessor).process((List<Student>)out,this.exception);
                         break;
 
-                    case SUBSCRIBE_STUDENTS_FOR_JOB_OFFER:
-                    case UNSUBSCRIBE_STUDENTS_FOR_JOB_OFFER:
+                    case SUBSCRIBE_STUDENTS_OF_JOB_OFFER:
+                    case UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER:
 
                         ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
 
