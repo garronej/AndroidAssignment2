@@ -58,5 +58,6 @@
     <string name="choose">Choose</string>
     <string name="company">Company</string>
     <string name="student">Student</string>
+    <string name="title_activity_upload">Upload</string>
 
 </resources>

@@ -85,6 +85,25 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                intent.putExtra("what", "fav_companies");
+
+                startActivity(intent);
+
+            }
+        });
+
+
+
+
+
+
+
+        Button button6 = (Button)findViewById(R.id.button6);
+
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
                 startActivity(new Intent(MainMenu.this, Login.class));
 
             }

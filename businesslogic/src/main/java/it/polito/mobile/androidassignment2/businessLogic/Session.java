@@ -152,11 +152,11 @@ public class Session {
             this.whoIsLogged = Company.class;
 
             this.companyLogged = (Company)obj;
-            //this.favStudents = Manager.getFavouriteStudentOfCompany(this.companyLogged.getId());
+            this.favStudents = Manager.getFavouriteStudentOfCompany(this.companyLogged.getId());
 
-            //Offer criteria = new Offer();
-            //criteria.setCompanyId(this.companyLogged.getId());
-            //this.offers = Manager.getOffersMatchingCriteria(criteria);
+            Offer criteria = new Offer();
+            criteria.setCompanyId(this.companyLogged.getId());
+            this.offers = Manager.getOffersMatchingCriteria(criteria);
         }
 
 

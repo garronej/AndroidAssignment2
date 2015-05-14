@@ -147,7 +147,7 @@ public class Task {
                         break;
 
                     case ADD_FAVOURITE_STUDENT_FOR_COMPANY :
-                        out = Manager.addFavouriteOfferForStudent((Integer) params[0], (Integer) params[1]);
+                        out = Manager.addFavouriteStudentForCompany((Integer) params[0], (Integer) params[1]);
                         break;
 
                     case DELETE_A_FAVOURITE_STUDENT_OF_A_COMPANY :

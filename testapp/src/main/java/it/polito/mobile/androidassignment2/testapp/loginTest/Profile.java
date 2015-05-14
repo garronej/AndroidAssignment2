@@ -1,7 +1,7 @@
 package it.polito.mobile.androidassignment2.testapp.loginTest;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import it.polito.mobile.androidassignment2.businessLogic.Company;
@@ -10,7 +10,7 @@ import it.polito.mobile.androidassignment2.testapp.R;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 
-public class Profile extends ActionBarActivity {
+public class Profile extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +53,37 @@ public class Profile extends ActionBarActivity {
                 textView.setText(ee.getMessage());
             }
 
+        }else if( session.getWhoIsLogged() == Company.class){
+
+            try {
+
+                textView.setText("Company logged : " + session.getCompanyLogged().getEmail() + "\n\n");
+                textView.setText(textView.getText() + "    Favourite students : " + session.getFavStudents().size() + "\n");
+
+                int i = 1;
+                for( Student student : session.getFavStudents()){
+                    textView.setText(textView.getText() + "    " + Integer.toString(i) + ") " + student.getEmail()+ "\n");
+                    i++;
+                }
+
+                textView.setText(textView.getText() + "\n");
+
+
+                textView.setText(textView.getText() + "    Published offer : " + session.getOfferOfTheLoggedCompany().size() + "\n");
+
+                i = 1;
+                for( Offer offer : session.getOfferOfTheLoggedCompany()){
+                    textView.setText(textView.getText() + "    " + Integer.toString(i) + ") id=" + offer.getId() + " ( description of work : " + offer.getDescriptionOfWork() +  ")\n");
+                    i++;
+                }
+
+
+
+            }catch( Exception ee){
+                textView.setText(ee.getMessage());
+            }
+
         }
-
-
     }
-
-
 
 }

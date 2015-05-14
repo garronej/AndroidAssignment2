@@ -20,7 +20,44 @@ public class Login extends AppCompatActivity {
 
         Button button1 = (Button)findViewById(R.id.button1);
 
-        button1.setOnClickListener(new View.OnClickListener(){
+        button1.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+
+
+                Session.login("paul.dupont@gmail.com", "passOfPaul", new Manager.ResultProcessor<Integer>() {
+                    @Override
+                    public void process(Integer arg, Exception e) {
+                        if (e != null) {
+
+                            Toast.makeText(Login.this, "Error while login in " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            return;
+
+                        }
+
+                        startActivity(new Intent(Login.this, Profile.class));
+
+
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                });
+
+
+            }
+        });
+
+
+
+
+        Button button2 = (Button)findViewById(R.id.button2);
+
+        button2.setOnClickListener(new View.OnClickListener(){
 
 
             @Override
@@ -28,18 +65,18 @@ public class Login extends AppCompatActivity {
 
 
 
-                Session.login("paul.dupont@gmail.com","passOfPaul", new Manager.ResultProcessor<Integer>() {
+                Session.login("apple@gmail.com","stupid4#", new Manager.ResultProcessor<Integer>() {
                     @Override
                     public void process(Integer arg, Exception e) {
-                        if( e != null ){
+                        if( e != null ) {
 
                             Toast.makeText(Login.this, "Error while login in " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                        }else{
-
-                            startActivity(new Intent(Login.this,Profile.class ));
-
+                            return;
                         }
+
+                        startActivity(new Intent(Login.this,Profile.class ));
+
+
                     }
 
                     @Override
@@ -52,6 +89,9 @@ public class Login extends AppCompatActivity {
 
             }
         });
+
+
+
     }
 
 

@@ -10,11 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="paul.dupon@gmail.com \n psw : passOfPaul"
+        android:text="Login student :\npaul.dupon@gmail.com \n psw : passOfPaul"
         android:textSize="14sp"
-        android:id="@+id/textView"
+        android:id="@+id/textView1"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:gravity="center" />
 
     <Button
         android:layout_width="wrap_content"
@@ -22,6 +23,31 @@
         android:text="Login Paul"
         android:textSize="14sp"
         android:id="@+id/button1"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:gravity="center" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Login company : \napple@gmail.com \n psw : stupid4#"
+        android:textSize="14sp"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="50dp"
+
+        android:layout_centerHorizontal="true"
+        android:gravity="center" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login Apple"
+        android:textSize="14sp"
+        android:id="@+id/button2"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:gravity="center" />
 </RelativeLayout>

@@ -60,6 +60,14 @@ public class FragmentsHolder extends FragmentActivity {
             fragments.add(Fragment.instantiate(this,it.polito.mobile.androidassignment2.testapp.companiesTest.Results.class.getName()));
             fragments.add(Fragment.instantiate(this,it.polito.mobile.androidassignment2.testapp.offersTest.Results.class.getName()));
 
+        }else if( what.equals("fav_companies")){
+
+            fragments.add(Fragment.instantiate(this,it.polito.mobile.androidassignment2.testapp.favCompanyTest.Functions.class.getName()));
+            fragments.add(Fragment.instantiate(this,it.polito.mobile.androidassignment2.testapp.favCompanyTest.Results.class.getName()));
+            fragments.add(Fragment.instantiate(this,it.polito.mobile.androidassignment2.testapp.studentsTest.Results.class.getName()));
+            fragments.add(Fragment.instantiate(this,it.polito.mobile.androidassignment2.testapp.companiesTest.Results.class.getName()));
+            fragments.add(Fragment.instantiate(this,it.polito.mobile.androidassignment2.testapp.offersTest.Results.class.getName()));
+
         }
 
 
