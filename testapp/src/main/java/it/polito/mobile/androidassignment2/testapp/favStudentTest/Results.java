@@ -5,6 +5,7 @@ package it.polito.mobile.androidassignment2.testapp.favStudentTest;
  */
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,11 +34,15 @@ public class Results extends Fragment {
 
         Button button = (Button) rootLayout.findViewById(R.id.button);
 
-        button.setText("Retrieve favourite company of offer of all students");
 
-        button.setOnClickListener( new View.OnClickListener() {
+
+
+        button.setText("Retrieve favourite company and offer of all students");
+
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 textView.setText("");
 
@@ -51,41 +56,62 @@ public class Results extends Fragment {
                             for (final Student student : arg) {
 
 
+                                final StringBuffer buffer = new StringBuffer();
 
-                                textView.setText(textView.getText() + "Favourite company  of student  :" + student.getSurname() + ' ' + student.getName() + '\n');
+
+                                buffer.append("For student id= " + student.getId() + "(" + student.getEmail() + ")\n\n");
 
                                 Manager.getFavouriteCompanyOfStudent(student.getId(), new Manager.ResultProcessor<List<Company>>() {
 
                                     @Override
                                     public void process(List<Company> arg, Exception e) {
                                         if (e != null) {
-                                            textView.setText(textView.getText() + processException(e) + "\n");
+                                            buffer.append(processException(e) + "\n");
                                         } else {
 
+                                            buffer.append("    " + "Favourite Company :\n");
+
+                                            int i = 1;
                                             for (Company company : arg) {
 
-                                                textView.setText(textView.getText() + company.toString() + "\n");
+                                                buffer.append("    " + i + ") id= " + company.getId() + "(" + company.getName() + ")\n");
+                                                i++;
 
                                             }
 
+                                            buffer.append("\n");
+
+
                                         }
 
-                                        textView.setText(textView.getText() + "Favourite offer of student : "
-                                                + student.getSurname() + ' ' + student.getName() + '\n');
 
-                                        Manager.getFavouriteOfferOfStudent(student.getId(), new Manager.ResultProcessor<List<Offer>>(){
+                                        Manager.getFavouriteOfferOfStudent(student.getId(), new Manager.ResultProcessor<List<Offer>>() {
 
 
                                             @Override
                                             public void process(List<Offer> arg, Exception e) {
 
 
-                                                if( e != null){
+                                                if (e != null) {
                                                     textView.setText(textView.getText() + processException(e) + "\n");
-                                                }else{
-                                                    for( Offer offer : arg){
-                                                        textView.setText(textView.getText() + offer.toString() + "\n");
+                                                } else {
+
+                                                    buffer.append("    " + "Favourite Offer :\n");
+
+                                                    int i = 1;
+                                                    for (Offer offer : arg) {
+
+                                                        buffer.append("    " + i + ") Offer id=" + offer.getId() + "(from company: " + offer.getCompanyName() + ")\n");
+                                                        i++;
+
                                                     }
+
+                                                    buffer.append("\n");
+
+
+                                                    textView.setText(textView.getText() + buffer.toString());
+
+
                                                 }
 
 
@@ -93,7 +119,6 @@ public class Results extends Fragment {
 
                                             @Override
                                             public void cancel() {
-
                                             }
                                         });
 
@@ -104,10 +129,7 @@ public class Results extends Fragment {
 
                                     }
 
-
                                 });
-
-
 
                             }
                         }

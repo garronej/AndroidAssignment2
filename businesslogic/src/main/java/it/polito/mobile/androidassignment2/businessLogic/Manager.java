@@ -74,7 +74,7 @@ public class Manager {
      * Get all student matching seatch criteria in the database
      *
      * @param criteria a Student object representing the criteria to be matched in the search.
-     * @return A list of student.
+     * @return A list of student, if no student match a list of zero ellement.
      * @throws Exception Network related exceptions can be thrown
      */
     public static List<Student> getStudentsMatchingCriteria( Student criteria ) throws RestApiException, IOException {

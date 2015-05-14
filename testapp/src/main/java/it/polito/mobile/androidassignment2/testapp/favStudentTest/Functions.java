@@ -6,6 +6,7 @@ package it.polito.mobile.androidassignment2.testapp.favStudentTest;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,7 @@ public class Functions extends Fragment {
 
 
 
-        button1.setText("Delete all favourite Company and offer of Paul Dupont");
+        button1.setText("Delete favourite Company/offer of Paul Dupont");
 
         button1.setOnClickListener(new View.OnClickListener() {
 
@@ -61,104 +62,115 @@ public class Functions extends Fragment {
 
                 }
 
+                //textView1.setText(textView1.getText() + "Searching for for student matching criteria name=Dupon, surname=Paul\n");
 
-                Manager.getStudentsMatchingCriteria(criteria, new Manager.ResultProcessor<List<Student>>(){
+                Manager.getStudentsMatchingCriteria(criteria, new Manager.ResultProcessor<List<Student>>() {
 
 
                     @Override
                     public void process(List<Student> arg, Exception e) {
-                        if( e != null){
+                        if (e != null) {
                             textView1.setText(textView1.getText() + processException(e) + "\n");
-                        }else{
+                        } else {
 
-                                final Student student = arg.get(0);
+                            if (arg.size() != 1) {
+                                textView1.setText(textView1.getText() + "Error : number of student matching the search  name: Dupont, surname: Paul :" + arg.size() + "\n");
+                                return;
+                            }
 
-                                Manager.getFavouriteOfferOfStudent(student.getId(), new Manager.ResultProcessor<List<Offer>>(){
-
-
-                                    @Override
-                                    public void process(List<Offer> arg, Exception e) {
-
-                                        if( e != null){
-                                            textView1.setText(textView1 + processException(e) + "\n");
-                                        }else{
-                                            for( final Offer offer : arg){
-
-                                                Manager.deleteAFavouriteOfferOfAStudent(student.getId(), offer.getId(), new Manager.ResultProcessor<Integer>(){
+                            final Student student = arg.get(0);
 
 
-                                                    @Override
-                                                    public void process(Integer arg, Exception e) {
-                                                        if( e != null){
-                                                            textView1.setText(textView1.getText() + processException(e));
-                                                        }else{
-                                                            textView1.setText(textView1.getText() + "Offer id " + offer.getId() +
-                                                                    " has been removed from the fav of student "
-                                                                    + student.getSurname()+ " " + student.getName() + "\n");
-                                                        }
+                            //textView1.setText(textView1.getText() + "Searching for favourite offer of student id=" + student.getId() + "(" + student.getEmail() + ")\n");
+                            Manager.getFavouriteOfferOfStudent(student.getId(), new Manager.ResultProcessor<List<Offer>>() {
+
+
+                                @Override
+                                public void process(List<Offer> arg, Exception e) {
+
+                                    if (e != null) {
+                                        textView1.setText(textView1.getText() + processException(e) + "\n");
+                                    } else {
+                                        for (final Offer offer : arg) {
+
+                                            //textView1.setText(textView1.getText() + "Deleting from favourite offer id=" + offer.getId() + " of the student id=" + student.getId() + "\n" );
+
+                                            Manager.deleteAFavouriteOfferOfAStudent(student.getId(), offer.getId(), new Manager.ResultProcessor<Integer>() {
+
+
+                                                @Override
+                                                public void process(Integer arg, Exception e) {
+                                                    if (e != null) {
+                                                        textView1.setText(textView1.getText() + processException(e) + "\n");
+                                                    } else {
+                                                        textView1.setText(textView1.getText() + "Offer id " + offer.getId() +
+                                                                " has been removed from the fav of student "
+                                                                + student.getSurname() + " " + student.getName() + "\n");
                                                     }
+                                                }
 
-                                                    @Override
-                                                    public void cancel() {
+                                                @Override
+                                                public void cancel() {
 
+                                                }
+                                            });
+
+                                        }
+                                    }
+
+                                }
+
+                                @Override
+                                public void cancel() {
+
+                                }
+
+                            });
+
+
+                            Manager.getFavouriteCompanyOfStudent(student.getId(), new Manager.ResultProcessor<List<Company>>() {
+
+
+                                @Override
+                                public void process(List<Company> arg, Exception e) {
+
+                                    if (e != null) {
+                                        textView1.setText(textView1.getText() + e.getMessage() + "\n");
+                                    } else {
+
+                                        for (final Company company : arg) {
+
+                                            Manager.deleteAFavouriteCompanyOfAStudent(student.getId(), company.getId(), new Manager.ResultProcessor<Integer>() {
+
+
+                                                @Override
+                                                public void process(Integer arg, Exception e) {
+                                                    if (e != null) {
+                                                        textView1.setText(textView1.getText() + e.getMessage() + "\n");
+
+                                                    } else {
+                                                        textView1.setText(textView1.getText() + "Company" + company.getName() +
+                                                                " has been removed from the fav of student "
+                                                                + student.getSurname() + " " + student.getName() + "\n");
                                                     }
-                                                });
+                                                }
 
-                                            }
+                                                @Override
+                                                public void cancel() {
+
+                                                }
+                                            });
                                         }
 
                                     }
 
-                                    @Override
-                                    public void cancel() {
+                                }
 
-                                    }
+                                @Override
+                                public void cancel() {
 
-                                });
-
-                                Manager.getFavouriteCompanyOfStudent(student.getId(), new Manager.ResultProcessor<List<Company>>(){
-
-
-                                    @Override
-                                    public void process(List<Company> arg, Exception e) {
-
-                                        if( e != null){
-                                            textView1.setText(textView1.getText() + e.getMessage());
-                                        }else{
-
-                                            for( final Company company : arg){
-
-                                                Manager.deleteAFavouriteCompanyOfAStudent(student.getId(),company.getId(), new Manager.ResultProcessor<Integer>(){
-
-
-                                                    @Override
-                                                    public void process(Integer arg, Exception e) {
-                                                        if( e != null){
-                                                            textView1.setText(e.getMessage());
-
-                                                        }else{
-                                                            textView1.setText(textView1.getText() + "Company" + company.getName() +
-                                                                    " has been removed from the fav of student "
-                                                                    + student.getSurname()+ " " + student.getName() + "\n");
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void cancel() {
-
-                                                    }
-                                                });
-                                            }
-
-                                        }
-
-                                    }
-
-                                    @Override
-                                    public void cancel() {
-
-                                    }
-                                });
+                                }
+                            });
 
                         }
                     }
@@ -196,9 +208,16 @@ public class Functions extends Fragment {
                     @Override
                     public void process(List<Student> arg, Exception e) {
                         if( e != null){
-                            textView2.setText(textView2.getText() + e.getMessage());
+                            textView2.setText(textView2.getText() + e.getMessage() + "\n");
 
                         }else{
+
+                            if( arg.size() != 1) {
+                                textView2.setText(textView2.getText() + "Error : number of student matching the search  name: Dupont, surname: Paul :" + arg.size() + "\n");
+                                return;
+                            }
+
+
                             final Student student = arg.get(0);
 
                             Offer criteria = new Offer();
@@ -209,6 +228,8 @@ public class Functions extends Fragment {
 
                             }catch( Exception ee){
 
+
+
                             }
 
                             Manager.getOffersMatchingCriteria(criteria, new Manager.ResultProcessor<List<Offer>>(){
@@ -218,8 +239,15 @@ public class Functions extends Fragment {
                                 public void process(List<Offer> arg, Exception e) {
 
                                     if( e != null ){
-                                        textView2.setText(textView2.getText() +  e.getMessage());
+                                        textView2.setText(textView2.getText() +  e.getMessage() + "\n");
                                     }else{
+
+                                        if( arg.size() != 1) {
+                                            textView2.setText(textView2.getText() + "Error : number of offer matching the search name: \"Apple\", " +
+                                                    "kind of contract : \"contract 2\"  is " + arg.size() + "\n");
+                                            return;
+                                        }
+
 
                                         Manager.addFavouriteOfferForStudent(student.getId(),arg.get(0).getId(), new Manager.ResultProcessor<Offer>(){
 
@@ -227,10 +255,12 @@ public class Functions extends Fragment {
                                             @Override
                                             public void process(Offer arg, Exception e) {
                                                 if( e != null){
-                                                    textView2.setText(textView2.getText() + e.getMessage());
+                                                    textView2.setText(textView2.getText()
+                                                            + "Error addFavouriteOfferForStudent, probably offer already added : \n"
+                                                            + e.getMessage() + "\n\n");
                                                 }else{
                                                     textView2.setText(textView2.getText() + "Offer id : "
-                                                            + arg.getId() + "  have been set to favorite for student : " + student.getSurname());
+                                                            + arg.getId() + "  have been set to favorite for student : " + student.getSurname() + "\n");
                                                 }
                                             }
 
@@ -239,8 +269,6 @@ public class Functions extends Fragment {
 
                                             }
                                         });
-
-
 
 
                                     }
@@ -269,16 +297,25 @@ public class Functions extends Fragment {
                                     if( e != null){
                                         textView2.setText(textView2.getText() + processException(e) + "\n");
                                     }else{
+
+                                        if( arg.size() != 1) {
+                                            textView2.setText(textView2.getText() + "Error : number of company matching the search  name: Apple :" + arg.size() + "\n");
+                                            return;
+                                        }
+
+
                                         Manager.addFavouriteCompanyForStudent(student.getId(),arg.get(0).getId(), new Manager.ResultProcessor<Company>(){
 
                                             @Override
                                             public void process(Company arg, Exception e) {
 
                                                 if( e != null ){
-                                                    textView2.setText(textView2.getText() + processException(e) + "\n");
+                                                    textView2.setText(textView2.getText()
+                                                            + "Error addFavouriteCompanyForStudent, probably company already added : \n"
+                                                            + e.getMessage() + "\n\n");
                                                 }else{
                                                     textView2.setText(textView2.getText() + "Company " + arg.getName() +
-                                                            " have been added to the favourite of student "+ student.getSurname());
+                                                            " have been added to the favourite of student "+ student.getSurname() + "\n");
                                                 }
 
                                             }
@@ -304,8 +341,6 @@ public class Functions extends Fragment {
 
                     }
                 });
-
-
 
 
             }

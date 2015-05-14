@@ -68,23 +68,25 @@ class OfferManager {
 
         if( criteria != null ){
 
-            if( criteria.getCompanyId() != null ){
+            if( criteria.getCompanyId() != null ) {
                 companyId = criteria.getCompanyId();
-
-                if( criteria.getKindOfContract() == null  &&
-                        criteria.getDescriptionOfWork() == null &&
-                        criteria.getDurationMonths() == null)
-                    params = null;
-                else{
-                    params = criteria.toFormParams();
-                }
             }
+
+
+            if( criteria.getKindOfContract() != null  ||
+                        criteria.getDescriptionOfWork() != null ||
+                        criteria.getDurationMonths() != null)
+                    params = criteria.toFormParams();
+
+
+
+
         }
 
         String resp;
 
         if( companyId != null){
-            resp = RESTManager.send(RESTManager.GET, "companies/" + companyId.toString() , params);
+            resp = RESTManager.send(RESTManager.GET, "companies/" + companyId.toString() + "/offers", params);
         }else{
             resp = RESTManager.send(RESTManager.GET, BASE_URI, params);
         }

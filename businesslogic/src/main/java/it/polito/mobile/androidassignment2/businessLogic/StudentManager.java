@@ -253,7 +253,7 @@ class StudentManager {
             throws IOException, RestApiException{
 
 
-        RESTManager.send(RESTManager.DELETE, BASE_URI + "/" + studentId + "/favs/companies/" + offerId, null);
+        RESTManager.send(RESTManager.DELETE, BASE_URI + "/" + studentId + "/favs/offers/" + offerId, null);
 
 
         return 0;

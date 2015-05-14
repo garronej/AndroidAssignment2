@@ -145,8 +145,8 @@ public class Session {
             this.studentLogged = (Student)obj;
 
 
-            //this.favCompanies = Manager.getFavouriteCompanyOfStudent(this.studentLogged.getId());
-            //this.offers = Manager.getFavouriteOfferOfStudent(this.studentLogged.getId());
+            this.favCompanies = Manager.getFavouriteCompanyOfStudent(this.studentLogged.getId());
+            this.offers = Manager.getFavouriteOfferOfStudent(this.studentLogged.getId());
 
         }else if( obj.getClass() == Company.class ){
             this.whoIsLogged = Company.class;

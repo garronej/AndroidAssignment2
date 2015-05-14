@@ -4,8 +4,11 @@ package it.polito.mobile.androidassignment2.testapp.studentsTest;
  * Created by Joseph on 07/05/2015.
  */
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import it.polito.mobile.androidassignment2.testapp.R;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
@@ -47,28 +51,64 @@ public class Functions extends Fragment {
             @Override
             public void onClick(View v) {
 
-                textView1.setText("");
+                textView1.setText("Loading ...");
 
                 Manager.getStudentsMatchingCriteria(null, new Manager.ResultProcessor<List<Student>>(){
 
                     @Override
-                    public void cancel() {
+                    public void cancel() {}
 
-                    }
 
                     @Override
-                    public void process(List<Student> students, Exception exception) {
+                    public void process(final List<Student> students, Exception exception) {
 
 
-                        textView1.setText("");
 
-                        if( exception == null ){
+                        if( exception != null ) {
+
+                            textView1.setText(processException(exception));
+                            return;
+                        }
+
+                            //This will be incremented each time a asyncTask is completed.
+                            final AtomicInteger asyncTaskCounter = new AtomicInteger(0);
+
+                            //This will store the tring we want to put in the textView.
+                            final StringBuffer buffer = new StringBuffer();
+
+                            AsyncTask<Void, Void, Void> pool = new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... params) {
+
+                                    while( asyncTaskCounter.get() != students.size() && asyncTaskCounter.get() != -1 )
+                                        SystemClock.sleep(100);
+
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onPostExecute(Void out) {
+
+                                    if( asyncTaskCounter.get() == -1 ){
+                                        return;
+                                    }else if (asyncTaskCounter.get() == 0){
+                                        textView1.setText("There is no student to delete.");
+                                        return;
+                                    }else{
+
+                                        Log.d("ICI", "We are going to execute");
+
+                                        textView1.setText(buffer.toString());
+                                        return;
+                                    }
+                                }
+                            };
 
                             for( final Student student : students){
 
 
 
-                                Manager.deleteStudent(student.getId(), new Manager.ResultProcessor<Integer>(){
+                                Manager.deleteStudent(student.getId(), new Manager.ResultProcessor<Integer>() {
 
                                     @Override
                                     public void cancel() {
@@ -78,22 +118,30 @@ public class Functions extends Fragment {
                                     @Override
                                     public void process(Integer arg, Exception e) {
 
-                                        if( e == null ){
+                                        if (e == null) {
 
-                                            textView1.setText(textView1.getText() +  "Deleted Student : " + student.getEmail() + "\n");
-                                        }else{
+                                            Log.d("ICI", "run deleteStudent");
+
+                                            buffer.append("Deleted Student : " + student.getEmail() + "\n");
+                                            asyncTaskCounter.incrementAndGet();
+
+                                        } else {
                                             textView1.setText(textView1.getText() + processException(e) + "\n");
+                                            asyncTaskCounter.set(-1);
+
                                         }
 
                                     }
                                 });
+
+
+
                             }
 
 
+                        Log.d("ICI", "We are going to execute asyncTaskCounter : " + asyncTaskCounter.get());
 
-                        }else{
-                            textView1.setText(processException(exception));
-                        }
+                        pool.execute();
                     }
 
                 });
