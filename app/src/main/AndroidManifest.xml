@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="it.polito.mobile.androidassignment2" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".StudentFlow.CompaniesFavouritesActivity"
+            android:label="@string/title_activity_companies_favourites" >
+
+        </activity>
+        <activity
+            android:name=".StudentFlow.SearchCompanies"
+            android:label="@string/title_activity_companies_favourites" >
+
+        </activity>
+        <activity
+            android:name=".AlertStudentOrCompany"
+            android:label="@string/app_name"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity" />
+        </activity>
+
+        <service
+            android:name=".s3client.network.NetworkService"
+            android:exported="false" />
+
+        <activity
+            android:name=".StudentFlow.MainStudentActivity"
+            android:label="@string/title_activity_main_student" >
+
+        </activity>
+        <activity
+            android:name=".StudentFlow.SearchActivity"
+            android:label="@string/title_activity_search" >
+        </activity>
+        <activity
+            android:name=".StudentFlow.InfoWrapperActivity"
+            android:label="@string/title_activity_info_wrapper" >
+        </activity>
+        <activity
+            android:name=".StudentFlow.CompaniesFavouritesActivity"
+            android:label="@string/title_activity_companies_favourites" >
+        </activity>
+    </application>
+
+</manifest>
