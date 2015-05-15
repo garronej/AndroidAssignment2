@@ -235,6 +235,54 @@ public class Student {
         return surname;
     }
 
+    public String getFullname() {
+        return getName().substring(0, 1).toUpperCase() +
+                    getName().substring(1) +
+                    " " +
+                    getSurname().substring(0, 1).toUpperCase() +
+                    getSurname().substring(1);
+    }
+
+    public String getLinksToString() {
+        String s = "";
+        URL[] urls = getLinks();
+        URL lastUrl = urls[urls.length - 1];
+        for (URL url : urls) {
+            s += url.toString();
+            if (url != lastUrl) {
+                s += System.getProperty("line.separator");
+                s += System.getProperty("line.separator");
+            }
+        }
+        return s;
+    }
+
+    public String getCompetencesToString() {
+        String s = "";
+        String[] competences = getCompetences();
+        String lastCompetence = competences[competences.length - 1];
+        for (String competence : competences) {
+            s += competence;
+            if (competence != lastCompetence) {
+                s += ", ";
+            }
+        }
+        return s;
+    }
+
+    public String getHobbiesToString() {
+        String s = "";
+        String[] hobbies = getHobbies();
+        String lastHobby = hobbies[hobbies.length - 1];
+        for (String hobby : hobbies) {
+            s += hobby;
+            if (hobby != lastHobby) {
+                s += ", ";
+            }
+        }
+        return s;
+    }
+
     public String getPhotoUrl() {
         return photoUrl;
     }
