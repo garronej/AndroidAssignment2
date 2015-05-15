@@ -30,9 +30,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
+import it.polito.mobile.androidassignment2.businessLogic.RestApiException;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.businessLogic.Task;
@@ -82,6 +84,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		}*/
 
 
+		/*
 
 
 		mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -95,13 +98,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			}
 		});
 
+		*/
+
 		Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
 		mEmailSignInButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
+
+
 				attemptLogin(mEmailView.getText().toString(), mPasswordView.getText().toString());
 			}
 		});
+
 		((Button) findViewById(R.id.register)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -185,7 +193,36 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 					if(e!=null){
 						//TODO: show some error...
 
-						Toast.makeText(LoginActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
+
+						String message;
+
+
+
+
+
+							//There where  problem during the request
+							if (e.getClass() == RestApiException.class) {
+
+								//It was an error on the web service side.
+								//Nb : err code -1 mean a internal bug, report if you exprerience.
+								Integer errCode =  ((RestApiException)e).getResponseCode();
+								message = errCode.toString() + " / " + e.getMessage();
+
+
+							}else{
+								//It was an error with the internet conextion.
+								message = "Network problem : " + e.getMessage();
+							}
+
+
+
+
+
+
+
+
+
+						Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
 						showProgress(false);
 						mAuthTask = null;
 						return;
@@ -193,7 +230,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 					}
 
 
-					if(arg==0){
+
 						SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
 
 
@@ -210,11 +247,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 						}
 						editor.commit();
 
-					}else{
-						mPasswordView.setError(getString(R.string.error_incorrect_password));
-						mPasswordView.requestFocus();
 
-					}
 				}
 
 				@Override

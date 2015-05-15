@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import it.polito.mobile.androidassignment2.testapp.loginTest.Login;
+import it.polito.mobile.androidassignment2.testapp.upload.Upload;
 
 
 public class MainMenu extends AppCompatActivity {
@@ -95,9 +96,6 @@ public class MainMenu extends AppCompatActivity {
 
 
 
-
-
-
         Button button6 = (Button)findViewById(R.id.button6);
 
         button6.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +106,20 @@ public class MainMenu extends AppCompatActivity {
 
             }
         });
+
+
+        Button button7 = (Button)findViewById(R.id.button7);
+
+        button7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainMenu.this, Upload.class));
+
+            }
+        });
+
+
 
 
 

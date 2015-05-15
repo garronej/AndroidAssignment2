@@ -29,7 +29,7 @@
     <string name="download">Download</string>
     <string name="title_activity_menu">Menu</string>
     <string name="title_activity_main_menu">MainMenu</string>
-    <string name="title_activity_main_companies_test">MainCompaniesTest</string>
+    <string name="title_actipvity_main_companies_test">MainCompaniesTest</string>
     <string name="title_activity_fake_activity_s3_test">FakeActivityS3Test</string>
 
 

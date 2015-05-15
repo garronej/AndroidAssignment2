@@ -345,11 +345,22 @@ public class Manager {
     /* --------------------- Student -----------------------*/
 
 
+    /**
+     *
+     * Get Student object from it's id.
+     *
+     * @param id the id of the student.
+     * @return Student retrieved.
+     * @throws RestApiException when known, unpredictable error occur server side ( e.g. Trying to retreve unexsisting Offer).
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occured => Must report to be corrected.
+     *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
+     */
+
     public static Student getStudentById(int id) throws RestApiException, IOException {
         return StudentManager.getStudentById(id);
     }
 
-
+    /* Asynchronous version */
     public static Task.General getStudentById(int i, ResultProcessor<Student> postProcessor){
 
         Task.General t = new Task.General(Task.Method.GET_STUDENT_BY_ID, postProcessor);
@@ -360,11 +371,42 @@ public class Manager {
 
 
 
+
+    /**
+     *
+     * Insert a new student in the database.
+     *
+     * @param newStudent, Student object that describe the offer to be inserted.
+     *                  The mandatory field are :
+     *                      -email ( e.g. call newCompany.setEmail("company1@gamil.com"))
+     *                      -password ( e.g call newCompany.setPassword("company1pass") )
+     *                  Optional field are :
+     *                      -name
+     *                      -surname
+     *                      -photo
+     *                      -cv
+     *                      -links
+     *                      -university_career
+     *                      -competences
+     *                      -availability
+     *                      -hobbies
+     *
+     *                    Note : Do not set the student id ( with newStudent.manuallySetId(...) ),
+     *                    the id is going to be automatically generated server side.
+
+     *
+     * @return the Student object created witch correspond to the object passed in input but with
+     * the id field set ( e.g newStudent.getId() != null ).
+     *
+     * @throws RestApiException when known, unpredictable error occur server side.
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occured => Must report to be corrected.
+     *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
+     */
     public static Student insertNewStudent(Student newStudent) throws RestApiException, IOException {
         return StudentManager.insertNewStudent(newStudent);
     }
 
-
+    /* Asynchronous version */
     public static Task.General insertNewStudent(Student newStudent,  ResultProcessor<Student> postProcessor){
         Task.General t = new Task.General(Task.Method.INSERT_NEW_STUDENT, postProcessor);
         t.execute(newStudent);
@@ -372,7 +414,31 @@ public class Manager {
     }
 
 
-
+    /**
+     *
+     * Search for student matching criteria.
+     *
+     * @param criteria, student object that describe the search criteria to be matched.
+     *
+     *                  It can be null if you want to retrieve all student of the database.
+     *
+     *                  Possible search criteria are :
+     *                      -name
+     *                      -surname
+     *                      -university_career
+     *                      -competences
+     *                      -availability
+     *
+     *                  Note : id of the criteria object must not be set, if you want to retrieve a
+     *                  specific student use getStudentById ( e.g. do not call criteria.manuallySetId(666); )
+     *
+     * @return List of students matching ALL criteria specified.
+     *
+     * @throws RestApiException when known, unpredictable error occur server side.
+     * if error code ( e.getResponseCode() == -1 ) an unknown error occured => Must report to be corrected.
+     *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
+     *
+     */
     public static List<Student> getStudentsMatchingCriteria( Student criteria ) throws RestApiException, IOException {
         return StudentManager.getStudentsMatchingCriteria(criteria);
     }
