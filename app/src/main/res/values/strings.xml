@@ -66,4 +66,16 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_button">Search</string>
 
+    <!-- Strings related to profile -->
+    <string name="cv">CV</string>
+    <string name="links">Links</string>
+    <string name="hobbies">Hobbies</string>
+    <string name="email">Email</string>
+    <string name="competences">Competences</string>
+    <string name="availability">Availability</string>
+    <string name="university_career">University Career</string>
+    <string name="open_cv">Open CV</string>
+    <string name="available_for_jobs">Job seeking</string>
+    <string name="not_available_for_jobs">Not seeking jobs</string>
+
 </resources>
