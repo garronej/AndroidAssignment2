@@ -78,5 +78,9 @@
     <string name="open_cv">Open CV</string>
     <string name="available_for_jobs">Job seeking</string>
     <string name="not_available_for_jobs">Not seeking jobs</string>
+    <string name="title_activity_companies_favourites">Favourite Companies</string>
+    <string name="location">Location</string>
+    <string name="fieldOfInterest">Field of interest</string>
+    <string name="search">Search</string>
 
 </resources>

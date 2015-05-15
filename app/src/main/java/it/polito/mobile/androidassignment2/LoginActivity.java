@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
+import it.polito.mobile.androidassignment2.StudentFlow.CompaniesFavouritesActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.RestApiException;
@@ -70,9 +71,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mLoginFormView = findViewById(R.id.login_form);
 		mProgressView = findViewById(R.id.login_progress);
-		//TODO: ripristinare
 
-		/*if(getPreferences(MODE_PRIVATE).contains("EMAIL")
+		if(getPreferences(MODE_PRIVATE).contains("EMAIL")
 				&& getPreferences(MODE_PRIVATE).contains("PWD")){
 
 
@@ -81,7 +81,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 
 
-		}*/
+		}
 
 
 		/*
@@ -241,9 +241,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 							//TODO: launch the company profile
 							Log.d("poliJobs", "Company");
 
+
+
 						}else{
-							//TODO: launch the student profile
+							//TODO: launch the student profile instead of company search
 							Log.d("poliJobs", "Student");
+
+							Intent i = new Intent(getApplicationContext(), CompaniesFavouritesActivity.class);
+							startActivity(i);
 						}
 						editor.commit();
 
