@@ -1,4 +1,4 @@
-package it.polito.mobile.androidassignment2.CompanyFlow;
+package it.polito.mobile.androidassignment2;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,10 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tokenautocomplete.TokenCompleteTextView;
-
-import java.util.List;
-
-import it.polito.mobile.androidassignment2.R;
 
 /**
  * Created by mark9 on 16/05/15.

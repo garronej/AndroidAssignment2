@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
@@ -26,7 +28,7 @@ public class SearchCompanies extends AppCompatActivity {
 
 
     private EditText companyLocationText;
-    private EditText fieldOfInterestText;
+    private CompetencesCompletionTextView fieldOfInterestText;
     private Button button;
     private ListView listView;
 
@@ -40,8 +42,29 @@ public class SearchCompanies extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         companyLocationText = (EditText) findViewById(R.id.searchCompanyLocation);
-        fieldOfInterestText = (EditText) findViewById(R.id.seachCompanyFieldOfInterest);
+        fieldOfInterestText = (CompetencesCompletionTextView) findViewById(R.id.seachCompanyFieldOfInterest);
+
         button = (Button) findViewById(R.id.companySearchButton);
+
+
+        Manager.getAllCompaniesCompetences(new Manager.ResultProcessor<List<String>>() {
+            @Override
+            public void process(List<String> arg, Exception e) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchCompanies.this, android.R.layout.simple_list_item_1, arg);
+
+                fieldOfInterestText.setAdapter(adapter);
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        });
+
+
+
+
+
         listView = new ListView(this);
         listView.setDivider(getResources().getDrawable(R.drawable.items_divider));
 
@@ -54,7 +77,15 @@ public class SearchCompanies extends AppCompatActivity {
 
                 Company c=new Company();
                 c.setLocation(companyLocationText.getText().toString());
-                c.setDescription(fieldOfInterestText.getText().toString());
+                if(fieldOfInterestText.getObjects().size() > 0){
+                    String[] comp = new String[fieldOfInterestText.getObjects().size()];
+                    int i=0;
+                    for(Object o : fieldOfInterestText.getObjects()){
+                        comp[i]=o.toString();
+                        i++;
+                    }
+                    c.setCompetences(comp);
+                }
 
 
                 task=Manager.getCompaniesMatchingCriteria(c, new Manager.ResultProcessor<List<Company>>() {

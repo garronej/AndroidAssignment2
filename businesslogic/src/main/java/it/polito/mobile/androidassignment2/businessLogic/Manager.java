@@ -612,7 +612,7 @@ public class Manager {
 
 
     public static Integer unsubscribeStudentOfJobOffer( int offerId, int studentId ) throws IOException, RestApiException {
-        return StudentManager.unsubscribeStudentOfJobOffer(offerId,studentId);
+        return StudentManager.unsubscribeStudentOfJobOffer(offerId, studentId);
     }
 
 
@@ -627,7 +627,7 @@ public class Manager {
 
 
     public static List<Student> getStudentsOfJobOffer( int jobOffer, Student criteria ) throws IOException, RestApiException {
-        return StudentManager.getStudentsOfJobOffer(jobOffer,criteria);
+        return StudentManager.getStudentsOfJobOffer(jobOffer, criteria);
     }
 
     //TODO test
@@ -637,12 +637,22 @@ public class Manager {
         return t;
     }
 
-    public static List<String> getAllCompetences() throws IOException, RestApiException{
-        return CompetenceManager.getAllCompetences();
+    public static List<String> getAllStudentsCompetences() throws IOException, RestApiException{
+        return StudentManager.getAllCompetences();
     }
 
-    public static Task.General getAllCompetences(ResultProcessor<List<String>> postProcessor){
-        Task.General t= new Task.General(Task.Method.GET_ALL_COMPETENCES,postProcessor);
+    public static Task.General getAllStudentsCompetences(ResultProcessor<List<String>> postProcessor){
+        Task.General t= new Task.General(Task.Method.GET_ALL_STUDENT_COMPETENCES,postProcessor);
+        t.execute();
+        return t;
+    }
+
+    public static List<String> getAllCompaniesCompetences() throws IOException, RestApiException{
+        return CompanyManager.getAllCompetences();
+    }
+
+    public static Task.General getAllCompaniesCompetences(ResultProcessor<List<String>> postProcessor){
+        Task.General t= new Task.General(Task.Method.GET_ALL_COMPANY_COMPETENCES,postProcessor);
         t.execute();
         return t;
     }

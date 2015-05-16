@@ -23,7 +23,7 @@
                 android:imeOptions="actionDone"
 
                 />
-            <it.polito.mobile.androidassignment2.CompanyFlow.CompetencesCompletionTextView
+            <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/student_search_keyword"

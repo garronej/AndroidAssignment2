@@ -1,11 +1,9 @@
 package it.polito.mobile.androidassignment2.CompanyFlow;
 
 
-import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,19 +14,15 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleExpandableListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
-import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 
@@ -66,7 +60,7 @@ public class SearchStudents extends AppCompatActivity {
 
 
 
-        Manager.getAllCompetences(new Manager.ResultProcessor<List<String>>() {
+        Manager.getAllStudentsCompetences(new Manager.ResultProcessor<List<String>>() {
             @Override
             public void process(final List<String> arg, Exception e) {
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchStudents.this, android.R.layout.simple_list_item_1, arg);
@@ -114,6 +108,7 @@ public class SearchStudents extends AppCompatActivity {
                     int i=0;
                     for(Object o : competences.getObjects()){
                         comp[i]=o.toString();
+                        i++;
                     }
                     s.setCompetences(comp);
                 }

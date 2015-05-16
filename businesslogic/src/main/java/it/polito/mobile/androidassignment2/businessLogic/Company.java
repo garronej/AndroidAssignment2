@@ -27,6 +27,7 @@ public class Company {
     private String location = null;
     private String description = null;
     private String password = null;
+    private String[] competences=null;
 
 
 
@@ -164,7 +165,16 @@ public class Company {
                 this.description = buff;
             }
 
+            buff = json.getString("competences");
 
+            if( !buff.equals("null")){
+
+                JSONArray jsonCompetences = json.getJSONArray("competences");
+                this.competences=new String[jsonCompetences.length()];
+                for(int i = 0; i<jsonCompetences.length(); i++)
+                    this.competences[i] = jsonCompetences.getString(i);
+
+            }
 
 
         }catch (Exception e){
@@ -190,10 +200,10 @@ public class Company {
        return this.logoUrl;
    }
 
-  public String getMission(){
+    public String getMission(){
 
       return this.mission;
-  }
+    }
 
     public Integer getNumberOfWorkers(){
 
@@ -260,7 +270,15 @@ public class Company {
             s.put("company[number_of_workers]", this.numberOfWorkers.toString());
         }
 
+        if(this.competences!=null && this.competences.length>0){
+            String c=this.competences[0];
+            for(int i=1;i<this.competences.length;i++){
+                c+=","+this.competences[i];
+            }
 
+            s.put("company[competences]", c);
+
+        }
 
 
 
@@ -285,4 +303,11 @@ public class Company {
         return s;
     }
 
+    public String[] getCompetences() {
+        return competences;
+    }
+
+    public void setCompetences(String[] competences) {
+        this.competences = competences;
+    }
 }

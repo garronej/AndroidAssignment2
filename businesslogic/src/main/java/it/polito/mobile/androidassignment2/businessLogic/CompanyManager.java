@@ -246,7 +246,7 @@ class CompanyManager {
             throws IOException, RestApiException{
 
 
-        RESTManager.send(RESTManager.DELETE, BASE_URI+"/"+ companyId + "/favs/students/" + studentId, null);
+        RESTManager.send(RESTManager.DELETE, BASE_URI + "/" + companyId + "/favs/students/" + studentId, null);
 
 
         return 0;
@@ -254,7 +254,24 @@ class CompanyManager {
     }
 
 
+    protected static List<String> getAllCompetences() throws IOException, RestApiException{
+        String resp = RESTManager.send(RESTManager.GET, "competences/companies", null);
+        try{
+            JSONArray json = (new JSONObject(resp)).getJSONArray("competences_companies");
 
+            List<String> competences = new ArrayList<String>();
+
+            for( int i = 0; i < json.length(); i++){
+                competences.add( json.getString(i) );
+            }
+
+            return competences;
+
+
+        } catch (JSONException e) {
+            throw new RestApiException(-1,"Internal Error CompetenceManager in getAllCompetences");
+        }
+    }
 
 
 

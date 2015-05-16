@@ -42,13 +42,11 @@
             android:padding="24dp"
             android:orientation="vertical">
 
-            <EditText
+            <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/seachCompanyFieldOfInterest"
-                android:hint="@string/fieldOfInterest"
-
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:inputType="text"
 
                 android:imeOptions="actionDone"
