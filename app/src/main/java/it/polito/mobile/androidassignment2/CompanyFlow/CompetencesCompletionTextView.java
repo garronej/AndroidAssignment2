@@ -52,6 +52,6 @@ public class CompetencesCompletionTextView extends TokenCompleteTextView {
 
     @Override
     protected Object defaultObject(String s) {
-        return "";
+        return s;
     }
 }
