@@ -88,46 +88,47 @@ class RESTManager {
 
 
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-        con.setRequestMethod(method);
-
-
-        if ( !method.equals(RESTManager.GET) && !queryString.isEmpty()) {
+        try {
+            con.setRequestMethod(method);
 
 
-
-            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-
-            con.setDoOutput(true);
+            if (!method.equals(RESTManager.GET) && !queryString.isEmpty()) {
 
 
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+
+                con.setDoOutput(true);
+
+
+                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 
                 wr.writeBytes(queryString);
                 wr.flush();
                 wr.close();
 
-        }
+            }
 
-        //con.setRequestProperty("User-Agent", USER_AGENT);
-
-
-        if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            //con.setRequestProperty("User-Agent", USER_AGENT);
 
 
-            BufferedReader in = new BufferedReader(
+            if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
+
+                BufferedReader in = new BufferedReader(
                         new InputStreamReader(con.getInputStream()));
 
 
-            return RESTManager.bufferedReaderToString(in);
+                return RESTManager.bufferedReaderToString(in);
 
-        } else {
+            } else {
 
-            throw new RestApiException(con.getResponseCode(), con.getResponseMessage());
+                throw new RestApiException(con.getResponseCode(), con.getResponseMessage());
 
+            }
+        }finally {
+            con.disconnect();
         }
-
 
     }
 
