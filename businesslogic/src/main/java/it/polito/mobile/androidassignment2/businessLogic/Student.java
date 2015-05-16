@@ -75,13 +75,13 @@ public class Student {
     }
 
 
-    public void setUniversityCareer(String universityCareer) throws DataFormatException{
+    public void setUniversityCareer(String universityCareer){
 
         this.universityCareer = Utils.toLowerCase(universityCareer);
 
     }
 
-    public void setCompetences( String[] competences) throws DataFormatException{
+    public void setCompetences( String[] competences){
 
         if( competences != null) {
             this.competences = new String[competences.length];
@@ -236,11 +236,18 @@ public class Student {
     }
 
     public String getFullname() {
-        return getName().substring(0, 1).toUpperCase() +
+        String fullname="";
+        if(getName()!=null && getName()!=""){
+            fullname+=getName().substring(0, 1).toUpperCase() +
                     getName().substring(1) +
-                    " " +
-                    getSurname().substring(0, 1).toUpperCase() +
+                    " ";
+        }
+        if(getSurname()!=null && getSurname()!=""){
+            fullname+=getSurname().substring(0, 1).toUpperCase() +
                     getSurname().substring(1);
+        }
+        return fullname;
+
     }
 
     public String getLinksToString() {

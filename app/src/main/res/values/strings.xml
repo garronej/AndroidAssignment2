@@ -73,7 +73,7 @@
     <string name="hobbies">Hobbies</string>
     <string name="email">Email</string>
     <string name="competences">Competences</string>
-    <string name="availability">Availability</string>
+    <string name="availability">Only available</string>
     <string name="university_career">University Career</string>
     <string name="open_cv">Open CV</string>
     <string name="available_for_jobs">Job seeking</string>
@@ -82,5 +82,11 @@
     <string name="location">Location</string>
     <string name="fieldOfInterest">Field of interest</string>
     <string name="search">Search</string>
+    <string name="activity_search_companies">Search companies</string>
+    <string name="studentKeyword">Competence</string>
+    <string name="sex">Sex</string>
+    <string name="students">Students</string>
+    <string name="title_activity_students_favourites">Students</string>
+    <string name="activity_search_students">Search students</string>
 
 </resources>

@@ -2,15 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="it.polito.mobile.androidassignment2.StudentFlow.CompaniesFavouritesActivity">
+    tools:context="it.polito.mobile.androidassignment2.CompanyFlow.StudentsFavouritesActivity">
 
-    <include layout="@layout/student_tabbed_menu"></include>
+    <include layout="@layout/company_tabbed_menu"></include>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/favourite_companies_list"
+        android:id="@+id/favourite_students_list"
         >
 
 

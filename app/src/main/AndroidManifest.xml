@@ -26,14 +26,40 @@
         </activity>
         <activity
             android:name=".StudentFlow.CompaniesFavouritesActivity"
-            android:label="@string/title_activity_companies_favourites" >
+            android:label="@string/title_activity_companies_favourites"
+
+            >
 
         </activity>
         <activity
             android:name=".StudentFlow.SearchCompanies"
-            android:label="@string/title_activity_companies_favourites" >
+            android:label="@string/activity_search_companies"
+            android:theme="@style/ActionBarTheme"
+            android:parentActivityName=".StudentFlow.CompaniesFavouritesActivity"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StudentFlow.CompaniesFavouritesActivity" />
+        </activity>
+
+        <activity
+            android:name=".CompanyFlow.StudentsFavouritesActivity"
+            android:label="@string/title_activity_students_favourites"
+
+            >
 
         </activity>
+        <activity
+            android:name=".CompanyFlow.SearchStudents"
+            android:label="@string/activity_search_students"
+            android:theme="@style/ActionBarTheme"
+            android:parentActivityName=".CompanyFlow.StudentsFavouritesActivity"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CompanyFlow.StudentsFavouritesActivity" />
+        </activity>
+
         <activity
             android:name=".AlertStudentOrCompany"
             android:label="@string/app_name"
@@ -61,10 +87,7 @@
             android:name=".StudentFlow.InfoWrapperActivity"
             android:label="@string/title_activity_info_wrapper" >
         </activity>
-        <activity
-            android:name=".StudentFlow.CompaniesFavouritesActivity"
-            android:label="@string/title_activity_companies_favourites" >
-        </activity>
+
     </application>
 
 </manifest>

@@ -1,11 +1,10 @@
-package it.polito.mobile.androidassignment2.StudentFlow;
+package it.polito.mobile.androidassignment2.CompanyFlow;
 
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,12 +18,14 @@ import android.widget.TextView;
 import java.util.List;
 
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.StudentFlow.SearchCompanies;
 import it.polito.mobile.androidassignment2.StudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
+import it.polito.mobile.androidassignment2.businessLogic.Student;
 
-public class CompaniesFavouritesActivity extends Activity {
+public class StudentsFavouritesActivity extends Activity {
 
 
     private ListView listView;
@@ -33,21 +34,21 @@ public class CompaniesFavouritesActivity extends Activity {
 
     private void addTabMenuButtonCallbacks(){
         //findViewById(R.id.tab_menu_student_companies)
-        findViewById(R.id.tab_menu_student_search).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tab_menu_company_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), SearchCompanies.class);
+                Intent i = new Intent(getApplicationContext(), SearchStudents.class);
                 startActivity(i);
             }
         });
-        findViewById(R.id.tab_menu_student_profile).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tab_menu_company_profile).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
-                startActivity(i);
+                //TODO: Intent i = new Intent(getApplicationContext(), .class);
+                //startActivity(i);
             }
         });
-        findViewById(R.id.tab_menu_student_offers).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tab_menu_company_offers).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO: Intent i = new Intent(getApplicationContext(), );
@@ -63,16 +64,16 @@ public class CompaniesFavouritesActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_companies_favourites);
+        setContentView(R.layout.activity_students_favourites);
         addTabMenuButtonCallbacks();
         listView = new ListView(this);
         listView.setDivider(getResources().getDrawable(R.drawable.items_divider));
-        ((LinearLayout)findViewById(R.id.favourite_companies_list)).addView(listView);
+        ((LinearLayout)findViewById(R.id.favourite_students_list)).addView(listView);
 
         try {
 
 
-            task=Manager.getFavouriteCompanyOfStudent(Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<List<Company>>() {
+            task=Manager.getFavouriteStudentOfCompany(Session.getInstance().getCompanyLogged().getId(), new Manager.ResultProcessor<List<Student>>() {
 
                 @Override
                 public void cancel() {
@@ -80,14 +81,14 @@ public class CompaniesFavouritesActivity extends Activity {
                 }
 
                 @Override
-                public void process(final List<Company> arg, Exception e) {
+                public void process(final List<Student> arg, Exception e) {
                     task=null;
-                    if(e != null){
+                    if (e != null) {
                         //TODO: show error message
                         return;
                     }
 
-                    if(arg.size()==0){
+                    if (arg.size() == 0) {
                         //TODO: display some message...
                     }
                     listView.setAdapter(new BaseAdapter() {
@@ -112,8 +113,8 @@ public class CompaniesFavouritesActivity extends Activity {
                             if (convertView == null) {
                                 convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
                             }
-                            ((TextView) convertView.findViewById(R.id.mainName)).setText(((Company) getItem(position)).getName());
-                            ((TextView) convertView.findViewById(R.id.descrption)).setText(((Company) getItem(position)).getDescription());
+                            ((TextView) convertView.findViewById(R.id.mainName)).setText(((Student) getItem(position)).getFullname());
+                            ((TextView) convertView.findViewById(R.id.descrption)).setText(((Student) getItem(position)).getUniversityCareer());
                             return convertView;
                         }
                     });
@@ -155,7 +156,6 @@ public class CompaniesFavouritesActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     protected void onPause() {

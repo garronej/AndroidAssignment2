@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
+import it.polito.mobile.androidassignment2.CompanyFlow.StudentsFavouritesActivity;
 import it.polito.mobile.androidassignment2.StudentFlow.CompaniesFavouritesActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
@@ -144,6 +145,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 * errors are presented and no actual login attempt is made.
 	 */
 	public void attemptLogin(final String email, final String password) {
+		Log.d("poliJobs", "Attempt login with "+email+" and "+password);
 		if (mAuthTask != null) {
 			return;
 		}
@@ -238,9 +240,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 						editor.putString("PWD", password);
 
 						if(Session.getInstance().getWhoIsLogged() == Company.class){
-							//TODO: launch the company profile
+							//TODO: launch the company profile instead of student search
 							Log.d("poliJobs", "Company");
-
+							Intent i = new Intent(getApplicationContext(), StudentsFavouritesActivity.class);
+							startActivity(i);
 
 
 						}else{

@@ -5,6 +5,25 @@
         <!-- Customize your theme here. -->
     </style>
 
+
+    <style name="CustomizedActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <!-- Customize your theme here. -->
+        <item name="android:background">@color/app_default_background</item>
+        <item name="background">@color/app_default_background</item>
+
+    </style>
+
+    <style name="ActionBarTheme"
+        parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/CustomizedActionBar</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/CustomizedActionBar</item>
+    </style>
+
+
+
+
     <style name="ProfileItem">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

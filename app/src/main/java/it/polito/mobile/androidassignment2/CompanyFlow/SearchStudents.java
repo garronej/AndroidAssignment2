@@ -1,9 +1,10 @@
-package it.polito.mobile.androidassignment2.StudentFlow;
+package it.polito.mobile.androidassignment2.CompanyFlow;
 
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.List;
@@ -21,45 +24,74 @@ import java.util.List;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
+import it.polito.mobile.androidassignment2.businessLogic.Student;
 
-public class SearchCompanies extends AppCompatActivity {
+public class SearchStudents extends AppCompatActivity {
 
 
-    private EditText companyLocationText;
-    private EditText fieldOfInterestText;
+
     private Button button;
     private ListView listView;
-
     private AsyncTask<Object, Void, Object> task = null;
+    private EditText locationText;
+    private EditText keyword;
+    private CheckBox availability;
+    private Spinner sex;
+    private EditText career;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_companies);
+        setContentView(R.layout.activity_search_students);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        companyLocationText = (EditText) findViewById(R.id.searchCompanyLocation);
-        fieldOfInterestText = (EditText) findViewById(R.id.seachCompanyFieldOfInterest);
-        button = (Button) findViewById(R.id.companySearchButton);
+        locationText = (EditText) findViewById(R.id.student_search_location);
+        keyword = (EditText) findViewById(R.id.student_search_keyword);
+        availability = (CheckBox) findViewById(R.id.student_search_availability);
+        sex = (Spinner) findViewById(R.id.student_search_sex);
+        career = (EditText) findViewById(R.id.student_search_career);
+
+
+        button = (Button) findViewById(R.id.studentSearchButton);
+
         listView = new ListView(this);
         listView.setDivider(getResources().getDrawable(R.drawable.items_divider));
 
-        ((LinearLayout)findViewById(R.id.search_companies_result_details)).addView(listView);
+        ((LinearLayout)findViewById(R.id.search_students_result_details)).addView(listView);
 
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Company c=new Company();
-                c.setLocation(companyLocationText.getText().toString());
-                c.setDescription(fieldOfInterestText.getText().toString());
+                Student s=new Student();
+                if(availability.isChecked()) {
+                    s.setAvailable(true);
+                }
+                if(sex.getSelectedItemPosition() != 0){
+                    //TODO now we don't have sex...
 
+                }
+                if(career.getText().toString()!=null && career.getText().length() >0) {
+                    Log.d("poliJobs", "Setting univ career to " + career.getText().toString());
+                    s.setUniversityCareer(career.getText().toString());
+                }if(locationText.getText().toString()!=null && locationText.getText().length() >0) {
+                    //TODO: set location... we miss it
+                }
+                //TODO add more keywords...
+                if(keyword.getText().toString()!=null && keyword.getText().length()>0) {
+                    Log.d("poliJobs", "Setting competences to " + keyword.getText().toString());
+                    String[] comp = new String[1];
 
-                task=Manager.getCompaniesMatchingCriteria(c, new Manager.ResultProcessor<List<Company>>() {
+                    comp[0] = keyword.getText().toString();
+                    s.setCompetences(comp);
+                }
+
+                task=Manager.getStudentsMatchingCriteria(s, new Manager.ResultProcessor<List<Student>>() {
                     @Override
-                    public void process(final List<Company> arg, Exception e) {
+                    public void process(final List<Student> arg, Exception e) {
                         task=null;
                         if (e != null) {
                             //TODO: show error message
@@ -89,8 +121,8 @@ public class SearchCompanies extends AppCompatActivity {
                                 if (convertView == null) {
                                     convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
                                 }
-                                ((TextView) convertView.findViewById(R.id.mainName)).setText(((Company) getItem(position)).getName());
-                                ((TextView) convertView.findViewById(R.id.descrption)).setText(((Company) getItem(position)).getDescription());
+                                ((TextView) convertView.findViewById(R.id.mainName)).setText(((Student) getItem(position)).getFullname());
+                                ((TextView) convertView.findViewById(R.id.descrption)).setText(((Student) getItem(position)).getUniversityCareer());
                                 return convertView;
                             }
                         });
@@ -138,7 +170,6 @@ public class SearchCompanies extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     protected void onPause() {

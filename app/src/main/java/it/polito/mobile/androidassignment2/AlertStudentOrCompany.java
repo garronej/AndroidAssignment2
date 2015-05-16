@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.zip.DataFormatException;
+
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
@@ -39,9 +41,15 @@ public class AlertStudentOrCompany extends Activity {
                 if (s.getSelectedItem().toString().equals(getResources().getString(R.string.company))) {
 
                     Company c = new Company();
+
+                    try {
+                        c.setEmail(email);
+                    } catch (DataFormatException e) {
+                        Toast.makeText(AlertStudentOrCompany.this, R.string.error_invalid_email, Toast.LENGTH_LONG).show();
+                        finish();
+                    }
                     try {
                         c.setPassword(pwd);
-                        c.setEmail(email);
                     } catch (Exception e) {
                         Toast.makeText(AlertStudentOrCompany.this, R.string.error_invalid_password, Toast.LENGTH_LONG).show();
                         finish();
@@ -68,8 +76,13 @@ public class AlertStudentOrCompany extends Activity {
 
                     Student s = new Student();
                     try {
-                        s.setPassword(pwd);
                         s.setEmail(email);
+                    } catch (DataFormatException e) {
+                        Toast.makeText(AlertStudentOrCompany.this, R.string.error_invalid_email, Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                    try {
+                        s.setPassword(pwd);
                     } catch (Exception e) {
                         Toast.makeText(AlertStudentOrCompany.this, R.string.error_invalid_password, Toast.LENGTH_LONG).show();
                         finish();
