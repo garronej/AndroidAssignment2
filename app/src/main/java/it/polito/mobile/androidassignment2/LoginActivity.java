@@ -72,7 +72,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mLoginFormView = findViewById(R.id.login_form);
 		mProgressView = findViewById(R.id.login_progress);
-/*
+
 		if(getPreferences(MODE_PRIVATE).contains("EMAIL")
 				&& getPreferences(MODE_PRIVATE).contains("PWD")){
 
@@ -82,7 +82,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 
 
-		}*/
+		}
 
 
 		/*
