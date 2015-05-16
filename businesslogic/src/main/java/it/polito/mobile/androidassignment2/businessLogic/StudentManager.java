@@ -74,7 +74,9 @@ class StudentManager {
                     criteria.getSurname() == null &&
                     criteria.getUniversityCareer() == null &&
                     criteria.getCompetences() == null &&
-                    criteria.isAvailable() == null ){
+                    criteria.isAvailable() == null &&
+                    criteria.getLocation() == null &&
+                    criteria.getSex() == null){
                 throw new RestApiException(422, "getStudentsMatchingCriteria : no valid search criteria had been specified");
             }
 

@@ -18,6 +18,7 @@ import java.util.zip.DataFormatException;
 //Tdodo manage exception
 public class Student {
 
+    private String sex;
     private Integer id = null;
     private String email = null;
     private String name = null;
@@ -30,6 +31,10 @@ public class Student {
     private String[] hobbies = null;
     private Boolean available = null;
     private String password = null;
+    private String location = null;
+
+
+
 
 
     public Student(){
@@ -52,6 +57,17 @@ public class Student {
         this.name = Utils.formatName(name);
 
     }
+
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+
 
     public void setSurname(String surname) throws DataFormatException{
 
@@ -164,6 +180,18 @@ public class Student {
             if( !buff.equals("null")){
                 this.universityCareer = buff;
             }
+
+            buff = json.getString("location");
+
+            if( !buff.equals("null")){
+                this.location = buff;
+            }
+            buff = json.getString("sex");
+
+            if( !buff.equals("null")){
+                this.sex = buff;
+            }
+
 
 
             this.available = json.getBoolean("availability");
@@ -363,6 +391,12 @@ public class Student {
         if(universityCareer!=null){
             s.put("student[university_career]", universityCareer);
         }
+        if(location!=null){
+            s.put("student[location]", location);
+        }
+        if(sex!=null){
+            s.put("student[sex]", sex);
+        }
         if(competences!=null && competences.length>0){
             String c=competences[0];
             for(int i=1;i<competences.length;i++){
@@ -386,5 +420,13 @@ public class Student {
             s.put("student[hobbies]", c);
         }
         return s;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 }

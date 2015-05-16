@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.androidassignment2.R;
@@ -38,6 +39,7 @@ public class SearchStudents extends AppCompatActivity {
     private CheckBox availability;
     private Spinner sex;
     private EditText career;
+    private List<String> competences;
 
 
     @Override
@@ -46,6 +48,8 @@ public class SearchStudents extends AppCompatActivity {
         setContentView(R.layout.activity_search_students);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        competences = new ArrayList<>();
 
         locationText = (EditText) findViewById(R.id.student_search_location);
         keyword = (EditText) findViewById(R.id.student_search_keyword);
@@ -71,14 +75,12 @@ public class SearchStudents extends AppCompatActivity {
                     s.setAvailable(true);
                 }
                 if(sex.getSelectedItemPosition() != 0){
-                    //TODO now we don't have sex...
-
+                    s.setSex(sex.getSelectedItem().toString());
                 }
                 if(career.getText().toString()!=null && career.getText().length() >0) {
-                    Log.d("poliJobs", "Setting univ career to " + career.getText().toString());
                     s.setUniversityCareer(career.getText().toString());
                 }if(locationText.getText().toString()!=null && locationText.getText().length() >0) {
-                    //TODO: set location... we miss it
+                    s.setLocation(locationText.getText().toString());
                 }
                 //TODO add more keywords...
                 if(keyword.getText().toString()!=null && keyword.getText().length()>0) {
