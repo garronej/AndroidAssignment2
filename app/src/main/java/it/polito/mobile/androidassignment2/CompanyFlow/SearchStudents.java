@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.CompanyFlow;
 
 
+import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,12 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SimpleExpandableListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -39,7 +44,7 @@ public class SearchStudents extends AppCompatActivity {
     private CheckBox availability;
     private Spinner sex;
     private EditText career;
-    private List<String> competences;
+    private CompetencesCompletionTextView competences;
 
 
     @Override
@@ -49,13 +54,34 @@ public class SearchStudents extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        competences = new ArrayList<>();
+
 
         locationText = (EditText) findViewById(R.id.student_search_location);
-        keyword = (EditText) findViewById(R.id.student_search_keyword);
+        //keyword = (EditText) findViewById(R.id.student_search_keyword);
         availability = (CheckBox) findViewById(R.id.student_search_availability);
         sex = (Spinner) findViewById(R.id.student_search_sex);
         career = (EditText) findViewById(R.id.student_search_career);
+        competences = (CompetencesCompletionTextView)findViewById(R.id.student_search_keyword);
+
+
+
+
+        Manager.getAllCompetences(new Manager.ResultProcessor<List<String>>() {
+            @Override
+            public void process(final List<String> arg, Exception e) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchStudents.this, android.R.layout.simple_list_item_1, arg);
+
+                competences.setAdapter(adapter);
+
+
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        });
+
 
 
         button = (Button) findViewById(R.id.studentSearchButton);
@@ -82,14 +108,16 @@ public class SearchStudents extends AppCompatActivity {
                 }if(locationText.getText().toString()!=null && locationText.getText().length() >0) {
                     s.setLocation(locationText.getText().toString());
                 }
-                //TODO add more keywords...
-                if(keyword.getText().toString()!=null && keyword.getText().length()>0) {
-                    Log.d("poliJobs", "Setting competences to " + keyword.getText().toString());
-                    String[] comp = new String[1];
 
-                    comp[0] = keyword.getText().toString();
+                if(competences.getObjects().size() > 0){
+                    String[] comp = new String[competences.getObjects().size()];
+                    int i=0;
+                    for(Object o : competences.getObjects()){
+                        comp[i]=o.toString();
+                    }
                     s.setCompetences(comp);
                 }
+
 
                 task=Manager.getStudentsMatchingCriteria(s, new Manager.ResultProcessor<List<Student>>() {
                     @Override

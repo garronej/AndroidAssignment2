@@ -48,6 +48,8 @@ public class Task {
 
         GET_STUDENTS_OF_JOB_OFFER,
         SUBSCRIBE_STUDENTS_OF_JOB_OFFER,
+        GET_ALL_COMPETENCES,
+
         UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER
 
     }
@@ -171,6 +173,9 @@ public class Task {
                     case UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER:
                         out = Manager.unsubscribeStudentOfJobOffer((int) params[0], (int) params[1]);
                         break;
+                    case GET_ALL_COMPETENCES:
+                        out = Manager.getAllCompetences();
+                        break;
 
                 }
 
@@ -247,6 +252,9 @@ public class Task {
 
                         ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
 
+                        break;
+                    case GET_ALL_COMPETENCES:
+                        ((Manager.ResultProcessor<List<String>>)this.postProcessor).process((List<String>)out,this.exception);
                         break;
 
                 }

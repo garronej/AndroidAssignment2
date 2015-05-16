@@ -1,6 +1,11 @@
 package it.polito.mobile.androidassignment2.businessLogic;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -632,6 +637,14 @@ public class Manager {
         return t;
     }
 
+    public static List<String> getAllCompetences() throws IOException, RestApiException{
+        return CompetenceManager.getAllCompetences();
+    }
 
+    public static Task.General getAllCompetences(ResultProcessor<List<String>> postProcessor){
+        Task.General t= new Task.General(Task.Method.GET_ALL_COMPETENCES,postProcessor);
+        t.execute();
+        return t;
+    }
 
 }

@@ -23,17 +23,17 @@
 
                 />
 
-            <EditText
+            <it.polito.mobile.androidassignment2.CompanyFlow.CompetencesCompletionTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/student_search_keyword"
-                android:hint="@string/studentKeyword"
-
                 android:layout_marginTop="2dp"
                 android:inputType="text"
 
                 android:imeOptions="actionDone"
                 />
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"

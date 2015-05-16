@@ -88,5 +88,6 @@
     <string name="students">Students</string>
     <string name="title_activity_students_favourites">Students</string>
     <string name="activity_search_students">Search students</string>
+    <string name="add">Add</string>
 
 </resources>
