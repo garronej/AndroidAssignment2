@@ -122,6 +122,8 @@
     <string name="discard_apply">Discard apply</string>
     <string name="fav">Fav</string>
     <string name="unfav">Unfav</string>
-
->>>>>>> tweaks to stud_prof and add show_stud_prof
+    <string name="number_of_workers">Number of workers</string>
+    <string name="mission">Mission</string>
+    <string name="clients">Clients</string>
+    <string name="description">Description</string>
 </resources>

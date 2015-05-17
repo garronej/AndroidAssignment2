@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <include layout="@layout/company_tabbed_menu"></include>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_header" >
+            <ProgressBar
+                android:id="@+id/c_logo_pb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                style="@android:style/Widget.ProgressBar.Small"
+                />
+            <ImageView
+                android:id="@+id/c_logo_iw"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_centerInParent="true"
+                />
+            <TextView
+                android:id="@+id/c_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="30sp"
+                android:textColor="#fff"
+                />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/c_edit_profile_b"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginBottom="@dimen/vertical_margin"
+            android:layout_marginLeft="@dimen/side_margin"
+            android:layout_marginRight="@dimen/side_margin"
+            android:background="@color/blue_sky"
+            android:text="@string/edit_profile"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="#fff"
+            />
+
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/email" />
+            <TextView
+                style="@style/ProfileItemText"
+                android:id="@+id/c_email_tv"
+                android:autoLink="email"
+                android:textColorLink="@color/blue_sky"
+                />
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/number_of_workers" />
+            <TextView
+                style="@style/ProfileItemText"
+                android:id="@+id/c_number_of_workers_tv"
+                android:autoLink="email"
+                android:textColorLink="@color/blue_sky"
+                />
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/mission" />
+            <TextView
+                style="@style/ProfileItemText"
+                android:id="@+id/c_mission_tv"
+                android:autoLink="email"
+                android:textColorLink="@color/blue_sky"
+                />
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/location" />
+            <TextView
+                style="@style/ProfileItemText"
+                android:id="@+id/c_location_tv"
+                />
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/clients" />
+            <TextView
+                android:id="@+id/c_clients_tv"
+                android:autoLink="web"
+                android:textColorLink="@color/blue_sky"
+                style="@style/ProfileItemText" />
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/competences" />
+            <TextView
+                android:id="@+id/c_competences_tv"
+                style="@style/ProfileItemText" />
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/description"/>
+            <TextView
+                android:id="@+id/c_description_tv"
+                style="@style/ProfileItemText" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
