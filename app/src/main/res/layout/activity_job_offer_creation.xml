@@ -22,7 +22,15 @@
         android:text="@string/create_job_offer"
         />
 
-
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/job_offer_code"
+        android:hint="@string/job_offer_code"
+        android:layout_marginTop="2dp"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        />
 
     <EditText
         android:layout_width="match_parent"

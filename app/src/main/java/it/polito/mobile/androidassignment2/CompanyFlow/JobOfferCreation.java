@@ -24,6 +24,7 @@ public class JobOfferCreation extends AppCompatActivity {
     private EditText location;
     private CompetencesCompletionTextView competence;
     private AsyncTask<Object, Void, Object> task;
+    private EditText code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class JobOfferCreation extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        code = (EditText)findViewById(R.id.job_offer_code);
         description = (EditText)findViewById(R.id.job_offer_description);
         numberOfMonths = (EditText)findViewById(R.id.number_of_months);
         kindOfContract = (EditText)findViewById(R.id.kind_of_contract);
@@ -58,6 +59,7 @@ public class JobOfferCreation extends AppCompatActivity {
                 if(numberOfMonths.getText().toString().matches("[0-9]+")) {
                     o.setDurationMonths(Integer.parseInt(numberOfMonths.getText().toString()));
                 }
+                //TODO: set code
                 //TODO: set location
                 //TODO: set competences
                 task= Manager.insertNewOffer(o, new Manager.ResultProcessor<Offer>() {

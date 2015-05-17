@@ -33,7 +33,7 @@ public class HobbiesCompletionTextView extends TokenCompleteTextView {
 
 
     private void setup(){
-        char[] splitChar = {',', ';', ' '};
+        char[] splitChar = {',', ';'};
         this.setSplitChar(splitChar);
         this.setTextColor(this.getHintTextColors());
     }

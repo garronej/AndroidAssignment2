@@ -17,6 +17,9 @@ public class Offer {
     private String descriptionOfWork = null;
     private Integer durationMonths = null;
 
+    private String code = null;
+    private String location = null;
+    private String[] competences = null;
 
 
 
@@ -165,7 +168,27 @@ public class Offer {
     }
 
 
+    public String getCode() {
+        return code;
+    }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
 
+    public String getLocation() {
+        return location;
+    }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String[] getCompetences() {
+        return competences;
+    }
+
+    public void setCompetences(String[] competences) {
+        this.competences = competences;
+    }
 }

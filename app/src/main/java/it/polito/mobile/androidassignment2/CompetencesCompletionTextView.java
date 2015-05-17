@@ -34,7 +34,7 @@ public class CompetencesCompletionTextView extends TokenCompleteTextView {
 
     private void setup(){
         this.setPrefix(getResources().getString(R.string.studentKeyword) + ": "); //TODO remove
-        char[] splitChar = {',', ';', ' '};
+        char[] splitChar = {',', ';'};
         this.setSplitChar(splitChar);
         this.setTextColor(this.getHintTextColors());
     }
