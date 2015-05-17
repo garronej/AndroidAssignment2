@@ -46,6 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginBottom="@dimen/vertical_margin"
             android:layout_marginLeft="@dimen/side_margin"
             android:layout_marginRight="@dimen/side_margin"
             android:background="@color/blue_sky"
@@ -55,19 +56,33 @@
             android:textColor="#fff"
             />
 
-        <Button
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/cv_button"
-            android:text="@string/open_cv"
-            android:background="@color/blue_sky"
-            android:textColor="#fff"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:layout_marginRight="@dimen/side_margin"
+            android:layout_marginLeft="@dimen/side_margin"
             android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
-            android:layout_marginLeft="@dimen/side_margin"
-            android:layout_marginRight="@dimen/side_margin"/>
+            >
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/cv_button"
+                android:text="@string/open_cv"
+                android:background="@color/blue_sky"
+                android:textColor="#fff"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                 />
+            <ProgressBar
+                android:id="@+id/cv_pb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"
+                style="@android:style/Widget.ProgressBar.Small"
+                />
+        </RelativeLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
 

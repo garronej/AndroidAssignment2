@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -28,6 +29,7 @@ import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 public class StudentProfileActivity extends ActionBarActivity  {
     private ImageView ivPhoto;
     private ProgressBar pbPhotoSpinner;
+    private ProgressBar pbCvSpinner;
     private TextView tvFullname;
     private TextView tvLinks;
     private Button bCv;
@@ -46,18 +48,21 @@ public class StudentProfileActivity extends ActionBarActivity  {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
             String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
             if (filePath.indexOf(".pdf") != -1) { //pdf -> cv
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(Uri.parse(filePath), "application/pdf");
-                Log.d("onReceive", "pdf intent");
+                bCv.setVisibility(View.VISIBLE);
+                pbCvSpinner.setVisibility(View.INVISIBLE);
                 startActivity(i);
             } else { // photo
+                pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
                 photoUri = Uri.parse(filePath);
                 Session.getInstance().setPhotoUri(photoUri);
                 ivPhoto.setImageURI(photoUri);
                 tvFullname.setVisibility(View.VISIBLE);
+                bCv.setEnabled(true);
+                bEditProfile.setEnabled(true);
             }
         }
     }
@@ -77,6 +82,7 @@ public class StudentProfileActivity extends ActionBarActivity  {
         tvEmail = (TextView) findViewById(R.id.email);
         ivPhoto = (ImageView) findViewById(R.id.photo);
         pbPhotoSpinner = (ProgressBar) findViewById(R.id.photo_spinner);
+        pbCvSpinner = (ProgressBar) findViewById(R.id.cv_pb);
         tvFullname = (TextView) findViewById(R.id.fullname);
         bCv = (Button) findViewById(R.id.cv_button);
         tvLinks = (TextView) findViewById(R.id.links);
@@ -97,6 +103,7 @@ public class StudentProfileActivity extends ActionBarActivity  {
             throw new RuntimeException();
         }
         tvEmail.setText(loggedStudent.getEmail());
+        pbCvSpinner.setVisibility(View.INVISIBLE);
 
         String fullname = loggedStudent.getFullname();
         if (fullname == null) {
@@ -151,6 +158,8 @@ public class StudentProfileActivity extends ActionBarActivity  {
         String url = loggedStudent.getPhotoUrl();
         if (photoUri == null) { //need to get from s3
             TransferController.download(getApplicationContext(), new String[]{url});
+            bCv.setEnabled(false);
+            bEditProfile.setEnabled(false);
             tvFullname.setVisibility(View.INVISIBLE);
             pbPhotoSpinner.setVisibility(ProgressBar.VISIBLE);
         } else { // it was already fetched from s3
@@ -165,8 +174,9 @@ public class StudentProfileActivity extends ActionBarActivity  {
             bCv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     TransferController.download(getApplicationContext(), new String[]{ cvUrl });
+                    pbCvSpinner.setVisibility(View.VISIBLE);
+                    bCv.setVisibility(View.INVISIBLE);
                 }
             });
         }

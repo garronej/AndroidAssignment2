@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -44,39 +45,52 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     private Button bCv;
     private EditText etEmail;
     private EditText etUniversityCareer;
-    private EditText etCompetences;
     private ToggleButton tbAvailability;
-    private EditText etHobbies;
     private Button bUpdateProfile;
     private Button bCancelUpdateProfile;
     private Uri photoUri;
     private Student loggedStudent;
     private ProgressBar pbPhotoSpinner;
+    private ProgressBar pbUpdateSpinner;
+    private ProgressBar pbCvSpinner;
+    private DownloadFinished downloadfinished = new DownloadFinished();
     private UploadFinished uploadfinished=new UploadFinished();
     private Spinner sSex;
     private EditText etLocation;
+    private AsyncTask<Object, Void, Object> task1 = null;
+    private AsyncTask<Object, Void, Object> task2 = null;
+    private AsyncTask<Object, Void, Object> task3 = null;
+    private AsyncTask<Object, Void, Object> task4 = null;
+    private CompetencesCompletionTextView acCompetences;
+    private HobbiesCompletionTextView acHobbies;
 
-    public class UploadFinished extends BroadcastReceiver{
-        public String fname="";
+    public class DownloadFinished extends BroadcastReceiver {
+
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("poliJob", "Intent about finished upload of "+intent.getStringExtra(UploadModel.EXTRA_FILENAME));
-            String filePath = intent.getStringExtra(UploadModel.EXTRA_FILENAME);
+            pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
+            String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
+            Uri uri = Uri.parse(filePath);
+            Session.getInstance().setPhotoUri(uri);
+            ivPhoto.setImageURI(uri);
+        }
+    }
+
+    public class UploadFinished extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String filePath = intent.getStringExtra(UploadModel.EXTRA_FILENAME);
             if (filePath.indexOf(".pdf") != -1) { //pdf -> cv
                 try {
                     Session.getInstance().getStudentLogged().setCvUrl(filePath);
                 } catch (DataFormatException e) {
                     throw new RuntimeException();
                 }
-                Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
+                task1 = Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
                     @Override
                     public void process(Student arg, Exception e) {
-                        if (e == null) {
-                            Intent i = new Intent(EditStudentProfileActivity.this, StudentProfileActivity.class);
-                            startActivity(i);
-                        } else {
-                            throw new RuntimeException(); //TODO
-                        }
+                        pbCvSpinner.setVisibility(View.GONE);
+                        bCv.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -84,18 +98,16 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                     }
                 });
             } else { // photo
-                Session.getInstance().setPhotoUri(null); //invalidate photo so that profile activity loads the new one
                 try {
                     Session.getInstance().getStudentLogged().setPhotoUrl(filePath);
                 } catch (DataFormatException e) {
                     throw new RuntimeException();
                 }
-                Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
+                task2 = Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
                     @Override
                     public void process(Student arg, Exception e) {
                         if (e == null) {
-                            Intent i = new Intent(EditStudentProfileActivity.this, StudentProfileActivity.class);
-                            startActivity(i);
+                            TransferController.download(getApplicationContext(), new String[]{ filePath });
                         } else {
                             throw new RuntimeException(); //TODO
                         }
@@ -131,12 +143,14 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
         bCv = (Button) findViewById(R.id.edit_cv_b);
         etLinks = (EditText) findViewById(R.id.edit_links_et);
         etUniversityCareer = (EditText) findViewById(R.id.edit_university_career_et);
-        etCompetences = (EditText) findViewById(R.id.edit_competences_et);
+        acCompetences = (CompetencesCompletionTextView) findViewById(R.id.edit_competences_ac);
         tbAvailability = (ToggleButton) findViewById(R.id.edit_availability_tb);
-        etHobbies = (EditText) findViewById(R.id.edit_hobbies_et);
+        acHobbies = (HobbiesCompletionTextView) findViewById(R.id.edit_hobbies_ac);
         bUpdateProfile = (Button) findViewById(R.id.edit_update_profile_b);
         bCancelUpdateProfile = (Button) findViewById(R.id.edit_cancel_update_profile_b);
         pbPhotoSpinner = (ProgressBar) findViewById(R.id.edit_photo_pb);
+        pbUpdateSpinner = (ProgressBar) findViewById(R.id.edit_update_pb);
+        pbCvSpinner = (ProgressBar) findViewById(R.id.edit_cv_pb);
         sSex = (Spinner) findViewById(R.id.edit_sex_s);
         etLocation = (EditText) findViewById(R.id.edit_location_et);
     }
@@ -147,8 +161,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
         etEmail.setText(loggedStudent.getEmail());
         etLinks.setText(loggedStudent.getLinksToString(", "));
         etUniversityCareer.setText(loggedStudent.getUniversityCareer());
-        etCompetences.setText(loggedStudent.getCompetencesToString(", "));
-        etHobbies.setText(loggedStudent.getHobbiesToString(", "));
         ivPhoto.setImageURI(photoUri);
         tbAvailability.setChecked(loggedStudent.isAvailable());
         etLocation.setText(loggedStudent.getLocation());
@@ -172,6 +184,8 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
             @Override
             public void onClick(View v) {
                 try {
+                    pbUpdateSpinner.setVisibility(ProgressBar.VISIBLE);
+                    bUpdateProfile.setVisibility(View.INVISIBLE);
                     loggedStudent.setName(etName.getText().toString());
                     loggedStudent.setSurname(etSurname.getText().toString());
                     loggedStudent.setEmail(etEmail.getText().toString());
@@ -189,16 +203,36 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                         }
                         URL[] urlsA = new URL[urls.size()];
                         loggedStudent.setLinks(urls.toArray(urlsA));
+                    } else if (links.equals("")) {
+                        loggedStudent.setLinks(new URL[0]);
                     }
+
                     loggedStudent.setUniversityCareer(etUniversityCareer.getText().toString());
-                    String competences = etCompetences.getText().toString();
-                    if (!competences.equals("")) {
-                        loggedStudent.setCompetences(competences.split(","));
+
+                    if(acCompetences.getObjects().size() > 0){
+                        String[] comp = new String[acCompetences.getObjects().size()];
+                        int i=0;
+                        for(Object o : acCompetences.getObjects()){
+                            comp[i]=o.toString();
+                            i++;
+                        }
+                        loggedStudent.setCompetences(comp);
+                    } else {
+                        loggedStudent.setCompetences(new String[0]);
                     }
-                    String hobbies = etHobbies.getText().toString();
-                    if (!competences.equals("")) {
-                        loggedStudent.setHobbies(hobbies.split(","));
+
+                    if(acHobbies.getObjects().size() > 0){
+                        String[] hob = new String[acHobbies.getObjects().size()];
+                        int i=0;
+                        for(Object o : acHobbies.getObjects()){
+                            hob[i]=o.toString();
+                            i++;
+                        }
+                        loggedStudent.setHobbies(hob);
+                    } else {
+                        loggedStudent.setHobbies(new String[0]);
                     }
+
                     loggedStudent.setAvailable(tbAvailability.isChecked());
                     String s = sSex.getSelectedItem().toString();
                     if (!s.equals("")) {
@@ -208,7 +242,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                 } catch (DataFormatException e) {
                     throw new RuntimeException(e); //TODO
                 }
-                Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
+                task3 = Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
                     @Override
                     public void process(Student arg, Exception e) {
                         if (e == null) {
@@ -221,6 +255,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
 
                     @Override
                     public void cancel() {
+                        pbUpdateSpinner.setVisibility(ProgressBar.INVISIBLE);
                     }
                 });
             }
@@ -246,12 +281,40 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
+                intent.setType("application/pdf");
                 startActivityForResult(intent, 0);
             }
         });
 
+        acCompetences.setPrefix("");
+        acCompetences.setText("");
+        task4 = Manager.getAllStudentsCompetences(new Manager.ResultProcessor<List<String>>() {
+            @Override
+            public void process(final List<String> arg, Exception e) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditStudentProfileActivity.this, android.R.layout.simple_list_item_1, arg);
+                acCompetences.setAdapter(adapter);
+                String[] cs = loggedStudent.getCompetences();
+                if (cs != null && cs.length > 0) {
+                    for (String c : cs) {
+                        acCompetences.addObject(c);
+                    }
+                }
+            }
+            @Override
+            public void cancel() {
+            }
+        });
 
+        acHobbies.setPrefix("");
+        List<String> hobbiesL = new ArrayList<String>();
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(EditStudentProfileActivity.this, android.R.layout.simple_list_item_1, hobbiesL);
+        acHobbies.setAdapter(adapter2);
+        String[] hs = loggedStudent.getHobbies();
+        if (hs != null && hs.length > 0) {
+            for (String h : hs) {
+                acHobbies.addObject(h);
+            }
+        }
     }
 
     @Override
@@ -260,7 +323,13 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
             Uri uri = data.getData();
             //TODO: if not pdf or image do something
             if (uri != null) {
-                pbPhotoSpinner.setVisibility(ProgressBar.VISIBLE);
+                if (uri.toString().indexOf(".pdf") != -1) {
+                    bCv.setVisibility(View.INVISIBLE);
+                    pbCvSpinner.setVisibility(ProgressBar.VISIBLE);
+                } else {
+                    pbPhotoSpinner.setVisibility(ProgressBar.VISIBLE);
+                }
+
                 TransferController.upload(this, uri, "photo/student3");
             }
         }
@@ -270,12 +339,31 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     protected void onResume() {
         super.onResume();
         registerReceiver(uploadfinished, new IntentFilter(UploadModel.INTENT_UPLOADED));
+        registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
+
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
+        unregisterReceiver(downloadfinished);
         unregisterReceiver(uploadfinished);
+        if(task1 != null){
+            task1.cancel(true);
+            task1 = null;
+        }
+        if(task2 != null){
+            task2.cancel(true);
+            task2 = null;
+        }
+        if(task3 != null){
+            task3.cancel(true);
+            task3 = null;
+        }
+        if(task4 != null){
+            task4.cancel(true);
+            task4 = null;
+        }
+        super.onPause();
     }
 
     @Override
