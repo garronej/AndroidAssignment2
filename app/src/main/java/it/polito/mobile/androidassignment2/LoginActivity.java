@@ -28,6 +28,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polito.mobile.androidassignment2.CompanyFlow.CompanyProfileActivity;
 import it.polito.mobile.androidassignment2.CompanyFlow.StudentsFavouritesActivity;
 import it.polito.mobile.androidassignment2.StudentFlow.ShowStudentProfileActivity;
 import it.polito.mobile.androidassignment2.StudentFlow.StudentProfileActivity;
@@ -236,15 +237,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 						editor.putString("PWD", password);
 
 						if(Session.getInstance().getWhoIsLogged() == Company.class){
-							//TODO: launch the company profile instead of student search
 							Log.d("poliJobs", "Company");
-							Intent i = new Intent(getApplicationContext(), ShowStudentProfileActivity.class);
-                            i.putExtra("studentId", 1);
+							Intent i = new Intent(getApplicationContext(), CompanyProfileActivity.class);
 							startActivity(i);
 
 
 						}else{
-							//TODO: launch the student profile instead of company search
 							Log.d("poliJobs", "Student");
 							Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
 							startActivity(i);
