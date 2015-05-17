@@ -1,44 +1,41 @@
 package it.polito.mobile.androidassignment2.CompanyFlow;
 
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import it.polito.mobile.androidassignment2.R;
-import it.polito.mobile.androidassignment2.StudentFlow.SearchCompanies;
-import it.polito.mobile.androidassignment2.StudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
+import it.polito.mobile.androidassignment2.businessLogic.Offer;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
-import it.polito.mobile.androidassignment2.businessLogic.Student;
 
-public class StudentsFavouritesActivity extends Activity {
+public class OffersProposed extends AppCompatActivity {
 
 
-    private ListView listView;
+    private ListView offerList;
     private AsyncTask<Object, Void, Object> task;
 
 
     private void addTabMenuButtonCallbacks(){
-        //findViewById(R.id.tab_menu_student_companies)
+
         findViewById(R.id.tab_menu_company_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), SearchStudents.class);
-                startActivity(i);
+                //TODO: Intent i = new Intent(getApplicationContext(), .class);
+                //startActivity(i);
             }
         });
         findViewById(R.id.tab_menu_company_profile).setOnClickListener(new View.OnClickListener() {
@@ -48,10 +45,10 @@ public class StudentsFavouritesActivity extends Activity {
                 //startActivity(i);
             }
         });
-        findViewById(R.id.tab_menu_company_offers).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tab_menu_company_students).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), OffersProposed.class);
+                Intent i = new Intent(getApplicationContext(), StudentsFavouritesActivity.class);
                 startActivity(i);
             }
         });
@@ -60,38 +57,51 @@ public class StudentsFavouritesActivity extends Activity {
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_students_favourites);
+        setContentView(R.layout.activity_offers_proposed);
+        offerList=(ListView)findViewById(R.id.proposed_offers_list);
         addTabMenuButtonCallbacks();
-        listView = new ListView(this);
-        listView.setDivider(getResources().getDrawable(R.drawable.items_divider));
-        ((LinearLayout)findViewById(R.id.favourite_students_list)).addView(listView);
 
+
+
+        findViewById(R.id.add_job_offer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            Intent i = new Intent(getApplicationContext(), JobOfferCreation.class);
+            startActivity(i);
+            }
+        });
+
+        offerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO: start the intent
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Offer o = new Offer();
         try {
-
-
-            task=Manager.getFavouriteStudentOfCompany(Session.getInstance().getCompanyLogged().getId(), new Manager.ResultProcessor<List<Student>>() {
-
+            o.setCompanyId(Session.getInstance().getCompanyLogged().getId());
+            task = Manager.getOffersMatchingCriteria(o, new Manager.ResultProcessor<List<Offer>>() {
                 @Override
-                public void cancel() {
+                public void process(final List<Offer> arg, Exception e) {
                     task=null;
-                }
 
-                @Override
-                public void process(final List<Student> arg, Exception e) {
-                    task=null;
-                    if (e != null) {
-                        //TODO: show error message
-                        return;
+                    if(e!=null){
+                        //TODO: show error messagge
+                    }
+                    if(arg.size()==0){
+                        //TODO: show some messagge...
                     }
 
-                    if (arg.size() == 0) {
-                        //TODO: display some message...
-                    }
-                    listView.setAdapter(new BaseAdapter() {
+                    offerList.setAdapter(new BaseAdapter() {
                         @Override
                         public int getCount() {
                             return arg.size();
@@ -107,38 +117,45 @@ public class StudentsFavouritesActivity extends Activity {
                             return arg.get(position).getId();
                         }
 
-
                         @Override
                         public View getView(int position, View convertView, ViewGroup parent) {
                             if (convertView == null) {
                                 convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
                             }
-                            ((TextView) convertView.findViewById(R.id.mainName)).setText(((Student) getItem(position)).getFullname());
-                            ((TextView) convertView.findViewById(R.id.descrption)).setText(((Student) getItem(position)).getUniversityCareer());
+                            ((TextView) convertView.findViewById(R.id.mainName)).setText(((Offer) getItem(position)).getDescriptionOfWork());
+                            ((TextView) convertView.findViewById(R.id.descrption)).setText(((Offer) getItem(position)).getCompanyName());
                             return convertView;
                         }
                     });
 
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            //TODO: start the intent
 
 
-                        }
-                    });
+                }
+
+                @Override
+                public void cancel() {
+                    task=null;
                 }
             });
-        }catch(Exception e){
-            //TODO: handle exception
+        }catch (Exception e){
+            // we should never be here....
         }
     }
 
-        @Override
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(task!=null){
+            task.cancel(true);
+            task=null;
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_companies_favourites, menu);
+        getMenuInflater().inflate(R.menu.menu_offers_proposed, menu);
         return true;
     }
 
@@ -155,14 +172,5 @@ public class StudentsFavouritesActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(task!=null){
-            task.cancel(true);
-            task=null;
-        }
     }
 }

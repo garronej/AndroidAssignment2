@@ -89,5 +89,13 @@
     <string name="title_activity_students_favourites">Students</string>
     <string name="activity_search_students">Search students</string>
     <string name="add">Add</string>
+    <string name="title_activity_offers_proposed">OffersProposed</string>
+    <string name="add_new_job_offer">Add new job offer</string>
+    <string name="title_activity_job_offer_creation">New job offer creation</string>
+    <string name="job_offer_description">Job offer description</string>
+    <string name="kind_of_contract">Kind of contract</string>
+    <string name="number_of_months">Number of months</string>
+    <string name="create_job_offer">Create job offer</string>
+    <string name="job_offer_failed">Insertion of a new job offer failed. Please, check you have filled all the field in the form.</string>
 
 </resources>

@@ -26,40 +26,30 @@
         </activity>
         <activity
             android:name=".StudentFlow.CompaniesFavouritesActivity"
-            android:label="@string/title_activity_companies_favourites"
-
-            >
-
+            android:label="@string/title_activity_companies_favourites" >
         </activity>
         <activity
             android:name=".StudentFlow.SearchCompanies"
             android:label="@string/activity_search_companies"
-            android:theme="@style/ActionBarTheme"
             android:parentActivityName=".StudentFlow.CompaniesFavouritesActivity"
-            >
+            android:theme="@style/ActionBarTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StudentFlow.CompaniesFavouritesActivity" />
         </activity>
-
         <activity
             android:name=".CompanyFlow.StudentsFavouritesActivity"
-            android:label="@string/title_activity_students_favourites"
-
-            >
-
+            android:label="@string/title_activity_students_favourites" >
         </activity>
         <activity
             android:name=".CompanyFlow.SearchStudents"
             android:label="@string/activity_search_students"
-            android:theme="@style/ActionBarTheme"
             android:parentActivityName=".CompanyFlow.StudentsFavouritesActivity"
-            >
+            android:theme="@style/ActionBarTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CompanyFlow.StudentsFavouritesActivity" />
         </activity>
-
         <activity
             android:name=".AlertStudentOrCompany"
             android:label="@string/app_name"
@@ -77,7 +67,6 @@
         <activity
             android:name=".StudentFlow.MainStudentActivity"
             android:label="@string/title_activity_main_student" >
-
         </activity>
         <activity
             android:name=".StudentFlow.SearchActivity"
@@ -87,7 +76,19 @@
             android:name=".StudentFlow.InfoWrapperActivity"
             android:label="@string/title_activity_info_wrapper" >
         </activity>
-
+        <activity
+            android:name=".CompanyFlow.OffersProposed"
+            android:label="@string/title_activity_offers_proposed" >
+        </activity>
+        <activity
+            android:name=".CompanyFlow.JobOfferCreation"
+            android:label="@string/title_activity_job_offer_creation"
+            android:parentActivityName=".CompanyFlow.OffersProposed"
+            android:theme="@style/ActionBarTheme"
+            >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CompanyFlow.OffersProposed" />
+        </activity>
     </application>
 
 </manifest>

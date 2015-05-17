@@ -45,8 +45,7 @@ class OfferManager {
 
         if( newOffer.getCompanyId() == null ||
                 newOffer.getKindOfContract() == null ||
-                newOffer.getDescriptionOfWork() == null ||
-                newOffer.getDurationMonths() == null ){
+                newOffer.getDescriptionOfWork() == null ){
             throw new RestApiException(422, "insertNewOffer : Some field are null in the offer");
         }
 
