@@ -274,45 +274,53 @@ public class Student {
             fullname+=getSurname().substring(0, 1).toUpperCase() +
                     getSurname().substring(1);
         }
+        if (fullname.equals("")) { return null; }
         return fullname;
 
     }
 
-    public String getLinksToString() {
+    public String getLinksToString(String separator) {
         String s = "";
         URL[] urls = getLinks();
-        URL lastUrl = urls[urls.length - 1];
-        for (URL url : urls) {
-            s += url.toString();
-            if (url != lastUrl) {
-                s += System.getProperty("line.separator");
-                s += System.getProperty("line.separator");
+        if (urls != null) {
+            URL lastUrl = urls[urls.length - 1];
+            for (URL url : urls) {
+                s += url.toString();
+                if (url != lastUrl) {
+                    s += separator;
+                }
             }
         }
+        if (s.equals("")) { return null; }
         return s;
     }
 
-    public String getCompetencesToString() {
+    public String getCompetencesToString(String separator) {
         String s = "";
         String[] competences = getCompetences();
-        String lastCompetence = competences[competences.length - 1];
-        for (String competence : competences) {
-            s += competence;
-            if (competence != lastCompetence) {
-                s += ", ";
+        if (competences != null) {
+            String lastCompetence = competences[competences.length - 1];
+            for (String competence : competences) {
+                s += competence;
+                if (competence != lastCompetence) {
+                    s += separator;
+                }
             }
         }
+        if (s.equals("")) { return null; }
         return s;
     }
 
-    public String getHobbiesToString() {
+    public String getHobbiesToString(String separator) {
         String s = "";
         String[] hobbies = getHobbies();
-        String lastHobby = hobbies[hobbies.length - 1];
-        for (String hobby : hobbies) {
-            s += hobby;
-            if (hobby != lastHobby) {
-                s += ", ";
+        if (hobbies != null) {
+            String lastHobby = hobbies[hobbies.length - 1];
+            for (String hobby : hobbies) {
+                s += hobby;
+                if (hobby != lastHobby) {
+                    s += separator;
+                }
             }
         }
         return s;
