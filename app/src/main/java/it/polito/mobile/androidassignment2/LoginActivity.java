@@ -17,28 +17,24 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.CompanyFlow.StudentsFavouritesActivity;
-import it.polito.mobile.androidassignment2.StudentFlow.CompaniesFavouritesActivity;
+import it.polito.mobile.androidassignment2.StudentFlow.ShowStudentProfileActivity;
+import it.polito.mobile.androidassignment2.StudentFlow.StudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.RestApiException;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
-import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.businessLogic.Task;
 import it.polito.mobile.androidassignment2.businessLogic.Utils;
 
@@ -242,14 +238,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 						if(Session.getInstance().getWhoIsLogged() == Company.class){
 							//TODO: launch the company profile instead of student search
 							Log.d("poliJobs", "Company");
-							Intent i = new Intent(getApplicationContext(), StudentsFavouritesActivity.class);
+							Intent i = new Intent(getApplicationContext(), ShowStudentProfileActivity.class);
+                            i.putExtra("studentId", 1);
 							startActivity(i);
 
 
 						}else{
 							//TODO: launch the student profile instead of company search
 							Log.d("poliJobs", "Student");
-
 							Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
 							startActivity(i);
 						}

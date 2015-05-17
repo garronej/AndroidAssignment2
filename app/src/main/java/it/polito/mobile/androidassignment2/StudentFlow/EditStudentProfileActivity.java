@@ -1,4 +1,4 @@
-package it.polito.mobile.androidassignment2;
+package it.polito.mobile.androidassignment2.StudentFlow;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,16 +18,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.DatabaseMetaData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
+import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
+import it.polito.mobile.androidassignment2.HobbiesCompletionTextView;
+import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;

@@ -32,6 +32,8 @@
     <string name="title_activity_main_companies_test">MainCompaniesTest</string>
     <string name="title_activity_fake_activity_s3_test">FakeActivityS3Test</string>
     <string name="title_activity_edit_student_profile">EditStudentProfile</string>
+    <string name="title_activity_show_student_profile">ShowStudentProfile</string>
+    <string name="title_activity_student_profile">StudentProfile</string>
 
 
     <!-- Strings related to login -->
@@ -117,4 +119,9 @@
     <string name="edit_offer">Edit the offer</string>
     <string name="apply">Apply</string>
     <string name="add_to_favourite">Add to favourites</string>
+    <string name="discard_apply">Discard apply</string>
+    <string name="fav">Fav</string>
+    <string name="unfav">Unfav</string>
+
+>>>>>>> tweaks to stud_prof and add show_stud_prof
 </resources>

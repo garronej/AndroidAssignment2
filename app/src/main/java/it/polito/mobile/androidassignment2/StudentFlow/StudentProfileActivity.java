@@ -1,14 +1,12 @@
-package it.polito.mobile.androidassignment2;
+package it.polito.mobile.androidassignment2.StudentFlow;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,11 +15,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.net.URL;
 import java.util.zip.DataFormatException;
 
+<<<<<<< HEAD:app/src/main/java/it/polito/mobile/androidassignment2/StudentProfileActivity.java
 import it.polito.mobile.androidassignment2.StudentFlow.CompaniesFavouritesActivity;
 import it.polito.mobile.androidassignment2.StudentFlow.SearchCompanies;
+=======
+import it.polito.mobile.androidassignment2.R;
+>>>>>>> tweaks to stud_prof and add show_stud_prof:app/src/main/java/it/polito/mobile/androidassignment2/StudentFlow/StudentProfileActivity.java
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;

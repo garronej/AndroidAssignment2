@@ -18,9 +18,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import it.polito.mobile.androidassignment2.R;
-import it.polito.mobile.androidassignment2.StudentFlow.SearchCompanies;
-import it.polito.mobile.androidassignment2.StudentProfileActivity;
-import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
