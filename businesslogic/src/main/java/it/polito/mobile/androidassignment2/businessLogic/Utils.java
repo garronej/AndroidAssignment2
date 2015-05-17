@@ -13,7 +13,8 @@ public class Utils {
     public static String formatEmail(String email)throws DataFormatException {
 
         if( email == null) return null;
-        if( email == "" ) return null;
+        if( email == "" ) return null;//TODO: comparing references? rick
+        if( email.equals("") ) return null;
 
         Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
         Matcher mat = pattern.matcher(email);
@@ -29,7 +30,8 @@ public class Utils {
     protected static String formatName(String name)throws DataFormatException {
 
         if( name == null ) return null;
-        if( name == "" ) return null;
+        if( name == "" ) return null; //TODO: comparing references? rick
+        if( name.equals("") ) return null;
 
         Pattern pattern = Pattern.compile("[A-Za-zéèêîùàò\\-]*");
         Matcher mat = pattern.matcher(name);
@@ -50,7 +52,8 @@ public class Utils {
     protected static String toLowerCase( String in ){
 
         if( in == null ) return null;
-        if( in == "" ) return null;
+        if( in == "" ) return null;//TODO: comparing references? rick
+        if( in.equals("") ) return null;
 
 
 
@@ -65,7 +68,8 @@ public class Utils {
     //Check password having more than 4 char and no space.
     public static void checkPassword( String pwd) throws DataFormatException{
 
-        if( pwd == null) return;
+        if( pwd == null) return;//TODO: comparing references? rick
+        if( pwd.equals("") ) return;
 
         Pattern pattern = Pattern.compile("^(?=\\S+$).{4,}$");
         Matcher mat = pattern.matcher(pwd);

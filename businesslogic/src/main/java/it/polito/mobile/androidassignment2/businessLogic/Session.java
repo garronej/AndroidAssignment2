@@ -1,9 +1,12 @@
 package it.polito.mobile.androidassignment2.businessLogic;
 
+import android.net.Uri;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +29,10 @@ public class Session {
 
     //Represent ether the favourite offer of a student or the offer that belong to a company.
     private List<Offer> offers= null;
+
+    //uri on the phone of the profile picture of logged company/student
+    //this is set by the profile_activity or edit_profile_activity
+    private Uri photoUri = null;
 
     public Class getWhoIsLogged(){
         return this.whoIsLogged;
@@ -203,5 +210,38 @@ public class Session {
 
     }
 
+    //look at field definition above for more details
+    public void setPhotoUri(Uri uri) {
+        this.photoUri = uri;
+    }
+    //look at field definition above for more details
+    public Uri getPhotoUri() {
+        return this.photoUri;
+    }
+    public Student s;
+    public Session() {
+        try {
+            s = new Student();
+            s.setEmail("Joseph.garrOne.gj@gmail.com");
+            s.setName("GaRRone");
+            s.setSurname("Joseph");
+            s.setPassword("stupid2");
+            s.setCvUrl("eu-west-1:3f1af8e8-7e5e-4210-b9eb-f4f29f7b66ab/photo/student3/esercitazione2.pdf");
+            s.setUniversityCareer("computer engineering");
+            s.setAvailable(false);
+            s.setCompetences(new String[]{"porn knowelage", "fast masturbation"});
+            s.setHobbies(new String[]{"porn", "masturbation"});
+            s.setLinks(new URL[]{new URL("http://seedbox.garrone.org"), new URL("http://etophy.fr")});
+            s.setPhotoUrl("eu-west-1:3f1af8e8-7e5e-4210-b9eb-f4f29f7b66ab/photo/student3/jos.png");
+            s.setSex("m");
+            s.setLocation("torino");
+        } catch(Exception e) {}
+    } //TODO REMOVE
+    public static Session getInstanceFake() {
+        if (Session.instance == null) {
+            Session.instance = new Session();
+        }
+        return Session.instance;
+    }
 
 }

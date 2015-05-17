@@ -31,6 +31,7 @@
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="title_activity_main_companies_test">MainCompaniesTest</string>
     <string name="title_activity_fake_activity_s3_test">FakeActivityS3Test</string>
+    <string name="title_activity_edit_student_profile">EditStudentProfile</string>
 
 
     <!-- Strings related to login -->
@@ -97,5 +98,18 @@
     <string name="number_of_months">Number of months</string>
     <string name="create_job_offer">Create job offer</string>
     <string name="job_offer_failed">Insertion of a new job offer failed. Please, check you have filled all the field in the form.</string>
-
+    <string name="edit_profile">Edit profile</string>
+    <string name="update_profile">Update profile</string>
+    <string name="cancel">Cancel</string>
+    <string name="upload_cv">Upload CV</string>
+    <string name="fullname">Full name</string>
+    <string name="tap_to_change">Tap to change</string>
+    <string name="available">Available</string>
+    <string name="not_available">Not available</string>
+    <string name="name_surname">Name Surname</string>
+    <string-array name="sex_array">
+        <item></item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 </resources>

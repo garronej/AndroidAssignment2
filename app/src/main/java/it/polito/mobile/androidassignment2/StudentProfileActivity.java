@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.net.URL;
+import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
@@ -29,14 +30,17 @@ public class StudentProfileActivity extends ActionBarActivity  {
     private ProgressBar pbPhotoSpinner;
     private TextView tvFullname;
     private TextView tvLinks;
-    private TextView bCv;
+    private Button bCv;
     private TextView tvEmail;
     private TextView tvUniversityCareer;
     private TextView tvCompetences;
     private Button bAvailability;
     private TextView tvHobbies;
     private DownloadFinished downloadfinished = new DownloadFinished();
-    private String photoUrl;
+    private Uri photoUri;
+    private Button bEditProfile;
+    private Button bSex;
+    private TextView tvLocation;
 
     public class DownloadFinished extends BroadcastReceiver {
 
@@ -50,8 +54,9 @@ public class StudentProfileActivity extends ActionBarActivity  {
                 Log.d("onReceive", "pdf intent");
                 startActivity(i);
             } else { // photo
-                photoUrl = filePath;
-                ivPhoto.setImageURI(Uri.parse(filePath));
+                photoUri = Uri.parse(filePath);
+                Session.getInstance().setPhotoUri(photoUri);
+                ivPhoto.setImageURI(photoUri);
                 tvFullname.setVisibility(View.VISIBLE);
             }
         }
@@ -60,9 +65,8 @@ public class StudentProfileActivity extends ActionBarActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            //to avoid fetching again on rotation
-            photoUrl = savedInstanceState.getString("photoUrl");
+        if (Session.getInstance().getPhotoUri() != null) {
+            photoUri = Session.getInstance().getPhotoUri();
         }
         setContentView(R.layout.activity_student_profile);
         findViews();
@@ -74,41 +78,98 @@ public class StudentProfileActivity extends ActionBarActivity  {
         ivPhoto = (ImageView) findViewById(R.id.photo);
         pbPhotoSpinner = (ProgressBar) findViewById(R.id.photo_spinner);
         tvFullname = (TextView) findViewById(R.id.fullname);
-        bCv = (TextView) findViewById(R.id.cv_button);
+        bCv = (Button) findViewById(R.id.cv_button);
         tvLinks = (TextView) findViewById(R.id.links);
         tvUniversityCareer = (TextView) findViewById(R.id.university_career);
         tvCompetences = (TextView) findViewById(R.id.competences);
         bAvailability = (Button) findViewById(R.id.availability);
         tvHobbies = (TextView) findViewById(R.id.hobbies);
+        bEditProfile = (Button) findViewById(R.id.edit_profile_button);
+        bSex = (Button) findViewById(R.id.sex_b);
+        tvLocation = (TextView) findViewById(R.id.location_tv);
     }
 
     private void setupViewsAndCallbacks() {
-        final Student loggedStudent = this.getStubbedStudentLogged();//TODO REMOVE
-
-        tvFullname.setText(loggedStudent.getFullname());
+        final Student loggedStudent;
+        try {
+            loggedStudent = Session.getInstance().getStudentLogged();
+        } catch (DataFormatException e) {
+            throw new RuntimeException();
+        }
         tvEmail.setText(loggedStudent.getEmail());
-        tvLinks.setText(loggedStudent.getLinksToString());
-        tvUniversityCareer.setText(loggedStudent.getUniversityCareer());
-        tvCompetences.setText(loggedStudent.getCompetencesToString());
-        tvHobbies.setText(loggedStudent.getHobbiesToString());
 
-        if (photoUrl == null) { //need to get from s3
-            String url = loggedStudent.getPhotoUrl();
-            TransferController.download(getApplicationContext(), new String[]{ url });
+        String fullname = loggedStudent.getFullname();
+        if (fullname == null) {
+            tvFullname.setVisibility(View.GONE);
+        } else {
+            tvFullname.setText(loggedStudent.getFullname());
+        }
+
+        String links = loggedStudent.getLinksToString(System.getProperty("line.separator")
+                + System.getProperty("line.separator"));
+        if (links == null) {
+            tvLinks.setVisibility(View.GONE);
+        } else {
+            tvLinks.setText(links);
+        }
+
+        String universityCareer = loggedStudent.getUniversityCareer();
+        if (universityCareer == null) {
+            tvUniversityCareer.setVisibility(View.GONE);
+        } else {
+            tvUniversityCareer.setText(universityCareer);
+        }
+
+        String competences = loggedStudent.getCompetencesToString(", ");
+        if (competences == null) {
+            tvCompetences.setVisibility(View.GONE);
+        } else {
+            tvCompetences.setText(competences);
+        }
+
+        String hobbies = loggedStudent.getHobbiesToString(", ");
+        if (hobbies == null) {
+            tvHobbies.setVisibility(View.GONE);
+        } else {
+            tvHobbies.setText(hobbies);
+        }
+
+        String sex = loggedStudent.getSex();
+        if (sex == null) {
+            bSex.setVisibility(View.GONE);
+        } else {
+            bSex.setText(sex);
+        }
+
+        String location = loggedStudent.getLocation();
+        if (location == null || location.equals("")) {
+            tvLocation.setVisibility(View.GONE);
+        } else {
+            tvLocation.setText(location);
+        }
+
+        String url = loggedStudent.getPhotoUrl();
+        if (photoUri == null) { //need to get from s3
+            TransferController.download(getApplicationContext(), new String[]{url});
             tvFullname.setVisibility(View.INVISIBLE);
             pbPhotoSpinner.setVisibility(ProgressBar.VISIBLE);
         } else { // it was already fetched from s3
-            ivPhoto.setImageURI(Uri.parse(photoUrl));
+            ivPhoto.setImageURI(photoUri);
             pbPhotoSpinner.setVisibility(ProgressBar.GONE);
         }
 
-        bCv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String cvUrl = loggedStudent.getCvUrl();
-                TransferController.download(getApplicationContext(), new String[]{ cvUrl });
-            }
-        });
+        final String cvUrl = loggedStudent.getCvUrl();
+        if (cvUrl == null) {
+            bCv.setVisibility(View.GONE);
+        } else {
+            bCv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    TransferController.download(getApplicationContext(), new String[]{ cvUrl });
+                }
+            });
+        }
 
         boolean isAvailable = loggedStudent.isAvailable();
         if (isAvailable) {
@@ -118,14 +179,14 @@ public class StudentProfileActivity extends ActionBarActivity  {
             bAvailability.setText(getResources().getString(R.string.not_available_for_jobs));
             bAvailability.setBackgroundColor(getResources().getColor(R.color.red_warning));
         }
-    }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if (photoUrl != null) {
-            outState.putString("photoUrl", photoUrl);
-        }
-        super.onSaveInstanceState(outState);
+        bEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(StudentProfileActivity.this, EditStudentProfileActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -160,25 +221,5 @@ public class StudentProfileActivity extends ActionBarActivity  {
     protected void onPause() {
         unregisterReceiver(downloadfinished);
         super.onPause();
-    }
-
-    public static Student getStubbedStudentLogged() {
-        Student s = null;
-        try {
-            s = new Student();
-            s.setEmail("Joseph.garrOne.gj@gmail.com");
-            s.setName("GaRRone");
-            s.setSurname("Joseph");
-            s.setPassword("stupid2");
-            s.setCvUrl("eu-west-1:3f1af8e8-7e5e-4210-b9eb-f4f29f7b66ab/photo/student3/esercitazione2.pdf");
-            s.setUniversityCareer("computer engineering");
-            s.setAvailable(false);
-            s.setCompetences(new String[]{"porn knowelage", "fast masturbation"});
-            s.setHobbies(new String[]{"porn", "masturbation"});
-            s.setLinks(new URL[]{new URL("http://seedbox.garrone.org"), new URL("http://etophy.fr")});
-            s.setPhotoUrl("eu-west-1:3f1af8e8-7e5e-4210-b9eb-f4f29f7b66ab/photo/student3/jos.png");
-            return s;
-        } catch(Exception e) {}
-        return s;
     }
 }

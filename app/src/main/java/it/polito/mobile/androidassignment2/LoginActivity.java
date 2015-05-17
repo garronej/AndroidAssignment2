@@ -250,7 +250,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 							//TODO: launch the student profile instead of company search
 							Log.d("poliJobs", "Student");
 
-							Intent i = new Intent(getApplicationContext(), CompaniesFavouritesActivity.class);
+							Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
 							startActivity(i);
 						}
 						editor.commit();
