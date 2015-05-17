@@ -282,7 +282,7 @@ public class Student {
     public String getLinksToString(String separator) {
         String s = "";
         URL[] urls = getLinks();
-        if (urls != null) {
+        if (urls != null && urls.length > 0) {
             URL lastUrl = urls[urls.length - 1];
             for (URL url : urls) {
                 s += url.toString();
@@ -298,7 +298,7 @@ public class Student {
     public String getCompetencesToString(String separator) {
         String s = "";
         String[] competences = getCompetences();
-        if (competences != null) {
+        if (competences != null && competences.length > 0) {
             String lastCompetence = competences[competences.length - 1];
             for (String competence : competences) {
                 s += competence;
@@ -314,7 +314,7 @@ public class Student {
     public String getHobbiesToString(String separator) {
         String s = "";
         String[] hobbies = getHobbies();
-        if (hobbies != null) {
+        if (hobbies != null && hobbies.length > 0) {
             String lastHobby = hobbies[hobbies.length - 1];
             for (String hobby : hobbies) {
                 s += hobby;
@@ -323,6 +323,7 @@ public class Student {
                 }
             }
         }
+        if (s.equals("")) { return null; }
         return s;
     }
 
@@ -412,6 +413,8 @@ public class Student {
             }
 
             s.put("student[competences]", c);
+        } else if (competences != null && competences.length == 0) {
+            s.put("student[competences]", "");
         }
         if(links!=null && links.length>0){
             String c=links[0].toString();
@@ -419,6 +422,8 @@ public class Student {
                 c+=","+links[i].toString();
             }
             s.put("student[links]", c);
+        } else if (links != null && links.length == 0) {
+            s.put("student[links]", "");
         }
         if(hobbies!=null && hobbies.length>0){
             String c=hobbies[0];
@@ -426,6 +431,8 @@ public class Student {
                 c+=","+hobbies[i];
             }
             s.put("student[hobbies]", c);
+        } else if (hobbies != null && hobbies.length == 0) {
+            s.put("student[hobbies]", "");
         }
         return s;
     }
