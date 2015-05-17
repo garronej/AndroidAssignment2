@@ -50,7 +50,7 @@ public class Task {
         SUBSCRIBE_STUDENTS_OF_JOB_OFFER,
         GET_ALL_STUDENT_COMPETENCES,
 
-        GET_ALL_COMPANY_COMPETENCES, UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER
+        GET_ALL_COMPANY_COMPETENCES, GET_ALL_OFFER_COMPETENCES, UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER
 
     }
 
@@ -180,6 +180,10 @@ public class Task {
                         out = Manager.getAllCompaniesCompetences();
                         break;
 
+                    case GET_ALL_OFFER_COMPETENCES:
+                        out = Manager.getAllOffersCompetences();
+                        break;
+
                 }
 
             } catch (Exception exception) {
@@ -258,6 +262,7 @@ public class Task {
                         break;
                     case GET_ALL_STUDENT_COMPETENCES:
                     case GET_ALL_COMPANY_COMPETENCES:
+                    case GET_ALL_OFFER_COMPETENCES:
                         ((Manager.ResultProcessor<List<String>>)this.postProcessor).process((List<String>)out,this.exception);
                         break;
 

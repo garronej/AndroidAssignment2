@@ -113,4 +113,8 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <string name="title_activity_offer_show">Job offer</string>
+    <string name="edit_offer">Edit the offer</string>
+    <string name="apply">Apply</string>
+    <string name="add_to_favourite">Add to favourites</string>
 </resources>

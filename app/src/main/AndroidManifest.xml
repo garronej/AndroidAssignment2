@@ -24,17 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".StudentProfileActivity"
             android:label="@string/title_activity_edit_student_profile" >
-
         </activity>
-
         <activity
             android:name=".EditStudentProfileActivity"
             android:label="@string/title_activity_edit_student_profile" >
-
         </activity>
         <activity
             android:name=".StudentFlow.CompaniesFavouritesActivity"
@@ -96,9 +92,18 @@
             android:name=".CompanyFlow.JobOfferCreation"
             android:label="@string/title_activity_job_offer_creation"
             android:parentActivityName=".CompanyFlow.OffersProposed"
-            android:theme="@style/ActionBarTheme"
-            >
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+            android:theme="@style/ActionBarTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CompanyFlow.OffersProposed" />
+        </activity>
+        <activity
+            android:name=".CompanyFlow.OfferShowActivity"
+            android:label="@string/title_activity_offer_show"
+            android:parentActivityName=".CompanyFlow.OffersProposed"
+            android:theme="@style/ActionBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CompanyFlow.OffersProposed" />
         </activity>
     </application>

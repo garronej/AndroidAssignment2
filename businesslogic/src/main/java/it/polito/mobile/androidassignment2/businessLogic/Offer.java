@@ -1,5 +1,8 @@
 package it.polito.mobile.androidassignment2.businessLogic;
 
+import android.util.Log;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -117,13 +120,43 @@ public class Offer {
 
             this.kindOfContract = json.getString("kind_of_contract");
 
-            this.descriptionOfWork = json.getString("description_of_work");
 
-            this.durationMonths = json.getInt("duration_months");
+            buff = json.getString("description_of_work");
+
+            if( !buff.equals("null")) {
+                this.descriptionOfWork = json.getString("description_of_work");
+            }
+
+            buff = json.getString("duration_months");
+
+            if( !buff.equals("null")) {
+                this.durationMonths = json.getInt("duration_months");
+            }
+            buff = json.getString("code");
+
+            if( !buff.equals("null")){
+                this.code = buff;
+            }
+            buff = json.getString("location");
+
+            if( !buff.equals("null")){
+                this.location = buff;
+            }
+
+            buff = json.getString("competences");
 
 
+
+            if( !buff.equals("null")){
+
+                JSONArray jsonComps = json.getJSONArray("competences");
+                competences=new String[jsonComps.length()];
+                for(int i = 0; i<jsonComps.length(); i++){
+                    competences[i] = jsonComps.getString(i);
+                }
+
+            }
         }catch (Exception e){
-
             //Should nor append
         }
     }
@@ -162,6 +195,22 @@ public class Offer {
 
         if(this.company.getName()!=null){
             s.put("offer[company]", this.company.getName());
+        }
+        if(this.code!=null){
+            s.put("offer[code]", this.code);
+        }
+        if(this.location!=null){
+            s.put("offer[location]", this.location);
+        }
+        if(competences!=null && competences.length>0){
+            String c=competences[0];
+            for(int i=1;i<competences.length;i++){
+                c+=","+competences[i];
+            }
+
+            s.put("offer[competences]", c);
+        } else if (competences != null && competences.length == 0) {
+            s.put("offer[competences]", "");
         }
 
         return s;

@@ -77,7 +77,9 @@ public class OffersProposed extends AppCompatActivity {
         offerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: start the intent
+                Intent i = new Intent(getApplicationContext(), OfferShowActivity.class);
+                i.putExtra("offerId", (int)id);
+                startActivity(i);
             }
         });
 
