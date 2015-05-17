@@ -17,12 +17,7 @@ import android.widget.TextView;
 
 import java.util.zip.DataFormatException;
 
-<<<<<<< HEAD:app/src/main/java/it/polito/mobile/androidassignment2/StudentProfileActivity.java
-import it.polito.mobile.androidassignment2.StudentFlow.CompaniesFavouritesActivity;
-import it.polito.mobile.androidassignment2.StudentFlow.SearchCompanies;
-=======
 import it.polito.mobile.androidassignment2.R;
->>>>>>> tweaks to stud_prof and add show_stud_prof:app/src/main/java/it/polito/mobile/androidassignment2/StudentFlow/StudentProfileActivity.java
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
