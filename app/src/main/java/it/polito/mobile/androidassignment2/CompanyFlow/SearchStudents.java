@@ -34,11 +34,11 @@ public class SearchStudents extends AppCompatActivity {
     private ListView listView;
     private AsyncTask<Object, Void, Object> task = null;
     private EditText locationText;
-    private EditText keyword;
     private CheckBox availability;
     private Spinner sex;
     private EditText career;
     private CompetencesCompletionTextView competences;
+    private AsyncTask<Object, Void, Object> task1=null;
 
 
     @Override
@@ -51,7 +51,6 @@ public class SearchStudents extends AppCompatActivity {
 
 
         locationText = (EditText) findViewById(R.id.student_search_location);
-        //keyword = (EditText) findViewById(R.id.student_search_keyword);
         availability = (CheckBox) findViewById(R.id.student_search_availability);
         sex = (Spinner) findViewById(R.id.student_search_sex);
         career = (EditText) findViewById(R.id.student_search_career);
@@ -60,9 +59,14 @@ public class SearchStudents extends AppCompatActivity {
 
 
 
-        Manager.getAllStudentsCompetences(new Manager.ResultProcessor<List<String>>() {
+        task1=Manager.getAllStudentsCompetences(new Manager.ResultProcessor<List<String>>() {
             @Override
             public void process(final List<String> arg, Exception e) {
+                task1=null;
+                if(e!=null){
+                    return;
+                }
+
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchStudents.this, android.R.layout.simple_list_item_1, arg);
 
                 competences.setAdapter(adapter);
@@ -72,7 +76,7 @@ public class SearchStudents extends AppCompatActivity {
 
             @Override
             public void cancel() {
-
+                task1=null;
             }
         });
 
@@ -202,6 +206,10 @@ public class SearchStudents extends AppCompatActivity {
         if(task!=null){
             task.cancel(true);
             task=null;
+        }
+        if(task1!=null){
+            task1.cancel(true);
+            task1=null;
         }
     }
 }
