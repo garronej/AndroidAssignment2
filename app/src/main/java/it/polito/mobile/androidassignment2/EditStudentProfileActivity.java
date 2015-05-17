@@ -45,7 +45,9 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     private Button bCv;
     private EditText etEmail;
     private EditText etUniversityCareer;
+    private EditText etCompetences;
     private ToggleButton tbAvailability;
+    private EditText etHobbies;
     private Button bUpdateProfile;
     private Button bCancelUpdateProfile;
     private Uri photoUri;
@@ -329,7 +331,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                 } else {
                     pbPhotoSpinner.setVisibility(ProgressBar.VISIBLE);
                 }
-
                 TransferController.upload(this, uri, "photo/student3");
             }
         }
@@ -340,7 +341,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
         super.onResume();
         registerReceiver(uploadfinished, new IntentFilter(UploadModel.INTENT_UPLOADED));
         registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
-
     }
 
     @Override
