@@ -20,7 +20,7 @@ public class Company {
     private Integer id = null;
     private String email = null;
     private String name = null;
-    private URL logoUrl = null;
+    private String logoUrl = null;
     private String mission = null;
     private Integer numberOfWorkers = null;
     private String[] clients = null;
@@ -53,7 +53,7 @@ public class Company {
 
     }
 
-    public void setLogoUrl(URL logoUrl ){
+    public void setLogoUrl(String logoUrl ){
         this.logoUrl = logoUrl;
     }
 
@@ -78,6 +78,38 @@ public class Company {
             }
         }
 
+    }
+
+    public String getCompetencesToString(String separator) {
+        String s = "";
+        String[] competences = getCompetences();
+        if (competences != null && competences.length > 0) {
+            String lastCompetence = competences[competences.length - 1];
+            for (String competence : competences) {
+                s += competence;
+                if (competence != lastCompetence) {
+                    s += separator;
+                }
+            }
+        }
+        if (s.equals("")) { return null; }
+        return s;
+    }
+
+    public String getClientsToString(String separator) {
+        String s = "";
+        String[] clients = getClients();
+        if (clients != null && clients.length > 0) {
+            String lastClient = clients[clients.length - 1];
+            for (String client : clients) {
+                s += client;
+                if (client != lastClient) {
+                    s += separator;
+                }
+            }
+        }
+        if (s.equals("")) { return null; }
+        return s;
     }
 
 
@@ -124,7 +156,7 @@ public class Company {
 
             if ( !buff.equals("null") ) {
 
-                this.logoUrl = new URL(buff);
+                this.logoUrl = buff;
 
             }
 
@@ -196,7 +228,7 @@ public class Company {
         return this.name;
     }
 
-   public URL getLogoUrl(){
+   public String getLogoUrl(){
        return this.logoUrl;
    }
 
@@ -259,7 +291,7 @@ public class Company {
         }
 
         if(this.logoUrl!=null){
-            s.put("company[logo]", this.logoUrl.toString());
+            s.put("company[logo]", this.logoUrl);
         }
 
         if(this.mission!=null){
