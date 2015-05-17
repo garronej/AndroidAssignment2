@@ -25,11 +25,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".StudentProfileActivity"
-            android:label="@string/title_activity_edit_student_profile" >
+            android:name=".StudentFlow.StudentProfileActivity"
+            android:label="@string/title_activity_student_profile" >
+
+        </activity>
+
+        <activity
+            android:name=".StudentFlow.ShowStudentProfileActivity"
+            android:label="@string/title_activity_show_student_profile" >
+
         </activity>
         <activity
-            android:name=".EditStudentProfileActivity"
+            android:name=".StudentFlow.EditStudentProfileActivity"
             android:label="@string/title_activity_edit_student_profile" >
         </activity>
         <activity
@@ -91,6 +98,10 @@
         <activity
             android:name=".StudentFlow.InfoWrapperActivity"
             android:label="@string/title_activity_info_wrapper" >
+        </activity>
+        <activity
+            android:name=".CompanyFlow.CompanyProfileActivity"
+            android:label="@string/title_activity_main_student" >
         </activity>
         <activity
             android:name=".CompanyFlow.OffersProposed"
