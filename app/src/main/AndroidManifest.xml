@@ -24,17 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".StudentProfileActivity"
             android:label="@string/title_activity_edit_student_profile" >
-
         </activity>
-
         <activity
             android:name=".EditStudentProfileActivity"
             android:label="@string/title_activity_edit_student_profile" >
-
         </activity>
         <activity
             android:name=".StudentProfileActivity"
