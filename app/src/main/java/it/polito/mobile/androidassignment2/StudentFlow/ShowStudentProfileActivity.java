@@ -33,7 +33,6 @@ import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
-
 public class ShowStudentProfileActivity extends ActionBarActivity  {
     private ImageView ivPhoto;
     private ProgressBar pbPhotoSpinner;
