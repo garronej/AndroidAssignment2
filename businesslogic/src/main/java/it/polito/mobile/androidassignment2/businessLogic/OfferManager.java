@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -170,6 +171,47 @@ class OfferManager {
         } catch (JSONException e) {
             throw new RestApiException(-1,"Internal Error CompetenceManager in getAllCompetences");
         }
+    }
+
+    protected static List<Student> getStudentsOfJobOffer( int offerId, Student criteria ) throws RestApiException, IOException {
+
+        Map<String,String> params = new HashMap<>();
+
+        if( criteria != null ){
+
+            params = criteria.toFormParams();
+
+        }
+
+        params.put("offer_applied_id", Integer.toString(offerId));
+
+
+
+        String resp = RESTManager.send(RESTManager.GET, "students", params);
+
+        try{
+
+
+            JSONArray studentsJson = (new JSONObject(resp)).getJSONArray("students");
+
+            List<Student> students = new ArrayList<Student>();
+
+
+
+            for( int i = 0; i < studentsJson.length(); i++){
+
+                JSONObject studentJson = studentsJson.getJSONObject(i);
+
+                students.add( new Student(studentJson) );
+            }
+
+            return students;
+
+
+        } catch (JSONException e) {
+            throw new RestApiException(-1,"Internal Error OfferManager in getStudentMatchingCriteria");
+        }
+
     }
 
 
