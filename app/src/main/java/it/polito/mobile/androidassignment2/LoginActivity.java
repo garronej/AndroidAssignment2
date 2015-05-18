@@ -199,19 +199,21 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 
 
-							//There where  problem during the request
-							if (e.getClass() == RestApiException.class) {
+						//There where  problem during the request
+						if (e.getClass() == RestApiException.class) {
 
-								//It was an error on the web service side.
-								//Nb : err code -1 mean a internal bug, report if you exprerience.
-								Integer errCode =  ((RestApiException)e).getResponseCode();
-								message = errCode.toString() + " / " + e.getMessage();
-
-
-							}else{
-								//It was an error with the internet conextion.
-								message = "Network problem : " + e.getMessage();
+							//It was an error on the web service side.
+							//Nb : err code -1 mean a internal bug, report if you exprerience.
+							Integer errCode =  ((RestApiException)e).getResponseCode();
+							//message = errCode.toString() + " / " + e.getMessage();
+							if(errCode == 404){
+								message = getResources().getString(R.string.error_login_failed);
 							}
+							message = getResources().getString(R.string.error_server_side);
+						}else{
+							//It was an error with the internet conextion.
+							message = getResources().getString(R.string.error_network);
+						}
 
 
 
@@ -221,7 +223,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 
 
-						Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+						Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
 						showProgress(false);
 						mAuthTask = null;
 						return;
@@ -230,24 +232,24 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 
 
-						SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+					SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
 
 
-						editor.putString("EMAIL", email);
-						editor.putString("PWD", password);
+					editor.putString("EMAIL", email);
+					editor.putString("PWD", password);
 
-						if(Session.getInstance().getWhoIsLogged() == Company.class){
-							Log.d("poliJobs", "Company");
-							Intent i = new Intent(getApplicationContext(), CompanyProfileActivity.class);
-							startActivity(i);
+					if(Session.getInstance().getWhoIsLogged() == Company.class){
+						Log.d("poliJobs", "Company");
+						Intent i = new Intent(getApplicationContext(), CompanyProfileActivity.class);
+						startActivity(i);
 
 
-						}else{
-							Log.d("poliJobs", "Student");
-							Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
-							startActivity(i);
-						}
-						editor.commit();
+					}else{
+						Log.d("poliJobs", "Student");
+						Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
+						startActivity(i);
+					}
+					editor.commit();
 
 
 				}

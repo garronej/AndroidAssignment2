@@ -30,19 +30,19 @@ public class OffersProposed extends AppCompatActivity {
 
 
     private void addTabMenuButtonCallbacks(){
-
-        findViewById(R.id.tab_menu_company_search).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tab_menu_company_search).setVisibility(View.INVISIBLE);
+        /*findViewById(R.id.tab_menu_company_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Intent i = new Intent(getApplicationContext(), .class);
-                //startActivity(i);
+                Intent i = new Intent(getApplicationContext(), .class);
+                startActivity(i);
             }
-        });
+        });*/
         findViewById(R.id.tab_menu_company_profile).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Intent i = new Intent(getApplicationContext(), .class);
-                //startActivity(i);
+                Intent i = new Intent(getApplicationContext(), CompanyProfileActivity.class);
+                startActivity(i);
             }
         });
         findViewById(R.id.tab_menu_company_students).setOnClickListener(new View.OnClickListener() {

@@ -61,15 +61,15 @@ public class CompanyProfileActivity extends ActionBarActivity  {
         findViewById(R.id.tab_menu_company_students).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(getApplicationContext(), CompaniesFavouritesActivity.class);
-                //startActivity(i);
+                Intent i = new Intent(getApplicationContext(), StudentsFavouritesActivity.class);
+                startActivity(i);
             }
         });
         findViewById(R.id.tab_menu_company_offers).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Intent i = new Intent(getApplicationContext(), );
-                //startActivity(i);
+                Intent i = new Intent(getApplicationContext(), OffersProposed.class);
+                startActivity(i);
             }
         });
 
