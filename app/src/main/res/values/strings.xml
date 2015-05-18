@@ -129,4 +129,7 @@
     <string name="error_login_failed">Login failed. Please check your e-mail and password or register yourself if you have not yet done.</string>
     <string name="error_server_side">Unexpected server error</string>
     <string name="error_network">Netework error: please check your internet connection and try again</string>
+    <string name="unfav_offer">Unfav</string>
+    <string name="save">Save edits</string>
+    <string name="title_activity_offer_edit_activity">Edit offer</string>
 </resources>

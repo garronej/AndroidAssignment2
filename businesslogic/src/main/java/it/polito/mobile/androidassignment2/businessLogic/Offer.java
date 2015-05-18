@@ -240,4 +240,13 @@ public class Offer {
     public void setCompetences(String[] competences) {
         this.competences = competences;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Offer){
+            Offer c = (Offer) o;
+            return c.getId()==this.getId();
+        }
+        return false;
+    }
 }

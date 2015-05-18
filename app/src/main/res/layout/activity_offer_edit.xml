@@ -43,32 +43,12 @@
                 />
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/edit_offer_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:layout_marginLeft="@dimen/side_margin"
-            android:layout_marginRight="@dimen/side_margin"
-            android:background="@color/app_default_background"
-            android:text="@string/edit_offer"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            />
-
-
-
-
-
         <LinearLayout
             style="@style/ProfileItem" >
             <TextView
                 style="@style/ProfileItemLabel"
                 android:text="@string/location" />
-            <TextView
+            <EditText
                 style="@style/ProfileItemText"
                 android:id="@+id/location"
                 />
@@ -81,7 +61,7 @@
             <TextView
                 style="@style/ProfileItemLabel"
                 android:text="@string/job_offer_code" />
-            <TextView
+            <EditText
                 style="@style/ProfileItemText"
                 android:id="@+id/job_offer_code"
                 />
@@ -94,7 +74,7 @@
             <TextView
                 style="@style/ProfileItemLabel"
                 android:text="@string/job_offer_description" />
-            <TextView
+            <EditText
                 style="@style/ProfileItemText"
                 android:id="@+id/job_offer_description"
                 />
@@ -107,7 +87,7 @@
             <TextView
                 style="@style/ProfileItemLabel"
                 android:text="@string/kind_of_contract" />
-            <TextView
+            <EditText
                 style="@style/ProfileItemText"
                 android:id="@+id/kind_of_contract"
                 />
@@ -120,9 +100,10 @@
             <TextView
                 style="@style/ProfileItemLabel"
                 android:text="@string/number_of_months" />
-            <TextView
+            <EditText
                 style="@style/ProfileItemText"
                 android:id="@+id/number_of_months"
+                android:inputType="number"
                 />
         </LinearLayout>
 
@@ -134,52 +115,26 @@
             <TextView
                 style="@style/ProfileItemLabel"
                 android:text="@string/competences" />
-            <TextView
+            <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
                 style="@style/ProfileItemText"
                 android:id="@+id/competences"
                 />
         </LinearLayout>
 
-        <LinearLayout android:orientation="horizontal"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/edit_offer_save"
             android:layout_width="match_parent"
-            android:id="@+id/student_actions"
-            android:visibility="invisible">
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"></View>
-            <Button
-                android:id="@+id/apply_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/app_default_background"
-                android:text="@string/apply"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/white"
-                />
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"></View>
-            <Button
-                android:id="@+id/add_to_favourite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/app_default_background"
-                android:text="@string/add_to_favourite"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/white"
-                />
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"></View>
-        </LinearLayout>
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginBottom="@dimen/vertical_margin"
+            android:layout_marginLeft="@dimen/side_margin"
+            android:layout_marginRight="@dimen/side_margin"
+            android:background="@color/app_default_background"
+            android:text="@string/save"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/white"
+            />
 
     </LinearLayout>
 </ScrollView>

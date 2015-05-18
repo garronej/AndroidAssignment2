@@ -116,6 +116,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CompanyFlow.OffersProposed" />
         </activity>
+
+        <activity
+            android:name=".CompanyFlow.OfferEditActivity"
+            android:label="@string/title_activity_offer_edit_activity"
+            android:parentActivityName=".CompanyFlow.JobOfferCreation"
+            android:theme="@style/ActionBarTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CompanyFlow.JobOfferCreation" />
+        </activity>
         <activity
             android:name=".CompanyFlow.OfferShowActivity"
             android:label="@string/title_activity_offer_show"

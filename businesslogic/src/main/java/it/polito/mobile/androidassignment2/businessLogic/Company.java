@@ -342,4 +342,14 @@ public class Company {
     public void setCompetences(String[] competences) {
         this.competences = competences;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Company){
+            Company c = (Company) o;
+            return c.getId()==this.getId();
+        }
+        return false;
+    }
 }

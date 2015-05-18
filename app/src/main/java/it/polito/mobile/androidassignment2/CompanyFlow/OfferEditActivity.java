@@ -6,20 +6,23 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.zip.DataFormatException;
 
+import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
@@ -29,7 +32,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
-public class OfferShowActivity extends AppCompatActivity {
+public class OfferEditActivity extends AppCompatActivity {
 
 
     private DownloadReceiver downloadfinished;
@@ -50,40 +53,34 @@ public class OfferShowActivity extends AppCompatActivity {
 
 
     private AsyncTask<Object, Void, Object> task=null;
-    private Button editOfferButton;
     private TextView code;
     private TextView description;
     private TextView contractType;
     private TextView numberOfMonths;
     private TextView location;
     private ImageView photo;
-    private TextView competences;
-    private LinearLayout studentActions;
-    private Button applyButton;
-    private Button addToFavouriteButton;
+    private CompetencesCompletionTextView competences;
     private TextView companyName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_offer_show);
-        editOfferButton = (Button) findViewById(R.id.edit_offer_button);
-
-
+        setContentView(R.layout.activity_offer_edit);
 
         code = (TextView) findViewById(R.id.job_offer_code);
         description = (TextView) findViewById(R.id.job_offer_description);
         location = (TextView) findViewById(R.id.location);
         numberOfMonths = (TextView) findViewById(R.id.number_of_months);
         contractType = (TextView) findViewById(R.id.kind_of_contract);
-        competences = (TextView) findViewById(R.id.competences);
-        studentActions = (LinearLayout) findViewById(R.id.student_actions);
-        applyButton = (Button) findViewById(R.id.apply_button);
-        addToFavouriteButton = (Button) findViewById(R.id.add_to_favourite);
+        competences = (CompetencesCompletionTextView) findViewById(R.id.competences);
+
         companyName = (TextView) findViewById(R.id.offer_company_fullname);
         pbLogoSpinner = findViewById(R.id.photo_spinner);
         photo=(ImageView)findViewById(R.id.photo);
         downloadfinished= new DownloadReceiver();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(OfferEditActivity.this, android.R.layout.simple_list_item_1, new ArrayList<String>());
+        competences.setAdapter(adapter);
 
     }
 
@@ -96,14 +93,49 @@ public class OfferShowActivity extends AppCompatActivity {
             finish();
             return;
         }
-        editOfferButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.edit_offer_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), OfferEditActivity.class);
-                i.putExtra("offerId", offerId);
-                startActivity(i);
+                Offer o = new Offer();
+                try {
+                    o.manuallySetId(offerId);
+                } catch (DataFormatException e) {
+                    //never here
+                }
+                o.setCode(code.getText().toString());
+                o.setDescriptionOfWork(description.getText().toString());
+                o.setLocation(location.getText().toString());
+                o.setKindOfContract(contractType.getText().toString());
+                if(numberOfMonths.getText().toString().matches("[0-9]+")) {
+                    o.setDurationMonths(Integer.parseInt(numberOfMonths.getText().toString()));
+                }
+
+                String[] comp = new String[competences.getObjects().size()];
+                int i=0;
+                for(Object obj : competences.getObjects()){
+                    comp[i]=obj.toString();
+                    i++;
+                }
+                o.setCompetences(comp);
+
+                Manager.updateOffer(o, new Manager.ResultProcessor<Offer>() {
+                    @Override
+                    public void process(Offer arg, Exception e) {
+                        if(e!=null){
+                            //TODO: show some error message..
+                            return;
+                        }
+                        finish();
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                });
             }
         });
+
 
         registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
 
@@ -125,45 +157,17 @@ public class OfferShowActivity extends AppCompatActivity {
                 companyName.setText(arg.getCompanyName());
                 description.setText(arg.getDescriptionOfWork());
 
-                String c="";
+
                 if(arg.getCompetences()!=null && arg.getCompetences().length>0){
-                    c=arg.getCompetences()[0];
-                    for(int i=1;i<arg.getCompetences().length;i++){
-                        c+=","+arg.getCompetences()[i];
+                    for(int i=0;i<arg.getCompetences().length;i++){
+                        competences.addObject(arg.getCompetences()[i]);
                     }
 
                 }
-                competences.setText(c);
+
                 contractType.setText(arg.getKindOfContract());
                 if(arg.getDurationMonths() != null)
                     numberOfMonths.setText(arg.getDurationMonths().toString());
-
-
-
-                try {
-                    if (Session.getInstance().getWhoIsLogged() == Company.class
-                            && arg.getCompanyId() == Session.getInstance().getCompanyLogged().getId()) {
-                        editOfferButton.setVisibility(View.VISIBLE);
-                    }
-
-
-                    //TODO: test
-                    if(Session.getInstance().getWhoIsLogged() == Student.class){
-                        studentActions.setVisibility(View.VISIBLE);
-                        if(Session.getInstance().getFavoriteOffer().contains(arg)){
-                            setButtonToUnfavStudent(arg);
-                        }else{
-                            setButtonToFavStudent(arg);
-                        }
-
-                        //TODO: the same for applied offers...
-
-                    }
-                }catch (Exception exc){
-                    //never here
-                }
-
-
 
             }
 
@@ -174,81 +178,7 @@ public class OfferShowActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
     }
-
-
-    private void setButtonToUnfavStudent(final Offer arg){
-        addToFavouriteButton.setText(R.string.unfav_offer);
-        addToFavouriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Manager.deleteAFavouriteOfferOfAStudent(Session.getInstance().getStudentLogged().getId(), arg.getId(),
-                            new Manager.ResultProcessor<Integer>() {
-                                @Override
-                                public void process(Integer r, Exception e) {
-                                    if(e != null){
-                                        //TODO: show error message
-                                        return;
-                                    }
-                                    try {
-                                        Session.getInstance().getFavoriteOffer().remove(arg);
-                                    } catch (DataFormatException e1) {
-                                        //never here
-                                    }
-                                    setButtonToFavStudent(arg);
-                                }
-
-                                @Override
-                                public void cancel() {
-
-                                }
-                            });
-                } catch (DataFormatException e1) {
-                    //never here
-                }
-            }
-        });
-
-    }
-
-    private void setButtonToFavStudent(final Offer arg){
-        addToFavouriteButton.setText(R.string.add_to_favourite);
-
-        addToFavouriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Manager.addFavouriteOfferForStudent(Session.getInstance().getStudentLogged().getId(), arg.getId(), new Manager.ResultProcessor<Offer>() {
-                        @Override
-                        public void process(Offer arg, Exception e) {
-                            if(e != null){
-                                //TODO: show error message
-                                return;
-                            }
-                            try {
-                                Session.getInstance().getFavoriteOffer().add(arg);
-                            } catch (DataFormatException e1) {
-                                //never here
-                            }
-                            setButtonToUnfavStudent(arg);
-                        }
-
-                        @Override
-                        public void cancel() {
-
-                        }
-                    });
-                } catch (Exception e) {
-                }
-            }
-        });
-    }
-
 
     @Override
     protected void onPause() {
