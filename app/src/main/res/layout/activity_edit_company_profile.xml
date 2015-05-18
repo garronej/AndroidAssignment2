@@ -75,20 +75,6 @@
             style="@style/ProfileItem" >
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/email" />
-            <EditText
-                style="@style/ProfileItemText"
-                android:id="@+id/edit_c_email_et"
-                android:textColorLink="@color/blue_sky"
-                />
-        </LinearLayout>
-
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
-
-        <LinearLayout
-            style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
                 android:text="@string/number_of_workers" />
             <EditText
                 android:id="@+id/edit_c_number_of_workers_et"

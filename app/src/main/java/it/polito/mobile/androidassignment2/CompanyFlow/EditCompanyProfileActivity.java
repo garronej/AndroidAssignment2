@@ -43,7 +43,6 @@ import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 public class EditCompanyProfileActivity extends ActionBarActivity  {
     private ImageView ivLogo;
     private EditText etName;
-    private EditText etEmail;
     private EditText etDescription;
     private EditText etMission;
     private EditText etNumberOfWorkers;
@@ -118,7 +117,6 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
     }
 
     private void findViews() {
-        etEmail = (EditText) findViewById(R.id.edit_c_email_et);
         ivLogo = (ImageView) findViewById(R.id.edit_c_logo_iv);
         etName = (EditText) findViewById(R.id.edit_c_name_et);
         etMission = (EditText) findViewById(R.id.edit_c_mission_et);
@@ -135,7 +133,6 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
 
     private void setupViewsAndCallbacks() {
         etName.setText(loggedCompany.getName());
-        etEmail.setText(loggedCompany.getEmail());
         etDescription.setText(loggedCompany.getDescription());
         ivLogo.setImageURI(logoUri);
         etLocation.setText(loggedCompany.getLocation());
@@ -152,7 +149,6 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
                     loggedCompany.setName(etName.getText().toString());
                     loggedCompany.setDescription(etDescription.getText().toString());
                     loggedCompany.setMission(etMission.getText().toString());
-                    loggedCompany.setEmail(etEmail.getText().toString());
                     loggedCompany.setLocation(etLocation.getText().toString());
                     if (!etNumberOfWorkers.getText().toString().equals("")) {
                         loggedCompany.setNumberOfWorkers(Integer.parseInt(etNumberOfWorkers.getText().toString()));

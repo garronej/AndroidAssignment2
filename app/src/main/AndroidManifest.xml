@@ -31,7 +31,7 @@
         </activity>
 
         <activity
-            android:name=".StudentFlow.ShowStudentProfileActivity"
+            android:name=".CompanyFlow.ShowStudentProfileActivity"
             android:label="@string/title_activity_show_student_profile" >
 
         </activity>
@@ -42,6 +42,11 @@
         <activity
             android:name=".CompanyFlow.EditCompanyProfileActivity"
             android:label="@string/title_activity_edit_company_profile" >
+        </activity>
+
+        <activity
+            android:name=".StudentFlow.ShowCompanyProfileActivity"
+            android:label="@string/title_activity_show_company_profile" >
         </activity>
 
         <activity

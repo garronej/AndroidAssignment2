@@ -43,7 +43,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     private EditText etSurname;
     private EditText etLinks;
     private Button bCv;
-    private EditText etEmail;
     private EditText etUniversityCareer;
     private ToggleButton tbAvailability;
     private Button bUpdateProfile;
@@ -136,7 +135,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     }
 
     private void findViews() {
-        etEmail = (EditText) findViewById(R.id.edit_email_et);
         ivPhoto = (ImageView) findViewById(R.id.edit_photo_iv);
         etName = (EditText) findViewById(R.id.edit_name_et);
         etSurname = (EditText) findViewById(R.id.edit_surname_et);
@@ -158,7 +156,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     private void setupViewsAndCallbacks() {
         etName.setText(loggedStudent.getName());
         etSurname.setText(loggedStudent.getSurname());
-        etEmail.setText(loggedStudent.getEmail());
         etLinks.setText(loggedStudent.getLinksToString(", "));
         etUniversityCareer.setText(loggedStudent.getUniversityCareer());
         ivPhoto.setImageURI(photoUri);
@@ -188,7 +185,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                     bUpdateProfile.setVisibility(View.INVISIBLE);
                     loggedStudent.setName(etName.getText().toString());
                     loggedStudent.setSurname(etSurname.getText().toString());
-                    loggedStudent.setEmail(etEmail.getText().toString());
                     String links = etLinks.getText().toString();
                     if (!links.equals("")) {
                         String[] linksA = links.split(",");

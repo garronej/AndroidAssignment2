@@ -1,4 +1,4 @@
-package it.polito.mobile.androidassignment2.StudentFlow;
+package it.polito.mobile.androidassignment2.CompanyFlow;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

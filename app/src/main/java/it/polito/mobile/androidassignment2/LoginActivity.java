@@ -29,8 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.androidassignment2.CompanyFlow.CompanyProfileActivity;
-import it.polito.mobile.androidassignment2.CompanyFlow.StudentsFavouritesActivity;
-import it.polito.mobile.androidassignment2.StudentFlow.ShowStudentProfileActivity;
+import it.polito.mobile.androidassignment2.StudentFlow.ShowCompanyProfileActivity;
 import it.polito.mobile.androidassignment2.StudentFlow.StudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
