@@ -139,4 +139,7 @@
     <string name="button_show_favourite">Show Favourites</string>
     <string name="button_show_candidatures">Show Candidatures</string>
     <string name="show_all_candidates">Show all candidates</string>
+    <string name="action_delete_account">Delete Account</string>
+    <string name="action_logout">Logout</string>
+    <string name="confirm">Confirm</string>
 </resources>

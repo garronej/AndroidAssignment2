@@ -4,7 +4,14 @@
               android:orientation="vertical"
               tools:context="it.polito.mobile.androidassignment2.CompanyFlow.OffersProposed">
 
-    <include layout="@layout/company_tabbed_menu"></include>
+    <include layout="@layout/student_tabbed_menu"></include>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:id="@+id/imageView"
+        android:background="@color/strong_blue"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -19,6 +26,7 @@
             android:textColor="@color/white"
             android:text="@string/button_show_favourite"
             />
+
         <Button
             android:id="@+id/show_candidature"
             android:layout_weight="1"

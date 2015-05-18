@@ -51,8 +51,8 @@ public class CompaniesFavouritesActivity extends Activity {
         findViewById(R.id.tab_menu_student_offers).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Intent i = new Intent(getApplicationContext(), );
-                //startActivity(i);
+                Intent i = new Intent(getApplicationContext(), OffersListsActivity.class);
+                startActivity(i);
             }
         });
 
