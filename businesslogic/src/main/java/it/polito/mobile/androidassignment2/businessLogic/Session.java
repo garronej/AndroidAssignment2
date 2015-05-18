@@ -168,7 +168,8 @@ public class Session {
 
             this.favCompanies = Manager.getFavouriteCompanyOfStudent(this.studentLogged.getId());
             this.offers = Manager.getFavouriteOfferOfStudent(this.studentLogged.getId());
-            this.appliedOffers = Manager.getFavouriteOfferOfStudent(this.studentLogged.getId());
+            this.appliedOffers = Manager.getAppliedOfferOfStudent(this.studentLogged.getId(),null);
+
 
         }else if( obj.getClass() == Company.class ){
             this.whoIsLogged = Company.class;

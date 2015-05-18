@@ -47,6 +47,8 @@ public class Task {
         LOGIN,
 
         GET_STUDENTS_OF_JOB_OFFER,
+        GET_APPLIED_OFFER_OF_STUDENT,
+
         SUBSCRIBE_STUDENTS_OF_JOB_OFFER,
         GET_ALL_STUDENT_COMPETENCES,
 
@@ -166,6 +168,8 @@ public class Task {
                     case GET_STUDENTS_OF_JOB_OFFER:
                         out = Manager.getStudentsOfJobOffer((int) params[0], (Student) params[1]);
                         break;
+                    case GET_APPLIED_OFFER_OF_STUDENT:
+                        out = Manager.getAppliedOfferOfStudent( (int) params[0], (Offer) params[1]);
 
                     case SUBSCRIBE_STUDENTS_OF_JOB_OFFER:
                         out = Manager.subscribeStudentOfJobOffer((int) params[0], (int) params[1]);
@@ -240,8 +244,9 @@ public class Task {
                         ((Manager.ResultProcessor<List<Company>>)this.postProcessor).process((List<Company>)out,this.exception);
                         break;
 
-                    case GET_OFFER_MATCHING_CRITERIA:
+                    case GET_OFFER_MATCHING_CRITERIA :
                     case GET_FAVOURITE_OFFER_OF_STUDENT :
+                    case GET_APPLIED_OFFER_OF_STUDENT :
                         ((Manager.ResultProcessor<List<Offer>>)this.postProcessor).process((List<Offer>)out,this.exception);
                         break;
 

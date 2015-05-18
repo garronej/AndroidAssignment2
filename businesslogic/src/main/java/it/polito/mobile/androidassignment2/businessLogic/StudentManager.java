@@ -264,53 +264,13 @@ class StudentManager {
 
 
 
-    protected static List<Student> getStudentsOfJobOffer( Integer idJobOffer, Student criteria ) throws RestApiException, IOException {
-
-        Map<String,String> params = new HashMap<>();
-
-        if( criteria != null ){
-
-            params = criteria.toFormParams();
-
-        }
-
-        params.put("student[offer_applied_id]", idJobOffer.toString());
 
 
-
-        String resp = RESTManager.send(RESTManager.GET, BASE_URI, params);
-
-        try{
-
-
-            JSONArray studentsJson = (new JSONObject(resp)).getJSONArray("students");
-
-            List<Student> students = new ArrayList<Student>();
-
-
-
-            for( int i = 0; i < studentsJson.length(); i++){
-
-                JSONObject studentJson = studentsJson.getJSONObject(i);
-
-                students.add( new Student(studentJson) );
-            }
-
-            return students;
-
-
-        } catch (JSONException e) {
-            throw new RestApiException(-1,"Internal Error StudentManager in getStudentMatchingCriteria");
-        }
-
-    }
-
-
-    protected static Integer subscribeStudentOfJobOffer(Integer idJobOffer, Integer idStudentOffer)
+    protected static Integer subscribeStudentOfJobOffer(Integer offerId, Integer idStudentOffer)
             throws IOException, RestApiException{
 
         HashMap<String, String> params = new HashMap<>();
-        params.put("application[offer_id]", idJobOffer.toString());
+        params.put("application[offer_id]", offerId.toString());
 
         RESTManager.send(RESTManager.POST, BASE_URI + "/" + idStudentOffer + "/applications/offers/", params);
         return 0;
@@ -318,10 +278,10 @@ class StudentManager {
     }
 
 
-    protected static Integer unsubscribeStudentOfJobOffer(Integer idJobOffer, Integer idStudentOffer)
+    protected static Integer unsubscribeStudentOfJobOffer(Integer offerId, Integer idStudentOffer)
             throws IOException, RestApiException{
 
-        RESTManager.send(RESTManager.DELETE, BASE_URI + "/" + idStudentOffer + "/applications/offers/" + idJobOffer, null);
+        RESTManager.send(RESTManager.DELETE, BASE_URI + "/" + idStudentOffer + "/applications/offers/" + offerId, null);
         return 0;
 
     }
@@ -344,6 +304,52 @@ class StudentManager {
         } catch (JSONException e) {
             throw new RestApiException(-1,"Internal Error CompetenceManager in getAllCompetences");
         }
+    }
+
+
+    protected static List<Offer> getAppliedOfferOfStudent(int studentId, Offer criteria) throws IOException, RestApiException{
+
+
+        Map<String,String> params = new HashMap<>();
+
+        if( criteria != null ){
+
+
+            params = criteria.toFormParams();
+
+        }
+
+        params.put("student_id", Integer.toString(studentId));
+
+
+
+        String resp = RESTManager.send(RESTManager.GET, "offers", params);
+
+        try{
+
+
+            JSONArray offersJson = (new JSONObject(resp)).getJSONArray("offers");
+
+            List<Offer> offers = new ArrayList<Offer>();
+
+
+
+            for( int i = 0; i < offersJson.length(); i++){
+
+                JSONObject offerJson = offersJson.getJSONObject(i);
+
+                offers.add( new Offer(offerJson) );
+            }
+
+            return offers;
+
+
+        } catch (JSONException e) {
+            throw new RestApiException(-1,"Internal Error StudentManager in getAppliedOfferOfStudent()");
+        }
+
+
+
     }
 
 

@@ -626,16 +626,43 @@ public class Manager {
 
 
 
-    public static List<Student> getStudentsOfJobOffer( int jobOffer, Student criteria ) throws IOException, RestApiException {
-        return StudentManager.getStudentsOfJobOffer(jobOffer, criteria);
+
+
+    public static List<Student> getStudentsOfJobOffer( int offerId, Student criteria ) throws IOException, RestApiException {
+        return OfferManager.getStudentsOfJobOffer(offerId, criteria);
     }
 
     //TODO test
     public static Task.General getStudentsOfJobOffer( int jobOffer, Student criteria, ResultProcessor<List<Student>> postProcessor){
+
         Task.General t= new Task.General(Task.Method.GET_STUDENTS_OF_JOB_OFFER,postProcessor);
         t.execute(jobOffer, criteria);
         return t;
     }
+
+
+
+
+
+
+    protected static List<Offer> getAppliedOfferOfStudent(int studentId, Offer criteria) throws IOException, RestApiException{
+        return StudentManager.getAppliedOfferOfStudent(studentId,criteria);
+    }
+
+    protected static Task.General getAppliedOfferOfStudent( int studentId, Offer criteria, ResultProcessor<List<Offer>> postProcessor){
+
+        Task.General t= new Task.General(Task.Method.GET_APPLIED_OFFER_OF_STUDENT,postProcessor);
+        t.execute(studentId,criteria);
+        return t;
+
+    }
+
+
+
+
+
+
+
 
     public static List<String> getAllStudentsCompetences() throws IOException, RestApiException{
         return StudentManager.getAllCompetences();
