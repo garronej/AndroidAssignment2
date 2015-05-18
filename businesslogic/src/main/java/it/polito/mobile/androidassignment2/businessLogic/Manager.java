@@ -631,7 +631,7 @@ public class Manager {
     }
 
     //TODO test
-    public static Task.General getStudentsOfJobOffer( int jobOffer, Student criteria, ResultProcessor<Student> postProcessor){
+    public static Task.General getStudentsOfJobOffer( int jobOffer, Student criteria, ResultProcessor<List<Student>> postProcessor){
         Task.General t= new Task.General(Task.Method.GET_STUDENTS_OF_JOB_OFFER,postProcessor);
         t.execute(jobOffer, criteria);
         return t;

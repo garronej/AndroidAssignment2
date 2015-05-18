@@ -34,6 +34,7 @@ public class OfferShowActivity extends AppCompatActivity {
 
     private DownloadReceiver downloadfinished;
     private View pbLogoSpinner;
+    private Button candidatesButton;
 
     class DownloadReceiver extends BroadcastReceiver{
 
@@ -69,7 +70,7 @@ public class OfferShowActivity extends AppCompatActivity {
         setContentView(R.layout.activity_offer_show);
         editOfferButton = (Button) findViewById(R.id.edit_offer_button);
 
-
+        candidatesButton = (Button) findViewById(R.id.show_all_candidates);
 
         code = (TextView) findViewById(R.id.job_offer_code);
         description = (TextView) findViewById(R.id.job_offer_description);
@@ -100,6 +101,15 @@ public class OfferShowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), OfferEditActivity.class);
+                i.putExtra("offerId", offerId);
+                startActivity(i);
+            }
+        });
+
+        candidatesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), SearchStudents.class);
                 i.putExtra("offerId", offerId);
                 startActivity(i);
             }
@@ -144,6 +154,8 @@ public class OfferShowActivity extends AppCompatActivity {
                     if (Session.getInstance().getWhoIsLogged() == Company.class
                             && arg.getCompanyId() == Session.getInstance().getCompanyLogged().getId()) {
                         editOfferButton.setVisibility(View.VISIBLE);
+                        candidatesButton.setVisibility(View.VISIBLE);
+
                     }
 
 

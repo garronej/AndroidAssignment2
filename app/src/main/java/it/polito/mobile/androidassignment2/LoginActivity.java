@@ -237,6 +237,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 					editor.putString("EMAIL", email);
 					editor.putString("PWD", password);
 
+					editor.commit();
+
 					if(Session.getInstance().getWhoIsLogged() == Company.class){
 						Log.d("poliJobs", "Company");
 						Intent i = new Intent(getApplicationContext(), CompanyProfileActivity.class);
@@ -248,7 +250,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 						Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
 						startActivity(i);
 					}
-					editor.commit();
+
 
 
 				}

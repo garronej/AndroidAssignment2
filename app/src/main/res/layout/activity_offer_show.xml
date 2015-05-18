@@ -59,7 +59,21 @@
             android:visibility="gone"
             />
 
-
+        <Button
+            android:id="@+id/show_all_candidates"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginBottom="@dimen/vertical_margin"
+            android:layout_marginLeft="@dimen/side_margin"
+            android:layout_marginRight="@dimen/side_margin"
+            android:background="@color/app_default_background"
+            android:text="@string/show_all_candidates"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            />
 
 
 

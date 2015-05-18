@@ -42,6 +42,8 @@ public class SearchStudents extends AppCompatActivity {
     private CompetencesCompletionTextView competences;
     private AsyncTask<Object, Void, Object> task1=null;
 
+    private int offerId = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class SearchStudents extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        offerId=getIntent().getIntExtra("offerId", -1);
 
         locationText = (EditText) findViewById(R.id.student_search_location);
         availability = (CheckBox) findViewById(R.id.student_search_availability);
@@ -119,53 +121,103 @@ public class SearchStudents extends AppCompatActivity {
                     s.setCompetences(comp);
                 }
 
-
-                task=Manager.getStudentsMatchingCriteria(s, new Manager.ResultProcessor<List<Student>>() {
-                    @Override
-                    public void process(final List<Student> arg, Exception e) {
-                        task=null;
-                        if (e != null) {
-                            //TODO: show error message
-                            return;
-                        }
-                        if (arg.size() == 0) {
-                            //TODO: display some message...
-                        }
-                        listView.setAdapter(new BaseAdapter() {
-                            @Override
-                            public int getCount() {
-                                return arg.size();
+                if(offerId==-1) {
+                    task = Manager.getStudentsMatchingCriteria(s, new Manager.ResultProcessor<List<Student>>() {
+                        @Override
+                        public void process(final List<Student> arg, Exception e) {
+                            task = null;
+                            if (e != null) {
+                                //TODO: show error message
+                                return;
                             }
-
-                            @Override
-                            public Object getItem(int position) {
-                                return arg.get(position);
+                            if (arg.size() == 0) {
+                                //TODO: display some message...
                             }
-
-                            @Override
-                            public long getItemId(int position) {
-                                return arg.get(position).getId();
-                            }
-
-                            @Override
-                            public View getView(int position, View convertView, ViewGroup parent) {
-                                if (convertView == null) {
-                                    convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
+                            listView.setAdapter(new BaseAdapter() {
+                                @Override
+                                public int getCount() {
+                                    return arg.size();
                                 }
-                                ((TextView) convertView.findViewById(R.id.mainName)).setText(((Student) getItem(position)).getFullname());
-                                ((TextView) convertView.findViewById(R.id.descrption)).setText(((Student) getItem(position)).getUniversityCareer());
-                                return convertView;
+
+                                @Override
+                                public Object getItem(int position) {
+                                    return arg.get(position);
+                                }
+
+                                @Override
+                                public long getItemId(int position) {
+                                    return arg.get(position).getId();
+                                }
+
+                                @Override
+                                public View getView(int position, View convertView, ViewGroup parent) {
+                                    if (convertView == null) {
+                                        convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
+                                    }
+                                    ((TextView) convertView.findViewById(R.id.mainName)).setText(((Student) getItem(position)).getFullname());
+                                    ((TextView) convertView.findViewById(R.id.descrption)).setText(((Student) getItem(position)).getUniversityCareer());
+                                    return convertView;
+                                }
+                            });
+
+
+                        }
+
+                        @Override
+                        public void cancel() {
+                            task = null;
+                        }
+                    });
+                }else{
+                    task = Manager.getStudentsOfJobOffer(offerId, s, new Manager.ResultProcessor<List<Student>>() {
+                        @Override
+                        public void process(final List<Student> arg, Exception e) {
+                            task = null;
+                            if (e != null) {
+                                //TODO: show error message
+                                return;
                             }
-                        });
+                            if (arg.size() == 0) {
+                                //TODO: display some message...
+                            }
+                            listView.setAdapter(new BaseAdapter() {
+                                @Override
+                                public int getCount() {
+                                    return arg.size();
+                                }
+
+                                @Override
+                                public Object getItem(int position) {
+                                    return arg.get(position);
+                                }
+
+                                @Override
+                                public long getItemId(int position) {
+                                    return arg.get(position).getId();
+                                }
+
+                                @Override
+                                public View getView(int position, View convertView, ViewGroup parent) {
+                                    if (convertView == null) {
+                                        convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
+                                    }
+                                    ((TextView) convertView.findViewById(R.id.mainName)).setText(((Student) getItem(position)).getFullname());
+                                    ((TextView) convertView.findViewById(R.id.descrption)).setText(((Student) getItem(position)).getUniversityCareer());
+                                    return convertView;
+                                }
+                            });
 
 
-                    }
+                        }
 
-                    @Override
-                    public void cancel() {
-                        task=null;
-                    }
-                });
+                        @Override
+                        public void cancel() {
+                            task = null;
+                        }
+                    });
+
+
+                }
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

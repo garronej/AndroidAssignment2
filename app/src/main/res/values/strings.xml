@@ -138,4 +138,5 @@
     <string name="title_activity_offers_lists">OffersListsActivity</string>
     <string name="button_show_favourite">Show Favourites</string>
     <string name="button_show_candidatures">Show Candidatures</string>
+    <string name="show_all_candidates">Show all candidates</string>
 </resources>

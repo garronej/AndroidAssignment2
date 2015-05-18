@@ -70,7 +70,7 @@ class StudentManager {
 
         if( criteria != null ){
 
-            if( criteria.getName() == null  &&
+            /*if( criteria.getName() == null  &&
                     criteria.getSurname() == null &&
                     criteria.getUniversityCareer() == null &&
                     criteria.getCompetences() == null &&
@@ -79,7 +79,7 @@ class StudentManager {
                     criteria.getSex() == null){
                 throw new RestApiException(422, "getStudentsMatchingCriteria : no valid search criteria had been specified");
             }
-
+            */
             params = criteria.toFormParams();
 
         }
@@ -274,7 +274,7 @@ class StudentManager {
 
         }
 
-        params.put("offer_applied_id", idJobOffer.toString());
+        params.put("student[offer_applied_id]", idJobOffer.toString());
 
 
 
