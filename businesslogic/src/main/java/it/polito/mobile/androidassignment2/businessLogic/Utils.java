@@ -29,9 +29,9 @@ public class Utils {
     //check for illegal character in a name and transform garRone into Garrone
     protected static String formatName(String name)throws DataFormatException {
 
+        if( name == "" ) return "";//TODO: comparing references? rick
+        if( name.equals("") ) return "";
         if( name == null ) return null;
-        if( name == "" ) return null; //TODO: comparing references? rick
-        if( name.equals("") ) return null;
         /*
         Pattern pattern = Pattern.compile("[A-Za-zéèêîùàò\\-]*");
         Matcher mat = pattern.matcher(name);
