@@ -29,6 +29,7 @@ public class Session {
 
     //Represent ether the favourite offer of a student or the offer that belong to a company.
     private List<Offer> offers= null;
+    private List<Offer> appliedOffers = null;
 
     //uri on the phone of the profile picture of logged company/student
     //this is set by the profile_activity or edit_profile_activity
@@ -76,6 +77,19 @@ public class Session {
         }
 
     }
+
+
+    public List<Offer> getAppliedOffers() throws DataFormatException{
+
+
+        if( this.whoIsLogged == Student.class ){
+            return this.appliedOffers;
+        }else{
+            throw new DataFormatException("Session : getAppliedOffers() apply only when a company is logged.");
+        }
+
+    }
+
 
     public List<Company> getFavCompanies() throws DataFormatException{
 
@@ -154,6 +168,7 @@ public class Session {
 
             this.favCompanies = Manager.getFavouriteCompanyOfStudent(this.studentLogged.getId());
             this.offers = Manager.getFavouriteOfferOfStudent(this.studentLogged.getId());
+            this.appliedOffers = Manager.getFavouriteOfferOfStudent(this.studentLogged.getId());
 
         }else if( obj.getClass() == Company.class ){
             this.whoIsLogged = Company.class;
