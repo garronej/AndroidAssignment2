@@ -270,6 +270,11 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
                     public void process(final Integer i, Exception e) {
                         pbFav.setVisibility(View.INVISIBLE);
                         bFav.setVisibility(View.VISIBLE);
+                        try {
+                            Session.getInstance().getFavCompanies().remove(company);
+                        } catch (DataFormatException ee) {
+                            throw new RuntimeException(ee);
+                        }
                         setButtonForFav();
                     }
                 });
@@ -295,6 +300,11 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
                     public void process(final Company s, Exception e) {
                         pbFav.setVisibility(View.INVISIBLE);
                         bFav.setVisibility(View.VISIBLE);
+                        try {
+                            Session.getInstance().getFavCompanies().remove(company);
+                        } catch (DataFormatException ee) {
+                            throw new RuntimeException(ee);
+                        }
                         setButtonForUnfav();
                     }
                 });

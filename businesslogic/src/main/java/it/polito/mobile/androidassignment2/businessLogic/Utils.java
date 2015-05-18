@@ -29,9 +29,9 @@ public class Utils {
     //check for illegal character in a name and transform garRone into Garrone
     protected static String formatName(String name)throws DataFormatException {
 
+        if( name == "" ) return "";//TODO: comparing references? rick
+        if( name.equals("") ) return "";
         if( name == null ) return null;
-        if( name == "" ) return null; //TODO: comparing references? rick
-        if( name.equals("") ) return null;
         /*
         Pattern pattern = Pattern.compile("[A-Za-zéèêîùàò\\-]*");
         Matcher mat = pattern.matcher(name);
@@ -50,10 +50,10 @@ public class Utils {
 
     //To lower case
     protected static String toLowerCase( String in ){
-
+        if( in == "" ) return "";//TODO: comparing references? rick
+        if( in.equals("") ) return "";
         if( in == null ) return null;
-        if( in == "" ) return null;//TODO: comparing references? rick
-        if( in.equals("") ) return null;
+
 
 
 

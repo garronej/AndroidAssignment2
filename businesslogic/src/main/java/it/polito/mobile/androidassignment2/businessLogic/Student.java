@@ -437,6 +437,14 @@ public class Student {
         return s;
     }
 
+    public boolean equals(Object o) {
+        if(o instanceof Company){
+            Company c = (Company) o;
+            return c.getId()==this.getId();
+        }
+        return false;
+    }
+
     public String getSex() {
         return sex;
     }
