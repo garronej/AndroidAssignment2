@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
@@ -101,6 +102,12 @@ public class JobOfferCreation extends AppCompatActivity {
                             Toast.makeText(JobOfferCreation.this, R.string.job_offer_failed, Toast.LENGTH_LONG ).show();
 
                             return;
+                        }
+
+                        try {
+                            Session.getInstance().getOfferOfTheLoggedCompany().add(arg);
+                        } catch (DataFormatException e1) {
+                            //never here
                         }
                         finish();
                     }

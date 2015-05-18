@@ -89,7 +89,7 @@ public class OfferShowActivity extends AppCompatActivity {
                 competences.setText(c);
                 contractType.setText(arg.getKindOfContract());
                 if(arg.getDurationMonths() != null)
-                    numberOfMonths.setText(arg.getDurationMonths());
+                    numberOfMonths.setText(arg.getDurationMonths().toString());
 
                 try {
                     if (Session.getInstance().getWhoIsLogged() == Company.class

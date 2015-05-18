@@ -16,8 +16,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.StudentFlow.ShowStudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
@@ -26,7 +28,6 @@ public class StudentsFavouritesActivity extends Activity {
 
 
     private ListView listView;
-    private AsyncTask<Object, Void, Object> task;
 
 
     private void addTabMenuButtonCallbacks(){
@@ -67,69 +68,54 @@ public class StudentsFavouritesActivity extends Activity {
         listView.setDivider(getResources().getDrawable(R.drawable.items_divider));
         ((LinearLayout)findViewById(R.id.favourite_students_list)).addView(listView);
 
+        List<Student> students = null;
         try {
-
-
-            task=Manager.getFavouriteStudentOfCompany(Session.getInstance().getCompanyLogged().getId(), new Manager.ResultProcessor<List<Student>>() {
-
-                @Override
-                public void cancel() {
-                    task=null;
-                }
-
-                @Override
-                public void process(final List<Student> arg, Exception e) {
-                    task=null;
-                    if (e != null) {
-                        //TODO: show error message
-                        return;
-                    }
-
-                    if (arg.size() == 0) {
-                        //TODO: display some message...
-                    }
-                    listView.setAdapter(new BaseAdapter() {
-                        @Override
-                        public int getCount() {
-                            return arg.size();
-                        }
-
-                        @Override
-                        public Object getItem(int position) {
-                            return arg.get(position);
-                        }
-
-                        @Override
-                        public long getItemId(int position) {
-                            return arg.get(position).getId();
-                        }
-
-
-                        @Override
-                        public View getView(int position, View convertView, ViewGroup parent) {
-                            if (convertView == null) {
-                                convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
-                            }
-                            ((TextView) convertView.findViewById(R.id.mainName)).setText(((Student) getItem(position)).getFullname());
-                            ((TextView) convertView.findViewById(R.id.descrption)).setText(((Student) getItem(position)).getUniversityCareer());
-                            return convertView;
-                        }
-                    });
-
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            //TODO: start the intent
-
-
-                        }
-                    });
-                }
-            });
-        }catch(Exception e){
-            //TODO: handle exception
+            students = Session.getInstance().getFavStudents();
+        } catch (DataFormatException e) {
+            //never here
         }
+        final List<Student> finalStudents = students;
+        listView.setAdapter(new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return finalStudents.size();
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return finalStudents.get(position);
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return finalStudents.get(position).getId();
+            }
+
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
+                }
+                ((TextView) convertView.findViewById(R.id.mainName)).setText(((Student) getItem(position)).getFullname());
+                ((TextView) convertView.findViewById(R.id.descrption)).setText(((Student) getItem(position)).getUniversityCareer());
+                return convertView;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent i = new Intent(getApplicationContext(), ShowStudentProfileActivity.class);
+                i.putExtra("studentId", (int)id);
+                startActivity(i);
+
+
+            }
+        });
+
+
     }
 
         @Override
@@ -157,9 +143,5 @@ public class StudentsFavouritesActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(task!=null){
-            task.cancel(true);
-            task=null;
-        }
     }
 }
