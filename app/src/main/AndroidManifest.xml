@@ -27,13 +27,10 @@
         <activity
             android:name=".StudentFlow.StudentProfileActivity"
             android:label="@string/title_activity_student_profile" >
-
         </activity>
-
         <activity
             android:name=".CompanyFlow.ShowStudentProfileActivity"
             android:label="@string/title_activity_show_student_profile" >
-
         </activity>
         <activity
             android:name=".StudentFlow.EditStudentProfileActivity"
@@ -132,10 +129,14 @@
             android:name=".CompanyFlow.OfferShowActivity"
             android:label="@string/title_activity_offer_show"
             android:parentActivityName=".CompanyFlow.OffersProposed"
-            android:theme="@style/ActionBarTheme">
+            android:theme="@style/ActionBarTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CompanyFlow.OffersProposed" />
+        </activity>
+        <activity
+            android:name=".StudentFlow.OffersListsActivity"
+            android:label="@string/title_activity_offers_lists" >
         </activity>
     </application>
 

@@ -4,10 +4,11 @@
     <color name="medium_dark_gray">#ff565656</color>
     <color name="medium_gray">#ffc6c6c6</color>
     <color name="cleargray">#37adadad</color>
-    <color name="strong_blue">#ff0055e6</color>
-    <color name="blue_sky">#0078AB</color>
+    <color name="strong_blue">#ff00244c</color>
+    <color name="blue_sky">#ff00356f</color>
     <color name="red_warning">#ffff4000</color>
     <color name="green_ok">#ff40c000</color>
-    <color name="app_default_background">#02bac2</color>
+    <color name="app_default_background">#ff00356f</color>
     <color name="white">#ffffff</color>
+
 </resources>

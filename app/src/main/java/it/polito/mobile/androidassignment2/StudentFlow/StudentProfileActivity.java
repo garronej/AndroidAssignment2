@@ -24,6 +24,7 @@ import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
 
+
 public class StudentProfileActivity extends ActionBarActivity  {
     private ImageView ivPhoto;
     private ProgressBar pbPhotoSpinner;
@@ -67,6 +68,9 @@ public class StudentProfileActivity extends ActionBarActivity  {
 
     private void addTabMenuButtonCallbacks(){
         findViewById(R.id.tab_menu_student_search).setVisibility(View.INVISIBLE);
+        findViewById(R.id.tab_menu_student_profile).setBackgroundColor(getResources().getColor(R.color.strong_blue));
+        findViewById(R.id.tab_menu_student_offers).setBackgroundColor(getResources().getColor(R.color.blue_sky));
+        findViewById(R.id.tab_menu_student_companies).setBackgroundColor(getResources().getColor(R.color.blue_sky));
         findViewById(R.id.tab_menu_student_companies).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

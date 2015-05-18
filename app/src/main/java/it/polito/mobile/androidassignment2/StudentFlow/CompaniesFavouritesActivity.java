@@ -31,6 +31,9 @@ public class CompaniesFavouritesActivity extends Activity {
 
     private void addTabMenuButtonCallbacks(){
         //findViewById(R.id.tab_menu_student_companies)
+        findViewById(R.id.tab_menu_student_profile).setBackgroundColor(getResources().getColor(R.color.blue_sky));
+        findViewById(R.id.tab_menu_student_offers).setBackgroundColor(getResources().getColor(R.color.blue_sky));
+        findViewById(R.id.tab_menu_student_companies).setBackgroundColor(getResources().getColor(R.color.strong_blue));
         findViewById(R.id.tab_menu_student_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
