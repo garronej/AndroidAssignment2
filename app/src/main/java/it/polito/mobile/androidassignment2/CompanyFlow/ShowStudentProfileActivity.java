@@ -320,6 +320,11 @@ public class ShowStudentProfileActivity extends ActionBarActivity  {
                     public void process(final Integer i, Exception e) {
                         pbFav.setVisibility(View.INVISIBLE);
                         bFav.setVisibility(View.VISIBLE);
+                        try {
+                            Session.getInstance().getFavStudents().remove(student);
+                        } catch (DataFormatException ee) {
+                            throw new RuntimeException(ee);
+                        }
                         setButtonForFav();
                     }
                 });
@@ -344,6 +349,11 @@ public class ShowStudentProfileActivity extends ActionBarActivity  {
                     public void process(final Student s, Exception e) {
                         pbFav.setVisibility(View.INVISIBLE);
                         bFav.setVisibility(View.VISIBLE);
+                        try {
+                            Session.getInstance().getFavStudents().add(student);
+                        } catch (DataFormatException ee) {
+                            throw new RuntimeException(ee);
+                        }
                         setButtonForUnfav();
                     }
                 });
