@@ -50,10 +50,10 @@ public class Utils {
 
     //To lower case
     protected static String toLowerCase( String in ){
-
+        if( in == "" ) return "";//TODO: comparing references? rick
+        if( in.equals("") ) return "";
         if( in == null ) return null;
-        if( in == "" ) return null;//TODO: comparing references? rick
-        if( in.equals("") ) return null;
+
 
 
 
