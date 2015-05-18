@@ -133,7 +133,7 @@ public class StudentProfileActivity extends ActionBarActivity  {
         pbCvSpinner.setVisibility(View.INVISIBLE);
 
         String fullname = loggedStudent.getFullname();
-        if (fullname == null) {
+        if (fullname == null || fullname.equals("")) {
             tvFullname.setVisibility(View.GONE);
         } else {
             tvFullname.setText(loggedStudent.getFullname());
@@ -148,7 +148,7 @@ public class StudentProfileActivity extends ActionBarActivity  {
         }
 
         String universityCareer = loggedStudent.getUniversityCareer();
-        if (universityCareer == null) {
+        if (universityCareer == null || universityCareer.equals("")) {
             tvUniversityCareer.setVisibility(View.GONE);
         } else {
             tvUniversityCareer.setText(universityCareer);

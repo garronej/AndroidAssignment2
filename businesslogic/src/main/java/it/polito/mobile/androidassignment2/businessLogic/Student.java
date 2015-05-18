@@ -25,7 +25,7 @@ public class Student {
     private String surname = null;
     private String photoUrl = null;
     private String cvUrl = null;
-    private URL[] links = null;
+    private String[] links = null;
     private String universityCareer = null;
     private String[] competences = null;
     private String[] hobbies = null;
@@ -86,7 +86,7 @@ public class Student {
     }
 
 
-    public void setLinks(URL[] links){
+    public void setLinks(String[] links){
         this.links = links;
     }
 
@@ -203,9 +203,9 @@ public class Student {
 
                 JSONArray jsonLinks = json.getJSONArray("links");
 
-                links = new URL[jsonLinks.length()];
+                links = new String[jsonLinks.length()];
                 for (int i = 0; i < jsonLinks.length(); i++) {
-                    links[i] = new URL(jsonLinks.getString(i));
+                    links[i] = jsonLinks.getString(i);
                 }
 
             }
@@ -265,12 +265,12 @@ public class Student {
 
     public String getFullname() {
         String fullname="";
-        if(getName()!=null && getName()!=""){
+        if(getName()!=null && !getName().equals("")){
             fullname+=getName().substring(0, 1).toUpperCase() +
                     getName().substring(1) +
                     " ";
         }
-        if(getSurname()!=null && getSurname()!=""){
+        if(getSurname()!=null && !getSurname().equals("")){
             fullname+=getSurname().substring(0, 1).toUpperCase() +
                     getSurname().substring(1);
         }
@@ -281,10 +281,10 @@ public class Student {
 
     public String getLinksToString(String separator) {
         String s = "";
-        URL[] urls = getLinks();
+        String[] urls = getLinks();
         if (urls != null && urls.length > 0) {
-            URL lastUrl = urls[urls.length - 1];
-            for (URL url : urls) {
+            String lastUrl = urls[urls.length - 1];
+            for (String url : urls) {
                 s += url.toString();
                 if (url != lastUrl) {
                     s += separator;
@@ -335,7 +335,7 @@ public class Student {
         return cvUrl;
     }
 
-    public URL[] getLinks() {
+    public String[] getLinks() {
         return links;
     }
 
@@ -417,9 +417,9 @@ public class Student {
             s.put("student[competences]", "");
         }
         if(links!=null && links.length>0){
-            String c=links[0].toString();
+            String c=links[0];
             for(int i=1;i<links.length;i++){
-                c+=","+links[i].toString();
+                c+=","+links[i];
             }
             s.put("student[links]", c);
         } else if (links != null && links.length == 0) {

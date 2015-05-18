@@ -247,7 +247,7 @@ public class Session {
             s.setAvailable(false);
             s.setCompetences(new String[]{"porn knowelage", "fast masturbation"});
             s.setHobbies(new String[]{"porn", "masturbation"});
-            s.setLinks(new URL[]{new URL("http://seedbox.garrone.org"), new URL("http://etophy.fr")});
+            s.setLinks(new String[]{"http://seedbox.garrone.org", "http://etophy.fr"});
             s.setPhotoUrl("eu-west-1:3f1af8e8-7e5e-4210-b9eb-f4f29f7b66ab/photo/student3/jos.png");
             s.setSex("m");
             s.setLocation("torino");

@@ -160,10 +160,15 @@
             <TextView
                 style="@style/ProfileItemLabel"
                 android:text="@string/links" />
-            <EditText
-                android:id="@+id/edit_links_et"
-                android:textColorLink="@color/blue_sky"
-                style="@style/ProfileItemText" />
+            <it.polito.mobile.androidassignment2.LinksCompletionTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_links_ac"
+                android:layout_marginTop="2dp"
+                android:inputType="text"
+
+                android:imeOptions="actionDone"
+                />
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
