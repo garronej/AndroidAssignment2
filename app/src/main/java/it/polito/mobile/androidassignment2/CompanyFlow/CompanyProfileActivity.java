@@ -128,7 +128,7 @@ public class CompanyProfileActivity extends ActionBarActivity  {
         if (numberOfWorkers == null) {
             tvNumberOfWorkers.setVisibility(View.GONE);
         } else {
-            tvNumberOfWorkers.setText(numberOfWorkers);
+            tvNumberOfWorkers.setText(numberOfWorkers.toString());
         }
 
         String competences = loggedCompany.getCompetencesToString(", ");
@@ -173,9 +173,8 @@ public class CompanyProfileActivity extends ActionBarActivity  {
         bEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("tag", "edit comp prof");
-                //Intent i = new Intent(CompanyProfileActivity.this, EditStudentProfileActivity.class);
-                //startActivity(i);
+                Intent i = new Intent(CompanyProfileActivity.this, EditCompanyProfileActivity.class);
+                startActivity(i);
             }
         });
     }

@@ -32,6 +32,7 @@
     <string name="title_activity_main_companies_test">MainCompaniesTest</string>
     <string name="title_activity_fake_activity_s3_test">FakeActivityS3Test</string>
     <string name="title_activity_edit_student_profile">EditStudentProfile</string>
+    <string name="title_activity_edit_company_profile">EditCompanyProfile</string>
     <string name="title_activity_show_student_profile">ShowStudentProfile</string>
     <string name="title_activity_student_profile">StudentProfile</string>
 
@@ -132,4 +133,5 @@
     <string name="unfav_offer">Unfav</string>
     <string name="save">Save edits</string>
     <string name="title_activity_offer_edit_activity">Edit offer</string>
+    <string name="name">Name</string>
 </resources>

@@ -45,9 +45,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     private Button bCv;
     private EditText etEmail;
     private EditText etUniversityCareer;
-    private EditText etCompetences;
     private ToggleButton tbAvailability;
-    private EditText etHobbies;
     private Button bUpdateProfile;
     private Button bCancelUpdateProfile;
     private Uri photoUri;
@@ -99,7 +97,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                     public void cancel() {
                     }
                 });
-            } else { // photo
+            } else { // photo TODO CHECK IT
                 try {
                     Session.getInstance().getStudentLogged().setPhotoUrl(filePath);
                 } catch (DataFormatException e) {

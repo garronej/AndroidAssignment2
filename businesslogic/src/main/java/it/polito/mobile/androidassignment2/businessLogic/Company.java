@@ -59,7 +59,7 @@ public class Company {
 
 
     public void setMission( String mission){
-        this.mission = null;
+        this.mission = mission;
     }
 
     public void setNumberOfWorkers( Integer numberOfWorkers){
