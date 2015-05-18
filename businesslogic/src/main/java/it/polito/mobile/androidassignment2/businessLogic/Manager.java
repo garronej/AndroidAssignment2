@@ -657,4 +657,15 @@ public class Manager {
         return t;
     }
 
+
+    public static List<String> getAllOffersCompetences() throws IOException, RestApiException{
+        return OfferManager.getAllCompetences();
+    }
+
+    public static Task.General getAllOffersCompetences(ResultProcessor<List<String>> postProcessor) {
+        Task.General t = new Task.General(Task.Method.GET_ALL_OFFER_COMPETENCES, postProcessor);
+        t.execute();
+        return t;
+    }
+
 }

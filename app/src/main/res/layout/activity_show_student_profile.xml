@@ -10,7 +10,7 @@
         android:orientation="vertical"
         >
 
-        <include layout="@layout/student_tabbed_menu"></include>
+        <include layout="@layout/company_tabbed_menu"></include>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -41,20 +41,68 @@
                 />
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/edit_profile_button"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/side_margin"
+            android:layout_marginLeft="@dimen/side_margin"
             android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
-            android:layout_marginLeft="@dimen/side_margin"
-            android:layout_marginRight="@dimen/side_margin"
-            android:background="#ff00356f"
-            android:text="@string/edit_profile"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="#fff"
-            />
+            >
+            <Button
+                android:id="@+id/fav_b"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/vertical_margin"
+                android:layout_marginBottom="@dimen/vertical_margin"
+                android:background="@color/blue_sky"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="#fff"
+                />
+            <ProgressBar
+                android:id="@+id/fav_pb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"
+                style="@android:style/Widget.ProgressBar.Small"
+                />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/discard_rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginBottom="@dimen/vertical_margin"
+            >
+            <Button
+                android:id="@+id/discard_b"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/vertical_margin"
+                android:layout_marginBottom="@dimen/vertical_margin"
+                android:layout_marginLeft="@dimen/side_margin"
+                android:layout_marginRight="@dimen/side_margin"
+                android:background="@color/blue_sky"
+                android:text="@string/discard_apply"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="#fff"
+                />
+            <ProgressBar
+                android:id="@+id/discard_pb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"
+                style="@android:style/Widget.ProgressBar.Small"
+                />
+        </RelativeLayout>
+
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -101,6 +149,7 @@
                 android:layout_weight="2"
                 android:layout_height="match_parent"
                 android:id="@+id/sex_b"
+                android:background="@color/blue_sky"
                 android:textColor="#fff"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"

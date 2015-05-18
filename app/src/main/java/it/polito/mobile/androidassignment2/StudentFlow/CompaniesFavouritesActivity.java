@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import it.polito.mobile.androidassignment2.R;
-import it.polito.mobile.androidassignment2.StudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
@@ -33,6 +31,9 @@ public class CompaniesFavouritesActivity extends Activity {
 
     private void addTabMenuButtonCallbacks(){
         //findViewById(R.id.tab_menu_student_companies)
+        findViewById(R.id.tab_menu_student_profile).setBackgroundColor(getResources().getColor(R.color.blue_sky));
+        findViewById(R.id.tab_menu_student_offers).setBackgroundColor(getResources().getColor(R.color.blue_sky));
+        findViewById(R.id.tab_menu_student_companies).setBackgroundColor(getResources().getColor(R.color.strong_blue));
         findViewById(R.id.tab_menu_student_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

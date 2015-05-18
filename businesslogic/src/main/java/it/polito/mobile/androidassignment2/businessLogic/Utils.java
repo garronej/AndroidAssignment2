@@ -32,13 +32,13 @@ public class Utils {
         if( name == null ) return null;
         if( name == "" ) return null; //TODO: comparing references? rick
         if( name.equals("") ) return null;
-
+        /*
         Pattern pattern = Pattern.compile("[A-Za-zéèêîùàò\\-]*");
         Matcher mat = pattern.matcher(name);
 
         if(!mat.matches()) throw new DataFormatException("Illegal character in : " + name);
 
-
+        */
         StringBuilder s = new StringBuilder(toLowerCase(name));
 
 

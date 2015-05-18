@@ -1,14 +1,12 @@
-package it.polito.mobile.androidassignment2;
+package it.polito.mobile.androidassignment2.StudentFlow;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,13 +15,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.net.URL;
 import java.util.zip.DataFormatException;
 
+import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
+
 
 
 public class StudentProfileActivity extends ActionBarActivity  {
@@ -67,6 +66,29 @@ public class StudentProfileActivity extends ActionBarActivity  {
         }
     }
 
+    private void addTabMenuButtonCallbacks(){
+        findViewById(R.id.tab_menu_student_search).setVisibility(View.INVISIBLE);
+        findViewById(R.id.tab_menu_student_profile).setBackgroundColor(getResources().getColor(R.color.strong_blue));
+        findViewById(R.id.tab_menu_student_offers).setBackgroundColor(getResources().getColor(R.color.blue_sky));
+        findViewById(R.id.tab_menu_student_companies).setBackgroundColor(getResources().getColor(R.color.blue_sky));
+        findViewById(R.id.tab_menu_student_companies).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), CompaniesFavouritesActivity.class);
+                startActivity(i);
+            }
+        });
+        findViewById(R.id.tab_menu_student_offers).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Intent i = new Intent(getApplicationContext(), );
+                //startActivity(i);
+            }
+        });
+
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +98,7 @@ public class StudentProfileActivity extends ActionBarActivity  {
         setContentView(R.layout.activity_student_profile);
         findViews();
         setupViewsAndCallbacks();
+        addTabMenuButtonCallbacks();
     }
 
     private void findViews() {

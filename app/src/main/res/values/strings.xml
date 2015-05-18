@@ -32,12 +32,16 @@
     <string name="title_activity_main_companies_test">MainCompaniesTest</string>
     <string name="title_activity_fake_activity_s3_test">FakeActivityS3Test</string>
     <string name="title_activity_edit_student_profile">EditStudentProfile</string>
+    <string name="title_activity_edit_company_profile">EditCompanyProfile</string>
+    <string name="title_activity_show_student_profile">ShowStudentProfile</string>
+    <string name="title_activity_show_company_profile">ShowCompanyProfile</string>
+    <string name="title_activity_student_profile">StudentProfile</string>
 
 
     <!-- Strings related to login -->
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
 
@@ -113,4 +117,25 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <string name="title_activity_offer_show">Job offer</string>
+    <string name="edit_offer">Edit the offer</string>
+    <string name="apply">Apply</string>
+    <string name="add_to_favourite">Add to favourites</string>
+    <string name="discard_apply">Discard apply</string>
+    <string name="fav">Fav</string>
+    <string name="unfav">Unfav</string>
+    <string name="number_of_workers">Number of workers</string>
+    <string name="mission">Mission</string>
+    <string name="clients">Clients</string>
+    <string name="description">Description</string>
+    <string name="error_login_failed">Login failed. Please check your e-mail and password or register yourself if you have not yet done.</string>
+    <string name="error_server_side">Unexpected server error</string>
+    <string name="error_network">Netework error: please check your internet connection and try again</string>
+    <string name="unfav_offer">Unfav</string>
+    <string name="save">Save edits</string>
+    <string name="title_activity_offer_edit_activity">Edit offer</string>
+    <string name="name">Name</string>
+    <string name="title_activity_offers_lists">OffersListsActivity</string>
+    <string name="button_show_favourite">Show Favourites</string>
+    <string name="button_show_candidatures">Show Candidatures</string>
 </resources>

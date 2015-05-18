@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.CompanyFlow;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.CompanyFlow.ShowStudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 
@@ -168,10 +170,9 @@ public class SearchStudents extends AppCompatActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                        //TODO: start the intent
-
-
+                    Intent i = new Intent(getApplicationContext(), ShowStudentProfileActivity.class);
+                    i.putExtra("studentId", (int)id);
+                    startActivity(i);
                     }
                 });
             }

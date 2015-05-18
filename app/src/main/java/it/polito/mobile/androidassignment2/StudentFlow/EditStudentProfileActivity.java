@@ -1,4 +1,4 @@
-package it.polito.mobile.androidassignment2;
+package it.polito.mobile.androidassignment2.StudentFlow;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,16 +18,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.DatabaseMetaData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
+import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
+import it.polito.mobile.androidassignment2.HobbiesCompletionTextView;
+import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
@@ -43,7 +43,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     private EditText etSurname;
     private EditText etLinks;
     private Button bCv;
-    private EditText etEmail;
     private EditText etUniversityCareer;
     private ToggleButton tbAvailability;
     private Button bUpdateProfile;
@@ -97,7 +96,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                     public void cancel() {
                     }
                 });
-            } else { // photo
+            } else { // photo TODO CHECK IT
                 try {
                     Session.getInstance().getStudentLogged().setPhotoUrl(filePath);
                 } catch (DataFormatException e) {
@@ -136,7 +135,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     }
 
     private void findViews() {
-        etEmail = (EditText) findViewById(R.id.edit_email_et);
         ivPhoto = (ImageView) findViewById(R.id.edit_photo_iv);
         etName = (EditText) findViewById(R.id.edit_name_et);
         etSurname = (EditText) findViewById(R.id.edit_surname_et);
@@ -158,7 +156,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     private void setupViewsAndCallbacks() {
         etName.setText(loggedStudent.getName());
         etSurname.setText(loggedStudent.getSurname());
-        etEmail.setText(loggedStudent.getEmail());
         etLinks.setText(loggedStudent.getLinksToString(", "));
         etUniversityCareer.setText(loggedStudent.getUniversityCareer());
         ivPhoto.setImageURI(photoUri);
@@ -188,7 +185,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                     bUpdateProfile.setVisibility(View.INVISIBLE);
                     loggedStudent.setName(etName.getText().toString());
                     loggedStudent.setSurname(etSurname.getText().toString());
-                    loggedStudent.setEmail(etEmail.getText().toString());
                     String links = etLinks.getText().toString();
                     if (!links.equals("")) {
                         String[] linksA = links.split(",");
@@ -329,7 +325,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                 } else {
                     pbPhotoSpinner.setVisibility(ProgressBar.VISIBLE);
                 }
-
                 TransferController.upload(this, uri, "photo/student3");
             }
         }
@@ -340,7 +335,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
         super.onResume();
         registerReceiver(uploadfinished, new IntentFilter(UploadModel.INTENT_UPLOADED));
         registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
-
     }
 
     @Override

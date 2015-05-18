@@ -17,28 +17,24 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
-import it.polito.mobile.androidassignment2.CompanyFlow.StudentsFavouritesActivity;
-import it.polito.mobile.androidassignment2.StudentFlow.CompaniesFavouritesActivity;
+import it.polito.mobile.androidassignment2.CompanyFlow.CompanyProfileActivity;
+import it.polito.mobile.androidassignment2.StudentFlow.ShowCompanyProfileActivity;
+import it.polito.mobile.androidassignment2.StudentFlow.StudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.RestApiException;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
-import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.businessLogic.Task;
 import it.polito.mobile.androidassignment2.businessLogic.Utils;
 
@@ -202,19 +198,21 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 
 
-							//There where  problem during the request
-							if (e.getClass() == RestApiException.class) {
+						//There where  problem during the request
+						if (e.getClass() == RestApiException.class) {
 
-								//It was an error on the web service side.
-								//Nb : err code -1 mean a internal bug, report if you exprerience.
-								Integer errCode =  ((RestApiException)e).getResponseCode();
-								message = errCode.toString() + " / " + e.getMessage();
-
-
-							}else{
-								//It was an error with the internet conextion.
-								message = "Network problem : " + e.getMessage();
+							//It was an error on the web service side.
+							//Nb : err code -1 mean a internal bug, report if you exprerience.
+							Integer errCode =  ((RestApiException)e).getResponseCode();
+							//message = errCode.toString() + " / " + e.getMessage();
+							if(errCode == 404){
+								message = getResources().getString(R.string.error_login_failed);
 							}
+							message = getResources().getString(R.string.error_server_side);
+						}else{
+							//It was an error with the internet conextion.
+							message = getResources().getString(R.string.error_network);
+						}
 
 
 
@@ -224,7 +222,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 
 
-						Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+						Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
 						showProgress(false);
 						mAuthTask = null;
 						return;
@@ -233,27 +231,24 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 
 
-						SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+					SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
 
 
-						editor.putString("EMAIL", email);
-						editor.putString("PWD", password);
+					editor.putString("EMAIL", email);
+					editor.putString("PWD", password);
 
-						if(Session.getInstance().getWhoIsLogged() == Company.class){
-							//TODO: launch the company profile instead of student search
-							Log.d("poliJobs", "Company");
-							Intent i = new Intent(getApplicationContext(), StudentsFavouritesActivity.class);
-							startActivity(i);
+					if(Session.getInstance().getWhoIsLogged() == Company.class){
+						Log.d("poliJobs", "Company");
+						Intent i = new Intent(getApplicationContext(), CompanyProfileActivity.class);
+						startActivity(i);
 
 
-						}else{
-							//TODO: launch the student profile instead of company search
-							Log.d("poliJobs", "Student");
-
-							Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
-							startActivity(i);
-						}
-						editor.commit();
+					}else{
+						Log.d("poliJobs", "Student");
+						Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
+						startActivity(i);
+					}
+					editor.commit();
 
 
 				}

@@ -15,14 +15,14 @@
             android:layout_height="@dimen/profile_header"
             android:orientation="vertical" >
             <ImageView
-                android:id="@+id/edit_photo_iv"
+                android:id="@+id/edit_c_logo_iv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:layout_centerInParent="true"
             />
             <ProgressBar
-                android:id="@+id/edit_photo_pb"
+                android:id="@+id/edit_c_logo_pb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -42,70 +42,19 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="@dimen/side_margin"
-            android:layout_marginRight="@dimen/side_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginBottom="@dimen/vertical_margin" >
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/side_margin"
-            >
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/edit_cv_b"
-                    android:text="@string/upload_cv"
-                    android:background="@color/blue_sky"
-                    android:textColor="#fff"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_centerInParent="true" />
-                <ProgressBar
-                    android:id="@+id/edit_cv_pb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:visibility="invisible"
-                    style="@android:style/Widget.ProgressBar.Small"
-                    />
-            </RelativeLayout>
-
-            <ToggleButton
-                android:id="@+id/edit_availability_tb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#fff"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textOn="@string/available"
-                android:textOff="@string/not_available"
-                android:height="58dp"
-                android:layout_marginLeft="@dimen/side_margin"
-                />
-        </LinearLayout>
-
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
-
-        <LinearLayout
             style="@style/ProfileItem" >
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/sex" />
-            <Spinner
-                android:id="@+id/edit_sex_s"
-                android:layout_width="wrap_content"
+                android:text="@string/name" />
+            <EditText
+                android:id="@+id/edit_c_name_et"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/ProfileItemText"
                 />
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
-
 
         <LinearLayout
             style="@style/ProfileItem" >
@@ -113,7 +62,7 @@
                 style="@style/ProfileItemLabel"
                 android:text="@string/location" />
             <EditText
-                android:id="@+id/edit_location_et"
+                android:id="@+id/edit_c_location_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/ProfileItemText"
@@ -126,42 +75,9 @@
             style="@style/ProfileItem" >
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/name_surname" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/side_margin">
-                <EditText
-                    android:id="@+id/edit_name_et"
-                    android:layout_weight="5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    style="@style/ProfileItemText"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="0dp"
-                    />
-
-                <EditText
-                    android:id="@+id/edit_surname_et"
-                    android:layout_width="0dp"
-                    android:layout_weight="5"
-                    android:layout_height="wrap_content"
-                    style="@style/ProfileItemText"
-                    android:layout_gravity="left"
-                    />
-            </LinearLayout>
-        </LinearLayout>
-
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
-
-        <LinearLayout
-            style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/links" />
+                android:text="@string/number_of_workers" />
             <EditText
-                android:id="@+id/edit_links_et"
+                android:id="@+id/edit_c_number_of_workers_et"
                 android:textColorLink="@color/blue_sky"
                 style="@style/ProfileItemText" />
         </LinearLayout>
@@ -172,9 +88,21 @@
             style="@style/ProfileItem" >
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/university_career" />
+                android:text="@string/mission" />
             <EditText
-                android:id="@+id/edit_university_career_et"
+                android:id="@+id/edit_c_mission_et"
+                style="@style/ProfileItemText" />
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/description" />
+            <EditText
+                android:id="@+id/edit_c_description_et"
                 style="@style/ProfileItemText" />
         </LinearLayout>
 
@@ -188,7 +116,23 @@
             <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edit_competences_ac"
+                android:id="@+id/edit_c_competences_ac"
+                android:layout_marginTop="2dp"
+                android:inputType="text"
+
+                android:imeOptions="actionDone"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/clients" />
+            <it.polito.mobile.androidassignment2.ClientsCompletionTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_c_clients_ac"
                 android:layout_marginTop="2dp"
                 android:inputType="text"
 
@@ -198,22 +142,6 @@
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
 
-        <LinearLayout
-            style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/hobbies" />
-        <it.polito.mobile.androidassignment2.HobbiesCompletionTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_hobbies_ac"
-            android:layout_marginTop="2dp"
-            android:inputType="text"
-
-            android:imeOptions="actionDone"
-            />
-        </LinearLayout>
-
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -222,7 +150,7 @@
             android:layout_marginLeft="@dimen/side_margin"
             >
             <Button
-                android:id="@+id/edit_update_profile_b"
+                android:id="@+id/edit_c_update_profile_b"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/blue_sky"
@@ -232,7 +160,7 @@
                 android:textColor="#fff"
                 />
             <ProgressBar
-                android:id="@+id/edit_update_pb"
+                android:id="@+id/edit_c_update_pb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -242,7 +170,7 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/edit_cancel_update_profile_b"
+            android:id="@+id/edit_c_cancel_update_profile_b"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="@dimen/vertical_margin"

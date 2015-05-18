@@ -10,27 +10,27 @@
         android:orientation="vertical"
         >
 
-        <include layout="@layout/student_tabbed_menu"></include>
+        <include layout="@layout/company_tabbed_menu"></include>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/profile_header" >
             <ProgressBar
-                android:id="@+id/photo_spinner"
+                android:id="@+id/c_logo_pb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 style="@android:style/Widget.ProgressBar.Small"
                 />
             <ImageView
-                android:id="@+id/photo"
+                android:id="@+id/c_logo_iw"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:layout_centerInParent="true"
                 />
             <TextView
-                android:id="@+id/fullname"
+                android:id="@+id/c_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -42,83 +42,20 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/edit_profile_button"
+            android:id="@+id/c_edit_profile_b"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
             android:layout_marginLeft="@dimen/side_margin"
             android:layout_marginRight="@dimen/side_margin"
-            android:background="#ff00356f"
+            android:background="@color/blue_sky"
             android:text="@string/edit_profile"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColor="#fff"
             />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/side_margin"
-            android:layout_marginLeft="@dimen/side_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            >
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/cv_button"
-                android:text="@string/open_cv"
-                android:background="@color/blue_sky"
-                android:textColor="#fff"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                 />
-            <ProgressBar
-                android:id="@+id/cv_pb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="invisible"
-                style="@android:style/Widget.ProgressBar.Small"
-                />
-        </RelativeLayout>
-
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:layout_marginLeft="@dimen/side_margin"
-            android:layout_marginRight="@dimen/side_margin">
-
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="match_parent"
-                android:id="@+id/sex_b"
-                android:textColor="#fff"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:clickable="false"
-                android:layout_marginRight="@dimen/side_margin"/>
-
-            <Button
-                android:id="@+id/availability"
-                android:layout_width="0dp"
-                android:layout_weight="8"
-                android:layout_height="match_parent"
-                android:textColor="#fff"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_gravity="end"
-                android:clickable="false"
-                />
-        </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
 
@@ -129,7 +66,37 @@
                 android:text="@string/email" />
             <TextView
                 style="@style/ProfileItemText"
-                android:id="@+id/email"
+                android:id="@+id/c_email_tv"
+                android:autoLink="email"
+                android:textColorLink="@color/blue_sky"
+                />
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/number_of_workers" />
+            <TextView
+                style="@style/ProfileItemText"
+                android:id="@+id/c_number_of_workers_tv"
+                android:autoLink="email"
+                android:textColorLink="@color/blue_sky"
+                />
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/mission" />
+            <TextView
+                style="@style/ProfileItemText"
+                android:id="@+id/c_mission_tv"
                 android:autoLink="email"
                 android:textColorLink="@color/blue_sky"
                 />
@@ -144,7 +111,7 @@
                 android:text="@string/location" />
             <TextView
                 style="@style/ProfileItemText"
-                android:id="@+id/location_tv"
+                android:id="@+id/c_location_tv"
                 />
         </LinearLayout>
 
@@ -154,9 +121,9 @@
             style="@style/ProfileItem" >
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/links" />
+                android:text="@string/clients" />
             <TextView
-                android:id="@+id/links"
+                android:id="@+id/c_clients_tv"
                 android:autoLink="web"
                 android:textColorLink="@color/blue_sky"
                 style="@style/ProfileItemText" />
@@ -168,21 +135,9 @@
             style="@style/ProfileItem" >
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/university_career" />
-            <TextView
-                android:id="@+id/university_career"
-                style="@style/ProfileItemText" />
-        </LinearLayout>
-
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
-
-        <LinearLayout
-            style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
                 android:text="@string/competences" />
             <TextView
-                android:id="@+id/competences"
+                android:id="@+id/c_competences_tv"
                 style="@style/ProfileItemText" />
         </LinearLayout>
 
@@ -191,9 +146,9 @@
             style="@style/ProfileItem" >
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/hobbies"/>
+                android:text="@string/description"/>
             <TextView
-                android:id="@+id/hobbies"
+                android:id="@+id/c_description_tv"
                 style="@style/ProfileItemText" />
         </LinearLayout>
 

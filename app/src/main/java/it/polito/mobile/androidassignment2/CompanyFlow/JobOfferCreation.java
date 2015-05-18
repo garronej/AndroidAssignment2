@@ -7,8 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.List;
+import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
@@ -22,9 +26,10 @@ public class JobOfferCreation extends AppCompatActivity {
     private EditText numberOfMonths;
     private EditText kindOfContract;
     private EditText location;
-    private CompetencesCompletionTextView competence;
+    private CompetencesCompletionTextView competences;
     private AsyncTask<Object, Void, Object> task;
     private EditText code;
+    private AsyncTask<Object, Void, Object> task1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +43,28 @@ public class JobOfferCreation extends AppCompatActivity {
         numberOfMonths = (EditText)findViewById(R.id.number_of_months);
         kindOfContract = (EditText)findViewById(R.id.kind_of_contract);
         location = (EditText)findViewById(R.id.location);
-        competence = (CompetencesCompletionTextView)findViewById(R.id.competences);
+        competences = (CompetencesCompletionTextView)findViewById(R.id.competences);
 
-        //TODO set competences autocompletion....
+        task1=Manager.getAllOffersCompetences(new Manager.ResultProcessor<List<String>>() {
+            @Override
+            public void process(final List<String> arg, Exception e) {
+                task1 = null;
+                if (e != null) {
+                    return;
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(JobOfferCreation.this, android.R.layout.simple_list_item_1, arg);
+
+                competences.setAdapter(adapter);
+
+
+            }
+
+            @Override
+            public void cancel() {
+                task1 = null;
+            }
+        });
 
 
 
@@ -59,9 +83,17 @@ public class JobOfferCreation extends AppCompatActivity {
                 if(numberOfMonths.getText().toString().matches("[0-9]+")) {
                     o.setDurationMonths(Integer.parseInt(numberOfMonths.getText().toString()));
                 }
-                //TODO: set code
-                //TODO: set location
-                //TODO: set competences
+                o.setCode(code.getText().toString());
+                o.setLocation(location.getText().toString());
+                if(competences.getObjects().size() > 0){
+                    String[] comp = new String[competences.getObjects().size()];
+                    int i=0;
+                    for(Object obj : competences.getObjects()){
+                        comp[i]=obj.toString();
+                        i++;
+                    }
+                    o.setCompetences(comp);
+                }
                 task= Manager.insertNewOffer(o, new Manager.ResultProcessor<Offer>() {
                     @Override
                     public void process(Offer arg, Exception e) {
@@ -70,6 +102,12 @@ public class JobOfferCreation extends AppCompatActivity {
                             Toast.makeText(JobOfferCreation.this, R.string.job_offer_failed, Toast.LENGTH_LONG ).show();
 
                             return;
+                        }
+
+                        try {
+                            Session.getInstance().getOfferOfTheLoggedCompany().add(arg);
+                        } catch (DataFormatException e1) {
+                            //never here
                         }
                         finish();
                     }
@@ -114,6 +152,10 @@ public class JobOfferCreation extends AppCompatActivity {
         if(task!=null){
             task.cancel(true);
             task=null;
+        }
+        if(task1!=null){
+            task1.cancel(true);
+            task1=null;
         }
 
     }
