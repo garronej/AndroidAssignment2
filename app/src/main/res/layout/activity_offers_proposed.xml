@@ -4,7 +4,7 @@
     android:orientation="vertical"
     tools:context="it.polito.mobile.androidassignment2.CompanyFlow.OffersProposed">
 
-    <include layout="@layout/company_tabbed_menu"></include>
+    <include layout="@layout/student_tabbed_menu"></include>
 
     <Button
         android:id="@+id/add_job_offer"

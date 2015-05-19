@@ -212,7 +212,9 @@ public class Student {
 
                 links = new String[jsonLinks.length()];
                 for (int i = 0; i < jsonLinks.length(); i++) {
+
                     links[i] =jsonLinks.getString(i);
+
                 }
 
             }
@@ -273,12 +275,12 @@ public class Student {
 
     public String getFullname() {
         String fullname="";
-        if(getName()!=null && getName()!=""){
+        if(getName()!=null && !getName().equals("")){
             fullname+=getName().substring(0, 1).toUpperCase() +
                     getName().substring(1) +
                     " ";
         }
-        if(getSurname()!=null && getSurname()!=""){
+        if(getSurname()!=null && !getSurname().equals("")){
             fullname+=getSurname().substring(0, 1).toUpperCase() +
                     getSurname().substring(1);
         }
@@ -291,7 +293,9 @@ public class Student {
 
 
         String s = "";
+
         String[] urls = this.getLinks();
+
         if (urls != null && urls.length > 0) {
             String lastUrl = urls[urls.length - 1];
             for (String url : urls) {

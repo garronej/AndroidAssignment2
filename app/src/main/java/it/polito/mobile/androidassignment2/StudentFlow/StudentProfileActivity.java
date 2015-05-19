@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -17,7 +18,10 @@ import android.widget.TextView;
 
 import java.util.zip.DataFormatException;
 
+import it.polito.mobile.androidassignment2.AlertYesNo;
+import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
@@ -81,8 +85,8 @@ public class StudentProfileActivity extends ActionBarActivity  {
         findViewById(R.id.tab_menu_student_offers).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Intent i = new Intent(getApplicationContext(), );
-                //startActivity(i);
+               Intent i = new Intent(getApplicationContext(),OffersListsActivity.class );
+                startActivity(i);
             }
         });
 
@@ -129,7 +133,7 @@ public class StudentProfileActivity extends ActionBarActivity  {
         pbCvSpinner.setVisibility(View.INVISIBLE);
 
         String fullname = loggedStudent.getFullname();
-        if (fullname == null) {
+        if (fullname == null || fullname.equals("")) {
             tvFullname.setVisibility(View.GONE);
         } else {
             tvFullname.setText(loggedStudent.getFullname());
@@ -144,7 +148,7 @@ public class StudentProfileActivity extends ActionBarActivity  {
         }
 
         String universityCareer = loggedStudent.getUniversityCareer();
-        if (universityCareer == null) {
+        if (universityCareer == null || universityCareer.equals("")) {
             tvUniversityCareer.setVisibility(View.GONE);
         } else {
             tvUniversityCareer.setText(universityCareer);
@@ -225,7 +229,7 @@ public class StudentProfileActivity extends ActionBarActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_fake_activity_s3_test, menu);
+        getMenuInflater().inflate(R.menu.global, menu);
         return true;
     }
 
@@ -237,9 +241,36 @@ public class StudentProfileActivity extends ActionBarActivity  {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+	        getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
+	        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+	        startActivity(i);
             return true;
         }
+	    if (id == R.id.action_delete) {
+		    try {
+			    Manager.deleteStudent(Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+				    @Override
+				    public void process(Integer arg, Exception e) {
+					    if(e!=null){
+						    //TODO: show error message
+						    return ;
+					    }
+					    getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
+					    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+					    startActivity(i);
+				    }
+
+				    @Override
+				    public void cancel() {
+
+				    }
+			    });
+		    } catch (DataFormatException e) {
+			    e.printStackTrace();
+		    }
+		    return true;
+	    }
 
         return super.onOptionsItemSelected(item);
     }
@@ -255,4 +286,9 @@ public class StudentProfileActivity extends ActionBarActivity  {
         unregisterReceiver(downloadfinished);
         super.onPause();
     }
+	private void showConfirmAlerter(String title, String message){
+		AlertYesNo alert = new AlertYesNo();
+
+		alert.show(getFragmentManager(),"Confirm?");
+	}
 }

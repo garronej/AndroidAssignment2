@@ -1,14 +1,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context="it.polito.mobile.androidassignment2.CompanyFlow.OffersProposed">
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="it.polito.mobile.androidassignment2.CompanyFlow.OffersProposed">
 
-    <include layout="@layout/company_tabbed_menu"></include>
+    <include layout="@layout/student_tabbed_menu"></include>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:id="@+id/imageView"
+        android:background="@color/strong_blue"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <Button
             android:id="@+id/show_favourite"
             android:layout_weight="1"
@@ -19,6 +26,7 @@
             android:textColor="@color/white"
             android:text="@string/button_show_favourite"
             />
+
         <Button
             android:id="@+id/show_candidature"
             android:layout_weight="1"
@@ -31,23 +39,17 @@
             android:textColor="@color/white"
             android:text="@string/button_show_candidatures"
             />
-
-
-
-
     </LinearLayout>
-
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:id="@+id/listView"
+        android:id="@+id/proposed_offers_list"
         >
 
 
     </ListView>
-
-
 
 </LinearLayout>

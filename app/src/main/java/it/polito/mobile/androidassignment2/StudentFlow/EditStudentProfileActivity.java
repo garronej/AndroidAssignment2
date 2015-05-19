@@ -28,6 +28,7 @@ import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.HobbiesCompletionTextView;
+import it.polito.mobile.androidassignment2.LinksCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
@@ -41,7 +42,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     private ImageView ivPhoto;
     private EditText etName;
     private EditText etSurname;
-    private EditText etLinks;
+    private LinksCompletionTextView acLinks;
     private Button bCv;
     private EditText etUniversityCareer;
     private ToggleButton tbAvailability;
@@ -139,7 +140,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
         etName = (EditText) findViewById(R.id.edit_name_et);
         etSurname = (EditText) findViewById(R.id.edit_surname_et);
         bCv = (Button) findViewById(R.id.edit_cv_b);
-        etLinks = (EditText) findViewById(R.id.edit_links_et);
+        acLinks = (LinksCompletionTextView) findViewById(R.id.edit_links_ac);
         etUniversityCareer = (EditText) findViewById(R.id.edit_university_career_et);
         acCompetences = (CompetencesCompletionTextView) findViewById(R.id.edit_competences_ac);
         tbAvailability = (ToggleButton) findViewById(R.id.edit_availability_tb);
@@ -156,7 +157,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     private void setupViewsAndCallbacks() {
         etName.setText(loggedStudent.getName());
         etSurname.setText(loggedStudent.getSurname());
-        etLinks.setText(loggedStudent.getLinksToString(", "));
         etUniversityCareer.setText(loggedStudent.getUniversityCareer());
         ivPhoto.setImageURI(photoUri);
         tbAvailability.setChecked(loggedStudent.isAvailable());
@@ -177,6 +177,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
         }
         sSex.setSelection(position);
 
+        bUpdateProfile.setFocusableInTouchMode(true);
         bUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,31 +186,14 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                     bUpdateProfile.setVisibility(View.INVISIBLE);
                     loggedStudent.setName(etName.getText().toString());
                     loggedStudent.setSurname(etSurname.getText().toString());
-                    String links = etLinks.getText().toString();
-                    if (!links.equals("")) {
-                        String[] linksA = links.split(",");
-                        List<String> urls = new ArrayList<>();
-                        for (String s : linksA) {
-
-
-                                urls.add(s.trim());
-
-                        }
-                        String[] urlsA = new String[urls.size()];
-                        loggedStudent.setLinks(urls.toArray(urlsA));
-                    } else if (links.equals("")) {
-
-                        //When you have no data you should put null unless you have a reason not to do so
-                        loggedStudent.setLinks(new String[0]);
-                    }
 
                     loggedStudent.setUniversityCareer(etUniversityCareer.getText().toString());
 
-                    if(acCompetences.getObjects().size() > 0){
+                    if (acCompetences.getObjects().size() > 0) {
                         String[] comp = new String[acCompetences.getObjects().size()];
-                        int i=0;
-                        for(Object o : acCompetences.getObjects()){
-                            comp[i]=o.toString();
+                        int i = 0;
+                        for (Object o : acCompetences.getObjects()) {
+                            comp[i] = o.toString();
                             i++;
                         }
                         loggedStudent.setCompetences(comp);
@@ -217,16 +201,29 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                         loggedStudent.setCompetences(new String[0]);
                     }
 
-                    if(acHobbies.getObjects().size() > 0){
+                    if (acHobbies.getObjects().size() > 0) {
                         String[] hob = new String[acHobbies.getObjects().size()];
-                        int i=0;
-                        for(Object o : acHobbies.getObjects()){
-                            hob[i]=o.toString();
+                        int i = 0;
+                        for (Object o : acHobbies.getObjects()) {
+                            hob[i] = o.toString();
                             i++;
                         }
                         loggedStudent.setHobbies(hob);
                     } else {
                         loggedStudent.setHobbies(new String[0]);
+                    }
+
+                    if (acLinks.getObjects().size() > 0) {
+                        String[] link = new String[acLinks.getObjects().size()];
+                        int i = 0;
+                        for (Object o : acLinks.getObjects()) {
+                            link[i] = o.toString();
+                            i++;
+                        }
+                        loggedStudent.setLinks(link);
+                    } else {
+                        //When you have no data you should put null unless you have a reason not to do so
+                        loggedStudent.setLinks(new String[0]);
                     }
 
                     loggedStudent.setAvailable(tbAvailability.isChecked());
@@ -296,6 +293,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                     }
                 }
             }
+
             @Override
             public void cancel() {
             }
@@ -309,6 +307,17 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
         if (hs != null && hs.length > 0) {
             for (String h : hs) {
                 acHobbies.addObject(h);
+            }
+        }
+
+        acLinks.setPrefix("");
+        List<String> linksL = new ArrayList<String>();
+        ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(EditStudentProfileActivity.this, android.R.layout.simple_list_item_1, linksL);
+        acLinks.setAdapter(adapter3);
+        String[] ls = loggedStudent.getLinks();
+        if (ls != null && ls.length > 0) {
+            for (String l : ls) {
+                acLinks.addObject(l);
             }
         }
     }

@@ -69,12 +69,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		mLoginFormView = findViewById(R.id.login_form);
 		mProgressView = findViewById(R.id.login_progress);
 
-		if(getPreferences(MODE_PRIVATE).contains("EMAIL")
-				&& getPreferences(MODE_PRIVATE).contains("PWD")){
+		if(getSharedPreferences("login_pref",MODE_PRIVATE).contains("EMAIL")
+				&& getSharedPreferences("login_pref",MODE_PRIVATE).contains("PWD")){
 
 
-			attemptLogin(getPreferences(MODE_PRIVATE).getString("EMAIL",""),
-					getPreferences(MODE_PRIVATE).getString("PWD",""));
+			attemptLogin(getSharedPreferences("login_pref", MODE_PRIVATE).getString("EMAIL",""),
+					getSharedPreferences("login_pref", MODE_PRIVATE).getString("PWD",""));
 
 
 
@@ -231,7 +231,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 
 
-					SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+					SharedPreferences.Editor editor = getSharedPreferences("login_pref",MODE_PRIVATE).edit();
 
 
 					editor.putString("EMAIL", email);
