@@ -12,19 +12,45 @@
               tools:context="it.polito.s211371.mad2.LoginActivity">
 
 <!-- Login progress -->
-<ProgressBar
-    android:id="@+id/login_progress"
-    style="?android:attr/progressBarStyleLarge"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:visibility="gone"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:id="@+id/logo_image"
+            android:layout_gravity="center_horizontal"
+            android:background="@mipmap/ic_launcher"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/appName"
+            android:id="@+id/appName"
+            style="@android:style/TextAppearance.Large"
+            android:layout_gravity="center"/>
+
+        <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        android:layout_weight="1"/>
+    </LinearLayout>
 
     <ScrollView
     android:id="@+id/login_form"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="false">
+    android:layout_height="0dp"
+    android:fillViewport="false"
+    android:layout_weight="2"
+        >
 
     <LinearLayout
         android:id="@+id/email_login_form"
@@ -32,12 +58,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
         android:orientation="vertical">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/logo_image"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/blue_sky"/>
+
         <AutoCompleteTextView
             android:id="@+id/email"
             android:layout_width="match_parent"
@@ -46,7 +67,8 @@
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:singleLine="true"
-            android:paddingTop="5dp"/>
+            android:paddingTop="5dp"
+            style="@style/ProfileItemText"/>
 
         <EditText
             android:id="@+id/password"
@@ -57,7 +79,8 @@
             android:imeActionLabel="@string/action_sign_in_short"
             android:maxLines="1"
             android:singleLine="true"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            style="@style/ProfileItemText"/>
 
         <Button
             android:id="@+id/email_sign_in_button"
@@ -91,7 +114,6 @@
 
     </LinearLayout>
 </ScrollView>
-
 
 
 </LinearLayout>

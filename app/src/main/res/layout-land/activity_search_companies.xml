@@ -28,7 +28,7 @@
                 android:inputType="text"
                 android:imeOptions="actionDone"
 
-                />
+                style="@style/ProfileItemText"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 android:inputType="text"
 
                 android:imeOptions="actionDone"
-                />
+                style="@style/ProfileItemText"/>
         </LinearLayout>
 
 

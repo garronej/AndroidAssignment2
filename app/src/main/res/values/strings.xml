@@ -146,4 +146,6 @@
     <string name="delete_user_message">Do you want to delete your account?</string>
     <string name="applied">Applied</string>
     <string name="companies">Companies</string>
+    <string name="related_offers">Related Offers</string>
+    <string name="appName">Poli Job</string>
 </resources>

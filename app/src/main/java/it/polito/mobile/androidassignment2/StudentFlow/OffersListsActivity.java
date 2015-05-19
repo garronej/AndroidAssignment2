@@ -153,7 +153,7 @@ public class OffersListsActivity extends ActionBarActivity implements Communicat
 				finish();
 			}
 		});
-		findViewById(R.id.tab_menu_student_offers).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.tab_menu_student_companies).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(getApplicationContext(), CompaniesFavouritesActivity.class);

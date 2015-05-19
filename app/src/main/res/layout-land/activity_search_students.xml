@@ -11,62 +11,78 @@
         android:layout_weight="2"
         >
         <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/student_search_location"
+            android:hint="@string/location"
+            android:layout_marginTop="2dp"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+
+            style="@style/ProfileItemText"/>
+
+        <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/student_search_keyword"
+            android:layout_marginTop="2dp"
+            android:inputType="text"
+
+            android:imeOptions="actionDone"
+            style="@style/ProfileItemText"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/gender"
+                style="@style/ProfileItemLabel"
+                android:layout_gravity="center"/>
+            <Spinner
+                android:id="@+id/student_search_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/sex_entries"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"
+                style="@style/ProfileItemText"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:layout_gravity="center">
 
-            <EditText
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/student_search_location"
-                android:hint="@string/location"
-                android:layout_marginTop="2dp"
-                android:inputType="text"
-                android:imeOptions="actionDone"
+                android:text="@string/availability"
+                style="@style/ProfileItemLabel"
+                android:layout_gravity="center"/>
 
-                />
-            <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
-                android:layout_width="match_parent"
+            <CheckBox
+                android:id="@+id/student_search_availability"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/student_search_keyword"
-                android:layout_marginTop="2dp"
-                android:inputType="text"
+                android:layout_gravity="center"/>
+        </LinearLayout>
 
-                android:imeOptions="actionDone"
-            />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="@string/gender"
-                    />
-                <Spinner
-                    android:id="@+id/student_search_sex"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/sex_entries"
-                    android:background="@android:drawable/btn_dropdown"
-                    android:spinnerMode="dropdown"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/availability"
-                    />
-                <CheckBox
-                    android:id="@+id/student_search_availability"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,13 +93,12 @@
             android:inputType="text"
 
             android:imeOptions="actionDone"
-            />
+            style="@style/ProfileItemText"/>
 
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin"
             android:layout_gravity="center"
             android:text="@string/search"
             android:id="@+id/studentSearchButton"
@@ -93,7 +108,8 @@
             android:enabled="true"
             android:textColor="#ffffff"
             android:textStyle="bold"/>
-            </LinearLayout>
+
+    </LinearLayout>
 
     </ScrollView>
     <View

@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.StudentsFavouritesActivity"/>
+      <point      
+        x = "500"      
+        y = "5620"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.StudentsFavouritesActivity"/>
+      <point      
+        x = "1768"      
+        y = "5620"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.LoginActivity"/>
+      <point      
+        x = "1324"      
+        y = "25024"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.OffersProposed"/>
+      <point      
+        x = "500"      
+        y = "7000"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.OffersProposed"/>
+      <point      
+        x = "1768"      
+        y = "7000"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.EditCompanyProfileActivity"/>
+      <point      
+        x = "500"      
+        y = "12520"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.EditCompanyProfileActivity"/>
+      <point      
+        x = "1768"      
+        y = "12520"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.StudentProfileActivity"/>
+      <point      
+        x = "500"      
+        y = "15280"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.StudentProfileActivity"/>
+      <point      
+        x = "1768"      
+        y = "15280"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.AlertStudentOrCompany"/>
+      <point      
+        x = "550"      
+        y = "24990"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.JobOfferCreation"/>
+      <point      
+        x = "500"      
+        y = "19420"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.JobOfferCreation"/>
+      <point      
+        x = "1768"      
+        y = "19420"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.SearchCompanies"/>
+      <point      
+        x = "500"      
+        y = "9760"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.SearchCompanies"/>
+      <point      
+        x = "1768"      
+        y = "9760"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.OffersListsActivity"/>
+      <point      
+        x = "500"      
+        y = "23560"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.OffersListsActivity"/>
+      <point      
+        x = "1768"      
+        y = "23560"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.ShowStudentProfileActivity"/>
+      <point      
+        x = "1768"      
+        y = "4240"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.ShowStudentProfileActivity"/>
+      <point      
+        x = "3036"      
+        y = "4240"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.CompaniesFavouritesActivity"/>
+      <point      
+        x = "500"      
+        y = "100"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.CompaniesFavouritesActivity"/>
+      <point      
+        x = "1768"      
+        y = "100"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.ShowCompanyProfileActivity"/>
+      <point      
+        x = "1768"      
+        y = "1480"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.ShowCompanyProfileActivity"/>
+      <point      
+        x = "3036"      
+        y = "1480"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.SearchStudents"/>
+      <point      
+        x = "500"      
+        y = "2860"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.SearchStudents"/>
+      <point      
+        x = "1768"      
+        y = "2860"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.OfferShowActivity"/>
+      <point      
+        x = "1768"      
+        y = "8380"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.OfferShowActivity"/>
+      <point      
+        x = "3036"      
+        y = "8380"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.MainStudentActivity"/>
+      <point      
+        x = "500"      
+        y = "11140"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.MainStudentActivity"/>
+      <point      
+        x = "1768"      
+        y = "11140"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.CompanyProfileActivity"/>
+      <point      
+        x = "500"      
+        y = "13900"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.CompanyProfileActivity"/>
+      <point      
+        x = "1768"      
+        y = "13900"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.SearchActivity"/>
+      <point      
+        x = "500"      
+        y = "16660"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.SearchActivity"/>
+      <point      
+        x = "1768"      
+        y = "16660"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.OfferEditActivity"/>
+      <point      
+        x = "500"      
+        y = "18040"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.CompanyFlow.OfferEditActivity"/>
+      <point      
+        x = "1768"      
+        y = "18040"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.EditStudentProfileActivity"/>
+      <point      
+        x = "500"      
+        y = "20800"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.EditStudentProfileActivity"/>
+      <point      
+        x = "1768"      
+        y = "20800"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.InfoWrapperActivity"/>
+      <point      
+        x = "500"      
+        y = "22180"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "it.polito.mobile.androidassignment2.StudentFlow.InfoWrapperActivity"/>
+      <point      
+        x = "1768"      
+        y = "22180"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>

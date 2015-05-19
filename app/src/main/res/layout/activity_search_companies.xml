@@ -21,7 +21,7 @@
                 android:inputType="text"
                 android:imeOptions="actionDone"
 
-                />
+                style="@style/ProfileItemText"/>
 
 
 
@@ -33,7 +33,7 @@
             android:inputType="text"
 
             android:imeOptions="actionDone"
-            />
+            style="@style/ProfileItemText"/>
 
 
 

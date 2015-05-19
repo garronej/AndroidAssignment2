@@ -131,6 +131,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
             throw new RuntimeException();
         }
         setContentView(R.layout.activity_edit_student_profile);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         findViews();
         setupViewsAndCallbacks();
     }
@@ -241,6 +242,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                         if (e == null) {
                             Intent i = new Intent(EditStudentProfileActivity.this, StudentProfileActivity.class);
                             startActivity(i);
+                            finish();
                         } else {
                             throw new RuntimeException(); //TODO
                         }
@@ -258,6 +260,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
             public void onClick(View v) {
                 Intent i = new Intent(EditStudentProfileActivity.this, StudentProfileActivity.class);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -369,25 +372,5 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
         super.onPause();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_fake_activity_s3_test, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

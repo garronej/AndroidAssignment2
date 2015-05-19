@@ -52,6 +52,7 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), CompanyProfileActivity.class);
                 startActivity(i);
+                finish();
             }
         });
         findViewById(R.id.tab_menu_company_offers).setOnClickListener(new View.OnClickListener() {
@@ -59,6 +60,7 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), OffersProposed.class);
                 startActivity(i);
+                finish();
             }
         });
 
