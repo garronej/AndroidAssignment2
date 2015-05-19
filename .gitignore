@@ -19,3 +19,4 @@ build/
 *.ipr
 *~
 *.swp
+*.db
