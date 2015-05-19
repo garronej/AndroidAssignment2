@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:text="@string/sex"
+                    android:text="@string/gender"
                     />
                 <Spinner
                     android:id="@+id/student_search_sex"

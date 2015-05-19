@@ -143,7 +143,6 @@ public class OffersListsActivity extends ActionBarActivity implements Communicat
 			public void onClick(View v) {
 				Intent i = new Intent(getApplicationContext(), SearchCompanies.class);
 				startActivity(i);
-				finish();
 			}
 		});
 		findViewById(R.id.tab_menu_student_profile).setOnClickListener(new View.OnClickListener() {
@@ -157,7 +156,7 @@ public class OffersListsActivity extends ActionBarActivity implements Communicat
 		findViewById(R.id.tab_menu_student_offers).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(getApplicationContext(), OffersListsActivity.class);
+				Intent i = new Intent(getApplicationContext(), CompaniesFavouritesActivity.class);
 				startActivity(i);
 				finish();
 			}

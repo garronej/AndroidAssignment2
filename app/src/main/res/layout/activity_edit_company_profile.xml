@@ -121,8 +121,9 @@
                 android:inputType="text"
 
                 android:imeOptions="actionDone"
-                />
+                style="@style/ProfileItemText"/>
         </LinearLayout>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
@@ -137,7 +138,7 @@
                 android:inputType="text"
 
                 android:imeOptions="actionDone"
-                />
+                style="@style/ProfileItemText"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
