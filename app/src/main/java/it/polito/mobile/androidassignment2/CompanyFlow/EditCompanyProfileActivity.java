@@ -112,6 +112,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
             throw new RuntimeException();
         }
         setContentView(R.layout.activity_edit_company_profile);
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         findViews();
         setupViewsAndCallbacks();
     }
@@ -190,6 +191,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
                         if (e == null) {
                             Intent i = new Intent(EditCompanyProfileActivity.this, CompanyProfileActivity.class);
                             startActivity(i);
+	                        finish();
                         } else {
                             throw new RuntimeException(); //TODO
                         }
@@ -207,6 +209,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
             public void onClick(View v) {
                 Intent i = new Intent(EditCompanyProfileActivity.this, CompanyProfileActivity.class);
                 startActivity(i);
+	            finish();
             }
         });
 
@@ -288,25 +291,4 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
         super.onPause();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_fake_activity_s3_test, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

@@ -10,8 +10,6 @@
         android:orientation="vertical"
         >
 
-        <include layout="@layout/student_tabbed_menu"></include>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/profile_header" >
@@ -84,7 +82,7 @@
                 />
         </RelativeLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,7 +118,7 @@
                 />
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
@@ -135,7 +133,7 @@
                 />
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
@@ -148,7 +146,7 @@
                 />
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
@@ -162,7 +160,7 @@
                 style="@style/ProfileItemText" />
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
@@ -174,7 +172,7 @@
                 style="@style/ProfileItemText" />
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
@@ -186,7 +184,7 @@
                 style="@style/ProfileItemText" />
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1px"/>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
         <LinearLayout
             style="@style/ProfileItem" >
             <TextView

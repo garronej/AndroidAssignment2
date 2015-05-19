@@ -23,7 +23,7 @@
         android:text="@string/students"
         android:background="@drawable/abc_tab_indicator_material"
         android:textColor="@color/white"
-        />
+        android:singleLine="true"/>
 
     <Button
         android:id="@+id/tab_menu_company_offers"
@@ -33,7 +33,7 @@
         android:text="@string/offers"
         android:background="@drawable/abc_tab_indicator_material"
         android:textColor="@color/white"
-        />
+        android:singleLine="true"/>
     <ImageButton
         android:id="@+id/tab_menu_company_search"
         android:layout_width="0dp"

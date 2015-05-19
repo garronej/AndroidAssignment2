@@ -224,6 +224,7 @@ public class SearchStudents extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent i = new Intent(getApplicationContext(), ShowStudentProfileActivity.class);
                     i.putExtra("studentId", (int)id);
+                    i.putExtra("offerId", offerId);
                     startActivity(i);
                     }
                 });

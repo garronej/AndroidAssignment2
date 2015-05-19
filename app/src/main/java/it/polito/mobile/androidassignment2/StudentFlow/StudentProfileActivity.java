@@ -1,5 +1,6 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
+import android.support.v7.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,14 +12,17 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+
 import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.AlertYesNo;
+import it.polito.mobile.androidassignment2.Communicator;
 import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
@@ -28,267 +32,323 @@ import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
 
-
-public class StudentProfileActivity extends ActionBarActivity  {
-    private ImageView ivPhoto;
-    private ProgressBar pbPhotoSpinner;
-    private ProgressBar pbCvSpinner;
-    private TextView tvFullname;
-    private TextView tvLinks;
-    private Button bCv;
-    private TextView tvEmail;
-    private TextView tvUniversityCareer;
-    private TextView tvCompetences;
-    private Button bAvailability;
-    private TextView tvHobbies;
-    private DownloadFinished downloadfinished = new DownloadFinished();
-    private Uri photoUri;
-    private Button bEditProfile;
-    private Button bSex;
-    private TextView tvLocation;
-
-    public class DownloadFinished extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
-            if (filePath.indexOf(".pdf") != -1) { //pdf -> cv
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setDataAndType(Uri.parse(filePath), "application/pdf");
-                bCv.setVisibility(View.VISIBLE);
-                pbCvSpinner.setVisibility(View.INVISIBLE);
-                startActivity(i);
-            } else { // photo
-                pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
-                photoUri = Uri.parse(filePath);
-                Session.getInstance().setPhotoUri(photoUri);
-                ivPhoto.setImageURI(photoUri);
-                tvFullname.setVisibility(View.VISIBLE);
-                bCv.setEnabled(true);
-                bEditProfile.setEnabled(true);
-            }
-        }
-    }
-
-    private void addTabMenuButtonCallbacks(){
-        findViewById(R.id.tab_menu_student_search).setVisibility(View.INVISIBLE);
-        findViewById(R.id.tab_menu_student_profile).setBackgroundColor(getResources().getColor(R.color.strong_blue));
-        findViewById(R.id.tab_menu_student_offers).setBackgroundColor(getResources().getColor(R.color.blue_sky));
-        findViewById(R.id.tab_menu_student_companies).setBackgroundColor(getResources().getColor(R.color.blue_sky));
-        findViewById(R.id.tab_menu_student_companies).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), CompaniesFavouritesActivity.class);
-                startActivity(i);
-            }
-        });
-        findViewById(R.id.tab_menu_student_offers).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               Intent i = new Intent(getApplicationContext(),OffersListsActivity.class );
-                startActivity(i);
-            }
-        });
-
-    }
+public class StudentProfileActivity extends ActionBarActivity implements Communicator {
+	private ImageView ivPhoto;
+	private ProgressBar pbPhotoSpinner;
+	private ProgressBar pbCvSpinner;
+	private TextView tvFullname;
+	private TextView tvLinks;
+	private Button bCv;
+	private TextView tvEmail;
+	private TextView tvUniversityCareer;
+	private TextView tvCompetences;
+	private Button bAvailability;
+	private TextView tvHobbies;
+	private DownloadFinished downloadfinished = new DownloadFinished();
+	private Uri photoUri;
+	private Button bEditProfile;
+	private Button bSex;
+	private TextView tvLocation;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (Session.getInstance().getPhotoUri() != null) {
-            photoUri = Session.getInstance().getPhotoUri();
-        }
-        setContentView(R.layout.activity_student_profile);
-        findViews();
-        setupViewsAndCallbacks();
-        addTabMenuButtonCallbacks();
-    }
+	public class DownloadFinished extends BroadcastReceiver {
 
-    private void findViews() {
-        tvEmail = (TextView) findViewById(R.id.email);
-        ivPhoto = (ImageView) findViewById(R.id.photo);
-        pbPhotoSpinner = (ProgressBar) findViewById(R.id.photo_spinner);
-        pbCvSpinner = (ProgressBar) findViewById(R.id.cv_pb);
-        tvFullname = (TextView) findViewById(R.id.fullname);
-        bCv = (Button) findViewById(R.id.cv_button);
-        tvLinks = (TextView) findViewById(R.id.links);
-        tvUniversityCareer = (TextView) findViewById(R.id.university_career);
-        tvCompetences = (TextView) findViewById(R.id.competences);
-        bAvailability = (Button) findViewById(R.id.availability);
-        tvHobbies = (TextView) findViewById(R.id.hobbies);
-        bEditProfile = (Button) findViewById(R.id.edit_profile_button);
-        bSex = (Button) findViewById(R.id.sex_b);
-        tvLocation = (TextView) findViewById(R.id.location_tv);
-    }
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
+			if (filePath.indexOf(".pdf") != -1) { //pdf -> cv
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setDataAndType(Uri.parse(filePath), "application/pdf");
+				bCv.setVisibility(View.VISIBLE);
+				pbCvSpinner.setVisibility(View.INVISIBLE);
+				startActivity(i);
+			} else { // photo
+				pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
+				photoUri = Uri.parse(filePath);
+				Session.getInstance().setPhotoUri(photoUri);
+				ivPhoto.setImageURI(photoUri);
+				tvFullname.setVisibility(View.VISIBLE);
+				bCv.setEnabled(true);
+				bEditProfile.setEnabled(true);
+			}
+		}
+	}
 
-    private void setupViewsAndCallbacks() {
-        final Student loggedStudent;
-        try {
-            loggedStudent = Session.getInstance().getStudentLogged();
-        } catch (DataFormatException e) {
-            throw new RuntimeException();
-        }
-        tvEmail.setText(loggedStudent.getEmail());
-        pbCvSpinner.setVisibility(View.INVISIBLE);
+	private void myAddActionBar() {
+		ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+				R.layout.student_tabbed_menu, null);
 
-        String fullname = loggedStudent.getFullname();
-        if (fullname == null || fullname.equals("")) {
-            tvFullname.setVisibility(View.GONE);
-        } else {
-            tvFullname.setText(loggedStudent.getFullname());
-        }
+		// Set up your ActionBar
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(actionBarLayout);
 
-        String links = loggedStudent.getLinksToString(System.getProperty("line.separator")
-                + System.getProperty("line.separator"));
-        if (links == null) {
-            tvLinks.setVisibility(View.GONE);
-        } else {
-            tvLinks.setText(links);
-        }
+	}
 
-        String universityCareer = loggedStudent.getUniversityCareer();
-        if (universityCareer == null || universityCareer.equals("")) {
-            tvUniversityCareer.setVisibility(View.GONE);
-        } else {
-            tvUniversityCareer.setText(universityCareer);
-        }
+	private void addTabMenuButtonCallbacks() {
+		findViewById(R.id.tab_menu_student_search).setVisibility(View.INVISIBLE);
+		findViewById(R.id.tab_menu_student_profile).setBackgroundColor(getResources().getColor(R.color.strong_blue));
+		findViewById(R.id.tab_menu_student_offers).setBackgroundColor(getResources().getColor(R.color.blue_sky));
+		findViewById(R.id.tab_menu_student_companies).setBackgroundColor(getResources().getColor(R.color.blue_sky));
+		findViewById(R.id.tab_menu_student_companies).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(), CompaniesFavouritesActivity.class);
+				startActivity(i);
+				finish();
 
-        String competences = loggedStudent.getCompetencesToString(", ");
-        if (competences == null) {
-            tvCompetences.setVisibility(View.GONE);
-        } else {
-            tvCompetences.setText(competences);
-        }
+			}
+		});
+		findViewById(R.id.tab_menu_student_offers).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(), OffersListsActivity.class);
+				startActivity(i);
+				finish();
+			}
+		});
 
-        String hobbies = loggedStudent.getHobbiesToString(", ");
-        if (hobbies == null) {
-            tvHobbies.setVisibility(View.GONE);
-        } else {
-            tvHobbies.setText(hobbies);
-        }
+	}
 
-        String sex = loggedStudent.getSex();
-        if (sex == null) {
-            bSex.setVisibility(View.GONE);
-        } else {
-            bSex.setText(sex);
-        }
 
-        String location = loggedStudent.getLocation();
-        if (location == null || location.equals("")) {
-            tvLocation.setVisibility(View.GONE);
-        } else {
-            tvLocation.setText(location);
-        }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if (Session.getInstance().getPhotoUri() != null) {
+			photoUri = Session.getInstance().getPhotoUri();
+		}
+		setContentView(R.layout.activity_student_profile);
+		findViews();
+		setupViewsAndCallbacks();
+		myAddActionBar();
+		addTabMenuButtonCallbacks();
+	}
 
-        String url = loggedStudent.getPhotoUrl();
-        if (photoUri == null) { //need to get from s3
-            TransferController.download(getApplicationContext(), new String[]{url});
-            bCv.setEnabled(false);
-            bEditProfile.setEnabled(false);
-            tvFullname.setVisibility(View.INVISIBLE);
-            pbPhotoSpinner.setVisibility(ProgressBar.VISIBLE);
-        } else { // it was already fetched from s3
-            ivPhoto.setImageURI(photoUri);
-            pbPhotoSpinner.setVisibility(ProgressBar.GONE);
-        }
+	private void findViews() {
+		tvEmail = (TextView) findViewById(R.id.email);
+		ivPhoto = (ImageView) findViewById(R.id.photo);
+		pbPhotoSpinner = (ProgressBar) findViewById(R.id.photo_spinner);
+		pbCvSpinner = (ProgressBar) findViewById(R.id.cv_pb);
+		tvFullname = (TextView) findViewById(R.id.fullname);
+		bCv = (Button) findViewById(R.id.cv_button);
+		tvLinks = (TextView) findViewById(R.id.links);
+		tvUniversityCareer = (TextView) findViewById(R.id.university_career);
+		tvCompetences = (TextView) findViewById(R.id.competences);
+		bAvailability = (Button) findViewById(R.id.availability);
+		tvHobbies = (TextView) findViewById(R.id.hobbies);
+		bEditProfile = (Button) findViewById(R.id.edit_profile_button);
+		bSex = (Button) findViewById(R.id.sex_b);
+		tvLocation = (TextView) findViewById(R.id.location_tv);
+	}
 
-        final String cvUrl = loggedStudent.getCvUrl();
-        if (cvUrl == null) {
-            bCv.setVisibility(View.GONE);
-        } else {
-            bCv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TransferController.download(getApplicationContext(), new String[]{ cvUrl });
-                    pbCvSpinner.setVisibility(View.VISIBLE);
-                    bCv.setVisibility(View.INVISIBLE);
-                }
-            });
-        }
+	private void setupViewsAndCallbacks() {
+		final Student loggedStudent;
+		try {
+			loggedStudent = Session.getInstance().getStudentLogged();
+		} catch (DataFormatException e) {
+			throw new RuntimeException();
+		}
+		tvEmail.setText(loggedStudent.getEmail());
+		pbCvSpinner.setVisibility(View.INVISIBLE);
 
-        boolean isAvailable = loggedStudent.isAvailable();
-        if (isAvailable) {
-            bAvailability.setText(getResources().getString(R.string.available_for_jobs));
-            bAvailability.setBackgroundColor(getResources().getColor(R.color.green_ok));
-        } else {
-            bAvailability.setText(getResources().getString(R.string.not_available_for_jobs));
-            bAvailability.setBackgroundColor(getResources().getColor(R.color.red_warning));
-        }
+		String fullname = loggedStudent.getFullname();
+		if (fullname == null) {
+			tvFullname.setVisibility(View.GONE);
+		} else {
+			tvFullname.setText(loggedStudent.getFullname());
+		}
 
-        bEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(StudentProfileActivity.this, EditStudentProfileActivity.class);
-                startActivity(i);
-            }
-        });
-    }
+		String links = loggedStudent.getLinksToString(System.getProperty("line.separator")
+				+ System.getProperty("line.separator"));
+		if (links == null) {
+			tvLinks.setVisibility(View.GONE);
+		} else {
+			tvLinks.setText(links);
+		}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.global, menu);
-        return true;
-    }
+		String universityCareer = loggedStudent.getUniversityCareer();
+		if (universityCareer == null) {
+			tvUniversityCareer.setVisibility(View.GONE);
+		} else {
+			tvUniversityCareer.setText(universityCareer);
+		}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+		String competences = loggedStudent.getCompetencesToString(", ");
+		if (competences == null) {
+			tvCompetences.setVisibility(View.GONE);
+		} else {
+			tvCompetences.setText(competences);
+		}
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
-	        getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
-	        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-	        startActivity(i);
-            return true;
-        }
-	    if (id == R.id.action_delete) {
-		    try {
-			    Manager.deleteStudent(Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
-				    @Override
-				    public void process(Integer arg, Exception e) {
-					    if(e!=null){
-						    //TODO: show error message
-						    return ;
-					    }
-					    getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
-					    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-					    startActivity(i);
-				    }
+		String hobbies = loggedStudent.getHobbiesToString(", ");
+		if (hobbies == null) {
+			tvHobbies.setVisibility(View.GONE);
+		} else {
+			tvHobbies.setText(hobbies);
+		}
 
-				    @Override
-				    public void cancel() {
+		String sex = loggedStudent.getSex();
+		if (sex == null) {
+			bSex.setVisibility(View.GONE);
+		} else {
+			bSex.setText(sex);
+		}
 
-				    }
-			    });
-		    } catch (DataFormatException e) {
-			    e.printStackTrace();
-		    }
-		    return true;
-	    }
+		String location = loggedStudent.getLocation();
+		if (location == null || location.equals("")) {
+			tvLocation.setVisibility(View.GONE);
+		} else {
+			tvLocation.setText(location);
+		}
 
-        return super.onOptionsItemSelected(item);
-    }
+		String url = loggedStudent.getPhotoUrl();
+		if (photoUri == null) { //need to get from s3
+			TransferController.download(getApplicationContext(), new String[]{url});
+			bCv.setEnabled(false);
+			bEditProfile.setEnabled(false);
+			tvFullname.setVisibility(View.INVISIBLE);
+			pbPhotoSpinner.setVisibility(ProgressBar.VISIBLE);
+		} else { // it was already fetched from s3
+			ivPhoto.setImageURI(photoUri);
+			pbPhotoSpinner.setVisibility(ProgressBar.GONE);
+		}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
-    }
+		final String cvUrl = loggedStudent.getCvUrl();
+		if (cvUrl == null) {
+			bCv.setVisibility(View.GONE);
+		} else {
+			bCv.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					TransferController.download(getApplicationContext(), new String[]{cvUrl});
+					pbCvSpinner.setVisibility(View.VISIBLE);
+					bCv.setVisibility(View.INVISIBLE);
+				}
+			});
+		}
 
-    @Override
-    protected void onPause() {
-        unregisterReceiver(downloadfinished);
-        super.onPause();
-    }
-	private void showConfirmAlerter(String title, String message){
+		boolean isAvailable = loggedStudent.isAvailable();
+		if (isAvailable) {
+			bAvailability.setText(getResources().getString(R.string.available_for_jobs));
+			bAvailability.setBackgroundColor(getResources().getColor(R.color.green_ok));
+		} else {
+			bAvailability.setText(getResources().getString(R.string.not_available_for_jobs));
+			bAvailability.setBackgroundColor(getResources().getColor(R.color.red_warning));
+		}
+
+		bEditProfile.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(StudentProfileActivity.this, EditStudentProfileActivity.class);
+				startActivity(i);
+			}
+		});
+	}
+
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
+	}
+
+	@Override
+	protected void onPause() {
+		unregisterReceiver(downloadfinished);
+		super.onPause();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.global, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+
+		//noinspection SimplifiableIfStatement
+		if (id == R.id.action_logout) {
+			showConfirmAlerter(0);
+			return true;
+		}
+		if (id == R.id.action_delete) {
+			showConfirmAlerter(1);
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	public void showConfirmAlerter(int kind) {
 		AlertYesNo alert = new AlertYesNo();
+		Bundle info = new Bundle();
+		if (kind == 0)
+			info.putString("message", getResources().getString(R.string.logout_message));
+		else info.putString("message", getResources().getString(R.string.delete_user_message));
 
-		alert.show(getFragmentManager(),"Confirm?");
+		info.putString("title", getResources().getString(R.string.confirm));
+		info.putInt("kind", kind);
+		alert.setCommunicator(this);
+		alert.setArguments(info);
+		alert.show(getSupportFragmentManager(), "Confirm");
+
+	}
+
+	@Override
+	public void goSearch(int kind) {
+
+	}
+
+	@Override
+	public void respond(int itemIndex, int kind) {
+
+	}
+
+	@Override
+	public void dialogResponse(int result, int kind) {
+		if (result == 1) {
+			switch (kind) {
+				case 0://logout
+					getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
+					Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+					startActivity(i);
+					finish();
+					break;
+				case 1://delete account
+					try {
+						Manager.deleteStudent(Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+							@Override
+							public void process(Integer arg, Exception e) {
+								if (e != null) {
+									//TODO: show error message
+									return;
+								}
+								getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
+								Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+								startActivity(i);
+								finish();
+							}
+
+							@Override
+							public void cancel() {
+
+							}
+						});
+					} catch (DataFormatException e) {
+						e.printStackTrace();
+					}
+					break;
+				default:
+					return;
+			}
+		}
 	}
 }

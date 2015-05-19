@@ -89,7 +89,7 @@
     <string name="search">Search</string>
     <string name="activity_search_companies">Search companies</string>
     <string name="studentKeyword">Competence</string>
-    <string name="sex">Sex</string>
+    <string name="gender">Gender</string>
     <string name="students">Students</string>
     <string name="title_activity_students_favourites">Students</string>
     <string name="activity_search_students">Search students</string>
@@ -110,7 +110,7 @@
     <string name="tap_to_change">Tap to change</string>
     <string name="available">Available</string>
     <string name="not_available">Not available</string>
-    <string name="name_surname">Name Surname</string>
+    <string name="surname">Surname</string>
     <string name="job_offer_code">Job offer code</string>
     <string-array name="sex_array">
         <item></item>
@@ -142,4 +142,10 @@
     <string name="action_delete_account">Delete Account</string>
     <string name="action_logout">Logout</string>
     <string name="confirm">Confirm</string>
+    <string name="logout_message">Do you want to confirm logout?</string>
+    <string name="delete_user_message">Do you want to delete your account?</string>
+    <string name="applied">Applied</string>
+    <string name="companies">Companies</string>
+    <string name="related_offers">Related Offers</string>
+    <string name="appName">Poli Job</string>
 </resources>

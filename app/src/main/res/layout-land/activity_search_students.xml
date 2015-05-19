@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="it.polito.mobile.androidassignment2.CompanyFlow.SearchStudents"
+    android:focusable="false">
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        >
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/student_search_location"
+            android:hint="@string/location"
+            android:layout_marginTop="2dp"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+
+            style="@style/ProfileItemText"/>
+
+        <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/student_search_keyword"
+            android:layout_marginTop="2dp"
+            android:inputType="text"
+
+            android:imeOptions="actionDone"
+            style="@style/ProfileItemText"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/gender"
+                style="@style/ProfileItemLabel"
+                android:layout_gravity="center"/>
+            <Spinner
+                android:id="@+id/student_search_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/sex_entries"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"
+                style="@style/ProfileItemText"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/availability"
+                style="@style/ProfileItemLabel"
+                android:layout_gravity="center"/>
+
+            <CheckBox
+                android:id="@+id/student_search_availability"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/student_search_career"
+            android:hint="@string/university_career"
+
+            android:layout_marginTop="2dp"
+            android:inputType="text"
+
+            android:imeOptions="actionDone"
+            style="@style/ProfileItemText"/>
+
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/search"
+            android:id="@+id/studentSearchButton"
+            android:layout_marginBottom="10dp"
+            android:background="@color/app_default_background"
+            android:clickable="true"
+            android:enabled="true"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    </ScrollView>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/medium_dark_gray">
+
+    </View>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:id="@+id/search_students_result_details"
+        >
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

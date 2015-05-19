@@ -167,8 +167,40 @@ public class OfferShowActivity extends AppCompatActivity {
                         }else{
                             setButtonToFavStudent(arg);
                         }
+                        if(Session.getInstance().getAppliedOffers().contains(arg)){
+                            applyButton.setText(getResources().getText(R.string.applied));
+                            applyButton.setBackgroundColor(getResources().getColor(R.color.green_ok));
 
-                        //TODO: the same for applied offers...
+                        }else{
+                            applyButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    try {
+                                        Manager.subscribeStudentOfJobOffer(arg.getId(), Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+                                            @Override
+                                            public void process(Integer arg, Exception e) {
+                                                if(e!=null){
+                                                    //TODO: show error message...
+                                                    return;
+                                                }
+
+                                                applyButton.setText(getResources().getText(R.string.applied));
+                                                applyButton.setBackgroundColor(getResources().getColor(R.color.green_ok));
+                                                applyButton.setEnabled(false);
+                                            }
+
+                                            @Override
+                                            public void cancel() {
+
+                                            }
+                                        });
+                                    } catch (DataFormatException e1) {
+                                        //never here
+                                    }
+                                }
+                            });
+                        }
+
 
                     }
                 }catch (Exception exc){
@@ -272,25 +304,4 @@ public class OfferShowActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_offer_show, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
