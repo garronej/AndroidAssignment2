@@ -132,7 +132,7 @@ public class Company {
 
 
     //We asume the JSON object sended are well formed.
-    protected Company(JSONObject json){
+    protected Company(JSONObject json) throws RestApiException{
 
 
         try {
@@ -168,8 +168,12 @@ public class Company {
 
 
 
-            this.numberOfWorkers = json.getInt("number_of_workers");
+            buff = json.getString("number_of_workers");
 
+
+            if( !buff.equals("null")){
+                this.numberOfWorkers = json.getInt("number_of_workers");
+            }
 
 
             buff = json.getString("clients");
@@ -211,7 +215,7 @@ public class Company {
 
         }catch (Exception e){
 
-            Log.v("azert", "creating company from json : " + e.getMessage());
+            throw new  RestApiException(-1,"Internal error if Company parsing Json response to create object :\n" + e.getMessage());
         }
     }
 

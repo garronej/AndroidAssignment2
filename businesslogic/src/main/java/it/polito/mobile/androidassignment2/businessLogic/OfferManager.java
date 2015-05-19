@@ -91,7 +91,6 @@ class OfferManager {
             resp = RESTManager.send(RESTManager.GET, BASE_URI, params);
         }
 
-        Log.v("OfferManager", "resp = " + resp);
 
 
         try{

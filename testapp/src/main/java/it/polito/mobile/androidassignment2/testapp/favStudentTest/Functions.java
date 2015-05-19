@@ -44,7 +44,7 @@ public class Functions extends Fragment {
 
 
 
-        button1.setText("Delete favourite Company/offer of Paul Dupont");
+        button1.setText("Delete favourite Company/offer and applyed offer of Paul Dupont");
 
         button1.setOnClickListener(new View.OnClickListener() {
 
@@ -128,6 +128,70 @@ public class Functions extends Fragment {
                             });
 
 
+
+
+
+
+
+                            Manager.getAppliedOfferOfStudent(student.getId(), null, new Manager.ResultProcessor<List<Offer>>() {
+
+
+                                @Override
+                                public void process(List<Offer> arg, Exception e) {
+
+                                    if (e != null) {
+
+                                        Log.w("favStudentTest/Function","Error in getAppliedOfferOfStudent",e);
+
+                                        textView1.setText(textView1.getText() + "error in getAppliedOfferOfStudent()  :" + processException(e) + "\n");
+                                    } else {
+                                        for (final Offer offer : arg) {
+
+                                            //textView1.setText(textView1.getText() + "Deleting from favourite offer id=" + offer.getId() + " of the student id=" + student.getId() + "\n" );
+
+                                            Manager.unsubscribeStudentOfJobOffer(offer.getId(),  student.getId(), new Manager.ResultProcessor<Integer>() {
+
+
+                                                @Override
+                                                public void process(Integer arg, Exception e) {
+                                                    if (e != null) {
+                                                        textView1.setText(textView1.getText() + "error in unsubscribeStudentOfJobOffer()  :" + processException(e) + "\n");
+                                                    } else {
+                                                        textView1.setText(textView1.getText() + "Offer id " + offer.getId() +
+                                                                " has been removed from the applied list of student "
+                                                                + student.getSurname() + " " + student.getName() + "\n");
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void cancel() {
+
+                                                }
+                                            });
+
+                                        }
+                                    }
+
+                                }
+
+                                @Override
+                                public void cancel() {
+
+                                }
+
+                            });
+
+
+
+
+
+
+
+
+
+
+
+
                             Manager.getFavouriteCompanyOfStudent(student.getId(), new Manager.ResultProcessor<List<Company>>() {
 
 
@@ -184,7 +248,7 @@ public class Functions extends Fragment {
             }
         });
 
-        button2.setText("Add some fav company and offer to paul");
+        button2.setText("Add some fav company and offer to paul and subscribe to an offer ");
 
         button2.setOnClickListener(new View.OnClickListener() {
 
@@ -261,6 +325,27 @@ public class Functions extends Fragment {
                                                 }else{
                                                     textView2.setText(textView2.getText() + "Offer id : "
                                                             + arg.getId() + "  have been set to favorite for student : " + student.getSurname() + "\n");
+                                                }
+                                            }
+
+                                            @Override
+                                            public void cancel() {
+
+                                            }
+                                        });
+
+
+                                        Manager.subscribeStudentOfJobOffer(arg.get(0).getId(),student.getId(), new Manager.ResultProcessor<Integer>(){
+
+
+                                            @Override
+                                            public void process(Integer arg, Exception e) {
+                                                if( e != null){
+                                                    textView2.setText(textView2.getText()
+                                                            + "Error subscribeStudentOfJobOffer, probably offer already suscribed : \n"
+                                                            + e.getMessage() + "\n\n");
+                                                }else{
+                                                    textView2.setText(textView2.getText() + "Offer have been subscribed by student : " + student.getSurname() + "\n");
                                                 }
                                             }
 

@@ -8,7 +8,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <Button
             android:id="@+id/show_favourite"
             android:layout_weight="1"
@@ -31,17 +31,23 @@
             android:textColor="@color/white"
             android:text="@string/button_show_candidatures"
             />
+
+
+
+
     </LinearLayout>
+
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/proposed_offers_list"
+        android:id="@+id/listView"
         >
 
 
     </ListView>
+
+
 
 </LinearLayout>

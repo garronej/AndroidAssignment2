@@ -6,6 +6,7 @@ package it.polito.mobile.androidassignment2.testapp.favStudentTest;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,15 +57,21 @@ public class Results extends Fragment {
                             for (final Student student : arg) {
 
 
+
                                 final StringBuffer buffer = new StringBuffer();
 
 
                                 buffer.append("For student id= " + student.getId() + "(" + student.getEmail() + ")\n\n");
 
+                                Log.d("Result Favs", "Level 0 : Student id  = " + student.getId());
+
                                 Manager.getFavouriteCompanyOfStudent(student.getId(), new Manager.ResultProcessor<List<Company>>() {
 
                                     @Override
                                     public void process(List<Company> arg, Exception e) {
+
+                                        Log.d("Result Favs", "Level 1 : Student id  = " + student.getId());
+
                                         if (e != null) {
                                             buffer.append(processException(e) + "\n");
                                         } else {
@@ -91,6 +98,8 @@ public class Results extends Fragment {
                                             @Override
                                             public void process(List<Offer> arg, Exception e) {
 
+                                                Log.d("Result Favs", "Level 2 : Student id  = " + student.getId());
+
 
                                                 if (e != null) {
                                                     textView.setText(textView.getText() + processException(e) + "\n");
@@ -109,25 +118,58 @@ public class Results extends Fragment {
                                                     buffer.append("\n");
 
 
-                                                    textView.setText(textView.getText() + buffer.toString());
-
-
                                                 }
+
+
+                                                Manager.getAppliedOfferOfStudent(student.getId(), null, new Manager.ResultProcessor<List<Offer>>() {
+
+
+                                                    @Override
+                                                    public void process(List<Offer> arg, Exception e) {
+
+                                                        Log.d("Result Favs", "Level 3 : Student id  = " + student.getId());
+
+
+                                                        if (e != null) {
+                                                            textView.setText(textView.getText() + "Error in getAppliedOfferOfStudent  " + processException(e) + "\n");
+                                                        } else {
+
+                                                            buffer.append("    " + "Subscribed Offer :\n");
+
+                                                            int i = 1;
+                                                            for (Offer offer : arg) {
+
+                                                                buffer.append("    " + i + ") Offer id=" + offer.getId() + "(from company: " + offer.getCompanyName() + ")\n");
+                                                                i++;
+
+                                                            }
+
+                                                            buffer.append("\n");
+
+
+                                                            textView.setText(textView.getText() + buffer.toString());
+
+
+                                                        }
+
+
+                                                    }
+
+                                                    @Override
+                                                    public void cancel() {}
+                                                });
 
 
                                             }
 
                                             @Override
-                                            public void cancel() {
-                                            }
+                                            public void cancel() {}
                                         });
 
                                     }
 
                                     @Override
-                                    public void cancel() {
-
-                                    }
+                                    public void cancel() {}
 
                                 });
 
@@ -137,9 +179,8 @@ public class Results extends Fragment {
                     }
 
                     @Override
-                    public void cancel() {
+                    public void cancel() {}
 
-                    }
                 });
 
 

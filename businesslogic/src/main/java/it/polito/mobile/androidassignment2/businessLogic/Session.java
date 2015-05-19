@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.businessLogic;
 
 import android.net.Uri;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,33 +115,80 @@ public class Session {
 
     }
 
-    private static Object restLogin( String email, String password ) throws RestApiException, IOException, DataFormatException{
+    //look at field definition above for more details
+    public void setPhotoUri(Uri uri) {
+        this.photoUri = uri;
+    }
+    //look at field definition above for more details
+    public Uri getPhotoUri() {
+        return this.photoUri;
+    }
+
+
+    //Synchronous version of login
+    protected static synchronized Integer login( String email, String password) throws IOException,RestApiException, DataFormatException{
+        Session.instance = new Session(email,password);
+        return 0;
+    }
+
+    //First you have to Login
+    //If login fail => ResApiException.
+    //If Email malformed => DataFormatException
+    //If network problem IOException
+    public static Task.General login( String email, String password, Manager.ResultProcessor<Integer> postProcessor ){
+
+
+        Task.General t = new Task.General(Task.Method.LOGIN, postProcessor);
+        t.execute(email,password);
+        return t;
+
+    }
+
+
+    //Then you can get the instance synchronously.
+    public static Session getInstance() throws ExceptionInInitializerError {
+        if (Session.instance == null)
+            throw new ExceptionInInitializerError("Session error : login First !");
+
+        return Session.instance;
+
+    }
+
+
+
+    //Private constructor.
+    private Session(String email, String password) throws IOException, RestApiException, DataFormatException{
+
 
 
         if ( email == null || password == null )
             throw new DataFormatException("Session : can't login with null email and/or password");
+
         String emailFormatted = Utils.formatEmail(email);
 
 
-        Map<String, String> params = new HashMap<String,String>();
+        Map<String, String> params = new HashMap<>();
 
         params.put("session[email]", emailFormatted);
         params.put("session[password]", password);
 
 
-        String resp = RESTManager.send(RESTManager.POST, "session",params);
+        String resp = RESTManager.send(RESTManager.POST, "session", params);
+
+
+        Object obj;
 
         try {
 
-            JSONObject obj = new JSONObject(resp);
+            JSONObject objJson = new JSONObject(resp);
 
-            if (obj.has("student")) {
+            if (objJson.has("student")) {
 
-                return new Student(obj.getJSONObject("student"));
+                obj = new Student(objJson.getJSONObject("student"));
 
-            } else if (obj.has("company")) {
+            } else if (objJson.has("company")) {
 
-                return new Company(obj.getJSONObject("company"));
+                obj = new Company(objJson.getJSONObject("company"));
 
             } else {
                 throw new RestApiException(404, "Login failed!");
@@ -148,19 +196,15 @@ public class Session {
 
         }catch( JSONException exception){
 
-            throw new RestApiException(-1,"Session : Internal error");
+            throw new RestApiException(-1,"Session : Internal error in session response");
 
         }
 
-    }
 
-
-    private Session(String email, String password) throws IOException, RestApiException, DataFormatException{
-
-
-        Object obj = Session.restLogin(email,password);
 
         if( obj.getClass() == Student.class){
+
+            Log.d("Session", "Student logged");
             this.whoIsLogged = Student.class;
 
             this.studentLogged = (Student)obj;
@@ -172,6 +216,9 @@ public class Session {
 
 
         }else if( obj.getClass() == Company.class ){
+
+            Log.d("Session", "Company logged");
+
             this.whoIsLogged = Company.class;
 
             this.companyLogged = (Company)obj;
@@ -186,78 +233,6 @@ public class Session {
 
     }
 
-    protected static class LoginInfo{
 
-        public String email;
-        public String password;
-
-    }
-
-    protected static synchronized Integer login( LoginInfo log) throws IOException,RestApiException, DataFormatException{
-
-        Session.instance = new Session(log.email,log.password);
-
-        return 0;
-
-    }
-
-    //First Login
-    //If login fail => ResApiException.
-    //If Email malformed => DataFormatException
-    //If network problem IOException
-    public static Task.General login( String email, String password, Manager.ResultProcessor<Integer> postProcessor ){
-
-        LoginInfo log = new LoginInfo();
-        log.email = email;
-        log.password = password;
-        Task.General t = new Task.General(Task.Method.LOGIN, postProcessor);
-        t.execute(log);
-        return t;
-
-    }
-
-
-    //Then we can get the instance synchronously.
-    public static Session getInstance() throws ExceptionInInitializerError {
-        if (Session.instance == null)
-            throw new ExceptionInInitializerError("Session error : login First !");
-
-        return Session.instance;
-
-    }
-
-    //look at field definition above for more details
-    public void setPhotoUri(Uri uri) {
-        this.photoUri = uri;
-    }
-    //look at field definition above for more details
-    public Uri getPhotoUri() {
-        return this.photoUri;
-    }
-    public Student s;
-    public Session() {
-        try {
-            s = new Student();
-            s.setEmail("Joseph.garrOne.gj@gmail.com");
-            s.setName("GaRRone");
-            s.setSurname("Joseph");
-            s.setPassword("stupid2");
-            s.setCvUrl("eu-west-1:3f1af8e8-7e5e-4210-b9eb-f4f29f7b66ab/photo/student3/esercitazione2.pdf");
-            s.setUniversityCareer("computer engineering");
-            s.setAvailable(false);
-            s.setCompetences(new String[]{"porn knowelage", "fast masturbation"});
-            s.setHobbies(new String[]{"porn", "masturbation"});
-            s.setLinks(new URL[]{new URL("http://seedbox.garrone.org"), new URL("http://etophy.fr")});
-            s.setPhotoUrl("eu-west-1:3f1af8e8-7e5e-4210-b9eb-f4f29f7b66ab/photo/student3/jos.png");
-            s.setSex("m");
-            s.setLocation("torino");
-        } catch(Exception e) {}
-    } //TODO REMOVE
-    public static Session getInstanceFake() {
-        if (Session.instance == null) {
-            Session.instance = new Session();
-        }
-        return Session.instance;
-    }
 
 }

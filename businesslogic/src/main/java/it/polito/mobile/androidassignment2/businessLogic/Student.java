@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.businessLogic;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -25,7 +26,7 @@ public class Student {
     private String surname = null;
     private String photoUrl = null;
     private String cvUrl = null;
-    private URL[] links = null;
+    private String[] links = null;
     private String universityCareer = null;
     private String[] competences = null;
     private String[] hobbies = null;
@@ -86,7 +87,7 @@ public class Student {
     }
 
 
-    public void setLinks(URL[] links){
+    public void setLinks(String[] links){
         this.links = links;
     }
 
@@ -135,7 +136,7 @@ public class Student {
 
 
     //We asume the JSON object sended are well formed.
-    protected Student(JSONObject json){
+    protected Student(JSONObject json) throws RestApiException{
 
 
         try {
@@ -193,8 +194,14 @@ public class Student {
             }
 
 
+            try {
 
-            this.available = json.getBoolean("availability");
+                this.available = json.getBoolean("availability");
+
+            }catch(JSONException e){
+                this.available = null;
+
+            }
 
 
             buff = json.getString("links");
@@ -203,9 +210,9 @@ public class Student {
 
                 JSONArray jsonLinks = json.getJSONArray("links");
 
-                links = new URL[jsonLinks.length()];
+                links = new String[jsonLinks.length()];
                 for (int i = 0; i < jsonLinks.length(); i++) {
-                    links[i] = new URL(jsonLinks.getString(i));
+                    links[i] =jsonLinks.getString(i);
                 }
 
             }
@@ -242,7 +249,8 @@ public class Student {
 
         }catch (Exception e){
 
-            //Should nor append
+            throw new  RestApiException(-1,"Internal error if Student parsing Json response to create object :\n" + e.getMessage());
+
         }
     }
 
@@ -280,11 +288,13 @@ public class Student {
     }
 
     public String getLinksToString(String separator) {
+
+
         String s = "";
-        URL[] urls = getLinks();
+        String[] urls = this.getLinks();
         if (urls != null && urls.length > 0) {
-            URL lastUrl = urls[urls.length - 1];
-            for (URL url : urls) {
+            String lastUrl = urls[urls.length - 1];
+            for (String url : urls) {
                 s += url.toString();
                 if (url != lastUrl) {
                     s += separator;
@@ -335,7 +345,7 @@ public class Student {
         return cvUrl;
     }
 
-    public URL[] getLinks() {
+    public String[] getLinks() {
         return links;
     }
 
@@ -417,9 +427,9 @@ public class Student {
             s.put("student[competences]", "");
         }
         if(links!=null && links.length>0){
-            String c=links[0].toString();
+            String c=links[0];
             for(int i=1;i<links.length;i++){
-                c+=","+links[i].toString();
+                c+=","+links[i];
             }
             s.put("student[links]", c);
         } else if (links != null && links.length == 0) {

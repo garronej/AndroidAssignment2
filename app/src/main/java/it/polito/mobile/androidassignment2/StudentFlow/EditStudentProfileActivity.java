@@ -188,19 +188,19 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                     String links = etLinks.getText().toString();
                     if (!links.equals("")) {
                         String[] linksA = links.split(",");
-                        List<URL> urls = new ArrayList<URL>();
+                        List<String> urls = new ArrayList<>();
                         for (String s : linksA) {
-                            try {
-                                URL u = new URL(s.trim());
-                                urls.add(u);
-                            } catch (MalformedURLException e) {
-                                throw new RuntimeException(); //TODO
-                            }
+
+
+                                urls.add(s.trim());
+
                         }
-                        URL[] urlsA = new URL[urls.size()];
+                        String[] urlsA = new String[urls.size()];
                         loggedStudent.setLinks(urls.toArray(urlsA));
                     } else if (links.equals("")) {
-                        loggedStudent.setLinks(new URL[0]);
+
+                        //When you have no data you should put null unless you have a reason not to do so
+                        loggedStudent.setLinks(new String[0]);
                     }
 
                     loggedStudent.setUniversityCareer(etUniversityCareer.getText().toString());

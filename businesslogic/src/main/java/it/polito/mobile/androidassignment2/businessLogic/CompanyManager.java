@@ -81,7 +81,7 @@ class CompanyManager {
 
         String resp = RESTManager.send(RESTManager.GET, BASE_URI, params);
 
-        Log.v("CoMa", "resp = " + resp);
+
 
         try{
 
@@ -96,11 +96,11 @@ class CompanyManager {
 
                 JSONObject companyJson = companiesJson.getJSONObject(i);
 
-                Log.v("CoMa","companyJson.toString() = " + companyJson.toString());
+
 
                 Company tmp = new Company(companyJson);
 
-                Log.v("CoMa","tmp.toString() = " + tmp.toString());
+
 
 
 

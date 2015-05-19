@@ -107,7 +107,7 @@ public class Offer {
 
 
     //We asume the JSON object sended are well formed.
-    protected Offer(JSONObject json){
+    protected Offer(JSONObject json) throws RestApiException{
 
 
         try {
@@ -144,9 +144,7 @@ public class Offer {
             }
 
             buff = json.getString("competences");
-
-
-
+            
             if( !buff.equals("null")){
 
                 JSONArray jsonComps = json.getJSONArray("competences");
@@ -157,6 +155,8 @@ public class Offer {
 
             }
         }catch (Exception e){
+
+            throw new  RestApiException(-1,"Internal error if Offer parsing Json response to create object :\n" + e.getMessage());
             //Should nor append
         }
     }

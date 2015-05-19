@@ -161,7 +161,8 @@ public class Functions extends Fragment {
                                 o.setCompanyId(arg.get(0).getId());
                                 o.setKindOfContract("Contract 1");
                                 o.setDescriptionOfWork("description of work 1");
-                                o.setDurationMonths(3);
+                                o.setCode("aaz33");
+                                o.setLocation("Montpellier, France");
 
                             }catch( Exception ee){
 
@@ -195,6 +196,8 @@ public class Functions extends Fragment {
                                 o.setKindOfContract("Contract 2");
                                 o.setDescriptionOfWork("description of work 2");
                                 o.setDurationMonths(3);
+                                o.setCode("oss117");
+                                o.setLocation("Paris");
 
                             }catch( Exception ee){
 
@@ -238,6 +241,8 @@ public class Functions extends Fragment {
                                 o.setKindOfContract("Contract 1");
                                 o.setDescriptionOfWork("description of work 1");
                                 o.setDurationMonths(3);
+                                o.setCode("OuiOui");
+                                o.setLocation("Seattle");
 
                             }catch( Exception ee){
 
@@ -269,6 +274,7 @@ public class Functions extends Fragment {
                     criteria = new Offer();
                     criteria.setCompanyName("Apple");
                     criteria.setDescriptionOfWork("description of work 2");
+
                 } catch (Exception e) {
                     Log.v("anticipation", "cration of criteria for search : " + e.getMessage());
                 }

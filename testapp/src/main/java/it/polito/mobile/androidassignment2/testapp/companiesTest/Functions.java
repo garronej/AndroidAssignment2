@@ -139,7 +139,7 @@ public class Functions extends Fragment {
                     c = new Company();
                     c.setEmail("google@gmail.com");
                     c.setName("GooGle");
-                    c.setLogoUrl(new URL("http://mySpace.org/google.ico"));
+                    c.setLogoUrl("http://mySpace.org/google.ico");
                     c.setPassword("stupid3");
                     c.setMission("control the all world");
                     c.setNumberOfWorkers(666666);
@@ -161,7 +161,7 @@ public class Functions extends Fragment {
                     c = new Company();
                     c.setEmail("apple@gmail.com");
                     c.setName("Apple");
-                    c.setLogoUrl(new URL("http://mySpace.org/apple.ico"));
+                    c.setLogoUrl("http://mySpace.org/apple.ico");
                     c.setPassword("stupid4#");
                     c.setMission("control the all world");
                     c.setNumberOfWorkers(300);

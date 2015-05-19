@@ -162,7 +162,7 @@ public class Task {
 
 
                     case LOGIN:
-                        out = Session.login((Session.LoginInfo) params[0]);
+                        out = Session.login((String)params[0],(String)params[1]);
                         break;
 
                     case GET_STUDENTS_OF_JOB_OFFER:
@@ -170,6 +170,7 @@ public class Task {
                         break;
                     case GET_APPLIED_OFFER_OF_STUDENT:
                         out = Manager.getAppliedOfferOfStudent( (int) params[0], (Offer) params[1]);
+                        break;
 
                     case SUBSCRIBE_STUDENTS_OF_JOB_OFFER:
                         out = Manager.subscribeStudentOfJobOffer((int) params[0], (int) params[1]);
@@ -231,11 +232,15 @@ public class Task {
                     case DELETE_A_FAVOURITE_COMPANY_OF_A_STUDENT :
                     case DELETE_A_FAVOURITE_OFFER_OF_A_STUDENT :
                     case DELETE_A_FAVOURITE_STUDENT_OF_A_COMPANY :
+                    case LOGIN:
+                    case SUBSCRIBE_STUDENTS_OF_JOB_OFFER:
+                    case UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER:
                         ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
                         break;
 
                     case GET_STUDENTS_MATCHING_CRITERIA:
                     case GET_FAVOURITE_STUDENT_OF_COMPANY :
+                    case GET_STUDENTS_OF_JOB_OFFER:
                         ((Manager.ResultProcessor<List<Student>>)this.postProcessor).process((List<Student>)out,this.exception);
                         break;
 
@@ -250,21 +255,8 @@ public class Task {
                         ((Manager.ResultProcessor<List<Offer>>)this.postProcessor).process((List<Offer>)out,this.exception);
                         break;
 
-                    case LOGIN:
-                        ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
-                        break;
 
-                    case GET_STUDENTS_OF_JOB_OFFER:
 
-                        ((Manager.ResultProcessor<List<Student>>)this.postProcessor).process((List<Student>)out,this.exception);
-                        break;
-
-                    case SUBSCRIBE_STUDENTS_OF_JOB_OFFER:
-                    case UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER:
-
-                        ((Manager.ResultProcessor<Integer>)this.postProcessor).process((Integer)out,this.exception);
-
-                        break;
                     case GET_ALL_STUDENT_COMPETENCES:
                     case GET_ALL_COMPANY_COMPETENCES:
                     case GET_ALL_OFFER_COMPETENCES:

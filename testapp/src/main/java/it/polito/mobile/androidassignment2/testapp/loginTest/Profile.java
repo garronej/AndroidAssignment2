@@ -47,6 +47,16 @@ public class Profile extends AppCompatActivity {
                     i++;
                 }
 
+                textView.setText(textView.getText() + "    \n");
+
+                textView.setText(textView.getText() + "    Subscribed offer : " + session.getAppliedOffers().size() + "\n");
+
+                i = 1;
+                for( Offer offer : session.getAppliedOffers()){
+                    textView.setText(textView.getText() + "    " + Integer.toString(i) + ") id=" + offer.getId() + " ( from company : " + offer.getCompanyName() +  ")\n");
+                    i++;
+                }
+
 
 
             }catch( Exception ee){

@@ -319,7 +319,7 @@ class StudentManager {
 
         }
 
-        params.put("student_id", Integer.toString(studentId));
+        params.put("offers[student_applied_id]", Integer.toString(studentId));
 
 
 

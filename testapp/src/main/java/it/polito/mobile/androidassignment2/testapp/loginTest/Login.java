@@ -3,6 +3,7 @@ package it.polito.mobile.androidassignment2.testapp.loginTest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -31,6 +32,8 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void process(Integer arg, Exception e) {
                         if (e != null) {
+
+                            Log.w("Login","Track trace after login",e);
 
                             Toast.makeText(Login.this, "Error while login in " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             return;

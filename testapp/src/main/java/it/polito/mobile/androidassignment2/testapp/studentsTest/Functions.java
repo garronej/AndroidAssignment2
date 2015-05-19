@@ -96,7 +96,7 @@ public class Functions extends Fragment {
                                         return;
                                     }else{
 
-                                        Log.d("ICI", "We are going to execute");
+
 
                                         textView1.setText(buffer.toString());
                                         return;
@@ -120,7 +120,7 @@ public class Functions extends Fragment {
 
                                         if (e == null) {
 
-                                            Log.d("ICI", "run deleteStudent");
+
 
                                             buffer.append("Deleted Student : " + student.getEmail() + "\n");
                                             asyncTaskCounter.incrementAndGet();
@@ -139,7 +139,7 @@ public class Functions extends Fragment {
                             }
 
 
-                        Log.d("ICI", "We are going to execute asyncTaskCounter : " + asyncTaskCounter.get());
+
 
                         pool.execute();
                     }
@@ -188,9 +188,9 @@ public class Functions extends Fragment {
                     s.setPassword("stupid2");
                     s.setCvUrl("http://cloud.garrone.org/poliJobs/cvs/garronejoseph.pdf");
                     s.setAvailable(false);
-                    s.setCompetences(new String[]{"porn knowelage","fast masturbation"});
-                    s.setHobbies(new String[]{"porn","masturbation"});
-                    s.setLinks(new URL[]{ new URL("http://seedbox.garrone.org"), new URL("http://etophy.fr")});
+                    s.setCompetences(new String[]{"porn knowelage","fast running"});
+                    s.setHobbies(new String[]{"do sport","reading"});
+                    s.setLinks(new String[]{ "http://seedbox.garrone.org", "http://etophy.fr"});
                     s.setPhotoUrl("http://cloud.garrone.org/mwa.png");
                 }catch( Exception e){
                     textView2.setText("Error creating student dupon paulgarrone joseph, exception message : " + e.getMessage());
@@ -207,14 +207,17 @@ public class Functions extends Fragment {
                     s.setName("dupont");
                     s.setSurname("paul");
                     s.setPassword("passOfPaul");
-                    s.setCvUrl("http://cloud.garrone.org/poliJobs/cvs/dupontPaul.pdf");
+                    s.setCvUrl("eu-west-1:3f1af8e8-7e5e-4210-b9eb-f4f29f7b66ab/photo/student3/esercitazione2.pdf");
+                    s.setUniversityCareer("computer engineering");
                     s.setAvailable(false);
-                    s.setCompetences(new String[]{"all","I know everything"});
-                    s.setHobbies(new String[]{"Reading","Writing","getting nobel price"});
-                    s.setLinks(new URL[]{ new URL("http://seedbox.dupon.org")});
-                    s.setPhotoUrl("http://cloud.dupon.org/mwa.png");
+                    s.setCompetences(new String[]{"java", "c#"});
+                    s.setHobbies(new String[]{"sport", "literature"});
+                    s.setLinks(new String[]{"http://seedbox.garrone.org", "http://etophy.fr"});
+                    s.setPhotoUrl("eu-west-1:3f1af8e8-7e5e-4210-b9eb-f4f29f7b66ab/photo/student3/jos.png");
+                    s.setSex("m");
+                    s.setLocation("Torino");
                 }catch( Exception e){
-                    textView2.setText("Error creating student dupon paul, exception message : " + e.getMessage());
+                    textView2.setText("Error creating student dupontpaul, exception message : " + e.getMessage());
                     return;
                 }
 

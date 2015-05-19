@@ -66,7 +66,7 @@ class RESTManager {
 
 
 
-        Log.v("REST","method = " + method + ", url = " + url + ",queryString = " + queryString);
+        Log.d("REST","method = " + method + " url = " + url + " queryString : " + java.net.URLDecoder.decode(queryString, "UTF-8"));
 
 
 
@@ -143,6 +143,8 @@ class RESTManager {
                 response.append(inputLine);
             }
             in.close();
+
+        Log.d("REST", "response : " + response.toString());
             return response.toString();
 
     }

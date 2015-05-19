@@ -217,7 +217,8 @@ public class Manager {
      *                      -company_id ( e.g. call newOffer.setCompanyId(23)) must refer to an existing company's id.
      *                      -kind_of_contract ( e.g call newOffer.setKindOfContract("internship") )
      *                      -description_of_work ( e.g call newOffer.setDescriptionOfWork("Do some programing work") )
-     *                      -duration_months ( e.g. call newOffer.setDuratiionMonths(4) )
+     *                      -location
+     *                      -code
      *
      *                  Note : id of the newOffer object must not be set, it will be automaticaly generated
      *                  server side ( e.g. do not call newOffer.manuallySetId(666); )
@@ -279,8 +280,6 @@ public class Manager {
     }
 
 
-
-
     /**
      *
      * Update an offer in the database.
@@ -318,7 +317,6 @@ public class Manager {
     }
 
 
-
     /**
      *
      * Delet an offer with specific id.
@@ -339,12 +337,6 @@ public class Manager {
         t.execute(id);
         return t;
     }
-
-
-
-
-
-
 
 
     /* --------------------- Student -----------------------*/
@@ -375,8 +367,6 @@ public class Manager {
     }
 
 
-
-
     /**
      *
      * Insert a new student in the database.
@@ -398,7 +388,7 @@ public class Manager {
      *
      *                    Note : Do not set the student id ( with newStudent.manuallySetId(...) ),
      *                    the id is going to be automatically generated server side.
-
+     *
      *
      * @return the Student object created witch correspond to the object passed in input but with
      * the id field set ( e.g newStudent.getId() != null ).
@@ -625,9 +615,6 @@ public class Manager {
 
 
 
-
-
-
     public static List<Student> getStudentsOfJobOffer( int offerId, Student criteria ) throws IOException, RestApiException {
         return OfferManager.getStudentsOfJobOffer(offerId, criteria);
     }
@@ -641,28 +628,17 @@ public class Manager {
     }
 
 
-
-
-
-
-    protected static List<Offer> getAppliedOfferOfStudent(int studentId, Offer criteria) throws IOException, RestApiException{
+    public static List<Offer> getAppliedOfferOfStudent(int studentId, Offer criteria) throws IOException, RestApiException{
         return StudentManager.getAppliedOfferOfStudent(studentId,criteria);
     }
 
-    protected static Task.General getAppliedOfferOfStudent( int studentId, Offer criteria, ResultProcessor<List<Offer>> postProcessor){
+    public static Task.General getAppliedOfferOfStudent( int studentId, Offer criteria, ResultProcessor<List<Offer>> postProcessor){
 
         Task.General t= new Task.General(Task.Method.GET_APPLIED_OFFER_OF_STUDENT,postProcessor);
         t.execute(studentId,criteria);
         return t;
 
     }
-
-
-
-
-
-
-
 
     public static List<String> getAllStudentsCompetences() throws IOException, RestApiException{
         return StudentManager.getAllCompetences();
@@ -694,5 +670,8 @@ public class Manager {
         t.execute();
         return t;
     }
+
+
+
 
 }
