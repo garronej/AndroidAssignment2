@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.zip.DataFormatException;
 
 /**
+ *
+ * Singleton class to login and store the information of the logged user
+ *
  * Created by Joseph on 04/05/2015.
  */
 public class Session {
@@ -155,6 +158,23 @@ public class Session {
     }
 
 
+    //Method to use for update the value of the instance
+    public Task.General update(Manager.ResultProcessor<Integer> postProcessor) throws ExceptionInInitializerError, IOException,RestApiException, DataFormatException {
+
+        if (Session.instance == null)
+            throw new ExceptionInInitializerError("Session error : login First !");
+
+
+        Task.General t = new Task.General(Task.Method.LOGIN, postProcessor);
+        t.execute(this.email,this.password);
+        return t;
+
+    }
+
+
+
+    private String email = null;
+    private String password = null;
 
     //Private constructor.
     private Session(String email, String password) throws IOException, RestApiException, DataFormatException{
@@ -163,6 +183,9 @@ public class Session {
 
         if ( email == null || password == null )
             throw new DataFormatException("Session : can't login with null email and/or password");
+
+        this.email = email;
+        this.password = password;
 
         String emailFormatted = Utils.formatEmail(email);
 
