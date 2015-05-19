@@ -161,7 +161,7 @@ public class Functions extends Fragment {
                     c = new Company();
                     c.setEmail("apple@gmail.com");
                     c.setName("Apple");
-                    c.setLogoUrl("http://mySpace.org/apple.ico");
+                    c.setLogoUrl("eu-west-1:3f1af8e8-7e5e-4210-b9eb-f4f29f7b66ab/photo/student3/jos.png");
                     c.setPassword("stupid4#");
                     c.setMission("control the all world");
                     c.setNumberOfWorkers(300);
