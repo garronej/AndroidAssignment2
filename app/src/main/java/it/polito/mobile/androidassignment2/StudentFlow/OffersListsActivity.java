@@ -86,7 +86,7 @@ public class OffersListsActivity extends AppCompatActivity {
 
 
 
-								//view.animate().translationX(0);
+								view.animate().setStartDelay(300).translationX(0);
 							}
 						});
 			}
