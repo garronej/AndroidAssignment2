@@ -22,6 +22,7 @@ import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.AlertYesNo;
 import it.polito.mobile.androidassignment2.Communicator;
+import it.polito.mobile.androidassignment2.CompanyFlow.CompanyProfileActivity;
 import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
@@ -142,10 +143,9 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            //TODO: start the intent
-
-
+                            Intent i = new Intent(getApplicationContext(), ShowCompanyProfileActivity.class);
+                            i.putExtra("companyId",(int)id);
+                            startActivity(i);
                         }
                     });
                 }

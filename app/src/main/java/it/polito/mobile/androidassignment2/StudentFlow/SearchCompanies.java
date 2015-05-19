@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -139,7 +140,9 @@ public class SearchCompanies extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        //TODO: start the intent
+                        Intent i = new Intent(getApplicationContext(), ShowCompanyProfileActivity.class);
+                        i.putExtra("companyId", (int)id);
+                        startActivity(i);
 
 
                     }

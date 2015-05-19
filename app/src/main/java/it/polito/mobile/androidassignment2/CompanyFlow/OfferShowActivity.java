@@ -167,8 +167,40 @@ public class OfferShowActivity extends AppCompatActivity {
                         }else{
                             setButtonToFavStudent(arg);
                         }
+                        if(Session.getInstance().getAppliedOffers().contains(arg)){
+                            applyButton.setText(getResources().getText(R.string.applied));
+                            applyButton.setBackgroundColor(getResources().getColor(R.color.green_ok));
 
-                        //TODO: the same for applied offers...
+                        }else{
+                            applyButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    try {
+                                        Manager.subscribeStudentOfJobOffer(arg.getId(), Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+                                            @Override
+                                            public void process(Integer arg, Exception e) {
+                                                if(e!=null){
+                                                    //TODO: show error message...
+                                                    return;
+                                                }
+
+                                                applyButton.setText(getResources().getText(R.string.applied));
+                                                applyButton.setBackgroundColor(getResources().getColor(R.color.green_ok));
+                                                applyButton.setEnabled(false);
+                                            }
+
+                                            @Override
+                                            public void cancel() {
+
+                                            }
+                                        });
+                                    } catch (DataFormatException e1) {
+                                        //never here
+                                    }
+                                }
+                            });
+                        }
+
 
                     }
                 }catch (Exception exc){

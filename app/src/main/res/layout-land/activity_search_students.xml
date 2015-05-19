@@ -5,13 +5,16 @@
     android:layout_height="match_parent"
     tools:context="it.polito.mobile.androidassignment2.CompanyFlow.SearchStudents"
     android:focusable="false">
-    <LinearLayout
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
+        android:layout_weight="2"
         >
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
             <EditText
                 android:layout_width="match_parent"
@@ -78,19 +81,21 @@
 
 
         <Button
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:layout_gravity="center"
             android:text="@string/search"
             android:id="@+id/studentSearchButton"
             android:layout_marginBottom="10dp"
-            android:background="#02bac2"
+            android:background="@color/app_default_background"
             android:clickable="true"
             android:enabled="true"
             android:textColor="#ffffff"
             android:textStyle="bold"/>
+            </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
@@ -100,7 +105,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:orientation="vertical"
         android:id="@+id/search_students_result_details"
         >

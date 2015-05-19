@@ -144,4 +144,6 @@
     <string name="confirm">Confirm</string>
     <string name="logout_message">Do you want to confirm logout?</string>
     <string name="delete_user_message">Do you want to delete your account?</string>
+    <string name="applied">Applied</string>
+    <string name="companies">Companies</string>
 </resources>
