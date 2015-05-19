@@ -26,7 +26,8 @@
         </activity>
         <activity
             android:name=".StudentFlow.StudentProfileActivity"
-            android:label="@string/title_activity_student_profile" >
+            android:label="@string/title_activity_student_profile"
+            android:theme="@style/ActionBarTheme">
         </activity>
         <activity
             android:name=".CompanyFlow.ShowStudentProfileActivity"
@@ -48,7 +49,8 @@
 
         <activity
             android:name=".StudentFlow.CompaniesFavouritesActivity"
-            android:label="@string/title_activity_companies_favourites" >
+            android:label="@string/title_activity_companies_favourites"
+            android:theme="@style/ActionBarTheme">
         </activity>
         <activity
             android:name=".StudentFlow.SearchCompanies"
@@ -61,7 +63,8 @@
         </activity>
         <activity
             android:name=".CompanyFlow.StudentsFavouritesActivity"
-            android:label="@string/title_activity_students_favourites" >
+            android:label="@string/title_activity_students_favourites"
+            android:theme="@style/ActionBarTheme">
         </activity>
         <activity
             android:name=".CompanyFlow.SearchStudents"
@@ -100,11 +103,13 @@
         </activity>
         <activity
             android:name=".CompanyFlow.CompanyProfileActivity"
-            android:label="@string/title_activity_main_student" >
+            android:label="@string/title_activity_main_student"
+            android:theme="@style/ActionBarTheme">
         </activity>
         <activity
             android:name=".CompanyFlow.OffersProposed"
-            android:label="@string/title_activity_offers_proposed" >
+            android:label="@string/title_activity_offers_proposed"
+            android:theme="@style/ActionBarTheme">
         </activity>
         <activity
             android:name=".CompanyFlow.JobOfferCreation"
@@ -136,7 +141,8 @@
         </activity>
         <activity
             android:name=".StudentFlow.OffersListsActivity"
-            android:label="@string/title_activity_offers_lists" >
+            android:label="@string/title_activity_offers_lists"
+            android:theme="@style/ActionBarTheme">
         </activity>
     </application>
 

@@ -141,6 +141,11 @@ public class MainStudentActivity extends ActionBarActivity implements ActionBar.
 		//}
 	}
 
+	@Override
+	public void dialogResponse(int result, int kind) {
+
+	}
+
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.

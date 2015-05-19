@@ -142,4 +142,6 @@
     <string name="action_delete_account">Delete Account</string>
     <string name="action_logout">Logout</string>
     <string name="confirm">Confirm</string>
+    <string name="logout_message">Do you want to confirm logout?</string>
+    <string name="delete_user_message">Do you want to delete your account?</string>
 </resources>

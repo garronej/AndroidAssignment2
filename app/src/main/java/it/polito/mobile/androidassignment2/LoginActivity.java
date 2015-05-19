@@ -243,12 +243,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 						Log.d("poliJobs", "Company");
 						Intent i = new Intent(getApplicationContext(), CompanyProfileActivity.class);
 						startActivity(i);
+						finish();
 
 
 					}else{
 						Log.d("poliJobs", "Student");
 						Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
 						startActivity(i);
+						finish();
 					}
 
 

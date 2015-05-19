@@ -10,8 +10,6 @@
         android:orientation="vertical"
         >
 
-        <include layout="@layout/student_tabbed_menu"></include>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/profile_header" >

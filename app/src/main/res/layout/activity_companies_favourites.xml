@@ -4,8 +4,6 @@
     android:orientation="vertical"
     tools:context="it.polito.mobile.androidassignment2.StudentFlow.CompaniesFavouritesActivity">
 
-    <include layout="@layout/student_tabbed_menu"></include>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
