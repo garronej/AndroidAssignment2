@@ -311,6 +311,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 				}
 			});
 
+
 			mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
 			mProgressView.animate().setDuration(shortAnimTime).alpha(
 					show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
