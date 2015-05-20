@@ -27,6 +27,7 @@ import it.polito.mobile.androidassignment2.CompanyFlow.OfferShowActivity;
 import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.adapter.OfferArrayAdapter;
+import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
 
@@ -42,6 +43,7 @@ public class SearchOffer extends AppCompatActivity {
     private ListView listView;
 
     private AsyncTask<Object, Void, Object> task = null;
+    private AsyncTask<Object, Void, Object> task2 = null;
 
 
     private OfferArrayAdapter adapter = null;
@@ -51,6 +53,11 @@ public class SearchOffer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_offer);
 
+
+
+
+
+
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         editText1 = (EditText) findViewById(R.id.editText1);
@@ -59,6 +66,35 @@ public class SearchOffer extends AppCompatActivity {
         editText4 = (EditText) findViewById(R.id.editText4);
 
         button = (Button) findViewById(R.id.button);
+
+
+        Bundle extra=getIntent().getExtras();
+        if(extra!=null){
+            int companyId=extra.getInt("companyId",-1);
+
+            if( companyId != -1 ){
+
+                this.task2 = Manager.getCompanyById(companyId, new Manager.ResultProcessor<Company>(){
+                    @Override
+                    public void process(Company arg, Exception e) {
+                        if( e == null ) return;
+
+                        editText3.setText(arg.getName());
+
+                        button.callOnClick();
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                        SearchOffer.this.task2 = null;
+
+                    }
+                });
+                
+            }
+
+        }
 
 
         Manager.getAllCompaniesCompetences(new Manager.ResultProcessor<List<String>>() {
@@ -120,9 +156,6 @@ public class SearchOffer extends AppCompatActivity {
                 }
 
                     criteria.setKindOfContract(editText4.getText().toString());
-
-
-
 
 
                 Log.d(SearchOffer.class.getName(),"Criteria = " + criteria.toString());
@@ -202,6 +235,12 @@ public class SearchOffer extends AppCompatActivity {
         if(task!=null){
             task.cancel(true);
             task=null;
+        }
+
+
+        if(task2!=null){
+            task2.cancel(true);
+            task2=null;
         }
     }
 }
