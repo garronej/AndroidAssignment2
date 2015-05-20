@@ -220,6 +220,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 		final String cvUrl = loggedStudent.getCvUrl();
 		if (cvUrl == null) {
 			bCv.setVisibility(View.GONE);
+			pbCvSpinner.setVisibility(View.GONE);
 		} else {
 			bCv.setOnClickListener(new View.OnClickListener() {
 				@Override
