@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     tools:context="it.polito.mobile.androidassignment2.StudentFlow.SearchOffer"
     android:focusable="false">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,15 +35,16 @@
             android:id="@+id/editText2"
             android:layout_marginTop="2dp"
             android:inputType="text"
-
+            android:hint="@string/competences"
             android:imeOptions="actionDone"
-            style="@style/ProfileItemText"/>
+            style="@style/ProfileItemText"
+            android:hint="@string/competences"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText3"
-            android:hint="Company name :"
+            android:hint="@string/company"
             android:layout_marginTop="2dp"
             android:inputType="text"
             android:imeOptions="actionDone"
@@ -51,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText4"
-            android:hint="kind_of_contract"
+            android:hint="@string/kind_of_contract"
             android:layout_marginTop="2dp"
             android:inputType="text"
             android:imeOptions="actionDone"
@@ -64,7 +69,7 @@
 
         <Button
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:text="@string/search"
             android:id="@+id/button"
@@ -76,15 +81,17 @@
             android:textStyle="bold"/>
 
     </LinearLayout>
+    </ScrollView>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="3dp"
         android:background="@color/medium_dark_gray">
 
     </View>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="2"
         android:orientation="vertical"
         android:id="@+id/linearLayout"

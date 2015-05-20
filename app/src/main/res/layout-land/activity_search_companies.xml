@@ -5,8 +5,12 @@
     tools:context="it.polito.mobile.androidassignment2.StudentFlow.SearchCompanies"
     android:layout_height="match_parent"
     android:focusable="false">
-    <LinearLayout
+    <ScrollView
         android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:orientation="vertical"
@@ -48,6 +52,7 @@
                 android:id="@+id/seachCompanyFieldOfInterest"
                 android:layout_marginTop="2dp"
                 android:inputType="text"
+                android:hint="@string/competences"
 
                 android:imeOptions="actionDone"
                 style="@style/ProfileItemText"/>
@@ -66,7 +71,7 @@
             android:layout_weight="1"></View>
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:layout_gravity="center"
             android:text="@string/search"
@@ -78,6 +83,7 @@
             android:textStyle="bold"/>
 
     </LinearLayout>
+    </ScrollView>
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"

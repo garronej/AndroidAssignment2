@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -37,7 +38,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
-public class ShowStudentProfileActivity extends ActionBarActivity {
+public class ShowStudentProfileActivity extends AppCompatActivity {
 	private ImageView ivPhoto;
 	private ProgressBar pbPhotoSpinner;
 	private ProgressBar pbCvSpinner;

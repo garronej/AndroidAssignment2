@@ -8,7 +8,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:id="@+id/scrollView">
 
         <LinearLayout
@@ -35,7 +36,7 @@
                     android:id="@+id/student_search_keyword"
                     android:layout_marginTop="2dp"
                     android:inputType="text"
-
+                    android:hint="@string/competences"
                     android:imeOptions="actionDone"
                     style="@style/ProfileItemText"/>
 
@@ -99,7 +100,7 @@
 
             <Button
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:text="@string/search"
                 android:id="@+id/studentSearchButton"

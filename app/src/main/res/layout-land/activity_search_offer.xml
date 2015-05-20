@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal" android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context="it.polito.mobile.androidassignment2.StudentFlow.SearchOffer"
+              android:focusable="false">
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText1"
+                android:hint="@string/location"
+                android:layout_marginTop="2dp"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+
+                style="@style/ProfileItemText"/>
+
+
+
+            <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText2"
+                android:layout_marginTop="2dp"
+                android:inputType="text"
+
+                android:imeOptions="actionDone"
+                style="@style/ProfileItemText"
+                android:hint="@string/competences"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText3"
+                android:hint="@string/company"
+                android:layout_marginTop="2dp"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+
+                style="@style/ProfileItemText"/>
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText4"
+                android:hint="@string/kind_of_contract"
+                android:layout_marginTop="2dp"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+
+                style="@style/ProfileItemText"/>
+
+
+
+
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:text="@string/search"
+                android:id="@+id/button"
+                android:layout_marginBottom="10dp"
+                android:background="@color/blue_sky"
+                android:clickable="true"
+                android:enabled="true"
+                android:textColor="#ffffff"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+    </ScrollView>
+    <View
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:background="@color/medium_dark_gray">
+
+    </View>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:id="@+id/linearLayout"
+            >
+
+        </LinearLayout>
+
+
+</LinearLayout>
