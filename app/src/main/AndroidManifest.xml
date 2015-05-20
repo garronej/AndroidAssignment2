@@ -73,7 +73,8 @@
             android:name=".StudentFlow.SearchCompanies"
             android:label="@string/activity_search_companies"
             android:parentActivityName=".StudentFlow.CompaniesFavouritesActivity"
-            android:theme="@style/ActionBarTheme" >
+            android:theme="@style/ActionBarTheme"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StudentFlow.CompaniesFavouritesActivity" />
@@ -87,7 +88,8 @@
             android:name=".CompanyFlow.SearchStudents"
             android:label="@string/activity_search_students"
             android:parentActivityName=".CompanyFlow.StudentsFavouritesActivity"
-            android:theme="@style/ActionBarTheme" >
+            android:theme="@style/ActionBarTheme"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CompanyFlow.StudentsFavouritesActivity" />
@@ -112,7 +114,8 @@
         </activity>
         <activity
             android:name=".StudentFlow.SearchActivity"
-            android:label="@string/title_activity_search" >
+            android:label="@string/title_activity_search"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".StudentFlow.InfoWrapperActivity"
@@ -163,7 +166,8 @@
         <activity
             android:name=".StudentFlow.SearchOffer"
             android:label="@string/title_activity_search_offer"
-            android:theme="@style/ActionBarTheme">
+            android:theme="@style/ActionBarTheme"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StudentFlow.OffersListsActivity" />
