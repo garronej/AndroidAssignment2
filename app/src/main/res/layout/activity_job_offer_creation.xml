@@ -11,81 +11,89 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
+
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                style="@style/ProfileItemText"
+                android:id="@+id/location"
+                android:hint="@string/location"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                style="@style/ProfileItemText"
+                android:id="@+id/job_offer_code"
+                android:hint="@string/job_offer_code"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                style="@style/ProfileItemText"
+                android:id="@+id/job_offer_description"
+                android:hint="@string/job_offer_description"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                style="@style/ProfileItemText"
+                android:id="@+id/kind_of_contract"
+                android:hint="@string/kind_of_contract"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                style="@style/ProfileItemText"
+                android:id="@+id/number_of_months"
+                android:inputType="number"
+                android:hint="@string/number_of_months"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
+                style="@style/ProfileItemText"
+                android:id="@+id/competences"
+                android:hint="@string/competences"/>
+        </LinearLayout>
+
+
         <Button
             android:id="@+id/add_job_offer"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
             android:background="@color/app_default_background"
             android:textColor="@color/white"
             android:text="@string/create_job_offer"
             />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/job_offer_code"
-            android:hint="@string/job_offer_code"
-            android:layout_marginTop="2dp"
-            android:inputType="text"
-            android:imeOptions="actionDone"
-            style="@style/ProfileItemText"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/job_offer_description"
-            android:hint="@string/job_offer_description"
-            android:layout_marginTop="2dp"
-            android:inputType="text"
-            android:imeOptions="actionDone"
-            style="@style/ProfileItemText"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/kind_of_contract"
-            android:hint="@string/kind_of_contract"
-            android:layout_marginTop="2dp"
-            android:inputType="text"
-            android:imeOptions="actionDone"
-            style="@style/ProfileItemText"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/number_of_months"
-            android:hint="@string/number_of_months"
-            android:layout_marginTop="2dp"
-            android:inputType="number"
-            android:imeOptions="actionDone"
-            style="@style/ProfileItemText"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/location"
-            android:hint="@string/location"
-            android:layout_marginTop="2dp"
-            android:inputType="text"
-            android:imeOptions="actionDone"
-            style="@style/ProfileItemText"/>
-
-        <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/competences"
-            android:layout_marginTop="2dp"
-            android:inputType="textMultiLine"
-            android:imeOptions="actionDone"
-            style="@style/ProfileItemText"/>
-
-
     </LinearLayout>
+
+
+
+
 </ScrollView>

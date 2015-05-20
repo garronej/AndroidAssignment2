@@ -20,7 +20,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:layout_centerInParent="true"
-            />
+                />
             <ProgressBar
                 android:id="@+id/edit_c_logo_pb"
                 android:layout_width="wrap_content"
@@ -43,76 +43,67 @@
 
         <LinearLayout
             style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/name" />
+
             <EditText
                 android:id="@+id/edit_c_name_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/ProfileItemText"
-                />
+                android:hint="@string/name"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/location" />
+
             <EditText
                 android:id="@+id/edit_c_location_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/ProfileItemText"
-                />
+                android:hint="@string/location"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/number_of_workers" />
+
             <EditText
                 android:id="@+id/edit_c_number_of_workers_et"
                 android:textColorLink="@color/blue_sky"
-                style="@style/ProfileItemText" />
+                style="@style/ProfileItemText"
+                android:hint="@string/number_of_workers"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/mission" />
+
             <EditText
                 android:id="@+id/edit_c_mission_et"
-                style="@style/ProfileItemText" />
+                style="@style/ProfileItemText"
+                android:hint="@string/mission"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/description" />
+
             <EditText
                 android:id="@+id/edit_c_description_et"
-                style="@style/ProfileItemText" />
+                style="@style/ProfileItemText"
+                android:hint="@string/description"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/competences" />
+
             <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -121,15 +112,14 @@
                 android:inputType="text"
 
                 android:imeOptions="actionDone"
-                style="@style/ProfileItemText"/>
+                style="@style/ProfileItemText"
+                android:hint="@string/competences"/>
         </LinearLayout>
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/clients" />
+
             <it.polito.mobile.androidassignment2.ClientsCompletionTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,7 +128,8 @@
                 android:inputType="text"
 
                 android:imeOptions="actionDone"
-                style="@style/ProfileItemText"/>
+                style="@style/ProfileItemText"
+                android:hint="@string/clients"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>

@@ -34,12 +34,13 @@
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:visibility="gone"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:layout_gravity="center"/>
     </LinearLayout>
 
     <ScrollView
     android:id="@+id/login_form"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:fillViewport="false">
 
@@ -79,7 +80,7 @@
             android:background="@color/blue_sky"
             android:textColor="#ffffff"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
 
             android:text="@string/action_sign_in"
@@ -99,7 +100,7 @@
             android:background="@color/blue_sky"
             android:textColor="#ffffff"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="@string/register"
             android:textStyle="bold"
             android:shadowColor="@color/strong_blue"/>
