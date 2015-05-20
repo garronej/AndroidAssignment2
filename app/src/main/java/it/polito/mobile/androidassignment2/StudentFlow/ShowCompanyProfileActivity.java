@@ -142,7 +142,9 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
         bOffers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("tag", "show offers");
+                Intent i = new Intent(ShowCompanyProfileActivity.this, SearchOffer.class);
+                i.putExtra("companyId", company.getId());
+                startActivity(i);
             }
         });
 
