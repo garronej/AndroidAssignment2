@@ -77,7 +77,7 @@ public class SearchOffer extends AppCompatActivity {
                 this.task2 = Manager.getCompanyById(companyId, new Manager.ResultProcessor<Company>(){
                     @Override
                     public void process(Company arg, Exception e) {
-                        if( e == null ) return;
+                        if( e != null ) return;
 
                         editText3.setText(arg.getName());
 
@@ -91,7 +91,7 @@ public class SearchOffer extends AppCompatActivity {
 
                     }
                 });
-                
+
             }
 
         }
