@@ -73,25 +73,20 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
             public void onItemClick(AdapterView<?> parent, final View view,
                 final int position, long id) {
 
-              view.animate().setDuration(300).translationX(1000)
-                .withEndAction(new Runnable() {
-                  @Override
-                  public void run() {
+
 
 
 
 
                     Intent i=new Intent(OffersListsActivity.this,OfferShowActivity.class);
-                    i.putExtra("offerId", adapter.getValue().get(position).getId());
+                    i.putExtra("offerId", (int)id);
 
 
                     startActivity(i);
 
 
 
-                    view.animate().setStartDelay(300).translationX(0);
-                  }
-                });
+
             }
 
           });
@@ -161,7 +156,8 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
                 e.printStackTrace();
               }
 
-              listview.animate().setDuration(350).translationX(-1000).withEndAction(new Runnable() {
+              listview.animate().setDuration(350).translationX(-1000)
+                      .withEndAction(new Runnable() {
                 @Override
                 public void run() {
 
@@ -293,7 +289,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
           findViewById(R.id.tab_menu_student_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              Intent i = new Intent(getApplicationContext(), SearchCompanies.class);
+              Intent i = new Intent(getApplicationContext(), SearchOffer.class);
               startActivity(i);
             }
           });
