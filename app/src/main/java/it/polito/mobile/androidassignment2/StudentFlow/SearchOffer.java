@@ -43,6 +43,9 @@ public class SearchOffer extends AppCompatActivity {
 
     private AsyncTask<Object, Void, Object> task = null;
 
+
+    private OfferArrayAdapter adapter = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,10 +142,10 @@ public class SearchOffer extends AppCompatActivity {
                         }
 
 
-                        final OfferArrayAdapter adapter = new OfferArrayAdapter(SearchOffer.this, arg);
+                       SearchOffer.this.adapter = new OfferArrayAdapter(SearchOffer.this, arg);
 
 
-                        listView.setAdapter(adapter);
+                        listView.setAdapter(SearchOffer.this.adapter);
 
 
                     }
@@ -175,6 +178,19 @@ public class SearchOffer extends AppCompatActivity {
             }
         });
     }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+        if( this.adapter != null ) {
+            this.adapter.notifyDataSetChanged();
+        }
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

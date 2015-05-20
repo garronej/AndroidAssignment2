@@ -28,7 +28,12 @@ import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 
+
 public class OffersListsActivity extends AppCompatActivity implements Communicator {
+
+
+    private OfferArrayAdapter adapter =null;
+    private boolean isOnFav = true;
 
 	@Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +47,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 
 
-          OfferArrayAdapter adapterTmp = null;
+
           try {
 
             List<Offer> offers = new ArrayList<>();
@@ -57,14 +62,14 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
                       Toast.LENGTH_SHORT).show();
             }
 
-            adapterTmp = new OfferArrayAdapter(OffersListsActivity.this, offers);
+            this.adapter = new OfferArrayAdapter(OffersListsActivity.this, offers);
 
 
           }catch(Exception e) {}
 
-          final OfferArrayAdapter adapter = adapterTmp;
 
-          listview.setAdapter(adapter);
+
+          listview.setAdapter(this.adapter);
 
 
           listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,13 +97,13 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
           });
 
 
-          ((Button)findViewById(R.id.show_favourite)).setOnClickListener(new View.OnClickListener() {
+          (findViewById(R.id.show_favourite)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              List<Offer> offers = adapter.getValue();
 
+                OffersListsActivity.this.isOnFav = true;
 
-
+              List<Offer> offers = OffersListsActivity.this.adapter.getValue();
 
 
               try {
@@ -106,7 +111,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
                 if( Session.getInstance().getFavoriteOffer().size() == 0 ){
                   Toast.makeText(getApplicationContext(), "No favourite offer yet, use the search icon",
                       Toast.LENGTH_SHORT).show();
-                  return;
+
                 }
 
                 offers.clear();
@@ -121,7 +126,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
                 @Override
                 public void run() {
 
-                  adapter.notifyDataSetChanged();
+                  OffersListsActivity.this.adapter.notifyDataSetChanged();
 
                   listview.animate().setDuration(0).translationX(0);
                 }
@@ -133,11 +138,14 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
           });
 
 
-          ((Button)findViewById(R.id.show_candidature)).setOnClickListener(new View.OnClickListener() {
+          (findViewById(R.id.show_candidature)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              List<Offer> offers = adapter.getValue();
 
+
+                OffersListsActivity.this.isOnFav = false;
+
+              List<Offer> offers = OffersListsActivity.this.adapter.getValue();
 
 
               try {
@@ -146,7 +154,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
                 if( Session.getInstance().getAppliedOffers().size() == 0 ){
                   Toast.makeText(getApplicationContext(), "No applied offer yet, use the search icon",
                       Toast.LENGTH_SHORT).show();
-                  return;
+
                 }
 
                 offers.clear();
@@ -158,14 +166,14 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
               listview.animate().setDuration(350).translationX(-1000)
                       .withEndAction(new Runnable() {
-                @Override
-                public void run() {
+                          @Override
+                          public void run() {
 
-                  adapter.notifyDataSetChanged();
+                              OffersListsActivity.this.adapter.notifyDataSetChanged();
 
-                  listview.animate().setDuration(0).translationX(0);
-                }
-              });
+                              listview.animate().setDuration(0).translationX(0);
+                          }
+                      });
 
 
             }
@@ -175,6 +183,24 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 
         }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+
+        if( this.isOnFav ){
+            (findViewById(R.id.show_favourite)).callOnClick();
+
+        }else{
+            (findViewById(R.id.show_candidature)).callOnClick();
+        }
+
+
+
+    }
 
 
         @Override
