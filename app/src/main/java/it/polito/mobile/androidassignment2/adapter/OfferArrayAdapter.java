@@ -83,6 +83,11 @@ public class OfferArrayAdapter extends ArrayAdapter<Offer> {
         return rowView;
     }
 
+    @Override
+    public long getItemId(int position) {
+        return values.get(position).getId();
+    }
+
 
     public static boolean isFavourite(int offerId){
 
