@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.CompanyFlow;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -51,6 +54,7 @@ public class ShowStudentProfileActivity extends ActionBarActivity {
 	private Button bFav;
 	private TextView tvHobbies;
 	private DownloadFinished downloadfinished = new DownloadFinished();
+	private DownloadFailed downloadfailed = new DownloadFailed();
 	private Button bSex;
 	private TextView tvLocation;
 	private Student student;
@@ -81,6 +85,34 @@ public class ShowStudentProfileActivity extends ActionBarActivity {
 			}
 		}
 	}
+
+    public class DownloadFailed extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
+            if (filePath.indexOf(".pdf") != -1) { //pdf -> cv
+                bCv.setVisibility(View.VISIBLE);
+                pbCvSpinner.setVisibility(View.INVISIBLE);
+                Toast t = Toast.makeText(ShowStudentProfileActivity.this, getResources().getString(R.string.error_loading_cv), Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER, 0, 0);
+                t.show();
+            } else { // photo
+                pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
+                Uri photoUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                        getResources().getResourcePackageName(R.drawable.photo_placeholder_err) +
+                        '/' +
+                        getResources().getResourceTypeName(R.drawable.photo_placeholder_err) +
+                        '/' +
+                        getResources().getResourceEntryName(R.drawable.photo_placeholder_err));
+                ivPhoto.setImageURI(photoUri);
+                tvFullname.setVisibility(View.VISIBLE);
+                bCv.setEnabled(true);
+                Toast t = Toast.makeText(ShowStudentProfileActivity.this, getResources().getString(R.string.error_loading_photo), Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER, 0, 0);
+                t.show();
+            }
+        }
+    }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +227,7 @@ public class ShowStudentProfileActivity extends ActionBarActivity {
 		}
 
 		String universityCareer = student.getUniversityCareer();
-		if (universityCareer == null) {
+		if (universityCareer == null || universityCareer.equals("")) {
 			tvUniversityCareer.setVisibility(View.GONE);
 		} else {
 			tvUniversityCareer.setText(universityCareer);
@@ -265,10 +297,12 @@ public class ShowStudentProfileActivity extends ActionBarActivity {
 	protected void onResume() {
 		super.onResume();
 		registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
+		registerReceiver(downloadfailed, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
 	}
 
 	@Override
 	protected void onPause() {
+		unregisterReceiver(downloadfailed);
 		unregisterReceiver(downloadfinished);
 		if (task1 != null) {
 			task1.cancel(true);

@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.CompanyFlow;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.zip.DataFormatException;
 
@@ -40,6 +43,7 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
     private TextView tvClients;
     private TextView tvEmail;
     private DownloadFinished downloadfinished = new DownloadFinished();
+    private DownloadFailed downloadfailed = new DownloadFailed();
     private Uri logoUri;
     private Button bEditProfile;
     private TextView tvLocation;
@@ -59,6 +63,27 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
             ivLogo.setImageURI(logoUri);
             tvName.setVisibility(View.VISIBLE);
             bEditProfile.setEnabled(true);
+        }
+    }
+
+    public class DownloadFailed extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
+            pbLogoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
+            logoUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                    getResources().getResourcePackageName(R.drawable.photo_placeholder_err) +
+                    '/' +
+                    getResources().getResourceTypeName(R.drawable.photo_placeholder_err) +
+                    '/' +
+                    getResources().getResourceEntryName(R.drawable.photo_placeholder_err));
+            Session.getInstance().setPhotoUri(logoUri);
+            ivLogo.setImageURI(logoUri);
+            tvName.setVisibility(View.VISIBLE);
+            bEditProfile.setEnabled(true);
+            Toast t = Toast.makeText(CompanyProfileActivity.this, getResources().getString(R.string.error_loading_photo), Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER, 0, 0);
+            t.show();
         }
     }
     private void myAddActionBar(){
@@ -206,10 +231,12 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
     protected void onResume() {
         super.onResume();
         registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
+        registerReceiver(downloadfailed, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
     }
 
     @Override
     protected void onPause() {
+        unregisterReceiver(downloadfailed);
         unregisterReceiver(downloadfinished);
         super.onPause();
     }
