@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import java.util.zip.DataFormatException;
 
+import it.polito.mobile.androidassignment2.AlertYesNo;
+import it.polito.mobile.androidassignment2.Communicator;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
@@ -29,7 +31,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
-public class OfferShowActivity extends AppCompatActivity {
+public class OfferShowActivity extends AppCompatActivity implements Communicator{
 
 
     private DownloadReceiver downloadfinished;
@@ -232,26 +234,26 @@ public class OfferShowActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     Manager.deleteAFavouriteOfferOfAStudent(Session.getInstance().getStudentLogged().getId(), arg.getId(),
-                            new Manager.ResultProcessor<Integer>() {
-                                @Override
-                                public void process(Integer r, Exception e) {
-                                    if(e != null){
-                                        //TODO: show error message
-                                        return;
-                                    }
-                                    try {
-                                        Session.getInstance().getFavoriteOffer().remove(arg);
-                                    } catch (DataFormatException e1) {
-                                        //never here
-                                    }
-                                    setButtonToFavStudent(arg);
-                                }
+		                    new Manager.ResultProcessor<Integer>() {
+			                    @Override
+			                    public void process(Integer r, Exception e) {
+				                    if (e != null) {
+					                    //TODO: show error message
+					                    return;
+				                    }
+				                    try {
+					                    Session.getInstance().getFavoriteOffer().remove(arg);
+				                    } catch (DataFormatException e1) {
+					                    //never here
+				                    }
+				                    setButtonToFavStudent(arg);
+			                    }
 
-                                @Override
-                                public void cancel() {
+			                    @Override
+			                    public void cancel() {
 
-                                }
-                            });
+			                    }
+		                    });
                 } catch (DataFormatException e1) {
                     //never here
                 }
@@ -264,32 +266,32 @@ public class OfferShowActivity extends AppCompatActivity {
         addToFavouriteButton.setText(R.string.add_to_favourite);
 
         addToFavouriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Manager.addFavouriteOfferForStudent(Session.getInstance().getStudentLogged().getId(), arg.getId(), new Manager.ResultProcessor<Offer>() {
-                        @Override
-                        public void process(Offer arg, Exception e) {
-                            if(e != null){
-                                //TODO: show error message
-                                return;
-                            }
-                            try {
-                                Session.getInstance().getFavoriteOffer().add(arg);
-                            } catch (DataFormatException e1) {
-                                //never here
-                            }
-                            setButtonToUnfavStudent(arg);
-                        }
+	        @Override
+	        public void onClick(View v) {
+		        try {
+			        Manager.addFavouriteOfferForStudent(Session.getInstance().getStudentLogged().getId(), arg.getId(), new Manager.ResultProcessor<Offer>() {
+				        @Override
+				        public void process(Offer arg, Exception e) {
+					        if (e != null) {
+						        //TODO: show error message
+						        return;
+					        }
+					        try {
+						        Session.getInstance().getFavoriteOffer().add(arg);
+					        } catch (DataFormatException e1) {
+						        //never here
+					        }
+					        setButtonToUnfavStudent(arg);
+				        }
 
-                        @Override
-                        public void cancel() {
+				        @Override
+				        public void cancel() {
 
-                        }
-                    });
-                } catch (Exception e) {
-                }
-            }
+				        }
+			        });
+		        } catch (Exception e) {
+		        }
+	        }
         });
     }
 
@@ -302,6 +304,57 @@ public class OfferShowActivity extends AppCompatActivity {
             task.cancel(true);
             task=null;
         }
+    }@Override
+     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_offer_show, menu);
+        return true;
     }
 
-}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_delete_offer) {
+	        showConfirmAlerter(2);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void showConfirmAlerter(int kind) {
+        AlertYesNo alert = new AlertYesNo();
+        Bundle info = new Bundle();
+        if (kind == 2)
+            info.putString("message", getResources().getString(R.string.delete_offer_message));
+       else return;
+        info.putString("title", getResources().getString(R.string.confirm));
+        info.putInt("kind", kind);
+        alert.setCommunicator(this);
+        alert.setArguments(info);
+        alert.show(getSupportFragmentManager(), "Confirm");
+
+    }
+
+    @Override
+    public void goSearch(int kind) {
+
+    }
+
+    @Override
+    public void respond(int itemIndex, int kind) {
+
+    }
+
+    @Override
+    public void dialogResponse(int result, int kind) {
+        if (result == 1 && kind ==3) {
+            //TODO delete offer
+            }
+        }
+    }
+
+
