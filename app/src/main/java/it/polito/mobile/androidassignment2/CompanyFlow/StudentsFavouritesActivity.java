@@ -71,7 +71,7 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
 
         // Set up your ActionBar
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
+       // actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(actionBarLayout);
@@ -129,7 +129,7 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent i = new Intent(getApplicationContext(), ShowStudentProfileActivity.class);
+                Intent i = new Intent(StudentsFavouritesActivity.this, ShowStudentProfileActivity.class);
                 i.putExtra("studentId", (int)id);
                 startActivity(i);
 

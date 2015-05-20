@@ -50,7 +50,7 @@ public class SearchStudents extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_students);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         offerId=getIntent().getIntExtra("offerId", -1);
 
