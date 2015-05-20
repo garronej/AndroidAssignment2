@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethod;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -133,6 +136,8 @@ public class SearchOffer extends AppCompatActivity {
 
                 Offer criteria=new Offer();
 
+                InputMethodManager imm=(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0,0);
 
                 criteria.setLocation(editText1.getText().toString());
                 if(editText2.getObjects().size() > 0){
@@ -211,6 +216,7 @@ public class SearchOffer extends AppCompatActivity {
 
             }
         });
+	    button.callOnClick();
     }
 
 

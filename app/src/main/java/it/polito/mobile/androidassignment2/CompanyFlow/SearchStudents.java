@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.CompanyFlow;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -99,6 +101,9 @@ public class SearchStudents extends AppCompatActivity {
             public void onClick(View v) {
 
                 Student s=new Student();
+                InputMethodManager imm=(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0,0);
+
                 if(availability.isChecked()) {
                     s.setAvailable(true);
                 }
@@ -230,6 +235,7 @@ public class SearchStudents extends AppCompatActivity {
                 });
             }
         });
+        button.callOnClick();
     }
 
     @Override

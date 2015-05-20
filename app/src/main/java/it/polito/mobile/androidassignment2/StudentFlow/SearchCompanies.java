@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -77,6 +79,9 @@ public class SearchCompanies extends AppCompatActivity {
             public void onClick(View v) {
 
                 Company c=new Company();
+                InputMethodManager imm=(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0,0);
+
                 c.setLocation(companyLocationText.getText().toString());
                 if(fieldOfInterestText.getObjects().size() > 0){
                     String[] comp = new String[fieldOfInterestText.getObjects().size()];
@@ -149,6 +154,7 @@ public class SearchCompanies extends AppCompatActivity {
                 });
             }
         });
+        button.callOnClick();
     }
 
     @Override
