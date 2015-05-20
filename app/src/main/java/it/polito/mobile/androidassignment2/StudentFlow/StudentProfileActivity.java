@@ -1,5 +1,7 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -232,10 +234,10 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 		boolean isAvailable = loggedStudent.isAvailable();
 		if (isAvailable) {
 			bAvailability.setText(getResources().getString(R.string.available_for_jobs));
-			bAvailability.setBackgroundColor(getResources().getColor(R.color.green_ok));
+			bAvailability.getBackground().setColorFilter(getResources().getColor(R.color.green_ok), PorterDuff.Mode.MULTIPLY);
 		} else {
 			bAvailability.setText(getResources().getString(R.string.not_available_for_jobs));
-			bAvailability.setBackgroundColor(getResources().getColor(R.color.red_warning));
+			bAvailability.getBackground().setColorFilter(getResources().getColor(R.color.red_warning), PorterDuff.Mode.MULTIPLY);
 		}
 
 		bEditProfile.setOnClickListener(new View.OnClickListener() {

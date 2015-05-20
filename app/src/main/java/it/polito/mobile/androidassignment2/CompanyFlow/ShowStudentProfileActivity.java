@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -250,10 +251,10 @@ public class ShowStudentProfileActivity extends ActionBarActivity  {
         boolean isAvailable = student.isAvailable();
         if (isAvailable) {
             bAvailability.setText(getResources().getString(R.string.available_for_jobs));
-            bAvailability.setBackgroundColor(getResources().getColor(R.color.green_ok));
+            bAvailability.getBackground().setColorFilter(getResources().getColor(R.color.green_ok), PorterDuff.Mode.MULTIPLY);
         } else {
             bAvailability.setText(getResources().getString(R.string.not_available_for_jobs));
-            bAvailability.setBackgroundColor(getResources().getColor(R.color.red_warning));
+            bAvailability.getBackground().setColorFilter(getResources().getColor(R.color.red_warning), PorterDuff.Mode.MULTIPLY);
         }
     }
 

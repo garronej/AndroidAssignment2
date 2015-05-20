@@ -103,7 +103,8 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:clickable="false"
-                android:layout_marginRight="@dimen/side_margin"/>
+                android:layout_marginRight="@dimen/side_margin"
+                android:visibility="visible"/>
 
             <Button
                 android:id="@+id/availability"
