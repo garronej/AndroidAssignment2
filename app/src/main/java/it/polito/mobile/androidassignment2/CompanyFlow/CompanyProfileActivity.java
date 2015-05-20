@@ -179,7 +179,7 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
         if (description == null || description.equals("")) {
             tvDescription.setVisibility(View.GONE);
         } else {
-            tvDescription.setText(location);
+            tvDescription.setText(description);
         }
 
         String url = loggedCompany.getLogoUrl();

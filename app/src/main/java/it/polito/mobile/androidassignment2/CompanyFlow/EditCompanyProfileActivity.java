@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.net.MalformedURLException;
@@ -31,6 +33,7 @@ import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.HobbiesCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.StudentFlow.StudentProfileActivity;
+import it.polito.mobile.androidassignment2.Utils;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
@@ -60,6 +63,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
     private AsyncTask<Object, Void, Object> task3 = null;
     private CompetencesCompletionTextView acCompetences;
     private ClientsCompletionTextView acClients;
+    private static final int PICK_PICTURE = 0;
 
     public class DownloadFinished extends BroadcastReceiver {
 
@@ -216,9 +220,10 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
         ivLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                startActivityForResult(intent, 0);
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_photo)), PICK_PICTURE);
             }
         });
 
@@ -255,13 +260,24 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
 
     @Override
     protected void onActivityResult(int reqCode, int resCode, Intent data) {
-        if (resCode == Activity.RESULT_OK && data != null) {
+        if (resCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
-            //TODO: if not image do something
-            if (uri != null) {
-                pbLogoSpinner.setVisibility(ProgressBar.VISIBLE);
-                TransferController.upload(this, uri, "photo/student3");
+            if (reqCode == PICK_PICTURE) {
+                onActivityResultForPicture(uri);
+            } else {
+                throw new RuntimeException("missing required param");
             }
+        }
+    }
+
+    private void onActivityResultForPicture(Uri uri) {
+        if (Utils.isPicture(EditCompanyProfileActivity.this, uri)) {
+            pbLogoSpinner.setVisibility(ProgressBar.VISIBLE);
+            TransferController.upload(this, uri, "photo/student3");
+        } else {
+            Toast t = Toast.makeText(this, getResources().getString(R.string.select_photo), Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER, 0, 0);
+            t.show();
         }
     }
 

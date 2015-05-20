@@ -75,6 +75,7 @@
                 android:textColorLink="@color/blue_sky"
                 style="@style/ProfileItemText"
                 android:hint="@string/number_of_workers"/>
+                android:inputType="number"
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>

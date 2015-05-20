@@ -2,6 +2,7 @@ package it.polito.mobile.androidassignment2.StudentFlow;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -9,15 +10,18 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.net.MalformedURLException;
@@ -30,6 +34,7 @@ import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.HobbiesCompletionTextView;
 import it.polito.mobile.androidassignment2.LinksCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.Utils;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
@@ -63,6 +68,8 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     private AsyncTask<Object, Void, Object> task4 = null;
     private CompetencesCompletionTextView acCompetences;
     private HobbiesCompletionTextView acHobbies;
+    private static final int PICK_PICTURE = 0;
+    private static final int PICK_PDF = 1;
 
     public class DownloadFinished extends BroadcastReceiver {
 
@@ -267,18 +274,21 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
         ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                startActivityForResult(intent, 0);
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_photo)), PICK_PICTURE);
             }
         });
 
         bCv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                Intent intent = new Intent();
                 intent.setType("application/pdf");
-                startActivityForResult(intent, 0);
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_pdf)), PICK_PDF);
+
             }
         });
 
@@ -327,18 +337,38 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
 
     @Override
     protected void onActivityResult(int reqCode, int resCode, Intent data) {
-        if (resCode == Activity.RESULT_OK && data != null) {
+        if (resCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
-            //TODO: if not pdf or image do something
-            if (uri != null) {
-                if (uri.toString().indexOf(".pdf") != -1) {
-                    bCv.setVisibility(View.INVISIBLE);
-                    pbCvSpinner.setVisibility(ProgressBar.VISIBLE);
-                } else {
-                    pbPhotoSpinner.setVisibility(ProgressBar.VISIBLE);
-                }
-                TransferController.upload(this, uri, "photo/student3");
+            if (reqCode == PICK_PICTURE) {
+                onActivityResultForPicture(uri);
+            } else if (reqCode == PICK_PDF) {
+                onActivityResultForPdf(uri);
+            } else {
+                throw new RuntimeException("missing required param");
             }
+        }
+    }
+
+    private void onActivityResultForPicture(Uri uri) {
+        if (Utils.isPicture(EditStudentProfileActivity.this, uri)) {
+            pbPhotoSpinner.setVisibility(ProgressBar.VISIBLE);
+            TransferController.upload(this, uri, "photo/student3");
+        } else {
+            Toast t = Toast.makeText(this, getResources().getString(R.string.select_photo), Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER, 0, 0);
+            t.show();
+        }
+    }
+
+    private void onActivityResultForPdf(Uri uri) {
+        if (Utils.isPdf(EditStudentProfileActivity.this, uri)) {
+            bCv.setVisibility(View.INVISIBLE);
+            pbCvSpinner.setVisibility(ProgressBar.VISIBLE);
+            TransferController.upload(this, uri, "photo/student3");
+        } else {
+            Toast t = Toast.makeText(this, getResources().getString(R.string.select_pdf), Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER, 0, 0);
+            t.show();
         }
     }
 

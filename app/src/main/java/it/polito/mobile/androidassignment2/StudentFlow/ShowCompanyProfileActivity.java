@@ -281,7 +281,7 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
                         pbFav.setVisibility(View.INVISIBLE);
                         bFav.setVisibility(View.VISIBLE);
                         try {
-                            Session.getInstance().getFavCompanies().remove(company);
+                            Session.getInstance().getFavCompanies().add(company);
                         } catch (DataFormatException ee) {
                             throw new RuntimeException(ee);
                         }
