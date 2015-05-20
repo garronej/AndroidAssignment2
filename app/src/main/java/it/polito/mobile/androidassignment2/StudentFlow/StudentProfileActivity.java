@@ -1,5 +1,6 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
+import android.content.ContentResolver;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBar;
@@ -11,6 +12,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.zip.DataFormatException;
@@ -47,6 +50,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	private Button bAvailability;
 	private TextView tvHobbies;
 	private DownloadFinished downloadfinished = new DownloadFinished();
+    private DownloadFailed downloadfailed = new DownloadFailed();
 	private Uri photoUri;
 	private Button bEditProfile;
 	private Button bSex;
@@ -54,7 +58,6 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 
 
 	public class DownloadFinished extends BroadcastReceiver {
-
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
@@ -75,6 +78,36 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 			}
 		}
 	}
+
+    public class DownloadFailed extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
+            if (filePath.indexOf(".pdf") != -1) { //pdf -> cv
+                bCv.setVisibility(View.VISIBLE);
+                pbCvSpinner.setVisibility(View.INVISIBLE);
+                Toast t = Toast.makeText(StudentProfileActivity.this, getResources().getString(R.string.error_loading_cv), Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER, 0, 0);
+                t.show();
+            } else { // photo
+                pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
+                photoUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                        getResources().getResourcePackageName(R.drawable.photo_placeholder_err) +
+                        '/' +
+                        getResources().getResourceTypeName(R.drawable.photo_placeholder_err) +
+                        '/' +
+                        getResources().getResourceEntryName(R.drawable.photo_placeholder_err));
+                Session.getInstance().setPhotoUri(photoUri);
+                ivPhoto.setImageURI(photoUri);
+                tvFullname.setVisibility(View.VISIBLE);
+                bCv.setEnabled(true);
+                bEditProfile.setEnabled(true);
+                Toast t = Toast.makeText(StudentProfileActivity.this, getResources().getString(R.string.error_loading_photo), Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER, 0, 0);
+                t.show();
+            }
+        }
+    }
 
 	private void myAddActionBar() {
 		ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
@@ -255,10 +288,12 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	protected void onResume() {
 		super.onResume();
 		registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
+        registerReceiver(downloadfailed, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
 	}
 
 	@Override
 	protected void onPause() {
+        unregisterReceiver(downloadfailed);
 		unregisterReceiver(downloadfinished);
 		super.onPause();
 	}

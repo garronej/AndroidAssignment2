@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -9,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -62,6 +65,25 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
             Uri logoUri = Uri.parse(filePath);
             ivLogo.setImageURI(logoUri);
             tvName.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public class DownloadFailed extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
+            pbLogoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
+            Uri logoUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                    getResources().getResourcePackageName(R.drawable.photo_placeholder_err) +
+                    '/' +
+                    getResources().getResourceTypeName(R.drawable.photo_placeholder_err) +
+                    '/' +
+                    getResources().getResourceEntryName(R.drawable.photo_placeholder_err));
+            ivLogo.setImageURI(logoUri);
+            tvName.setVisibility(View.VISIBLE);
+            Toast t = Toast.makeText(ShowCompanyProfileActivity.this, getResources().getString(R.string.error_loading_photo), Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER, 0, 0);
+            t.show();
         }
     }
 
@@ -196,14 +218,9 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
         }
 
         String url = company.getLogoUrl();
-        if (logoUri == null) { //need to get from s3
-            TransferController.download(getApplicationContext(), new String[]{url});
-            tvName.setVisibility(View.INVISIBLE);
-            pbLogoSpinner.setVisibility(ProgressBar.VISIBLE);
-        } else { // it was already fetched from s3
-            ivLogo.setImageURI(logoUri);
-            pbLogoSpinner.setVisibility(ProgressBar.GONE);
-        }
+        TransferController.download(getApplicationContext(), new String[]{url});
+        tvName.setVisibility(View.INVISIBLE);
+        pbLogoSpinner.setVisibility(ProgressBar.VISIBLE);
     }
 
 

@@ -227,8 +227,6 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
             }
         });
 
-        acCompetences.setPrefix("");
-        acCompetences.setText("");
         task3 = Manager.getAllCompaniesCompetences(new Manager.ResultProcessor<List<String>>() {
             @Override
             public void process(final List<String> arg, Exception e) {
@@ -246,7 +244,6 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
             }
         });
 
-        acClients.setPrefix("");
         List<String> clientsL = new ArrayList<String>();
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(EditCompanyProfileActivity.this, android.R.layout.simple_list_item_1, clientsL);
         acClients.setAdapter(adapter2);
