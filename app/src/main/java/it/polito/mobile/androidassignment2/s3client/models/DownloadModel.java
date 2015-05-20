@@ -22,6 +22,7 @@ import android.os.Environment;
 import android.util.Log;
 
 
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ProgressEvent;
 import com.amazonaws.services.s3.model.ProgressListener;
 import com.amazonaws.mobileconnectors.s3.transfermanager.Download;
@@ -43,6 +44,7 @@ import it.polito.mobile.androidassignment2.s3client.Constants;
 public class DownloadModel extends TransferModel {
     private static final String TAG = "DownloadModel";
     public static final String INTENT_DOWNLOADED = "it.polito.mobile.DOWNLOAD_FINISHED";
+    public static final String INTENT_DOWNLOAD_FAILED = "it.polito.mobile.DOWNLOAD_FAILED";
     public static final String EXTRA_FILE_URI = "downloadedFileURI";
 
     private Download mDownload;
@@ -108,11 +110,19 @@ public class DownloadModel extends TransferModel {
                         Environment.DIRECTORY_PICTURES),
                 getFileName());
         mUri = Uri.fromFile(file);
+        try {
+            mDownload = getTransferManager().download(
+                    Constants.BUCKET_NAME.toLowerCase(Locale.US), mKey, file);
+            if (mListener != null) {
+                mDownload.addProgressListener(mListener);
+            }
+        }catch(Exception e){
+            Intent intent = new Intent(INTENT_DOWNLOAD_FAILED);
 
-        mDownload = getTransferManager().download(
-                Constants.BUCKET_NAME.toLowerCase(Locale.US), mKey, file);
-        if (mListener != null) {
-            mDownload.addProgressListener(mListener);
+            intent.putExtra(EXTRA_FILE_URI, mUri.toString());
+            //intent.setData(mUri);
+            getContext().sendBroadcast(intent);
+            Log.d("poliJob", "Sending broadcast intent " + INTENT_DOWNLOAD_FAILED);
         }
     }
 

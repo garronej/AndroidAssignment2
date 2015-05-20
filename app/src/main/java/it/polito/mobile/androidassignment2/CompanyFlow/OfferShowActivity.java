@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.AlertYesNo;
@@ -169,39 +170,60 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                         }else{
                             setButtonToFavStudent(arg);
                         }
-                        if(Session.getInstance().getAppliedOffers().contains(arg)){
-                            applyButton.setText(getResources().getText(R.string.applied));
-                            applyButton.setBackgroundColor(getResources().getColor(R.color.green_ok));
 
-                        }else{
-                            applyButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    try {
-                                        Manager.subscribeStudentOfJobOffer(arg.getId(), Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
-                                            @Override
-                                            public void process(Integer arg, Exception e) {
-                                                if(e!=null){
-                                                    //TODO: show error message...
-                                                    return;
+                        Manager.getAppliedOfferOfStudent(Session.getInstance().getStudentLogged().getId(), arg,
+                                new Manager.ResultProcessor<List<Offer>>() {
+                                    @Override
+                                    public void process(List<Offer> l, Exception e) {
+                                        if(e!=null){
+                                            //TODO: show some error..
+
+                                            return;
+                                        }
+
+
+                                        if(l.size()>0){ // it should be 1 or 0
+                                            applyButton.setText(getResources().getText(R.string.applied));
+                                            applyButton.setBackgroundColor(getResources().getColor(R.color.green_ok));
+
+                                        }else{
+                                            applyButton.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    try {
+                                                        Manager.subscribeStudentOfJobOffer(arg.getId(), Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+                                                            @Override
+                                                            public void process(Integer r, Exception e) {
+                                                                if(e!=null){
+                                                                    //TODO: show error message...
+                                                                    return;
+                                                                }
+
+                                                                applyButton.setText(getResources().getText(R.string.applied));
+                                                                applyButton.setBackgroundColor(getResources().getColor(R.color.green_ok));
+                                                                applyButton.setEnabled(false);
+                                                            }
+
+                                                            @Override
+                                                            public void cancel() {
+
+                                                            }
+                                                        });
+                                                    } catch (DataFormatException e1) {
+                                                        //never here
+                                                    }
                                                 }
-
-                                                applyButton.setText(getResources().getText(R.string.applied));
-                                                applyButton.setBackgroundColor(getResources().getColor(R.color.green_ok));
-                                                applyButton.setEnabled(false);
-                                            }
-
-                                            @Override
-                                            public void cancel() {
-
-                                            }
-                                        });
-                                    } catch (DataFormatException e1) {
-                                        //never here
+                                            });
+                                        }
                                     }
-                                }
-                            });
-                        }
+
+                                    @Override
+                                    public void cancel() {
+
+                                    }
+                                });
+
+
 
 
                     }

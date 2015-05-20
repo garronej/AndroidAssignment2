@@ -53,6 +53,7 @@ public class UploadModel extends TransferModel {
     private static final String TAG = "UploadModel";
     public static final String INTENT_UPLOADED = "it.polito.mobile.UPLOAD_FINISHED";
     public static final String EXTRA_FILENAME = "uploadedFilename";
+    public static final String INTENT_UPLOAD_FAILED = "it.polito.mobile.UPLOAD_FAILED";
 
     private Upload mUpload;
     private PersistableUpload mPersistableUpload;
@@ -162,6 +163,12 @@ public class UploadModel extends TransferModel {
                 mUpload.addProgressListener(mListener);
             } catch (Exception e) {
                 Log.e(TAG, "", e);
+                Intent intent = new Intent(INTENT_UPLOAD_FAILED);
+
+                intent.putExtra(EXTRA_FILENAME, actualS3Filename.toString());
+                //intent.setData(mUri);
+                getContext().sendBroadcast(intent);
+                Log.d("poliJob", "Sending broadcast intent " + INTENT_UPLOAD_FAILED);
             }
         }
     }
