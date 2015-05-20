@@ -67,7 +67,7 @@ public class JobOfferCreation extends AppCompatActivity {
         });
 
 
-
+        findViewById(R.id.add_job_offer).setFocusableInTouchMode(true);
         findViewById(R.id.add_job_offer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -31,7 +31,7 @@
             android:id="@+id/seachCompanyFieldOfInterest"
             android:layout_marginTop="2dp"
             android:inputType="text"
-
+            android:hint="@string/competences"
             android:imeOptions="actionDone"
             style="@style/ProfileItemText"/>
 

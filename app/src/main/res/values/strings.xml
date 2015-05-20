@@ -156,4 +156,5 @@
     <string name="error_loading_photo">Error loading photo</string>
     <string name="error_loading_cv">Error loading cv</string>
 
+    <string name="download_error">The image download has failed. Please, check your connection.</string>
 </resources>
