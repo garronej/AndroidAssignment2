@@ -122,7 +122,7 @@ public class SearchCompanies extends AppCompatActivity {
                                     convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
                                 }
                                 ((TextView) convertView.findViewById(R.id.mainName)).setText(((Company) getItem(position)).getName());
-                                ((TextView) convertView.findViewById(R.id.descrption)).setText(((Company) getItem(position)).getDescription());
+                                ((TextView) convertView.findViewById(R.id.descrption)).setText(((Company) getItem(position)).getLocation());
                                 return convertView;
                             }
                         });
