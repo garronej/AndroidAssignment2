@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -39,6 +40,21 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
     private View pbLogoSpinner;
     private Button candidatesButton;
     private boolean isStudentFlow;
+    private DownloadErrorReceiver downloadError;
+
+
+    private class DownloadErrorReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            pbLogoSpinner.setVisibility(ProgressBar.GONE);
+            Toast.makeText(getApplicationContext(), R.string.download_error, Toast.LENGTH_LONG).show();
+            //TODO: set placeholder image
+        }
+    }
+
+
+
+
     class DownloadReceiver extends BroadcastReceiver{
 
         @Override
@@ -88,6 +104,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
         pbLogoSpinner = findViewById(R.id.photo_spinner);
         photo=(ImageView)findViewById(R.id.photo);
         downloadfinished= new DownloadReceiver();
+        downloadError = new DownloadErrorReceiver();
 
         isStudentFlow = getIntent().getBooleanExtra("student_flow",false);
     }
@@ -120,6 +137,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
         });
 
         registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
+        registerReceiver(downloadError, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
 
 
 
@@ -323,6 +341,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
     protected void onPause() {
         super.onPause();
         unregisterReceiver(downloadfinished);
+        unregisterReceiver(downloadError);
         if(task!=null){
             task.cancel(true);
             task=null;
@@ -379,6 +398,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
             //TODO delete offer
             }
         }
-    }
+
+}
 
 

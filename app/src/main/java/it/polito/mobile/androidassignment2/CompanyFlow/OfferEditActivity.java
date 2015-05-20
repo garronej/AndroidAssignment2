@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.zip.DataFormatException;
@@ -37,6 +38,17 @@ public class OfferEditActivity extends AppCompatActivity {
 
     private DownloadReceiver downloadfinished;
     private View pbLogoSpinner;
+    private DownloadErrorReceiver downloadError;
+
+
+    private class DownloadErrorReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            pbLogoSpinner.setVisibility(ProgressBar.GONE);
+            Toast.makeText(getApplicationContext(), R.string.download_error, Toast.LENGTH_LONG).show();
+            //TODO: set placeholder image
+        }
+    }
 
     class DownloadReceiver extends BroadcastReceiver{
 
@@ -78,7 +90,7 @@ public class OfferEditActivity extends AppCompatActivity {
         pbLogoSpinner = findViewById(R.id.photo_spinner);
         photo=(ImageView)findViewById(R.id.photo);
         downloadfinished= new DownloadReceiver();
-
+        downloadError = new DownloadErrorReceiver();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(OfferEditActivity.this, android.R.layout.simple_list_item_1, new ArrayList<String>());
         competences.setAdapter(adapter);
 
@@ -93,9 +105,11 @@ public class OfferEditActivity extends AppCompatActivity {
             finish();
             return;
         }
+        findViewById(R.id.edit_offer_save).setFocusableInTouchMode(true);
         findViewById(R.id.edit_offer_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Offer o = new Offer();
                 try {
                     o.manuallySetId(offerId);
@@ -139,7 +153,7 @@ public class OfferEditActivity extends AppCompatActivity {
 
         registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
 
-
+        registerReceiver(downloadError, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
 
         task=Manager.getOfferById(offerId, new Manager.ResultProcessor<Offer>() {
             @Override
@@ -184,6 +198,7 @@ public class OfferEditActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(downloadfinished);
+        unregisterReceiver(downloadError);
         if(task!=null){
             task.cancel(true);
             task=null;

@@ -71,7 +71,7 @@ public class SearchCompanies extends AppCompatActivity {
 
         ((LinearLayout)findViewById(R.id.search_companies_result_details)).addView(listView);
 
-
+        button.setFocusableInTouchMode(true);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

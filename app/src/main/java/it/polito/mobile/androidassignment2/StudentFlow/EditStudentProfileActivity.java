@@ -292,8 +292,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
             }
         });
 
-        acCompetences.setPrefix("");
-        acCompetences.setText("");
         task4 = Manager.getAllStudentsCompetences(new Manager.ResultProcessor<List<String>>() {
             @Override
             public void process(final List<String> arg, Exception e) {
@@ -312,7 +310,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
             }
         });
 
-        acHobbies.setPrefix("");
         List<String> hobbiesL = new ArrayList<String>();
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(EditStudentProfileActivity.this, android.R.layout.simple_list_item_1, hobbiesL);
         acHobbies.setAdapter(adapter2);
@@ -323,7 +320,6 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
             }
         }
 
-        acLinks.setPrefix("");
         List<String> linksL = new ArrayList<String>();
         ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(EditStudentProfileActivity.this, android.R.layout.simple_list_item_1, linksL);
         acLinks.setAdapter(adapter3);
