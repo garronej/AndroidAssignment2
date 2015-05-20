@@ -109,15 +109,13 @@
 
         <LinearLayout
             style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/location" />
+
             <EditText
                 android:id="@+id/edit_location_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/ProfileItemText"
-                />
+                android:hint="@string/location"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
@@ -137,10 +135,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
-                    <TextView
-                        style="@style/ProfileItemLabel"
-                        android:text="@string/name" />
-
                     <EditText
                         android:id="@+id/edit_name_et"
                         android:layout_weight="5"
@@ -149,7 +143,8 @@
                         style="@style/ProfileItemText"
                         android:layout_gravity="left"
                         android:layout_marginLeft="0dp"
-                        android:singleLine="false"/>
+                        android:singleLine="false"
+                        android:hint="@string/name"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -158,13 +153,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
-                    <TextView
-                        style="@style/ProfileItemLabel"
-                        android:text="@string/surname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView2"/>
-
                     <EditText
                         android:id="@+id/edit_surname_et"
                         android:layout_width="match_parent"
@@ -172,7 +160,8 @@
                         android:layout_height="wrap_content"
                         style="@style/ProfileItemText"
                         android:layout_gravity="left"
-                        android:layout_marginLeft="0dp"/>
+                        android:layout_marginLeft="0dp"
+                        android:hint="@string/surname"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -182,9 +171,7 @@
 
         <LinearLayout
             style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/links" />
+
             <it.polito.mobile.androidassignment2.LinksCompletionTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -193,28 +180,26 @@
                 android:inputType="text"
 
                 android:imeOptions="actionDone"
-                style="@style/ProfileItemText"/>
+                style="@style/ProfileItemText"
+                android:hint="@string/links"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/university_career" />
+
             <EditText
                 android:id="@+id/edit_university_career_et"
-                style="@style/ProfileItemText" />
+                style="@style/ProfileItemText"
+                android:hint="@string/university_career"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/competences" />
+
             <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -223,17 +208,16 @@
                 android:inputType="text"
 
                 android:imeOptions="actionDone"
-                style="@style/ProfileItemText"/>
+                style="@style/ProfileItemText"
+                android:hint="@string/competences"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
             style="@style/ProfileItem" >
-            <TextView
-                style="@style/ProfileItemLabel"
-                android:text="@string/hobbies" />
-        <it.polito.mobile.androidassignment2.HobbiesCompletionTextView
+
+            <it.polito.mobile.androidassignment2.HobbiesCompletionTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edit_hobbies_ac"
@@ -241,7 +225,8 @@
             android:inputType="text"
 
             android:imeOptions="actionDone"
-            style="@style/ProfileItemText"/>
+            style="@style/ProfileItemText"
+            android:hint="@string/hobbies"/>
         </LinearLayout>
 
         <RelativeLayout
