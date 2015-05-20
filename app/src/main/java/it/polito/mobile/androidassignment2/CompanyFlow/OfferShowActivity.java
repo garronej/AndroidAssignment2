@@ -38,7 +38,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
     private DownloadReceiver downloadfinished;
     private View pbLogoSpinner;
     private Button candidatesButton;
-
+    private boolean isStudentFlow;
     class DownloadReceiver extends BroadcastReceiver{
 
         @Override
@@ -89,6 +89,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
         photo=(ImageView)findViewById(R.id.photo);
         downloadfinished= new DownloadReceiver();
 
+        isStudentFlow = getIntent().getBooleanExtra("student_flow",false);
     }
 
 
@@ -329,8 +330,9 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
     }@Override
      public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_offer_show, menu);
-        return true;
+        if(!isStudentFlow){getMenuInflater().inflate(R.menu.menu_offer_show, menu);
+		return true;}
+		else return false;
     }
 
     @Override
