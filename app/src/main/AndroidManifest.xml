@@ -162,7 +162,11 @@
         </activity>
         <activity
             android:name=".StudentFlow.SearchOffer"
-            android:label="@string/title_activity_search_offer" >
+            android:label="@string/title_activity_search_offer"
+            android:theme="@style/ActionBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StudentFlow.OffersListsActivity" />
         </activity>
     </application>
 
