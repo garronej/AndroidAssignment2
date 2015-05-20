@@ -148,4 +148,5 @@
     <string name="companies">Companies</string>
     <string name="related_offers">Related Offers</string>
     <string name="appName">Poli Job</string>
+    <string name="title_activity_search_offer">SearchOffer</string>
 </resources>
