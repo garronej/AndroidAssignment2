@@ -32,7 +32,7 @@ import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
+import it.polito.mobile.androidassignment2.context.AppContext;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
@@ -70,7 +70,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 			} else { // photo
 				pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
 				photoUri = Uri.parse(filePath);
-				Session.getInstance().setPhotoUri(photoUri);
+				((AppContext)getApplication()).getState().setPhotoUri(photoUri);
 				ivPhoto.setImageURI(photoUri);
 				tvFullname.setVisibility(View.VISIBLE);
 				bCv.setEnabled(true);
@@ -97,7 +97,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
                         getResources().getResourceTypeName(R.drawable.photo_placeholder_err) +
                         '/' +
                         getResources().getResourceEntryName(R.drawable.photo_placeholder_err));
-                Session.getInstance().setPhotoUri(photoUri);
+				((AppContext)getApplication()).getState().setPhotoUri(photoUri);
                 ivPhoto.setImageURI(photoUri);
                 tvFullname.setVisibility(View.VISIBLE);
                 bCv.setEnabled(true);
@@ -151,8 +151,8 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (Session.getInstance().getPhotoUri() != null) {
-			photoUri = Session.getInstance().getPhotoUri();
+		if (((AppContext)getApplication()).getState().getPhotoUri() != null) {
+			photoUri =((AppContext)getApplication()).getState().getPhotoUri();
 		}
 		setContentView(R.layout.activity_student_profile);
 		findViews();
@@ -181,7 +181,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	private void setupViewsAndCallbacks() {
 		final Student loggedStudent;
 		try {
-			loggedStudent = Session.getInstance().getStudentLogged();
+			loggedStudent = ((AppContext)getApplication()).getState().getStudentLogged();
 		} catch (DataFormatException e) {
 			throw new RuntimeException();
 		}
@@ -362,7 +362,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 					break;
 				case 1://delete account
 					try {
-						Manager.deleteStudent(Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+						Manager.deleteStudent(((AppContext)getApplication()).getState().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
 							@Override
 							public void process(Integer arg, Exception e) {
 								if (e != null) {

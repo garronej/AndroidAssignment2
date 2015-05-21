@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -12,6 +13,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -29,14 +31,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.androidassignment2.CompanyFlow.CompanyProfileActivity;
-import it.polito.mobile.androidassignment2.StudentFlow.ShowCompanyProfileActivity;
 import it.polito.mobile.androidassignment2.StudentFlow.StudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.RestApiException;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
-import it.polito.mobile.androidassignment2.businessLogic.Task;
+
 import it.polito.mobile.androidassignment2.businessLogic.Utils;
+import it.polito.mobile.androidassignment2.context.AppContext;
 
 
 /**
@@ -48,7 +49,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
-	private Task.General mAuthTask = null;
+	private AsyncTask<?,?,?> mAuthTask = null;
 
 	// UI references.
 	private AutoCompleteTextView mEmailView;
@@ -182,7 +183,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			// perform the user login attempt.
 			showProgress(true);
 
-			mAuthTask = Session.login(email, password, new Manager.ResultProcessor<Integer>(){
+
+
+
+
+
+
+			AppContext appState = ((AppContext)getApplicationContext());
+			mAuthTask = appState.login( email, password, new Manager.ResultProcessor<Integer>(){
 
 
 				@Override
@@ -239,7 +247,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 					editor.commit();
 
-					if(Session.getInstance().getWhoIsLogged() == Company.class){
+					if( ((AppContext)getApplication()).getState().getWhoIsLogged() == Company.class){
 						Log.d("poliJobs", "Company");
 						Intent i = new Intent(getApplicationContext(), CompanyProfileActivity.class);
 						startActivity(i);
