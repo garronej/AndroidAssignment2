@@ -84,7 +84,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view,
-									final int position, long id) {
+			                        final int position, long id) {
 
 
 				Intent i = new Intent(OffersListsActivity.this, OfferShowActivity.class);
@@ -116,7 +116,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 				try {
 
-					if (((AppContext)getApplication()).getSession().getFavoriteOffer().size() == 0) {
+					if (((AppContext) getApplication()).getSession().getFavoriteOffer().size() == 0) {
 						emptyMessage.setVisibility(View.VISIBLE);
 						emptyMessage.setText(getResources().getString(R.string.no_fav_offers_yet));
 						Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_fav_offers_yet),
@@ -126,7 +126,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 					offers.clear();
 
-					offers.addAll(((AppContext)getApplication()).getSession().getFavoriteOffer());
+					offers.addAll(((AppContext) getApplication()).getSession().getFavoriteOffer());
 				} catch (DataFormatException e) {
 					e.printStackTrace();
 				}
@@ -140,8 +140,6 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 						listview.animate().setDuration(0).translationX(0);
 					}
 				});
-
-
 
 
 			}
@@ -217,11 +215,9 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 					}
 				});
 
-
-
-
 			}
 		});
+		(findViewById(R.id.show_favourite)).callOnClick();
 
 
 	}

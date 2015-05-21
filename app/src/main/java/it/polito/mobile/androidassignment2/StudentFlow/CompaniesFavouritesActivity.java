@@ -98,6 +98,8 @@ public class CompaniesFavouritesActivity extends AppCompatActivity implements Co
 		listView = new ListView(this);
 		listView.setDivider(getResources().getDrawable(R.drawable.items_divider));
 		((LinearLayout) findViewById(R.id.favourite_companies_list)).addView(listView);
+		final TextView emptyMessage = (TextView) findViewById(R.id.empy_favourite_message);
+		emptyMessage.setVisibility(View.GONE);
 
 		try {
 
@@ -120,6 +122,7 @@ public class CompaniesFavouritesActivity extends AppCompatActivity implements Co
 					CompaniesFavouritesActivity.this.companies.addAll(arg);
 
 					if (CompaniesFavouritesActivity.this.companies.size() == 0) {
+						emptyMessage.setVisibility(View.VISIBLE);
 						Toast.makeText(getApplicationContext(), getResources().getString(R.string.favourite_company_empty), Toast.LENGTH_LONG).show();
 					}
 
