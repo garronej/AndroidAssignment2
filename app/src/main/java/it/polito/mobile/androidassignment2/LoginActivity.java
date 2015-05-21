@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -242,7 +241,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 					editor.commit();
 
-					if( ((AppContext)getApplication()).getState().getWhoIsLogged() == Company.class){
+					if( ((AppContext)getApplication()).getSession().getWhoIsLogged() == Company.class){
 						Log.d("poliJobs", "Company");
 						Intent i = new Intent(getApplicationContext(), CompanyProfileActivity.class);
 						startActivity(i);

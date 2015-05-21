@@ -24,12 +24,12 @@ import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.AlertYesNo;
 import it.polito.mobile.androidassignment2.Communicator;
-import it.polito.mobile.androidassignment2.CompanyFlow.CompanyProfileActivity;
 import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
+
+import it.polito.mobile.androidassignment2.context.AppContext;
 
 public class CompaniesFavouritesActivity extends ActionBarActivity implements Communicator {
 
@@ -98,7 +98,7 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
         try {
 
 
-            task=Manager.getFavouriteCompanyOfStudent(Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<List<Company>>() {
+            task=Manager.getFavouriteCompanyOfStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<List<Company>>() {
 
                 @Override
                 public void cancel() {
@@ -233,7 +233,7 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
 					break;
 				case 1://delete account
 					try {
-						Manager.deleteStudent(Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+						Manager.deleteStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
 							@Override
 							public void process(Integer arg, Exception e) {
 								if (e != null) {

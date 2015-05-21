@@ -33,8 +33,8 @@ import java.util.zip.DataFormatException;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
+import it.polito.mobile.androidassignment2.context.AppContext;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
@@ -119,7 +119,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		try {
-			companyLogged = Session.getInstance().getCompanyLogged();
+			companyLogged = ((AppContext)getApplication()).getSession().getCompanyLogged();
 		} catch (DataFormatException e) {
 			throw new RuntimeException(e);
 		}
@@ -192,7 +192,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 
 		List<Student> favStudents;
 		try {
-			favStudents = Session.getInstance().getFavStudents();
+			favStudents = ((AppContext)getApplication()).getSession().getFavStudents();
 		} catch (DataFormatException e) {
 			throw new RuntimeException(); //TODO
 		}
@@ -339,7 +339,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 						pbFav.setVisibility(View.INVISIBLE);
 						bFav.setVisibility(View.VISIBLE);
 						try {
-							Session.getInstance().getFavStudents().remove(student);
+							((AppContext)getApplication()).getSession().getFavStudents().remove(student);
 						} catch (DataFormatException ee) {
 							throw new RuntimeException(ee);
 						}
@@ -369,7 +369,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 						pbFav.setVisibility(View.INVISIBLE);
 						bFav.setVisibility(View.VISIBLE);
 						try {
-							Session.getInstance().getFavStudents().add(student);
+							((AppContext)getApplication()).getSession().getFavStudents().add(student);
 						} catch (DataFormatException ee) {
 							throw new RuntimeException(ee);
 						}

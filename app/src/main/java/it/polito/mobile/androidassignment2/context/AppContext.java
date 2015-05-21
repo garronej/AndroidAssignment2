@@ -29,7 +29,7 @@ Need to replace Session session = Session.getInstance();
 
  by
 
-   Session session = ((AppContext)getApplication()).getState()
+   Session session = ((AppContext)getApplication()).getSession()
 
  */
 
@@ -43,7 +43,7 @@ public class AppContext extends Application {
 
     private Session state = null;
 
-    public Session getState() throws ExceptionInInitializerError{
+    public Session getSession() throws ExceptionInInitializerError{
 
         if( this.state == null ){
             throw new ExceptionInInitializerError("Session error : login First !");

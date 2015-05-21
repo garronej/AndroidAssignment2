@@ -71,7 +71,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 			} else { // photo
 				pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
 				photoUri = Uri.parse(filePath);
-				((AppContext)getApplication()).getState().setPhotoUri(photoUri);
+				((AppContext)getApplication()).getSession().setPhotoUri(photoUri);
 				ivPhoto.setImageURI(photoUri);
 				tvFullname.setVisibility(View.VISIBLE);
 				bCv.setEnabled(true);
@@ -98,7 +98,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
                         getResources().getResourceTypeName(R.drawable.photo_placeholder_err) +
                         '/' +
                         getResources().getResourceEntryName(R.drawable.photo_placeholder_err));
-				((AppContext)getApplication()).getState().setPhotoUri(photoUri);
+				((AppContext)getApplication()).getSession().setPhotoUri(photoUri);
                 ivPhoto.setImageURI(photoUri);
                 tvFullname.setVisibility(View.VISIBLE);
                 bCv.setEnabled(true);
@@ -152,8 +152,8 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (((AppContext)getApplication()).getState().getPhotoUri() != null) {
-			photoUri =((AppContext)getApplication()).getState().getPhotoUri();
+		if (((AppContext)getApplication()).getSession().getPhotoUri() != null) {
+			photoUri =((AppContext)getApplication()).getSession().getPhotoUri();
 		}
 		setContentView(R.layout.activity_student_profile);
 		findViews();
@@ -182,7 +182,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	private void setupViewsAndCallbacks() {
 		final Student loggedStudent;
 		try {
-			loggedStudent = ((AppContext)getApplication()).getState().getStudentLogged();
+			loggedStudent = ((AppContext)getApplication()).getSession().getStudentLogged();
 		} catch (DataFormatException e) {
 			throw new RuntimeException();
 		}
@@ -363,7 +363,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 					break;
 				case 1://delete account
 					try {
-						Manager.deleteStudent(((AppContext)getApplication()).getState().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+						Manager.deleteStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
 							@Override
 							public void process(Integer arg, Exception e) {
 								if (e != null) {

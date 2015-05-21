@@ -31,6 +31,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
+import it.polito.mobile.androidassignment2.context.AppContext;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
@@ -63,7 +64,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
             String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
             pbLogoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
             Uri logoUri = Uri.parse(filePath);
-            Session.getInstance().setPhotoUri(logoUri);
+            ((AppContext)getApplication()).getSession().setPhotoUri(logoUri);
             photo.setImageURI(logoUri);
         }
     }
@@ -175,8 +176,8 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 
 
                 try {
-                    if (Session.getInstance().getWhoIsLogged() == Company.class
-                            && arg.getCompanyId() == Session.getInstance().getCompanyLogged().getId()) {
+                    if (((AppContext)getApplication()).getSession().getWhoIsLogged() == Company.class
+                            && arg.getCompanyId() == ((AppContext)getApplication()).getSession().getCompanyLogged().getId()) {
                         editOfferButton.setVisibility(View.VISIBLE);
                         candidatesButton.setVisibility(View.VISIBLE);
 
@@ -184,15 +185,15 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 
 
                     //TODO: test
-                    if(Session.getInstance().getWhoIsLogged() == Student.class){
+                    if(((AppContext)getApplication()).getSession().getWhoIsLogged() == Student.class){
                         studentActions.setVisibility(View.VISIBLE);
-                        if(Session.getInstance().getFavoriteOffer().contains(arg)){
+                        if(((AppContext)getApplication()).getSession().getFavoriteOffer().contains(arg)){
                             setButtonToUnfavStudent(arg);
                         }else{
                             setButtonToFavStudent(arg);
                         }
 
-                        Manager.getAppliedOfferOfStudent(Session.getInstance().getStudentLogged().getId(), arg,
+                        Manager.getAppliedOfferOfStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), arg,
                                 new Manager.ResultProcessor<List<Offer>>() {
                                     @Override
                                     public void process(List<Offer> l, Exception e) {
@@ -212,7 +213,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                                                 @Override
                                                 public void onClick(View v) {
                                                     try {
-                                                        Manager.subscribeStudentOfJobOffer(arg.getId(), Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+                                                        Manager.subscribeStudentOfJobOffer(arg.getId(), ((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
                                                             @Override
                                                             public void process(Integer r, Exception e) {
                                                                 if(e!=null){
@@ -276,7 +277,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
             @Override
             public void onClick(View v) {
                 try {
-                    Manager.deleteAFavouriteOfferOfAStudent(Session.getInstance().getStudentLogged().getId(), arg.getId(),
+                    Manager.deleteAFavouriteOfferOfAStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), arg.getId(),
 		                    new Manager.ResultProcessor<Integer>() {
 			                    @Override
 			                    public void process(Integer r, Exception e) {
@@ -285,7 +286,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 					                    return;
 				                    }
 				                    try {
-					                    Session.getInstance().getFavoriteOffer().remove(arg);
+                                        ((AppContext)getApplication()).getSession().getFavoriteOffer().remove(arg);
 				                    } catch (DataFormatException e1) {
 					                    //never here
 				                    }
@@ -312,7 +313,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 	        @Override
 	        public void onClick(View v) {
 		        try {
-			        Manager.addFavouriteOfferForStudent(Session.getInstance().getStudentLogged().getId(), arg.getId(), new Manager.ResultProcessor<Offer>() {
+			        Manager.addFavouriteOfferForStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), arg.getId(), new Manager.ResultProcessor<Offer>() {
 				        @Override
 				        public void process(Offer arg, Exception e) {
 					        if (e != null) {
@@ -320,7 +321,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 						        return;
 					        }
 					        try {
-						        Session.getInstance().getFavoriteOffer().add(arg);
+                                ((AppContext)getApplication()).getSession().getFavoriteOffer().add(arg);
 					        } catch (DataFormatException e1) {
 						        //never here
 					        }

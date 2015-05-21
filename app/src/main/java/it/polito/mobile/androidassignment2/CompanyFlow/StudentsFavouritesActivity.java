@@ -25,10 +25,9 @@ import it.polito.mobile.androidassignment2.AlertYesNo;
 import it.polito.mobile.androidassignment2.Communicator;
 import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
-import it.polito.mobile.androidassignment2.CompanyFlow.ShowStudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
+import it.polito.mobile.androidassignment2.context.AppContext;
 
 public class StudentsFavouritesActivity extends ActionBarActivity implements Communicator {
 
@@ -93,7 +92,7 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
 
         List<Student> students = null;
         try {
-            students = Session.getInstance().getFavStudents();
+            students = ((AppContext)getApplication()).getSession().getFavStudents();
         } catch (DataFormatException e) {
             //never here
         }
@@ -209,7 +208,7 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
 					break;
 				case 1://delete account
 					try {
-						Manager.deleteCompany(Session.getInstance().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
+						Manager.deleteCompany(((AppContext)getApplication()).getSession().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
 							@Override
 							public void process(Integer arg, Exception e) {
 								if (e != null) {

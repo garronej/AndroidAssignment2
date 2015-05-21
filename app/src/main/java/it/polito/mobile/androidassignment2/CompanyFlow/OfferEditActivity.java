@@ -25,11 +25,9 @@ import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
-import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
-import it.polito.mobile.androidassignment2.businessLogic.Student;
+import it.polito.mobile.androidassignment2.context.AppContext;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
@@ -57,7 +55,7 @@ public class OfferEditActivity extends AppCompatActivity {
             String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
             pbLogoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
             Uri logoUri = Uri.parse(filePath);
-            Session.getInstance().setPhotoUri(logoUri);
+            ((AppContext)getApplication()).getSession().setPhotoUri(logoUri);
             photo.setImageURI(logoUri);
         }
     }

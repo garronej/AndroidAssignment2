@@ -11,18 +11,20 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
+import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.StudentFlow.OffersListsActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
+import it.polito.mobile.androidassignment2.context.AppContext;
 
 public class OfferArrayAdapter extends ArrayAdapter<Offer> {
     private final Context context;
     private final List<Offer> values;
 
+
     public List<Offer> getValue(){
-
         return this.values;
-
     }
 
     public OfferArrayAdapter(Context context, List<Offer> values) {
@@ -89,12 +91,12 @@ public class OfferArrayAdapter extends ArrayAdapter<Offer> {
     }
 
 
-    public static boolean isFavourite(int offerId){
+    public boolean isFavourite(int offerId){
 
         List<Offer> favOffers = null;
 
         try{
-            favOffers = Session.getInstance().getFavoriteOffer();
+            favOffers = ((AppContext) this.context.getApplicationContext()).getSession().getFavoriteOffer();
         }catch(DataFormatException e){
             return false;
         }
@@ -109,12 +111,12 @@ public class OfferArrayAdapter extends ArrayAdapter<Offer> {
 
     }
 
-    public static boolean isApplied(int offerId){
+    public boolean isApplied(int offerId){
 
         List<Offer> appliedOffers = null;
 
         try{
-            appliedOffers = Session.getInstance().getAppliedOffers();
+            appliedOffers = ((AppContext)this.context.getApplicationContext()).getSession().getAppliedOffers();
         }catch(DataFormatException e){
             return false;
         }
