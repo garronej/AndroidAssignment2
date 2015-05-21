@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -144,6 +145,9 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
                 return convertView;
             }
         });
+        if(listView.getCount()==0)
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.favourite_students_empty), Toast.LENGTH_LONG).show();
+
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -33,7 +34,7 @@ import it.polito.mobile.androidassignment2.context.AppContext;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
-public class CompanyProfileActivity extends ActionBarActivity implements Communicator {
+public class CompanyProfileActivity extends AppCompatActivity implements Communicator {
     private ImageView ivLogo;
     private ProgressBar pbLogoSpinner;
     private TextView tvName;
@@ -116,9 +117,7 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
                 finish();
             }
         });
-
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
