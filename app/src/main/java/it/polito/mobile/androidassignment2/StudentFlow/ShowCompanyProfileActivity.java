@@ -26,8 +26,10 @@ import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.CompanyFlow.EditCompanyProfileActivity;
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.adapter.OfferArrayAdapter;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
+import it.polito.mobile.androidassignment2.businessLogic.Offer;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
@@ -40,6 +42,7 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
     private TextView tvClients;
     private TextView tvEmail;
     private DownloadFinished downloadfinished = new DownloadFinished();
+    private DownloadFailed downloadfailed = new DownloadFailed();
     private Uri logoUri;
     private TextView tvLocation;
     private TextView tvNumberOfWorkers;
@@ -50,9 +53,11 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
     private Button bOffers;
     private Button bFav;
     private Company company;
+    private List<Offer> offers;
     private AsyncTask<Object, Void, Object> task1 = null;
     private AsyncTask<Object, Void, Object> task2 = null;
     private AsyncTask<Object, Void, Object> task3 = null;
+    private AsyncTask<Object, Void, Object> task4 = null;
     private Student studentLogged;
 
     public class DownloadFinished extends BroadcastReceiver {
@@ -65,6 +70,9 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
             Uri logoUri = Uri.parse(filePath);
             ivLogo.setImageURI(logoUri);
             tvName.setVisibility(View.VISIBLE);
+            if(bOffers.getVisibility() == View.VISIBLE) {
+                bOffers.setEnabled(true);
+            }
         }
     }
 
@@ -81,6 +89,9 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
                     getResources().getResourceEntryName(R.drawable.photo_placeholder_err));
             ivLogo.setImageURI(logoUri);
             tvName.setVisibility(View.VISIBLE);
+            if(bOffers.getVisibility() == View.VISIBLE) {
+                bOffers.setEnabled(true);
+            }
             Toast t = Toast.makeText(ShowCompanyProfileActivity.this, getResources().getString(R.string.error_loading_photo), Toast.LENGTH_LONG);
             t.setGravity(Gravity.CENTER, 0, 0);
             t.show();
@@ -114,7 +125,26 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
             @Override
             public void process(final Company arg, Exception e) {
                 company = arg;
-                setupViewsAndCallbacks();
+                Offer criteria = new Offer();
+                try {
+                    criteria.setCompanyId(company.getId());
+                } catch (DataFormatException e1) {
+                    throw new RuntimeException();
+                }
+                task4 = Manager.getOffersMatchingCriteria(criteria, new Manager.ResultProcessor<List<Offer>>() {
+                    @Override
+                    public void process(final List<Offer> arg, Exception e) {
+                        task4 = null;
+                        offers = arg;
+                        setupViewsAndCallbacks();
+                    }
+
+                    @Override
+                    public void cancel() {
+                        ShowCompanyProfileActivity.this.task4 = null;
+                    }
+                });
+
             }
         });
     }
@@ -138,15 +168,20 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
     private void setupViewsAndCallbacks() {
         tvEmail.setText(company.getEmail());
 
-        //remove if no offers from this company
-        bOffers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ShowCompanyProfileActivity.this, SearchOffer.class);
-                i.putExtra("companyId", company.getId());
-                startActivity(i);
-            }
-        });
+        if(offers != null && offers.size() > 0) {
+            bOffers.setVisibility(View.VISIBLE);
+            bOffers.setEnabled(false);
+            bOffers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(ShowCompanyProfileActivity.this, SearchOffer.class);
+                    i.putExtra("companyId", company.getId());
+                    startActivity(i);
+                }
+            });
+        } else {
+            bOffers.setVisibility(View.GONE);
+        }
 
         List<Company> favCompanies;
         try {
@@ -231,10 +266,12 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
     protected void onResume() {
         super.onResume();
         registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
+        registerReceiver(downloadfailed, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
     }
 
     @Override
     protected void onPause() {
+        unregisterReceiver(downloadfailed);
         unregisterReceiver(downloadfinished);
         if(task1 != null){
             task1.cancel(true);
