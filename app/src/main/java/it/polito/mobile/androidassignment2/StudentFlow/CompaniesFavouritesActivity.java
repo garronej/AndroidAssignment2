@@ -34,49 +34,12 @@ import it.polito.mobile.androidassignment2.context.AppContext;
 
 
 public class CompaniesFavouritesActivity extends ActionBarActivity implements Communicator {
-
-
-<<<<<<< HEAD
-	private ListView listView;
-	private AsyncTask<?, ?, ?> task = null;
-	private AsyncTask<?, ?, ?> task2 = null;
-=======
     private ListView listView;
     private AsyncTask<?, ?, ?> task = null;
     private AsyncTask<?, ?, ?> task2 = null;
-
-
-    private List<Company> companies = new ArrayList<Company>();
-
-    BaseAdapter adapter = null;
     private AsyncTask<Object, Void, Object> task1;
-
-
-    private void myAddActionBar(){
-        ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.student_tabbed_menu,null);
-
-        // Set up your ActionBar
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(actionBarLayout);
-
-    }
-
-    private void addTabMenuButtonCallbacks(){
-        //findViewById(R.id.tab_menu_student_companies)
-        findViewById(R.id.tab_menu_student_profile).setBackgroundColor(getResources().getColor(R.color.blue_sky));
-        findViewById(R.id.tab_menu_student_offers).setBackgroundColor(getResources().getColor(R.color.blue_sky));
-        findViewById(R.id.tab_menu_student_companies).setBackgroundColor(getResources().getColor(R.color.strong_blue));
->>>>>>> origin/master
-
-
 	private List<Company> companies = new ArrayList<Company>();
-
 	BaseAdapter adapter = null;
-
 
 	private void myAddActionBar() {
 		ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
@@ -256,22 +219,6 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
 
 	}
 
-
-<<<<<<< HEAD
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (task != null) {
-			task.cancel(true);
-			task = null;
-		}
-
-		if (task2 != null) {
-			task2.cancel(true);
-			task2 = null;
-		}
-	}
-=======
     @Override
     protected void onPause() {
         super.onPause();
@@ -288,7 +235,6 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
             task2=null;
         }
     }
->>>>>>> origin/master
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -354,11 +300,7 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
 					break;
 				case 1://delete account
 					try {
-<<<<<<< HEAD
-						Manager.deleteStudent(((AppContext) getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
-=======
 						task1=Manager.deleteStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
->>>>>>> origin/master
 							@Override
 							public void process(Integer arg, Exception e) {
                                 task1=null;
