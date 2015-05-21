@@ -1,5 +1,6 @@
 package it.polito.mobile.androidassignment2.businessLogic;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.DataFormatException;
@@ -75,6 +76,34 @@ public class Utils {
         Matcher mat = pattern.matcher(pwd);
 
         if(!mat.matches()) throw new DataFormatException("Week password : whitespace forbiden, and minumum 4 character");
+
+    }
+
+
+    public static String processException(Exception exception, String message){
+
+        String out = message + "\n";
+
+
+            //There where  problem during the request
+            if (exception.getClass() == RestApiException.class) {
+
+                //It was an error on the web service side.
+                //Nb : err code -1 mean a internal bug, report if you experience.
+                Integer errCode =  ((RestApiException)exception).getResponseCode();
+                out += errCode.toString() + " / " + exception.getMessage();
+
+
+            }else if(exception.getClass() == IOException.class){
+                //It was an error with the internet conextion.
+                out += "Network connexion problem :\n" + exception.getMessage();
+            }else{
+                out += "Unknown error";
+            }
+
+
+        return out;
+
 
     }
 
