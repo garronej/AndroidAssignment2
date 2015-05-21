@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,10 +23,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
+import it.polito.mobile.androidassignment2.PlacesAutoCompleteAdapter;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.CompanyFlow.ShowStudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
@@ -46,6 +50,20 @@ public class SearchStudents extends AppCompatActivity {
 
     private int offerId = -1;
 
+    private void location_autocomplete() {
+        AutoCompleteTextView autocompleteView = (AutoCompleteTextView) findViewById(R.id.student_search_location);
+        autocompleteView.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.location_list_item));
+
+        autocompleteView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get data associated with the specified position
+                // in the list (AdapterView)
+                String description = (String) parent.getItemAtPosition(position);
+                Toast.makeText(SearchStudents.this, description, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +73,7 @@ public class SearchStudents extends AppCompatActivity {
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         offerId=getIntent().getIntExtra("offerId", -1);
-
+        location_autocomplete();
         locationText = (EditText) findViewById(R.id.student_search_location);
         availability = (CheckBox) findViewById(R.id.student_search_availability);
         sex = (Spinner) findViewById(R.id.student_search_sex);
@@ -132,11 +150,11 @@ public class SearchStudents extends AppCompatActivity {
                         public void process(final List<Student> arg, Exception e) {
                             task = null;
                             if (e != null) {
-                                //TODO: show error message
+                                Log.d(SearchStudents.class.getSimpleName(), "Error retrieving search result");
                                 return;
                             }
                             if (arg.size() == 0) {
-                                //TODO: display some message...
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_empty_search), Toast.LENGTH_LONG).show();
                             }
                             listView.setAdapter(new BaseAdapter() {
                                 @Override
@@ -179,11 +197,11 @@ public class SearchStudents extends AppCompatActivity {
                         public void process(final List<Student> arg, Exception e) {
                             task = null;
                             if (e != null) {
-                                //TODO: show error message
+                            Log.d(SearchStudents.class.getSimpleName(),"Error retrieving search result");
                                 return;
                             }
                             if (arg.size() == 0) {
-                                //TODO: display some message...
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_empty_search), Toast.LENGTH_LONG).show();
                             }
                             listView.setAdapter(new BaseAdapter() {
                                 @Override

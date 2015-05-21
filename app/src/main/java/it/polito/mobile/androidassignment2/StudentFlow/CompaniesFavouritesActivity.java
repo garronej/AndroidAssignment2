@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -107,12 +109,12 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
                 public void process(final List<Company> arg, Exception e) {
                     task=null;
                     if(e != null){
-                        //TODO: show error message
+                        Log.d(CompaniesFavouritesActivity.class.getSimpleName(),"Error in getFavouriteCompanyOfStudent");
                         return;
                     }
 
                     if(arg.size()==0){
-                        //TODO: display some message...
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.favourite_company_empty), Toast.LENGTH_LONG).show();
                     }
                     listView.setAdapter(new BaseAdapter() {
                         @Override
@@ -235,7 +237,7 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
 							@Override
 							public void process(Integer arg, Exception e) {
 								if (e != null) {
-									//TODO: show error message
+									Log.d(CompaniesFavouritesActivity.class.getSimpleName(),"Error deleteing user");
 									return;
 								}
 								getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
