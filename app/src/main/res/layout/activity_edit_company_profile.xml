@@ -63,7 +63,7 @@
         <LinearLayout
             style="@style/ProfileItem" >
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/edit_c_location_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

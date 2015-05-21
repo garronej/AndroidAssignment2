@@ -452,8 +452,8 @@ public class Student {
     }
 
     public boolean equals(Object o) {
-        if(o instanceof Company){
-            Company c = (Company) o;
+        if(o instanceof Student){
+            Student c = (Student) o;
             return c.getId()==this.getId();
         }
         return false;

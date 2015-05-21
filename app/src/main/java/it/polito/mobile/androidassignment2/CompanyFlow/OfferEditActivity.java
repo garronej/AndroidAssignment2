@@ -56,7 +56,7 @@ public class OfferEditActivity extends AppCompatActivity {
             String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
             pbLogoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
             Uri logoUri = Uri.parse(filePath);
-            ((AppContext)getApplication()).getSession().setPhotoUri(logoUri);
+
             photo.setImageURI(logoUri);
         }
     }
