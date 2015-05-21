@@ -100,6 +100,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity {
 
 				@Override
 				public void cancel() {
+                    task1 = null;
 				}
 			});
 
@@ -204,7 +205,8 @@ public class EditCompanyProfileActivity extends ActionBarActivity {
 
 					@Override
 					public void cancel() {
-						pbUpdateSpinner.setVisibility(ProgressBar.INVISIBLE);
+						task2 = null;
+                        pbUpdateSpinner.setVisibility(ProgressBar.INVISIBLE);
 					}
 				});
 			}
@@ -243,6 +245,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity {
 
 			@Override
 			public void cancel() {
+                task3 = null;
 			}
 		});
 
