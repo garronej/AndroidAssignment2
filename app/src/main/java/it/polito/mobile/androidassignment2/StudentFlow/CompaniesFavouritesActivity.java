@@ -33,218 +33,214 @@ import it.polito.mobile.androidassignment2.businessLogic.Utils;
 import it.polito.mobile.androidassignment2.context.AppContext;
 
 
-
 public class CompaniesFavouritesActivity extends ActionBarActivity implements Communicator {
 
 
-    private ListView listView;
-    private AsyncTask<?, ?, ?> task = null;
-    private AsyncTask<?, ?, ?> task2 = null;
+	private ListView listView;
+	private AsyncTask<?, ?, ?> task = null;
+	private AsyncTask<?, ?, ?> task2 = null;
 
 
-    private List<Company> companies = new ArrayList<Company>();
+	private List<Company> companies = new ArrayList<Company>();
 
-    BaseAdapter adapter = null;
-
-
-
-    private void myAddActionBar(){
-        ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.student_tabbed_menu,null);
-
-        // Set up your ActionBar
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(actionBarLayout);
-
-    }
-
-    private void addTabMenuButtonCallbacks(){
-        //findViewById(R.id.tab_menu_student_companies)
-        findViewById(R.id.tab_menu_student_profile).setBackgroundColor(getResources().getColor(R.color.blue_sky));
-        findViewById(R.id.tab_menu_student_offers).setBackgroundColor(getResources().getColor(R.color.blue_sky));
-        findViewById(R.id.tab_menu_student_companies).setBackgroundColor(getResources().getColor(R.color.strong_blue));
+	BaseAdapter adapter = null;
 
 
-        findViewById(R.id.tab_menu_student_search).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), SearchCompanies.class);
-                startActivity(i);
-            }
-        });
-        findViewById(R.id.tab_menu_student_profile).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
-        findViewById(R.id.tab_menu_student_offers).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), OffersListsActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+	private void myAddActionBar() {
+		ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+				R.layout.student_tabbed_menu, null);
 
-    }
+		// Set up your ActionBar
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(actionBarLayout);
+
+	}
+
+	private void addTabMenuButtonCallbacks() {
+		//findViewById(R.id.tab_menu_student_companies)
+		findViewById(R.id.tab_menu_student_profile).setBackgroundColor(getResources().getColor(R.color.blue_sky));
+		findViewById(R.id.tab_menu_student_offers).setBackgroundColor(getResources().getColor(R.color.blue_sky));
+		findViewById(R.id.tab_menu_student_companies).setBackgroundColor(getResources().getColor(R.color.strong_blue));
 
 
+		findViewById(R.id.tab_menu_student_search).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(), SearchCompanies.class);
+				startActivity(i);
+			}
+		});
+		findViewById(R.id.tab_menu_student_profile).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
+				startActivity(i);
+				finish();
+			}
+		});
+		findViewById(R.id.tab_menu_student_offers).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(), OffersListsActivity.class);
+				startActivity(i);
+				finish();
+			}
+		});
+
+	}
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_companies_favourites);
-	    myAddActionBar();
-        addTabMenuButtonCallbacks();
-        listView = new ListView(this);
-        listView.setDivider(getResources().getDrawable(R.drawable.items_divider));
-        ((LinearLayout)findViewById(R.id.favourite_companies_list)).addView(listView);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_companies_favourites);
+		myAddActionBar();
+		addTabMenuButtonCallbacks();
+		listView = new ListView(this);
+		listView.setDivider(getResources().getDrawable(R.drawable.items_divider));
+		((LinearLayout) findViewById(R.id.favourite_companies_list)).addView(listView);
 
-        try {
-
-
-            task=Manager.getFavouriteCompanyOfStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<List<Company>>() {
-
-                @Override
-                public void cancel() {
-                    task=null;
-                }
-
-                @Override
-                public void process(final List<Company> arg, Exception e) {
-                    task=null;
-                    if(e != null){
-                        Log.d(CompaniesFavouritesActivity.class.getSimpleName(),"Error in getFavouriteCompanyOfStudent");
-                        return;
-                    }
-
-                    CompaniesFavouritesActivity.this.companies.addAll(arg);
-
-                    if(CompaniesFavouritesActivity.this.companies.size()==0){
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.favourite_company_empty), Toast.LENGTH_LONG).show();
-                    }
+		try {
 
 
-                    listView.setAdapter(adapter = new BaseAdapter() {
+			task = Manager.getFavouriteCompanyOfStudent(((AppContext) getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<List<Company>>() {
+
+				@Override
+				public void cancel() {
+					task = null;
+				}
+
+				@Override
+				public void process(final List<Company> arg, Exception e) {
+					task = null;
+					if (e != null) {
+						Log.d(CompaniesFavouritesActivity.class.getSimpleName(), "Error in getFavouriteCompanyOfStudent");
+						return;
+					}
+
+					CompaniesFavouritesActivity.this.companies.addAll(arg);
+
+					if (CompaniesFavouritesActivity.this.companies.size() == 0) {
+						Toast.makeText(getApplicationContext(), getResources().getString(R.string.favourite_company_empty), Toast.LENGTH_LONG).show();
+					}
 
 
-                        @Override
-                        public int getCount() {
-                            return CompaniesFavouritesActivity.this.companies.size();
-                        }
-
-                        @Override
-                        public Object getItem(int position) {
-                            return CompaniesFavouritesActivity.this.companies.get(position);
-                        }
-
-                        @Override
-                        public long getItemId(int position) {
-                            return CompaniesFavouritesActivity.this.companies.get(position).getId();
-                        }
+					listView.setAdapter(adapter = new BaseAdapter() {
 
 
-                        @Override
-                        public View getView(int position, View convertView, ViewGroup parent) {
-                            if (convertView == null) {
-                                convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
-                            }
-                            ((TextView) convertView.findViewById(R.id.mainName)).setText(((Company) getItem(position)).getName());
-                            ((TextView) convertView.findViewById(R.id.descrption)).setText(((Company) getItem(position)).getLocation());
-                            return convertView;
-                        }
-                    });
+						@Override
+						public int getCount() {
+							return CompaniesFavouritesActivity.this.companies.size();
+						}
 
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent i = new Intent(getApplicationContext(), ShowCompanyProfileActivity.class);
-                            i.putExtra("companyId",(int)id);
-                            startActivity(i);
-                        }
-                    });
-                }
-            });
-        }catch(Exception e){
-            //TODO: handle exception
-        }
-    }
+						@Override
+						public Object getItem(int position) {
+							return CompaniesFavouritesActivity.this.companies.get(position);
+						}
+
+						@Override
+						public long getItemId(int position) {
+							return CompaniesFavouritesActivity.this.companies.get(position).getId();
+						}
 
 
-    @Override
-    public void onResume() {
-        super.onResume();  // Always call the superclass method first
+						@Override
+						public View getView(int position, View convertView, ViewGroup parent) {
+							if (convertView == null) {
+								convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
+							}
+							((TextView) convertView.findViewById(R.id.mainName)).setText(((Company) getItem(position)).getName());
+							((TextView) convertView.findViewById(R.id.descrption)).setText(((Company) getItem(position)).getLocation());
+							return convertView;
+						}
+					});
 
-        if( adapter==null)return;
-
-        Integer studentId = null;
-
-        try{
-            studentId = ((AppContext)getApplication()).getSession().getStudentLogged().getId();
-
-        }catch(DataFormatException e){}
-
-        task2 = Manager.getFavouriteCompanyOfStudent(studentId, new Manager.ResultProcessor<List<Company>>() {
-
-            @Override
-            public void process(List<Company> arg, Exception e) {
-                if (e != null) {
-
-
-
-                    Toast.makeText(CompaniesFavouritesActivity.this
-                            , Utils.processException(e, "Refresh failed"), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                CompaniesFavouritesActivity.this.companies.clear();
-                CompaniesFavouritesActivity.this.companies.addAll(arg);
+					listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+						@Override
+						public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+							Intent i = new Intent(getApplicationContext(), ShowCompanyProfileActivity.class);
+							i.putExtra("companyId", (int) id);
+							startActivity(i);
+						}
+					});
+				}
+			});
+		} catch (Exception e) {
+			//TODO: handle exception
+		}
+	}
 
 
+	@Override
+	public void onResume() {
+		super.onResume();  // Always call the superclass method first
+		final TextView emptyMessage = (TextView) findViewById(R.id.empy_favourite_message);
+		if (adapter == null) return;
 
-                    CompaniesFavouritesActivity.this.adapter.notifyDataSetChanged();
+		Integer studentId = null;
+
+		try {
+			studentId = ((AppContext) getApplication()).getSession().getStudentLogged().getId();
+			emptyMessage.setVisibility(View.GONE);
+
+		} catch (DataFormatException e) {
+		}
+
+		task2 = Manager.getFavouriteCompanyOfStudent(studentId, new Manager.ResultProcessor<List<Company>>() {
+
+			@Override
+			public void process(List<Company> arg, Exception e) {
+				if (e != null) {
 
 
+					Toast.makeText(CompaniesFavouritesActivity.this
+							, Utils.processException(e, "Refresh failed"), Toast.LENGTH_SHORT).show();
+					return;
+				}
 
-            }
-
-            @Override
-            public void cancel() {
-
-                task2 = null;
-
-            }
-        });
+				CompaniesFavouritesActivity.this.companies.clear();
+				CompaniesFavouritesActivity.this.companies.addAll(arg);
 
 
+				CompaniesFavouritesActivity.this.adapter.notifyDataSetChanged();
+				if (CompaniesFavouritesActivity.this.companies.size() == 0) {
+					emptyMessage.setVisibility(View.VISIBLE);
+					Toast.makeText(getApplicationContext(), getResources().getString(R.string.favourite_company_empty), Toast.LENGTH_LONG).show();
+				}
 
-    }
+			}
+
+			@Override
+			public void cancel() {
+
+				task2 = null;
+
+			}
+		});
 
 
+	}
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(task!=null){
-            task.cancel(true);
-            task=null;
-        }
 
-        if(task2!=null){
-            task2.cancel(true);
-            task2=null;
-        }
-    }
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (task != null) {
+			task.cancel(true);
+			task = null;
+		}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+		if (task2 != null) {
+			task2.cancel(true);
+			task2 = null;
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.global, menu);
 		return true;
@@ -307,11 +303,11 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
 					break;
 				case 1://delete account
 					try {
-						Manager.deleteStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+						Manager.deleteStudent(((AppContext) getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
 							@Override
 							public void process(Integer arg, Exception e) {
 								if (e != null) {
-									Log.d(CompaniesFavouritesActivity.class.getSimpleName(),"Error deleteing user");
+									Log.d(CompaniesFavouritesActivity.class.getSimpleName(), "Error deleteing user");
 									return;
 								}
 								getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();

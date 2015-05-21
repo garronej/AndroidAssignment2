@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -45,8 +46,8 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 		setContentView(R.layout.activity_offers_lists);
 		myAddActionBar();
 		addTabMenuButtonCallbacks();
-
-
+		final TextView emptyMessage = (TextView) findViewById(R.id.empy_favourite_message);
+		emptyMessage.setVisibility(View.GONE);
 		final ListView listview = (ListView) findViewById(R.id.proposed_offers_list);
 
 
@@ -60,9 +61,10 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 				offers.addAll(((AppContext)getApplication()).getSession().getFavoriteOffer());
 			} else {
-
+				emptyMessage.setVisibility(View.VISIBLE);
+				emptyMessage.setText(getResources().getString(R.string.no_fav_offers_yet));
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_fav_offers_yet),
-						Toast.LENGTH_SHORT).show();
+						Toast.LENGTH_LONG).show();
 			}
 
 			this.adapter = new OfferArrayAdapter(OffersListsActivity.this, offers);
@@ -113,6 +115,8 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 				try {
 
 					if (((AppContext)getApplication()).getSession().getFavoriteOffer().size() == 0) {
+						emptyMessage.setVisibility(View.VISIBLE);
+						emptyMessage.setText(getResources().getString(R.string.no_fav_offers_yet));
 						Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_fav_offers_yet),
 								Toast.LENGTH_SHORT).show();
 

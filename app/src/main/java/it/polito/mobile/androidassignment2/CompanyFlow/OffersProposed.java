@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 
 import android.widget.ListView;
 
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -114,7 +115,8 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
     @Override
     protected void onResume() {
         super.onResume();
-
+        final TextView emptyMessage = (TextView) findViewById(R.id.empy_offer_proposed_message);
+        emptyMessage.setVisibility(View.VISIBLE);
         Offer o = new Offer();
         try {
             o.setCompanyId(((AppContext)getApplication()).getSession().getCompanyLogged().getId());
@@ -128,6 +130,7 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
                     Log.e(OffersProposed.class.getSimpleName(),"Error retrieving offers list");
                 }
                 if (arg == null || arg.size() == 0) {
+                    emptyMessage.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_empty_offer_proposed), Toast.LENGTH_LONG).show();
 
                 }
