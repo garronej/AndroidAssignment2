@@ -177,7 +177,7 @@ public class Session {
     private String password = null;
 
     //Private constructor.
-    private Session(String email, String password) throws IOException, RestApiException, DataFormatException{
+    public Session(String email, String password) throws IOException, RestApiException, DataFormatException{
 
 
 
