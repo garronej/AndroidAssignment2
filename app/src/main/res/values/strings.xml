@@ -28,11 +28,11 @@
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="title_activity_main_companies_test">MainCompaniesTest</string>
     <string name="title_activity_fake_activity_s3_test">FakeActivityS3Test</string>
-    <string name="title_activity_edit_student_profile">EditStudentProfile</string>
-    <string name="title_activity_edit_company_profile">EditCompanyProfile</string>
-    <string name="title_activity_show_student_profile">ShowStudentProfile</string>
-    <string name="title_activity_show_company_profile">ShowCompanyProfile</string>
-    <string name="title_activity_student_profile">StudentProfile</string>
+    <string name="title_activity_edit_student_profile">Student profile</string>
+    <string name="title_activity_edit_company_profile">Company profile</string>
+    <string name="title_activity_show_student_profile">Student profile</string>
+    <string name="title_activity_show_company_profile">Company profile</string>
+    <string name="title_activity_student_profile">Student profile</string>
 
     <!-- Strings related to login -->
     <string name="title_activity_login">Sign in</string>
@@ -81,7 +81,7 @@
     <string name="title_activity_students_favourites">Students</string>
     <string name="activity_search_students">Search students</string>
     <string name="add">Add</string>
-    <string name="title_activity_offers_proposed">OffersProposed</string>
+    <string name="title_activity_offers_proposed">Offers proposed</string>
     <string name="add_new_job_offer">Add new job offer</string>
     <string name="title_activity_job_offer_creation">New job offer creation</string>
     <string name="job_offer_description">Job offer description</string>
@@ -135,7 +135,7 @@
     <string name="companies">Companies</string>
     <string name="related_offers">Related Offers</string>
     <string name="appName">Poli Job</string>
-    <string name="title_activity_search_offer">SearchOffer</string>
+    <string name="title_activity_search_offer">Search offers</string>
     <string name="delete_offer">delete offer</string>
     <string name="delete_offer_message">Do you want to delete this offer forever?</string>
     <string name="select_photo">Select a photo</string>
