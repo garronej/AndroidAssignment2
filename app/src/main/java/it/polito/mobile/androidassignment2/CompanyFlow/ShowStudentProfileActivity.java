@@ -204,8 +204,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
                         public void process(final Integer i, Exception e) {
 							task4=null;
                             if (e == null) {
-                                bDiscard.setVisibility(View.VISIBLE);
-                                pbDiscard.setVisibility(View.INVISIBLE);
+                                rlDiscard.setVisibility(View.GONE);
                             } else {
                                 Toast.makeText(ShowStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
                             }
