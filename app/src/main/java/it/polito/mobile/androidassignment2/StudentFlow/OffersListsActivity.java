@@ -28,6 +28,7 @@ import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.adapter.OfferArrayAdapter;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
+import it.polito.mobile.androidassignment2.businessLogic.Task;
 import it.polito.mobile.androidassignment2.context.AppContext;
 
 
@@ -35,6 +36,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 	protected Boolean isOnFav = null;
 	private OfferArrayAdapter adapter = null;
+	private Task.General task = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,8 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 				//findViewById(R.id.show_favourite).getBackground().setColorFilter(getResources().getColor(R.color.strong_blue), PorterDuff.Mode.MULTIPLY);
 				//findViewById(R.id.show_candidature).getBackground().setColorFilter(getResources().getColor(R.color.blue_sky), PorterDuff.Mode.MULTIPLY);
 
+
+
 				List<Offer> offers = adapter.getValue();
 
 
@@ -131,6 +135,8 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 				});
 
 
+
+
 			}
 		});
 
@@ -144,39 +150,73 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 				OffersListsActivity.this.isOnFav = false;
 				findViewById(R.id.show_favourite).setBackgroundColor(getResources().getColor(R.color.blue_sky));
 				findViewById(R.id.show_candidature).setBackgroundColor(getResources().getColor(R.color.strong_blue));
-				List<Offer> offers = adapter.getValue();
 
+
+
+
+				Integer studentId = null;
 
 				try {
 
+					studentId = ((AppContext) getApplication()).getSession().getStudentLogged().getId();
 
-					if (((AppContext)getApplication()).getSession().getAppliedOffers().size() == 0) {
-						Toast.makeText(getApplicationContext(), "No applied offer yet, use the search icon",
-								Toast.LENGTH_SHORT).show();
+				}catch(DataFormatException e){}
 
-					}
+				OffersListsActivity.this.task = Manager.getAppliedOfferOfStudent(studentId, null, new Manager.ResultProcessor<List<Offer>>() {
 
-					offers.clear();
+					@Override
+					public void process(List<Offer> arg, Exception e) {
 
-					offers.addAll(((AppContext)getApplication()).getSession().getAppliedOffers());
-				} catch (DataFormatException e) {
-					e.printStackTrace();
-				}
-				listview.animate().setDuration(350).translationX(-1000)
-						.withEndAction(new Runnable() {
+
+						if (arg.size() == 0)
+							Toast.makeText(getApplicationContext(),
+									getResources().getString(R.string.no_fav_offers_yet),
+									Toast.LENGTH_SHORT).show();
+
+
+
+						List<Offer> offers = OffersListsActivity.this.adapter.getValue();
+
+						offers.clear();
+
+						offers.addAll(arg);
+
+
+
+						listview.animate().setDuration(350).translationX(1000).withEndAction(new Runnable() {
 							@Override
 							public void run() {
 
-								adapter.notifyDataSetChanged();
+								OffersListsActivity.this.adapter.notifyDataSetChanged();
 								listview.animate().setDuration(0).translationX(0);
 							}
 						});
 
+					}
+
+					@Override
+					public void cancel() {
+						task = null;
+					}
+				});
+
+
+
 
 			}
 		});
-		//findViewById(R.id.show_favourite).callOnClick();
 
+
+	}
+
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (task != null) {
+			task.cancel(true);
+			task = null;
+		}
 	}
 
 
