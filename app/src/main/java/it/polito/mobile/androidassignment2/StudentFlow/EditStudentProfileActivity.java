@@ -98,8 +98,12 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                 task1 = Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
                     @Override
                     public void process(Student arg, Exception e) {
-                        pbCvSpinner.setVisibility(View.GONE);
-                        bCv.setVisibility(View.VISIBLE);
+                        if (e == null) {
+                            pbCvSpinner.setVisibility(View.GONE);
+                            bCv.setVisibility(View.VISIBLE);
+                        } else {
+                            Toast.makeText(EditStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
@@ -119,9 +123,9 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                     @Override
                     public void process(Student arg, Exception e) {
                         if (e == null) {
-                            TransferController.download(getApplicationContext(), new String[]{ filePath });
+                            TransferController.download(getApplicationContext(), new String[]{filePath});
                         } else {
-                            throw new RuntimeException();
+                            Toast.makeText(EditStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override
@@ -258,7 +262,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                             startActivity(i);
                             finish();
                         } else {
-                            throw new RuntimeException();
+                            Toast.makeText(EditStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -303,13 +307,17 @@ public class EditStudentProfileActivity extends AppCompatActivity {
         task4 = Manager.getAllStudentsCompetences(new Manager.ResultProcessor<List<String>>() {
             @Override
             public void process(final List<String> arg, Exception e) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditStudentProfileActivity.this, android.R.layout.simple_list_item_1, arg);
-                acCompetences.setAdapter(adapter);
-                String[] cs = loggedStudent.getCompetences();
-                if (cs != null && cs.length > 0) {
-                    for (String c : cs) {
-                        acCompetences.addObject(c);
+                if (e == null) {
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditStudentProfileActivity.this, android.R.layout.simple_list_item_1, arg);
+                    acCompetences.setAdapter(adapter);
+                    String[] cs = loggedStudent.getCompetences();
+                    if (cs != null && cs.length > 0) {
+                        for (String c : cs) {
+                            acCompetences.addObject(c);
+                        }
                     }
+                } else {
+                    Toast.makeText(EditStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
                 }
             }
 

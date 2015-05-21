@@ -94,7 +94,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity {
 					if (e == null) {
 						TransferController.download(getApplicationContext(), new String[]{filePath});
 					} else {
-						throw new RuntimeException();
+                        Toast.makeText(EditCompanyProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
 					}
 				}
 
@@ -199,7 +199,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity {
 							startActivity(i);
 							finish();
 						} else {
-							throw new RuntimeException();
+                            Toast.makeText(EditCompanyProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
 						}
 					}
 
@@ -233,14 +233,18 @@ public class EditCompanyProfileActivity extends ActionBarActivity {
 		task3 = Manager.getAllCompaniesCompetences(new Manager.ResultProcessor<List<String>>() {
 			@Override
 			public void process(final List<String> arg, Exception e) {
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditCompanyProfileActivity.this, android.R.layout.simple_list_item_1, arg);
-				acCompetences.setAdapter(adapter);
-				String[] cs = loggedCompany.getCompetences();
-				if (cs != null && cs.length > 0) {
-					for (String c : cs) {
-						acCompetences.addObject(c);
-					}
-				}
+                if (e == null) {
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditCompanyProfileActivity.this, android.R.layout.simple_list_item_1, arg);
+                    acCompetences.setAdapter(adapter);
+                    String[] cs = loggedCompany.getCompetences();
+                    if (cs != null && cs.length > 0) {
+                        for (String c : cs) {
+                            acCompetences.addObject(c);
+                        }
+                    }
+                } else {
+                    Toast.makeText(EditCompanyProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
+                }
 			}
 
 			@Override

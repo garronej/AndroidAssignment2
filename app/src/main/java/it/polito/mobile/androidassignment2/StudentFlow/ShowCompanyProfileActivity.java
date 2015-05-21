@@ -136,9 +136,13 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
                 task4 = Manager.getOffersMatchingCriteria(criteria, new Manager.ResultProcessor<List<Offer>>() {
                     @Override
                     public void process(final List<Offer> arg, Exception e) {
-                        task4 = null;
-                        offers = arg;
-                        setupViewsAndCallbacks();
+                        if (e == null) {
+                            task4 = null;
+                            offers = arg;
+                            setupViewsAndCallbacks();
+                        } else {
+                            Toast.makeText(ShowCompanyProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
@@ -313,14 +317,18 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
 
                     @Override
                     public void process(final Integer i, Exception e) {
-                        pbFav.setVisibility(View.INVISIBLE);
-                        bFav.setVisibility(View.VISIBLE);
-                        try {
-                            ((AppContext)getApplication()).getSession().getFavCompanies().remove(company);
-                        } catch (DataFormatException ee) {
-                            throw new RuntimeException(ee);
+                        if (e == null) {
+                            pbFav.setVisibility(View.INVISIBLE);
+                            bFav.setVisibility(View.VISIBLE);
+                            try {
+                                ((AppContext) getApplication()).getSession().getFavCompanies().remove(company);
+                            } catch (DataFormatException ee) {
+                                throw new RuntimeException(ee);
+                            }
+                            setButtonForFav();
+                        } else {
+                            Toast.makeText(ShowCompanyProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
                         }
-                        setButtonForFav();
                     }
                 });
             }
@@ -346,14 +354,18 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
 
                     @Override
                     public void process(final Company s, Exception e) {
-                        pbFav.setVisibility(View.INVISIBLE);
-                        bFav.setVisibility(View.VISIBLE);
-                        try {
-                            ((AppContext)getApplication()).getSession().getFavCompanies().add(company);
-                        } catch (DataFormatException ee) {
-                            throw new RuntimeException(ee);
+                        if (e == null) {
+                            pbFav.setVisibility(View.INVISIBLE);
+                            bFav.setVisibility(View.VISIBLE);
+                            try {
+                                ((AppContext) getApplication()).getSession().getFavCompanies().add(company);
+                            } catch (DataFormatException ee) {
+                                throw new RuntimeException(ee);
+                            }
+                            setButtonForUnfav();
+                        } else {
+                            Toast.makeText(ShowCompanyProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
                         }
-                        setButtonForUnfav();
                     }
                 });
             }

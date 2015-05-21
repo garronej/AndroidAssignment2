@@ -151,8 +151,12 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 
 			@Override
 			public void process(final Student arg, Exception e) {
-				student = arg;
-				setupViewsAndCallbacks();
+                if (e == null) {
+                    student = arg;
+                    setupViewsAndCallbacks();
+                } else {
+                    Toast.makeText(ShowStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
+                }
 			}
 		});
 	}
@@ -197,8 +201,12 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 
                         @Override
                         public void process(final Integer i, Exception e) {
-                            bDiscard.setVisibility(View.VISIBLE);
-                            pbDiscard.setVisibility(View.INVISIBLE);
+                            if (e == null) {
+                                bDiscard.setVisibility(View.VISIBLE);
+                                pbDiscard.setVisibility(View.INVISIBLE);
+                            } else {
+                                Toast.makeText(ShowStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
 				}
@@ -358,14 +366,18 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 
 					@Override
 					public void process(final Integer i, Exception e) {
-						pbFav.setVisibility(View.INVISIBLE);
-						bFav.setVisibility(View.VISIBLE);
-						try {
-							((AppContext)getApplication()).getSession().getFavStudents().remove(student);
-						} catch (DataFormatException ee) {
-							throw new RuntimeException(ee);
-						}
-						setButtonForFav();
+                        if (e == null) {
+                            pbFav.setVisibility(View.INVISIBLE);
+                            bFav.setVisibility(View.VISIBLE);
+                            try {
+                                ((AppContext) getApplication()).getSession().getFavStudents().remove(student);
+                            } catch (DataFormatException ee) {
+                                throw new RuntimeException(ee);
+                            }
+                            setButtonForFav();
+                        } else {
+                            Toast.makeText(ShowStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
+                        }
 					}
 				});
 			}
@@ -391,14 +403,18 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 
 					@Override
 					public void process(final Student s, Exception e) {
-						pbFav.setVisibility(View.INVISIBLE);
-						bFav.setVisibility(View.VISIBLE);
-						try {
-							((AppContext)getApplication()).getSession().getFavStudents().add(student);
-						} catch (DataFormatException ee) {
-							throw new RuntimeException(ee);
-						}
-						setButtonForUnfav();
+                        if (e == null) {
+                            pbFav.setVisibility(View.INVISIBLE);
+                            bFav.setVisibility(View.VISIBLE);
+                            try {
+                                ((AppContext) getApplication()).getSession().getFavStudents().add(student);
+                            } catch (DataFormatException ee) {
+                                throw new RuntimeException(ee);
+                            }
+                            setButtonForUnfav();
+                        } else {
+                            Toast.makeText(ShowStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
+                        }
 					}
 				});
 			}
