@@ -30,7 +30,6 @@ import java.util.List;
 import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.PlacesAutoCompleteAdapter;
 import it.polito.mobile.androidassignment2.R;
-import it.polito.mobile.androidassignment2.CompanyFlow.ShowStudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 

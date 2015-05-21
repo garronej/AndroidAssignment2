@@ -17,21 +17,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 import java.util.zip.DataFormatException;
 
-import it.polito.mobile.androidassignment2.CompanyFlow.EditCompanyProfileActivity;
+
 import it.polito.mobile.androidassignment2.R;
-import it.polito.mobile.androidassignment2.adapter.OfferArrayAdapter;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
+
 import it.polito.mobile.androidassignment2.businessLogic.Student;
+import it.polito.mobile.androidassignment2.context.AppContext;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
@@ -102,7 +101,7 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            studentLogged = Session.getInstance().getStudentLogged();
+            studentLogged = ((AppContext)getApplication()).getSession().getStudentLogged();
         } catch (DataFormatException e) {
             throw new RuntimeException(e);
         }
@@ -188,7 +187,7 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
 
         List<Company> favCompanies;
         try {
-            favCompanies = Session.getInstance().getFavCompanies();
+            favCompanies = ((AppContext)getApplication()).getSession().getFavCompanies();
         } catch (DataFormatException e) {
             throw new RuntimeException();
         }
@@ -310,7 +309,7 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
                         pbFav.setVisibility(View.INVISIBLE);
                         bFav.setVisibility(View.VISIBLE);
                         try {
-                            Session.getInstance().getFavCompanies().remove(company);
+                            ((AppContext)getApplication()).getSession().getFavCompanies().remove(company);
                         } catch (DataFormatException ee) {
                             throw new RuntimeException(ee);
                         }
@@ -340,7 +339,7 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
                         pbFav.setVisibility(View.INVISIBLE);
                         bFav.setVisibility(View.VISIBLE);
                         try {
-                            Session.getInstance().getFavCompanies().add(company);
+                            ((AppContext)getApplication()).getSession().getFavCompanies().add(company);
                         } catch (DataFormatException ee) {
                             throw new RuntimeException(ee);
                         }

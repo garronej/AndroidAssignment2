@@ -25,10 +25,9 @@ import it.polito.mobile.androidassignment2.AlertYesNo;
 import it.polito.mobile.androidassignment2.Communicator;
 import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
-import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
+import it.polito.mobile.androidassignment2.context.AppContext;
 
 public class OffersProposed extends AppCompatActivity implements Communicator {
 
@@ -113,13 +112,13 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
         super.onResume();
         List<Offer> offers = new ArrayList<Offer>();
         try {
-            offers=Session.getInstance().getOfferOfTheLoggedCompany();
+            offers=((AppContext)getApplication()).getSession().getOfferOfTheLoggedCompany();
         }catch(Exception e){
         //never here
         }
         Offer o = new Offer();
         try {
-            o.setCompanyId(Session.getInstance().getCompanyLogged().getId());
+            o.setCompanyId(((AppContext)getApplication()).getSession().getCompanyLogged().getId());
         } catch (DataFormatException e) {
             //never here
         }
@@ -241,7 +240,7 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
                     break;
                 case 1://delete account
                     try {
-                        Manager.deleteCompany(Session.getInstance().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
+                        Manager.deleteCompany(((AppContext)getApplication()).getSession().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
                             @Override
                             public void process(Integer arg, Exception e) {
                                 if (e != null) {

@@ -4,8 +4,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -18,7 +16,7 @@ import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
+import it.polito.mobile.androidassignment2.context.AppContext;
 
 public class JobOfferCreation extends AppCompatActivity {
 
@@ -73,7 +71,7 @@ public class JobOfferCreation extends AppCompatActivity {
             public void onClick(View v) {
                 Offer o = new Offer();
                 try {
-                    o.setCompanyId(Session.getInstance().getCompanyLogged().getId());
+                    o.setCompanyId(((AppContext)getApplication()).getSession().getCompanyLogged().getId());
                 }catch (Exception e){
                     //should never be here..
                     return;
@@ -105,7 +103,7 @@ public class JobOfferCreation extends AppCompatActivity {
                         }
 
                         try {
-                            Session.getInstance().getOfferOfTheLoggedCompany().add(arg);
+                            ((AppContext)getApplication()).getSession().getOfferOfTheLoggedCompany().add(arg);
                         } catch (DataFormatException e1) {
                             //never here
                         }

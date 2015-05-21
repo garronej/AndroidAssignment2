@@ -1,9 +1,9 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
+
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
+
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,12 +28,13 @@ import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.adapter.OfferArrayAdapter;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
+import it.polito.mobile.androidassignment2.context.AppContext;
 
 
 public class OffersListsActivity extends AppCompatActivity implements Communicator {
 
 	protected Boolean isOnFav = null;
+	private OfferArrayAdapter adapter = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,37 +47,37 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 		final ListView listview = (ListView) findViewById(R.id.proposed_offers_list);
 
 
-		OfferArrayAdapter adapterTmp = null;
+
 		try {
 
 			List<Offer> offers = new ArrayList<>();
 
-			if (Session.getInstance().getFavoriteOffer().size() != 0) {
+			if (((AppContext)getApplication()).getSession().getFavoriteOffer().size() != 0) {
 
 
-				offers.addAll(Session.getInstance().getFavoriteOffer());
+				offers.addAll(((AppContext)getApplication()).getSession().getFavoriteOffer());
 			} else {
 
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_fav_offers_yet),
 						Toast.LENGTH_SHORT).show();
 			}
 
-			adapterTmp = new OfferArrayAdapter(OffersListsActivity.this, offers);
+			this.adapter = new OfferArrayAdapter(OffersListsActivity.this, offers);
 
 
 		} catch (Exception e) {
 		}
 
-		final OfferArrayAdapter adapter = adapterTmp;
 
-		listview.setAdapter(adapter);
+
+		listview.setAdapter(this.adapter);
 
 
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view,
-			                        final int position, long id) {
+									final int position, long id) {
 
 
 				Intent i = new Intent(OffersListsActivity.this, OfferShowActivity.class);
@@ -106,7 +107,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 				try {
 
-					if (Session.getInstance().getFavoriteOffer().size() == 0) {
+					if (((AppContext)getApplication()).getSession().getFavoriteOffer().size() == 0) {
 						Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_fav_offers_yet),
 								Toast.LENGTH_SHORT).show();
 
@@ -114,7 +115,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 					offers.clear();
 
-					offers.addAll(Session.getInstance().getFavoriteOffer());
+					offers.addAll(((AppContext)getApplication()).getSession().getFavoriteOffer());
 				} catch (DataFormatException e) {
 					e.printStackTrace();
 				}
@@ -149,7 +150,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 				try {
 
 
-					if (Session.getInstance().getAppliedOffers().size() == 0) {
+					if (((AppContext)getApplication()).getSession().getAppliedOffers().size() == 0) {
 						Toast.makeText(getApplicationContext(), "No applied offer yet, use the search icon",
 								Toast.LENGTH_SHORT).show();
 
@@ -157,7 +158,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 					offers.clear();
 
-					offers.addAll(Session.getInstance().getAppliedOffers());
+					offers.addAll(((AppContext)getApplication()).getSession().getAppliedOffers());
 				} catch (DataFormatException e) {
 					e.printStackTrace();
 				}
@@ -261,7 +262,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 					break;
 				case 1://delete account
 					try {
-						Manager.deleteStudent(Session.getInstance().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+						Manager.deleteStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
 							@Override
 							public void process(Integer arg, Exception e) {
 								if (e != null) {

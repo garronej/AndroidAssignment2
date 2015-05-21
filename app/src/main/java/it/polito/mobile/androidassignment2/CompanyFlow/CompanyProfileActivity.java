@@ -27,12 +27,9 @@ import it.polito.mobile.androidassignment2.AlertYesNo;
 import it.polito.mobile.androidassignment2.Communicator;
 import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
-import it.polito.mobile.androidassignment2.StudentFlow.CompaniesFavouritesActivity;
-import it.polito.mobile.androidassignment2.StudentFlow.EditStudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
-import it.polito.mobile.androidassignment2.businessLogic.Student;
+import it.polito.mobile.androidassignment2.context.AppContext;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
@@ -59,7 +56,7 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
             String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
             pbLogoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
             logoUri = Uri.parse(filePath);
-            Session.getInstance().setPhotoUri(logoUri);
+            ((AppContext)getApplication()).getSession().setPhotoUri(logoUri);
             ivLogo.setImageURI(logoUri);
             tvName.setVisibility(View.VISIBLE);
             bEditProfile.setEnabled(true);
@@ -77,7 +74,7 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
                     getResources().getResourceTypeName(R.drawable.photo_placeholder_err) +
                     '/' +
                     getResources().getResourceEntryName(R.drawable.photo_placeholder_err));
-            Session.getInstance().setPhotoUri(logoUri);
+            ((AppContext)getApplication()).getSession().setPhotoUri(logoUri);
             ivLogo.setImageURI(logoUri);
             tvName.setVisibility(View.VISIBLE);
             bEditProfile.setEnabled(true);
@@ -126,8 +123,8 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Session.getInstance().getPhotoUri() != null) {
-            logoUri = Session.getInstance().getPhotoUri();
+        if (((AppContext)getApplication()).getSession().getPhotoUri() != null) {
+            logoUri = ((AppContext)getApplication()).getSession().getPhotoUri();
         }
         setContentView(R.layout.activity_company_profile);
         findViews();
@@ -153,7 +150,7 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
     private void setupViewsAndCallbacks() {
         final Company loggedCompany;
         try {
-            loggedCompany = Session.getInstance().getCompanyLogged();
+            loggedCompany = ((AppContext)getApplication()).getSession().getCompanyLogged();
         } catch (DataFormatException e) {
             throw new RuntimeException();
         }
@@ -304,7 +301,7 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
                     break;
                 case 1://delete account
                     try {
-                        Manager.deleteCompany(Session.getInstance().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
+                        Manager.deleteCompany(((AppContext)getApplication()).getSession().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
 	                        @Override
 	                        public void process(Integer arg, Exception e) {
 		                        if (e != null) {

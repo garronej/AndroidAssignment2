@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,8 +25,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -36,14 +35,14 @@ import it.polito.mobile.androidassignment2.LinksCompletionTextView;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.Utils;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
+import it.polito.mobile.androidassignment2.context.AppContext;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.models.UploadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
 
-public class EditStudentProfileActivity extends ActionBarActivity  {
+public class EditStudentProfileActivity extends AppCompatActivity {
     private ImageView ivPhoto;
     private EditText etName;
     private EditText etSurname;
@@ -78,7 +77,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
             pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
             String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
             Uri uri = Uri.parse(filePath);
-            Session.getInstance().setPhotoUri(uri);
+            ((AppContext)getApplication()).getSession().setPhotoUri(uri);
             ivPhoto.setImageURI(uri);
         }
     }
@@ -89,7 +88,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
             final String filePath = intent.getStringExtra(UploadModel.EXTRA_FILENAME);
             if (filePath.indexOf(".pdf") != -1) { //pdf -> cv
                 try {
-                    Session.getInstance().getStudentLogged().setCvUrl(filePath);
+                    ((AppContext)getApplication()).getSession().getStudentLogged().setCvUrl(filePath);
                 } catch (DataFormatException e) {
                     throw new RuntimeException();
                 }
@@ -106,7 +105,7 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
                 });
             } else { // photo check is implicit
                 try {
-                    Session.getInstance().getStudentLogged().setPhotoUrl(filePath);
+                    ((AppContext)getApplication()).getSession().getStudentLogged().setPhotoUrl(filePath);
                 } catch (DataFormatException e) {
                     throw new RuntimeException();
                 }
@@ -131,9 +130,9 @@ public class EditStudentProfileActivity extends ActionBarActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        photoUri = Session.getInstance().getPhotoUri();
+        photoUri = ((AppContext)getApplication()).getSession().getPhotoUri();
         try {
-            loggedStudent = Session.getInstance().getStudentLogged();
+            loggedStudent = ((AppContext)getApplication()).getSession().getStudentLogged();
         } catch (DataFormatException e) {
             throw new RuntimeException();
         }
