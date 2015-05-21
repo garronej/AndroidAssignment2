@@ -37,6 +37,7 @@ public class OfferEditActivity extends AppCompatActivity {
     private DownloadReceiver downloadfinished;
     private View pbLogoSpinner;
     private DownloadErrorReceiver downloadError;
+    private AsyncTask<Object, Void, Object> task1;
 
 
     private class DownloadErrorReceiver extends BroadcastReceiver {
@@ -131,9 +132,10 @@ public class OfferEditActivity extends AppCompatActivity {
                 }
                 o.setCompetences(comp);
 
-                Manager.updateOffer(o, new Manager.ResultProcessor<Offer>() {
+                task1=Manager.updateOffer(o, new Manager.ResultProcessor<Offer>() {
                     @Override
                     public void process(Offer arg, Exception e) {
+                        task1=null;
                         if(e!=null){
                             Log.d(OfferEditActivity.class.getSimpleName(), "Error updating offer");
                             return;
@@ -143,7 +145,7 @@ public class OfferEditActivity extends AppCompatActivity {
 
                     @Override
                     public void cancel() {
-
+                        task1=null;
                     }
                 });
             }
@@ -201,6 +203,10 @@ public class OfferEditActivity extends AppCompatActivity {
         if(task!=null){
             task.cancel(true);
             task=null;
+        }
+        if(task1!=null){
+            task1.cancel(true);
+            task1=null;
         }
     }
 

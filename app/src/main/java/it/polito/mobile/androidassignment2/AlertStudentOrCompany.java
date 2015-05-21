@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,6 +22,7 @@ public class AlertStudentOrCompany extends Activity {
 
 
 	private Spinner s;
+	private AsyncTask<Object, Void, Object> task;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +57,10 @@ public class AlertStudentOrCompany extends Activity {
 						Toast.makeText(AlertStudentOrCompany.this, R.string.error_invalid_password, Toast.LENGTH_LONG).show();
 						finish();
 					}
-					Manager.insertNewCompany(c, new Manager.ResultProcessor<Company>() {
+					task = Manager.insertNewCompany(c, new Manager.ResultProcessor<Company>() {
 						@Override
 						public void process(Company arg, Exception e) {
+							task =null;
 							if (AlertStudentOrCompany.this.getParent() == null) {
 								AlertStudentOrCompany.this.setResult(Activity.RESULT_OK);
 							} else {
@@ -68,7 +71,7 @@ public class AlertStudentOrCompany extends Activity {
 
 						@Override
 						public void cancel() {
-
+							task =null;
 						}
 					});
 
@@ -88,9 +91,10 @@ public class AlertStudentOrCompany extends Activity {
 						Toast.makeText(AlertStudentOrCompany.this, R.string.error_invalid_password, Toast.LENGTH_LONG).show();
 						finish();
 					}
-					Manager.insertNewStudent(s, new Manager.ResultProcessor<Student>() {
+					task = Manager.insertNewStudent(s, new Manager.ResultProcessor<Student>() {
 						@Override
 						public void process(Student arg, Exception e) {
+							task =null;
 							if (AlertStudentOrCompany.this.getParent() == null) {
 								AlertStudentOrCompany.this.setResult(Activity.RESULT_OK);
 							} else {
@@ -101,7 +105,7 @@ public class AlertStudentOrCompany extends Activity {
 
 						@Override
 						public void cancel() {
-
+							task =null;
 						}
 					});
 
@@ -114,4 +118,12 @@ public class AlertStudentOrCompany extends Activity {
 	}
 
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(task!=null){
+			task.cancel(true);
+			task=null;
+		}
+	}
 }

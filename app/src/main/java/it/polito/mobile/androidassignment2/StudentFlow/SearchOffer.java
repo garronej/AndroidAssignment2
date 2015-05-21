@@ -47,6 +47,7 @@ public class SearchOffer extends AppCompatActivity {
 
 
     private OfferArrayAdapter adapter = null;
+    private AsyncTask<Object, Void, Object> task1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,10 +106,10 @@ public class SearchOffer extends AppCompatActivity {
         }
 
 
-        Manager.getAllCompaniesCompetences(new Manager.ResultProcessor<List<String>>() {
+        task1=Manager.getAllCompaniesCompetences(new Manager.ResultProcessor<List<String>>() {
             @Override
             public void process(List<String> arg, Exception e) {
-
+                task1=null;
 
                 if (e != null) {
                     Toast.makeText(SearchOffer.this
@@ -125,7 +126,7 @@ public class SearchOffer extends AppCompatActivity {
 
             @Override
             public void cancel() {
-
+                task1=null;
             }
         });
 
@@ -270,7 +271,10 @@ public class SearchOffer extends AppCompatActivity {
             task.cancel(true);
             task=null;
         }
-
+        if(task1!=null){
+            task1.cancel(true);
+            task1=null;
+        }
 
         if(task2!=null){
             task2.cancel(true);

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -48,6 +49,7 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
     private TextView tvMission;
     private TextView tvCompetences;
     private TextView tvDescription;
+    private AsyncTask<Object, Void, Object> task;
 
     public class DownloadFinished extends BroadcastReceiver {
 
@@ -235,6 +237,10 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
     protected void onPause() {
         unregisterReceiver(downloadfailed);
         unregisterReceiver(downloadfinished);
+        if(task!=null){
+            task.cancel(true);
+            task=null;
+        }
         super.onPause();
     }
     @Override
@@ -301,9 +307,10 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
                     break;
                 case 1://delete account
                     try {
-                        Manager.deleteCompany(((AppContext)getApplication()).getSession().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
+                        task = Manager.deleteCompany(((AppContext)getApplication()).getSession().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
 	                        @Override
 	                        public void process(Integer arg, Exception e) {
+                                task=null;
 		                        if (e != null) {
                                     Log.d(StudentsFavouritesActivity.class.getSimpleName(), "Error deleteing account");
 			                        return;
@@ -316,6 +323,7 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
 
 	                        @Override
 	                        public void cancel() {
+                                task=null;
 
 	                        }
                         });
