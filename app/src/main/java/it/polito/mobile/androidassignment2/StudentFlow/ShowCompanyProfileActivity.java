@@ -143,7 +143,7 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
 
                     @Override
                     public void cancel() {
-                        ShowCompanyProfileActivity.this.task4 = null;
+                        task4 = null;
                     }
                 });
 
@@ -287,6 +287,10 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
             task3.cancel(true);
             task3 = null;
         }
+        if(task4 != null){
+            task4.cancel(true);
+            task4 = null;
+        }
         super.onPause();
     }
 
@@ -302,6 +306,9 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
 
                     @Override
                     public void cancel() {
+                        pbFav.setVisibility(View.INVISIBLE);
+                        bFav.setVisibility(View.VISIBLE);
+                        task3 = null;
                     }
 
                     @Override
@@ -332,6 +339,9 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
 
                     @Override
                     public void cancel() {
+                        task3 = null;
+                        pbFav.setVisibility(View.INVISIBLE);
+                        bFav.setVisibility(View.VISIBLE);
                     }
 
                     @Override

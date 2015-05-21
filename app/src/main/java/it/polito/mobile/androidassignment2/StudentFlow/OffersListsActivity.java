@@ -203,11 +203,13 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 							}
 						});
 
+						OffersListsActivity.this.task = null;
+
 					}
 
 					@Override
 					public void cancel() {
-						task = null;
+						OffersListsActivity.this.task = null;
 					}
 				});
 

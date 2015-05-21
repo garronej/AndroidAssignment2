@@ -74,7 +74,7 @@
     <string name="activity_search_companies">Cerca imprese</string>
     <string name="studentKeyword">Competenza</string>
     <string name="gender">Sesso</string>
-    <string name="students">Studente</string>
+    <string name="students">Studenti</string>
     <string name="title_activity_students_favourites">Studenti</string>
     <string name="activity_search_students">Cerca studenti</string>
     <string name="add">Aggiungi</string>
@@ -148,4 +148,5 @@
     <string name="error_empty_offer">Non ti sei candidato per alcuna offerta, cerca cliccando l\'icona</string>
     <string name="error_empty_offer_favourites">Nessuna offerta preferita, cerca cliccando l\'icona</string>
     <string name="filter">Filtra</string>
+    <string name="favourite_students_empty">Nessuno studente preferito, cerca cliccando l\'icona</string>
 </resources>

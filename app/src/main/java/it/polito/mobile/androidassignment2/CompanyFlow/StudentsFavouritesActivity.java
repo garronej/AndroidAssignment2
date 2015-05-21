@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -111,9 +112,11 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
     @Override
     protected void onResume() {
         super.onResume();
+        TextView empyMessage = (TextView) findViewById(R.id.empy_favourite_message);
         List<Student> students = null;
         try {
             students = ((AppContext)getApplication()).getSession().getFavStudents();
+            empyMessage.setVisibility(View.GONE);
         } catch (DataFormatException e) {
             //never here
         }
@@ -145,6 +148,11 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
                 return convertView;
             }
         });
+        if(listView.getCount()==0) {
+            empyMessage.setVisibility(View.VISIBLE);
+
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.favourite_students_empty), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

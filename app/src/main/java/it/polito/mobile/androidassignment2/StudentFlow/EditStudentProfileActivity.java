@@ -104,6 +104,9 @@ public class EditStudentProfileActivity extends AppCompatActivity {
 
                     @Override
                     public void cancel() {
+                        pbCvSpinner.setVisibility(View.GONE);
+                        bCv.setVisibility(View.VISIBLE);
+                        task1 = null;
                     }
                 });
             } else { // photo check is implicit
@@ -123,6 +126,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                     }
                     @Override
                     public void cancel() {
+                        task2 = null;
                     }
                 });
 
@@ -261,6 +265,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                     @Override
                     public void cancel() {
                         pbUpdateSpinner.setVisibility(ProgressBar.INVISIBLE);
+                        task3 = null;
                     }
                 });
             }
@@ -310,6 +315,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
 
             @Override
             public void cancel() {
+                task4 = null;
             }
         });
 

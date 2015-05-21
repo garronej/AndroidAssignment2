@@ -42,8 +42,9 @@ public class SearchOffer extends AppCompatActivity {
     private Button button;
     private ListView listView;
 
-    private AsyncTask<Object, Void, Object> task = null;
-    private AsyncTask<Object, Void, Object> task2 = null;
+    private AsyncTask<?, ?, ?> task = null;
+    private AsyncTask<?, ?, ?> task2 = null;
+    private AsyncTask<?, ?, ?> task3 = null;
 
 
     private OfferArrayAdapter adapter = null;
@@ -91,6 +92,8 @@ public class SearchOffer extends AppCompatActivity {
                         editText3.setVisibility(View.GONE);
 
                         button.callOnClick();
+
+                        SearchOffer.this.task2 = null;
                     }
 
                     @Override
@@ -107,6 +110,7 @@ public class SearchOffer extends AppCompatActivity {
 
 
         task1=Manager.getAllCompaniesCompetences(new Manager.ResultProcessor<List<String>>() {
+
             @Override
             public void process(List<String> arg, Exception e) {
                 task1=null;
@@ -122,11 +126,15 @@ public class SearchOffer extends AppCompatActivity {
                         new ArrayAdapter<>(SearchOffer.this, android.R.layout.simple_list_item_1, arg);
 
                 editText2.setAdapter(adapter);
+
+                SearchOffer.this.task3 = null;
             }
 
             @Override
             public void cancel() {
+
                 task1=null;
+
             }
         });
 
@@ -200,6 +208,8 @@ public class SearchOffer extends AppCompatActivity {
 
 
                         listView.setAdapter(SearchOffer.this.adapter);
+
+                        SearchOffer.this.task = null;
 
 
                     }
@@ -277,6 +287,11 @@ public class SearchOffer extends AppCompatActivity {
         }
 
         if(task2!=null){
+            task2.cancel(true);
+            task2=null;
+        }
+
+        if(task3!=null){
             task2.cancel(true);
             task2=null;
         }
