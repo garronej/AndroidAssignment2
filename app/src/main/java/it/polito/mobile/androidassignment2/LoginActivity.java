@@ -333,6 +333,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 
 	@Override
+	protected void onPause() {
+		super.onPause();
+		if (mAuthTask != null) {
+			mAuthTask.cancel(true);
+			mAuthTask = null;
+		}
+	}
+
+	@Override
 	public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 		return new CursorLoader(this,
 				// Retrieve data rows for the device user's 'profile' contact.
