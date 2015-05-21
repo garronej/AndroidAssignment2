@@ -63,6 +63,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 	private AsyncTask<Object, Void, Object> task1 = null;
 	private AsyncTask<Object, Void, Object> task2 = null;
 	private AsyncTask<Object, Void, Object> task3 = null;
+	private AsyncTask<Object, Void, Object> task4 = null;
 	private Company companyLogged;
 	private RelativeLayout rlDiscard;
 
@@ -145,6 +146,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 
 			@Override
 			public void cancel() {
+                task1 = null;
 			}
 
 			@Override
@@ -183,10 +185,22 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 			bDiscard.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Log.d("tag", "discard " + offerId + " " + student.getId());
-					bDiscard.setVisibility(View.INVISIBLE);
-					pbDiscard.setVisibility(View.VISIBLE);
+                    bDiscard.setVisibility(View.INVISIBLE);
+                    pbDiscard.setVisibility(View.VISIBLE);
+                    task4 = Manager.unsubscribeStudentOfJobOffer(offerId, student.getId(), new Manager.ResultProcessor<Integer>() {
+                        @Override
+                        public void cancel() {
+                            task4 = null;
+                            bDiscard.setVisibility(View.VISIBLE);
+                            pbDiscard.setVisibility(View.INVISIBLE);
+                        }
 
+                        @Override
+                        public void process(final Integer i, Exception e) {
+                            bDiscard.setVisibility(View.VISIBLE);
+                            pbDiscard.setVisibility(View.INVISIBLE);
+                        }
+                    });
 				}
 			});
 		}
@@ -318,6 +332,10 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 			task3.cancel(true);
 			task3 = null;
 		}
+        if (task4 != null) {
+            task4.cancel(true);
+            task4 = null;
+        }
 		super.onPause();
 	}
 
@@ -333,6 +351,9 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 
 					@Override
 					public void cancel() {
+                        task3 = null;
+                        pbFav.setVisibility(View.INVISIBLE);
+                        bFav.setVisibility(View.VISIBLE);
 					}
 
 					@Override
@@ -363,6 +384,9 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 
 					@Override
 					public void cancel() {
+                        task3 = null;
+                        pbFav.setVisibility(View.INVISIBLE);
+                        bFav.setVisibility(View.VISIBLE);
 					}
 
 					@Override

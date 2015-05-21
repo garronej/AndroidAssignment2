@@ -117,9 +117,7 @@ public class CompanyProfileActivity extends AppCompatActivity implements Communi
                 finish();
             }
         });
-
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
