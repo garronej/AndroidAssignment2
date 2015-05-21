@@ -109,7 +109,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 				//findViewById(R.id.show_favourite).getBackground().setColorFilter(getResources().getColor(R.color.strong_blue), PorterDuff.Mode.MULTIPLY);
 				//findViewById(R.id.show_candidature).getBackground().setColorFilter(getResources().getColor(R.color.blue_sky), PorterDuff.Mode.MULTIPLY);
 
-
+				emptyMessage.setVisibility(View.GONE);
 
 				List<Offer> offers = adapter.getValue();
 
@@ -160,7 +160,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 
 
-
+				emptyMessage.setVisibility(View.GONE);
 				Integer studentId = null;
 
 				try {
