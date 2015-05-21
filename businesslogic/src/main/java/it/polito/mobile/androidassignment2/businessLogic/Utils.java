@@ -94,11 +94,9 @@ public class Utils {
                 out += errCode.toString() + " / " + exception.getMessage();
 
 
-            }else if(exception.getClass() == IOException.class){
+            }else {
                 //It was an error with the internet conextion.
                 out += "Network connexion problem :\n" + exception.getMessage();
-            }else{
-                out += "Unknown error";
             }
 
 

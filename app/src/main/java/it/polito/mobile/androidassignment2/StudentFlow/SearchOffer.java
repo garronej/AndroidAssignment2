@@ -29,6 +29,7 @@ import it.polito.mobile.androidassignment2.adapter.OfferArrayAdapter;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
+import it.polito.mobile.androidassignment2.businessLogic.Utils;
 
 public class SearchOffer extends AppCompatActivity {
 
@@ -77,7 +78,13 @@ public class SearchOffer extends AppCompatActivity {
                 this.task2 = Manager.getCompanyById(companyId, new Manager.ResultProcessor<Company>(){
                     @Override
                     public void process(Company arg, Exception e) {
-                        if( e != null ) return;
+
+                        if (e != null) {
+
+                            Toast.makeText(SearchOffer.this
+                                    , Utils.processException(e, "Cannot find specified company"), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
                         editText3.setText(arg.getName());
                         editText3.setVisibility(View.GONE);
@@ -102,10 +109,14 @@ public class SearchOffer extends AppCompatActivity {
             @Override
             public void process(List<String> arg, Exception e) {
 
-                if( e != null ){
-                    Log.d(SearchOffer.class.getName(), "error in getAllCompaniesCompetences");
+
+                if (e != null) {
+                    Toast.makeText(SearchOffer.this
+                            , Utils.processException(e, "error in retrieving list of competencies"), Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+
                 ArrayAdapter<String> adapter =
                         new ArrayAdapter<>(SearchOffer.this, android.R.layout.simple_list_item_1, arg);
 
@@ -169,10 +180,16 @@ public class SearchOffer extends AppCompatActivity {
                     @Override
                     public void process(final List<Offer> arg, Exception e) {
                         task = null;
+
+
+
                         if (e != null) {
-                            Log.d(SearchOffer.class.getName(), "Error in getOffersMatchingCriteria");
+                            Toast.makeText(SearchOffer.this
+                                    , Utils.processException(e, "error in retrieving list of offer"), Toast.LENGTH_SHORT).show();
                             return;
                         }
+
+
                         if (arg.size() == 0) {
                             Toast.makeText(SearchOffer.this,"No offer matching search criteria", Toast.LENGTH_SHORT).show();
                         }

@@ -29,6 +29,7 @@ import it.polito.mobile.androidassignment2.adapter.OfferArrayAdapter;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
 import it.polito.mobile.androidassignment2.businessLogic.Task;
+import it.polito.mobile.androidassignment2.businessLogic.Utils;
 import it.polito.mobile.androidassignment2.context.AppContext;
 
 
@@ -166,6 +167,14 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 					@Override
 					public void process(List<Offer> arg, Exception e) {
+
+
+						if (e != null) {
+
+							Toast.makeText(OffersListsActivity.this
+									, Utils.processException(e, "Error in retrieving list of applied offer"), Toast.LENGTH_SHORT).show();
+							return;
+						}
 
 
 						if (arg.size() == 0)

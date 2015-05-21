@@ -1,7 +1,6 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
