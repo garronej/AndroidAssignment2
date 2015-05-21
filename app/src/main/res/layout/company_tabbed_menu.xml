@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     android:background="@color/app_default_background"
+              android:layout_gravity="left"
     >
     <ImageButton
         android:id="@+id/tab_menu_company_profile"
@@ -11,10 +12,10 @@
         android:layout_weight="1"
         android:background="@drawable/abc_tab_indicator_material"
         android:src="@drawable/student"
-        android:scaleType="fitCenter"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:layout_marginRight="2dp"/>
+        android:scaleType="fitCenter"
+        />
     <Button
         android:id="@+id/tab_menu_company_students"
         android:layout_width="0dp"

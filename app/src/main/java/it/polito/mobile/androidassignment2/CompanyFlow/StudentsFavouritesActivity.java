@@ -34,6 +34,7 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
 
 
     private ListView listView;
+    private AsyncTask<Object, Void, Object> task;
 
 
     private void addTabMenuButtonCallbacks(){
@@ -111,9 +112,11 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
     @Override
     protected void onResume() {
         super.onResume();
+        TextView empyMessage = (TextView) findViewById(R.id.empy_favourite_message);
         List<Student> students = null;
         try {
             students = ((AppContext)getApplication()).getSession().getFavStudents();
+            empyMessage.setVisibility(View.GONE);
         } catch (DataFormatException e) {
             //never here
         }
@@ -145,9 +148,11 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
                 return convertView;
             }
         });
-        if(listView.getCount()==0)
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.favourite_students_empty), Toast.LENGTH_LONG).show();
+        if(listView.getCount()==0) {
+            empyMessage.setVisibility(View.VISIBLE);
 
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.favourite_students_empty), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -218,9 +223,10 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
 					break;
 				case 1://delete account
 					try {
-						Manager.deleteCompany(((AppContext)getApplication()).getSession().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
+						task=Manager.deleteCompany(((AppContext)getApplication()).getSession().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
 							@Override
 							public void process(Integer arg, Exception e) {
+                                task=null;
 								if (e != null) {
                                     Log.d(StudentsFavouritesActivity.class.getSimpleName(), "Error deleteing account");
 									return;
@@ -233,7 +239,7 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
 
 							@Override
 							public void cancel() {
-
+                                task=null;
 							}
 						});
 					} catch (DataFormatException e) {

@@ -45,7 +45,7 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
     private List<Company> companies = new ArrayList<Company>();
 
     BaseAdapter adapter = null;
-
+    private AsyncTask<Object, Void, Object> task1;
 
 
     private void myAddActionBar(){
@@ -236,7 +236,10 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
             task.cancel(true);
             task=null;
         }
-
+        if(task1!=null){
+            task1.cancel(true);
+            task1=null;
+        }
         if(task2!=null){
             task2.cancel(true);
             task2=null;
@@ -307,9 +310,10 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
 					break;
 				case 1://delete account
 					try {
-						Manager.deleteStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+						task1=Manager.deleteStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
 							@Override
 							public void process(Integer arg, Exception e) {
+                                task1=null;
 								if (e != null) {
 									Log.d(CompaniesFavouritesActivity.class.getSimpleName(),"Error deleteing user");
 									return;
@@ -322,7 +326,7 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
 
 							@Override
 							public void cancel() {
-
+                                task1=null;
 							}
 						});
 					} catch (DataFormatException e) {
