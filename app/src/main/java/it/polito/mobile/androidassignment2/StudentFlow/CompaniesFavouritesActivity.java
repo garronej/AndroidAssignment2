@@ -188,6 +188,8 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
 
 			@Override
 			public void process(List<Company> arg, Exception e) {
+				task2=null;
+
 				if (e != null) {
 
 
