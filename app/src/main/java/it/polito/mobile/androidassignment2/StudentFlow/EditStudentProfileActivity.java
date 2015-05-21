@@ -16,7 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,6 +34,7 @@ import java.util.zip.DataFormatException;
 import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.HobbiesCompletionTextView;
 import it.polito.mobile.androidassignment2.LinksCompletionTextView;
+import it.polito.mobile.androidassignment2.PlacesAutoCompleteAdapter;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.Utils;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
@@ -140,6 +143,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         findViews();
         setupViewsAndCallbacks();
+        location_autocomplete();
     }
 
     private void findViews() {
@@ -329,7 +333,20 @@ public class EditStudentProfileActivity extends AppCompatActivity {
             }
         }
     }
+    private void location_autocomplete() {
+        AutoCompleteTextView autocompleteView = (AutoCompleteTextView) findViewById(R.id.edit_location_et);
+        autocompleteView.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.location_list_item));
 
+        autocompleteView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get data associated with the specified position
+                // in the list (AdapterView)
+                String description = (String) parent.getItemAtPosition(position);
+                Toast.makeText(EditStudentProfileActivity.this, description, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     @Override
     protected void onActivityResult(int reqCode, int resCode, Intent data) {
         if (resCode == Activity.RESULT_OK && data != null && data.getData() != null) {

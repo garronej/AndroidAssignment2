@@ -18,7 +18,7 @@
         <LinearLayout
             style="@style/ProfileItem" >
 
-            <EditText
+            <AutoCompleteTextView
                 style="@style/ProfileItemText"
                 android:id="@+id/location"
                 android:hint="@string/location"/>
@@ -85,7 +85,7 @@
         <Button
             android:id="@+id/add_job_offer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:layout_gravity="center"
             android:background="@color/app_default_background"
             android:textColor="@color/white"

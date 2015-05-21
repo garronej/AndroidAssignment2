@@ -152,7 +152,7 @@
             <Button
                 android:id="@+id/edit_c_update_profile_b"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/button_height"
                 android:background="@color/blue_sky"
                 android:text="@string/update_profile"
                 android:paddingLeft="10dp"
@@ -172,7 +172,7 @@
         <Button
             android:id="@+id/edit_c_cancel_update_profile_b"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/button_height"
             android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
             android:layout_marginLeft="@dimen/side_margin"

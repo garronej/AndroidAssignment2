@@ -150,4 +150,5 @@
     <string name="error_empty_offer">No applied offer yet, use the search icon</string>
     <string name="error_empty_offer_favourites">No favourite offer yet, use the search icon</string>
     <string name="no_fav_offers_yet">No favourite offer yet, use the search icon</string>
+    <string name="filter">Filter</string>
 </resources>

@@ -57,7 +57,7 @@
             <Button
                 android:id="@+id/c_fav_b"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/vertical_margin"
                 android:layout_marginBottom="@dimen/vertical_margin"
                 android:background="@color/blue_sky"
