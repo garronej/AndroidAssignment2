@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
 
-            <EditText
+            <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxWidth="400dp"
@@ -74,7 +74,7 @@
             android:layout_height="50dp"
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:layout_gravity="center"
-            android:text="@string/search"
+            android:text="@string/filter"
             android:id="@+id/companySearchButton"
             android:background="@color/app_default_background"
             android:clickable="true"

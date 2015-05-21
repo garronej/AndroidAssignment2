@@ -19,7 +19,7 @@
             android:orientation="vertical">
 
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/searchCompanyLocation"
                 style="@style/ProfileItemText"
                 android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                 android:background="@color/blue_sky"
                 android:clickable="true"
                 android:enabled="true"
-                android:text="@string/search"
+                android:text="@string/filter"
                 android:textColor="#ffffff"
                 android:textStyle="bold"/>
 

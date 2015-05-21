@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="sex_entries">
-        <item>All</item>
+        <item>Tutti</item>
         <item>M</item>
         <item>F</item>
     </string-array>
     <string-array name="choose_company_student">
-        <item>Company</item>
-        <item>Student</item>
+        <item>Azienda</item>
+        <item>Studente</item>
     </string-array>
 </resources>

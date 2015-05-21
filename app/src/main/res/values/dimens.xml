@@ -9,4 +9,5 @@
     <dimen name="item_text">15dp</dimen>
     <dimen name="side_margin">20dp</dimen>
     <dimen name="vertical_margin">10dp</dimen>
+    <dimen name="button_height">40dp</dimen>
 </resources>

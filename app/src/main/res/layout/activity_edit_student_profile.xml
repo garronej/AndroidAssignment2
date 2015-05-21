@@ -63,7 +63,7 @@
                 >
                 <Button
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/button_height"
                     android:id="@+id/edit_cv_b"
                     android:text="@string/upload_cv"
                     android:background="@color/blue_sky"
@@ -84,7 +84,7 @@
             <ToggleButton
                 android:id="@+id/edit_availability_tb"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/button_height"
                 android:textColor="#fff"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -116,7 +116,7 @@
         <LinearLayout
             style="@style/ProfileItem" >
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/edit_location_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -255,7 +255,7 @@
             <ProgressBar
                 android:id="@+id/edit_update_pb"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/button_height"
                 android:layout_centerInParent="true"
                 android:visibility="invisible"
                 style="@android:style/Widget.ProgressBar.Small"
@@ -265,7 +265,7 @@
         <Button
             android:id="@+id/edit_cancel_update_profile_b"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/button_height"
             android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
             android:layout_marginLeft="@dimen/side_margin"
