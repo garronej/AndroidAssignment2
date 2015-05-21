@@ -197,7 +197,8 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
             @Override
             public void process(List<Company> arg, Exception e) {
                 if (e != null) {
-                    
+
+
 
                     Toast.makeText(CompaniesFavouritesActivity.this
                             , Utils.processException(e, "Refresh failed"), Toast.LENGTH_SHORT).show();
