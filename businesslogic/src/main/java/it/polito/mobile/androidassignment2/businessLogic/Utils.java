@@ -75,7 +75,7 @@ public class Utils {
         Pattern pattern = Pattern.compile("^(?=\\S+$).{4,}$");
         Matcher mat = pattern.matcher(pwd);
 
-        if(!mat.matches()) throw new DataFormatException("Week password : whitespace forbiden, and minumum 4 character");
+        if(!mat.matches()) throw new DataFormatException("Week password : whitespace forbidden, and minimum 4 character");
 
     }
 
@@ -86,19 +86,10 @@ public class Utils {
 
 
             //There where  problem during the request
-            if (exception.getClass() == RestApiException.class) {
-
-                //It was an error on the web service side.
-                //Nb : err code -1 mean a internal bug, report if you experience.
-                Integer errCode =  ((RestApiException)exception).getResponseCode();
-                out += errCode.toString() + " / " + exception.getMessage();
-
-
-            }else {
-                //It was an error with the internet conextion.
-                out += "Network connexion problem :\n" + exception.getMessage();
+            if (exception.getClass() != RestApiException.class) {
+                //It was an error with the internet connection  .
+                out += "Network connexion problem";
             }
-
 
         return out;
 
