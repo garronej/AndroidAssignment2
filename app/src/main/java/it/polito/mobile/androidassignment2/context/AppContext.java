@@ -22,9 +22,8 @@ import it.polito.mobile.androidassignment2.businessLogic.Session;
 Need to replace Session.login(email,password,postProcessor); by
 
     AppContext appState = ((AppContext)getApplication());
-    AsyncTask<Object, Void, Integer> task = appState.login( email, password, postProcessor);
+    AsyncTask<?,?,?> task = appState.login( email, password, postProcessor);
 
-    And in cancel if( task != null ){ task.cancel(true); task = null }
 
 Need to replace Session session = Session.getInstance();
 
