@@ -148,4 +148,5 @@
     <string name="error_empty_offer">Non ti sei candidato per alcuna offerta, cerca cliccando l\'icona</string>
     <string name="error_empty_offer_favourites">Nessuna offerta preferita, cerca cliccando l\'icona</string>
     <string name="filter">Filtra</string>
+    <string name="favourite_students_empty">Nessuno studente preferito, cerca cliccando l\'icona</string>
 </resources>
