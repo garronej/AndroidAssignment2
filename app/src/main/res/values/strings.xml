@@ -153,4 +153,5 @@
     <string name="filter">Filter</string>
     <string name="favourite_students_empty">No favourite student yet, use the search icon</string>
     <string name="no_application_yet">No candidature yet, use the search icon</string>
+    <string name="open_file">Open file</string>
 </resources>

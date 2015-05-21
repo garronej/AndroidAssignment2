@@ -65,10 +65,17 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 		public void onReceive(Context context, Intent intent) {
 			String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
 			if (filePath.indexOf(".pdf") != -1) { //pdf -> cv
-				Intent i = new Intent(Intent.ACTION_VIEW);
+				/*Intent i = new Intent(Intent.ACTION_VIEW);
 				i.setDataAndType(Uri.parse(filePath), "application/pdf");
 				bCv.setVisibility(View.VISIBLE);
 				pbCvSpinner.setVisibility(View.INVISIBLE);
+				startActivity(i);*/
+				Intent target = new Intent(Intent.ACTION_VIEW);
+				target.setDataAndType(Uri.parse(filePath),"application/pdf");
+				bCv.setVisibility(View.VISIBLE);
+				pbCvSpinner.setVisibility(View.INVISIBLE);
+				target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				Intent i = Intent.createChooser(target, getResources().getString(R.string.open_file));
 				startActivity(i);
 			} else { // photo
 				pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
