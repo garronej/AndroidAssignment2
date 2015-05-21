@@ -127,7 +127,6 @@ public class SearchOffer extends AppCompatActivity {
 
                 editText2.setAdapter(adapter);
 
-                SearchOffer.this.task3 = null;
             }
 
             @Override
@@ -209,14 +208,12 @@ public class SearchOffer extends AppCompatActivity {
 
                         listView.setAdapter(SearchOffer.this.adapter);
 
-                        SearchOffer.this.task = null;
-
 
                     }
 
                     @Override
                     public void cancel() {
-                        SearchOffer.this.task = null;
+                        task = null;
                     }
                 });
 

@@ -2,6 +2,7 @@ package it.polito.mobile.androidassignment2.StudentFlow;
 
 import android.content.Intent;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 	protected Boolean isOnFav = null;
 	private OfferArrayAdapter adapter = null;
 	private Task.General task = null;
+	private AsyncTask<Object, Void, Object> task1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -232,6 +234,10 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 			task.cancel(true);
 			task = null;
 		}
+		if (task1 != null) {
+			task1.cancel(true);
+			task1 = null;
+		}
 	}
 
 
@@ -317,9 +323,10 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 					break;
 				case 1://delete account
 					try {
-						Manager.deleteStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+						task1=Manager.deleteStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
 							@Override
 							public void process(Integer arg, Exception e) {
+								task1=null;
 								if (e != null) {
 									Log.d(CompaniesFavouritesActivity.class.getSimpleName(), "Error deleteing user");
 									return;
@@ -332,7 +339,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 							@Override
 							public void cancel() {
-
+								task1=null;
 							}
 						});
 					} catch (DataFormatException e) {

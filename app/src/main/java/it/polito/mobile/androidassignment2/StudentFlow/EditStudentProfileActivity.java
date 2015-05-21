@@ -98,6 +98,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                 task1 = Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
                     @Override
                     public void process(Student arg, Exception e) {
+                        task1=null;
                         if (e == null) {
                             pbCvSpinner.setVisibility(View.GONE);
                             bCv.setVisibility(View.VISIBLE);
@@ -122,6 +123,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                 task2 = Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
                     @Override
                     public void process(Student arg, Exception e) {
+                        task2=null;
                         if (e == null) {
                             TransferController.download(getApplicationContext(), new String[]{filePath});
                         } else {
@@ -257,6 +259,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                 task3 = Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
                     @Override
                     public void process(Student arg, Exception e) {
+                        task3=null;
                         if (e == null) {
                             Intent i = new Intent(EditStudentProfileActivity.this, StudentProfileActivity.class);
                             startActivity(i);
@@ -307,6 +310,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
         task4 = Manager.getAllStudentsCompetences(new Manager.ResultProcessor<List<String>>() {
             @Override
             public void process(final List<String> arg, Exception e) {
+                task4=null;
                 if (e == null) {
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditStudentProfileActivity.this, android.R.layout.simple_list_item_1, arg);
                     acCompetences.setAdapter(adapter);

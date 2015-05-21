@@ -91,6 +91,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity {
 			task1 = Manager.updateCompany(loggedCompany, new Manager.ResultProcessor<Company>() {
 				@Override
 				public void process(Company arg, Exception e) {
+					task1=null;
 					if (e == null) {
 						TransferController.download(getApplicationContext(), new String[]{filePath});
 					} else {
@@ -194,6 +195,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity {
 				task2 = Manager.updateCompany(loggedCompany, new Manager.ResultProcessor<Company>() {
 					@Override
 					public void process(Company arg, Exception e) {
+						task2=null;
 						if (e == null) {
 							Intent i = new Intent(EditCompanyProfileActivity.this, CompanyProfileActivity.class);
 							startActivity(i);
@@ -233,6 +235,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity {
 		task3 = Manager.getAllCompaniesCompetences(new Manager.ResultProcessor<List<String>>() {
 			@Override
 			public void process(final List<String> arg, Exception e) {
+				task3=null;
                 if (e == null) {
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditCompanyProfileActivity.this, android.R.layout.simple_list_item_1, arg);
                     acCompetences.setAdapter(adapter);

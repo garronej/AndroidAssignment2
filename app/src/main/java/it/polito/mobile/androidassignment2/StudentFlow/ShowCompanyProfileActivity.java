@@ -126,6 +126,7 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
 
             @Override
             public void process(final Company arg, Exception e) {
+                task1=null;
                 company = arg;
                 Offer criteria = new Offer();
                 try {
@@ -136,8 +137,9 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
                 task4 = Manager.getOffersMatchingCriteria(criteria, new Manager.ResultProcessor<List<Offer>>() {
                     @Override
                     public void process(final List<Offer> arg, Exception e) {
+                        task4 = null;
                         if (e == null) {
-                            task4 = null;
+
                             offers = arg;
                             setupViewsAndCallbacks();
                         } else {
@@ -317,6 +319,7 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
 
                     @Override
                     public void process(final Integer i, Exception e) {
+                        task3=null;
                         if (e == null) {
                             pbFav.setVisibility(View.INVISIBLE);
                             bFav.setVisibility(View.VISIBLE);
@@ -354,6 +357,7 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
 
                     @Override
                     public void process(final Company s, Exception e) {
+                        task3=null;
                         if (e == null) {
                             pbFav.setVisibility(View.INVISIBLE);
                             bFav.setVisibility(View.VISIBLE);

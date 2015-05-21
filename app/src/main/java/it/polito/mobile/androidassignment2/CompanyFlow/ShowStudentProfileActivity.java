@@ -151,6 +151,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 
 			@Override
 			public void process(final Student arg, Exception e) {
+				task1=null;
                 if (e == null) {
                     student = arg;
                     setupViewsAndCallbacks();
@@ -201,6 +202,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 
                         @Override
                         public void process(final Integer i, Exception e) {
+							task4=null;
                             if (e == null) {
                                 bDiscard.setVisibility(View.VISIBLE);
                                 pbDiscard.setVisibility(View.INVISIBLE);
@@ -366,6 +368,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 
 					@Override
 					public void process(final Integer i, Exception e) {
+						task3=null;
                         if (e == null) {
                             pbFav.setVisibility(View.INVISIBLE);
                             bFav.setVisibility(View.VISIBLE);
@@ -403,6 +406,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 
 					@Override
 					public void process(final Student s, Exception e) {
+						task3=null;
                         if (e == null) {
                             pbFav.setVisibility(View.INVISIBLE);
                             bFav.setVisibility(View.VISIBLE);
