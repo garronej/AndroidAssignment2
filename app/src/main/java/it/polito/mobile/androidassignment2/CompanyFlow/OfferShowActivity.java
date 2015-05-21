@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,6 +83,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
     private Button applyButton;
     private Button addToFavouriteButton;
     private TextView companyName;
+    private int offerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +115,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
     @Override
     protected void onResume() {
         super.onResume();
-        final int offerId=getIntent().getIntExtra("offerId", -1);
+        offerId=getIntent().getIntExtra("offerId", -1);
         if(offerId==-1){
             finish();
             return;
@@ -394,8 +396,24 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 
     @Override
     public void dialogResponse(int result, int kind) {
-        if (result == 1 && kind ==3) {
-            //TODO delete offer
+
+        if (result == 1 && kind ==2) {
+                Manager.deleteOffer(offerId, new Manager.ResultProcessor<Integer>() {
+                    @Override
+                    public void process(Integer arg, Exception e) {
+                        if(e!=null){
+                            //TODO: show some error message..
+                            return;
+                        }
+
+                        finish();
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                });
             }
         }
 
