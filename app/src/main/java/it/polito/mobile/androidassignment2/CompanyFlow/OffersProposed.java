@@ -1,9 +1,9 @@
 package it.polito.mobile.androidassignment2.CompanyFlow;
 
 import android.content.Intent;
-import android.os.AsyncTask;
+
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,12 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
+
 import android.widget.ListView;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.zip.DataFormatException;
 
@@ -25,11 +25,15 @@ import it.polito.mobile.androidassignment2.AlertYesNo;
 import it.polito.mobile.androidassignment2.Communicator;
 import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.adapter.OfferArrayAdapter;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
 import it.polito.mobile.androidassignment2.context.AppContext;
 
 public class OffersProposed extends AppCompatActivity implements Communicator {
+
+
+
 
 
     private ListView offerList;
@@ -110,12 +114,7 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
     @Override
     protected void onResume() {
         super.onResume();
-        List<Offer> offers = new ArrayList<Offer>();
-        try {
-            offers=((AppContext)getApplication()).getSession().getOfferOfTheLoggedCompany();
-        }catch(Exception e){
-        //never here
-        }
+
         Offer o = new Offer();
         try {
             o.setCompanyId(((AppContext)getApplication()).getSession().getCompanyLogged().getId());
@@ -132,32 +131,11 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_empty_offer_proposed), Toast.LENGTH_LONG).show();
 
                 }
-                offerList.setAdapter(new BaseAdapter() {
-                    @Override
-                    public int getCount() {
-                        return arg.size();
-                    }
 
-                    @Override
-                    public Object getItem(int position) {
-                        return arg.get(position);
-                    }
 
-                    @Override
-                    public long getItemId(int position) {
-                        return arg.get(position).getId();
-                    }
 
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        if (convertView == null) {
-                            convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
-                        }
-                        ((TextView) convertView.findViewById(R.id.mainName)).setText(((Offer) getItem(position)).getDescriptionOfWork());
-                        ((TextView) convertView.findViewById(R.id.descrption)).setText(((Offer) getItem(position)).getLocation());
-                        return convertView;
-                    }
-                });
+
+                offerList.setAdapter( new OfferArrayAdapter(OffersProposed.this, arg) );
             }
 
             @Override

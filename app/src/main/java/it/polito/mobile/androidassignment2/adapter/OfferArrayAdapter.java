@@ -44,8 +44,10 @@ public class OfferArrayAdapter extends ArrayAdapter<Offer> {
 
         Offer offer = this.values.get(position);
 
-        textView1.setText("from " + offer.getCompanyName());
-        textView2.setText(offer.getKindOfContract() + ", " + offer.getLocation() + ", code:" + offer.getCode());
+
+
+        textView1.setText(offer.getDescriptionOfWork());
+        textView2.setText(offer.getCompanyName() + ", " + offer.getLocation());
 
 
         int offerId = offer.getId();
