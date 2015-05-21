@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PoliJobs</string>
+    <string name="title_section1">Profilo</string>
+    <string name="title_section2">Aziende</string>
+    <string name="title_section3">Offerte</string>
+    <string name="action_settings">Impostazioni</string>
+    <string name="resume">Riprendi</string>
+    <string name="refresh">Ricarica</string>
+    <string name="refreshing">Ricaricando..</string>
+    <string name="canceled">Cancellato</string>
+    <string name="finished">Terminato</string>
+    <string name="size">Grandezza</string>
+    <string name="key">Chiave</string>
+    <string name="nothing_found_to_open_file">
+        Non c\'è nulla per aprire questo file
+    </string>
+    <string name="files_to_be_uploaded">File per l\'upload:</string>
+    <string name="transfers">Trasferimenti:</string>
+    <string name="open">Apri</string>
+    <string name="upload_video">Upload di un video</string>
+    <string name="upload_image">Upload di un\'immagine</string>
+    <string name="create_bucket">Crea un bucket</string>
+    <string name="delete_bucket">Cancella un bucket</string>
+    <string name="download">Download</string>
+    <string name="title_activity_menu">Menù</string>
+    <string name="title_activity_main_menu">Menù principale</string>
+    <string name="title_activity_edit_student_profile">Modifica profilo studente</string>
+    <string name="title_activity_edit_company_profile">Modifica profilo azienda</string>
+    <string name="title_activity_show_student_profile">Mostra profilo studente</string>
+    <string name="title_activity_show_company_profile">Mostra profilo azienda</string>
+    <string name="title_activity_student_profile">Profilo studente</string>
+
+    <!-- Strings related to login -->
+    <string name="title_activity_login">Login</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="error_invalid_email">Indirizzo email non valido</string>
+    <string name="error_invalid_password">Password troppo corta</string>
+    <string name="error_incorrect_password">Password errata</string>
+    <string name="error_field_required">Il campo è obbligatorio</string>
+    <string name="navigation_drawer_open">Apri il drawer</string>
+    <string name="navigation_drawer_close">Chiudi il drawer</string>
+    <string name="action_example">Azione d\'esempio</string>
+    <string name="network_error">C\'è stato un errore nella connessione con il server remoto. Controlla la tua connessione ad internet e riprova.</string>
+    <string name="register">Registra</string>
+    <string name="register_label">Oppure, se non hai un account</string>
+    <string name="choose">Scegli</string>
+    <string name="company">Azienda</string>
+    <string name="student">Studente</string>
+    <string name="title_activity_main_student">Attività principale studente</string>
+    <string name="title_activity_search">Attività search</string>
+    <string name="title_activity_info_wrapper">Attività info wrapper</string>
+    <string name="search_button">Cerca</string>
+    <string name="offers">Offerte</string>
+
+    <!-- Strings related to profile -->
+    <string name="cv">CV</string>
+    <string name="links">Link</string>
+    <string name="hobbies">Hobby</string>
+    <string name="email">Email</string>
+    <string name="competences">Competenze</string>
+    <string name="availability">Solamente disponibili</string>
+    <string name="university_career">Carriera universitaria</string>
+    <string name="open_cv">Apri CV</string>
+    <string name="available_for_jobs">Cerco lavoro</string>
+    <string name="not_available_for_jobs">Non cerco lavoro</string>
+    <string name="title_activity_companies_favourites">Aziende preferite</string>
+    <string name="location">Città</string>
+    <string name="fieldOfInterest">Campi di interesse</string>
+    <string name="search">Cerca</string>
+    <string name="activity_search_companies">Cerca imprese</string>
+    <string name="studentKeyword">Competenza</string>
+    <string name="gender">Sesso</string>
+    <string name="students">Studente</string>
+    <string name="title_activity_students_favourites">Studenti</string>
+    <string name="activity_search_students">Cerca studenti</string>
+    <string name="add">Aggiungi</string>
+    <string name="title_activity_offers_proposed">Offerte proposte</string>
+    <string name="add_new_job_offer">Aggiungi nuova offerta di lavoro</string>
+    <string name="title_activity_job_offer_creation">Creazione nuova offerta di lavoro</string>
+    <string name="job_offer_description">Descrizione offerta di lavoro</string>
+    <string name="kind_of_contract">Tipo di contratto</string>
+    <string name="number_of_months">Numero di mesi</string>
+    <string name="create_job_offer">Crea offerta di lavoro</string>
+    <string name="job_offer_failed">L\'inserimento offerta di lavoro fallito. Controlla se hai inserito tutti i campi del form.</string>
+    <string name="edit_profile">Modifica profilo</string>
+    <string name="update_profile">Salva profilo</string>
+    <string name="cancel">Annulla</string>
+    <string name="upload_cv">Carica CV</string>
+    <string name="fullname">Nome e cognome</string>
+    <string name="tap_to_change">Tap per cambiare</string>
+    <string name="available">Disponibile</string>
+    <string name="not_available">Non disponibile</string>
+    <string name="surname">Cognome</string>
+    <string name="job_offer_code">Codice offerta lavoro</string>
+    <string-array name="sex_array">
+        <item></item>
+        <item>Maschio</item>
+        <item>Femmina</item>
+    </string-array>
+    <string name="title_activity_offer_show">Offerta di lavoro</string>
+    <string name="edit_offer">Modifica offerta</string>
+    <string name="apply">Apply</string>
+    <string name="add_to_favourite">Aggiungi ai preferiti</string>
+    <string name="discard_apply">Scarta apply</string>
+    <string name="fav">Aggiungi preferito</string>
+    <string name="unfav">Rimuovi preferito</string>
+    <string name="number_of_workers">Numero di dipendenti</string>
+    <string name="mission">Missione</string>
+    <string name="clients">Clienti</string>
+    <string name="description">Descrizione</string>
+    <string name="error_login_failed">Login fallito. Controlla e-mail e password o regristrati se non lo hai ancora fatto.</string>
+    <string name="error_server_side">Errore inaspettato del server</string>
+    <string name="error_network">Errore del network: controlla la tua connessione ad internet e riprova.</string>
+    <string name="unfav_offer">Rimuovi preferito</string>
+    <string name="save">Salva modifiche</string>
+    <string name="title_activity_offer_edit_activity">Modifica offerta</string>
+    <string name="name">Nome</string>
+    <string name="title_activity_offers_lists">Attività lista offerte</string>
+    <string name="button_show_favourite">Mostra preferiti</string>
+    <string name="button_show_candidatures">Mostra candidature</string>
+    <string name="show_all_candidates">Mostra candidature</string>
+    <string name="action_delete_account">Cancella account</string>
+    <string name="action_logout">Logout</string>
+    <string name="confirm">Attenzione</string>
+    <string name="logout_message">Vuoi veramente fare logout?</string>
+    <string name="delete_user_message">Vuoi veramente cancellare l\'account?</string>
+    <string name="applied">Candidato</string>
+    <string name="companies">Aziende</string>
+    <string name="related_offers">Offerte</string>
+    <string name="appName">PoliJobs</string>
+    <string name="title_activity_search_offer">Cerca offerta</string>
+    <string name="delete_offer">Cancella offerta</string>
+    <string name="delete_offer_message">Vuoi cancellare questa offerta?</string>
+    <string name="select_photo">Seleziona una foto</string>
+    <string name="select_pdf">Seleziona un pdf</string>
+    <string name="error_loading_photo">Errore caricando la foto</string>
+    <string name="error_loading_cv">Errore caricando il cv</string>
+    <string name="download_error">Download dell\'immagine fallito. Controlla la tua connessione ad internet.</string>
+
+    <string name="no_fav_offers_yet">Nessuna offerta preferita, cerca cliccando l\'icona</string>
+    <string name="favourite_company_empty">Nessuna azienda preferita, cerca cliccando l\'icona</string>
+    <string name="error_invalid_company">CompanyId non valido</string>
+    <string name="error_empty_search">Nessun risultato con questi filtri</string>
+</resources>
