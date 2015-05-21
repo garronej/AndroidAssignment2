@@ -57,7 +57,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 				offers.addAll(Session.getInstance().getFavoriteOffer());
 			} else {
 
-				Toast.makeText(getApplicationContext(), "No favourite offer yet, use the search icon",
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_fav_offers_yet),
 						Toast.LENGTH_SHORT).show();
 			}
 
@@ -107,7 +107,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 				try {
 
 					if (Session.getInstance().getFavoriteOffer().size() == 0) {
-						Toast.makeText(getApplicationContext(), "No favourite offer yet, use the search icon",
+						Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_fav_offers_yet),
 								Toast.LENGTH_SHORT).show();
 
 					}
