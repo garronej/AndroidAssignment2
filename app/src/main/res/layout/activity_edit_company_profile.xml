@@ -80,7 +80,8 @@
                 android:id="@+id/edit_c_number_of_workers_et"
                 android:textColorLink="@color/blue_sky"
                 style="@style/ProfileItemText"
-                android:hint="@string/number_of_workers"/>
+                android:hint="@string/number_of_workers"
+                android:inputType="number"/>
                 android:inputType="number"
         </LinearLayout>
 

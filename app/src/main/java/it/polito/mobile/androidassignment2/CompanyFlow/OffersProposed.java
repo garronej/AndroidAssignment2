@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,10 +127,11 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
             @Override
             public void process(final List<Offer> arg, Exception e) {
                 if (e != null) {
-                    //TODO: show some error message...
+                    Log.e(OffersProposed.class.getSimpleName(),"Error retrieving offers list");
                 }
                 if (arg == null || arg.size() == 0) {
-                    //TODO: display some errore message..
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_empty_offer_proposed), Toast.LENGTH_LONG).show();
+
                 }
                 offerList.setAdapter(new BaseAdapter() {
                     @Override

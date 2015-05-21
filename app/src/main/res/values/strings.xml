@@ -159,4 +159,7 @@
     <string name="favourite_company_empty">No favourite companies yet, use the search icon</string>
     <string name="error_invalid_company">Invalid CompanyID</string>
     <string name="error_empty_search">No results for this filters</string>
+    <string name="error_empty_offer_proposed">No offer to display, add a new one</string>
+    <string name="error_empty_offer">No applied offer yet, use the search icon</string>
+    <string name="error_empty_offer_favourites">No favourite offer yet, use the search icon</string>
 </resources>

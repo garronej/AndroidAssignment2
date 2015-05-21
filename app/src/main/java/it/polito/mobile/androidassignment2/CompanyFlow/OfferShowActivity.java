@@ -49,7 +49,8 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
         public void onReceive(Context context, Intent intent) {
             pbLogoSpinner.setVisibility(ProgressBar.GONE);
             Toast.makeText(getApplicationContext(), R.string.download_error, Toast.LENGTH_LONG).show();
-            //TODO: set placeholder image
+            //exTODO: set placeholder image
+            photo.setImageDrawable(getResources().getDrawable(R.drawable.photo_placeholder_err));
         }
     }
 
@@ -148,7 +149,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
             public void process(final Offer arg, Exception e) {
                 task=null;
                 if(e!=null){
-                    //TODO: show some error messge
+                    Log.d(OfferShowActivity.class.getSimpleName(),"Error retrieving offer");
                     finish();
                     return;
                 }
@@ -183,7 +184,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                     }
 
 
-                    //TODO: test
+
                     if(Session.getInstance().getWhoIsLogged() == Student.class){
                         studentActions.setVisibility(View.VISIBLE);
                         if(Session.getInstance().getFavoriteOffer().contains(arg)){
@@ -197,7 +198,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                                     @Override
                                     public void process(List<Offer> l, Exception e) {
                                         if(e!=null){
-                                            //TODO: show some error..
+                                           Log.d(OfferShowActivity.class.getSimpleName(),"Error retrieving offer of student");
 
                                             return;
                                         }
@@ -216,7 +217,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                                                             @Override
                                                             public void process(Integer r, Exception e) {
                                                                 if(e!=null){
-                                                                    //TODO: show error message...
+                                                                   Log.d(OfferShowActivity.class.getSimpleName(),"Error subscription at this jobOffer");
                                                                     return;
                                                                 }
 
@@ -281,7 +282,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 			                    @Override
 			                    public void process(Integer r, Exception e) {
 				                    if (e != null) {
-					                    //TODO: show error message
+					                    Log.e(OfferShowActivity.class.getSimpleName(),"Error deleting favoutirte offer of a student");
 					                    return;
 				                    }
 				                    try {
@@ -316,7 +317,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 				        @Override
 				        public void process(Offer arg, Exception e) {
 					        if (e != null) {
-						        //TODO: show error message
+						        Log.e(OfferShowActivity.class.getSimpleName(),"Error adding favourite offer for student");
 						        return;
 					        }
 					        try {
