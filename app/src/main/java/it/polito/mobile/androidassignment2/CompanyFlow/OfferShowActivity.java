@@ -43,6 +43,11 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
     private Button candidatesButton;
     private boolean isStudentFlow;
     private DownloadErrorReceiver downloadError;
+    private AsyncTask<Object, Void, Object> task1;
+    private AsyncTask<Object, Void, Object> task2;
+    private AsyncTask<Object, Void, Object> task3;
+    private AsyncTask<Object, Void, Object> task4;
+    private AsyncTask<Object, Void, Object> task5;
 
 
     private class DownloadErrorReceiver extends BroadcastReceiver {
@@ -205,10 +210,11 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                             setButtonToFavStudent(arg);
                         }
 
-                        Manager.getAppliedOfferOfStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), arg,
+                        task1=Manager.getAppliedOfferOfStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), arg,
                                 new Manager.ResultProcessor<List<Offer>>() {
                                     @Override
                                     public void process(List<Offer> l, Exception e) {
+                                        task1=null;
                                         if(e!=null){
                                             Log.d(OfferShowActivity.class.getSimpleName(),"Error retrieving offer of student");
 
@@ -225,9 +231,10 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                                                 @Override
                                                 public void onClick(View v) {
                                                     try {
-                                                        Manager.subscribeStudentOfJobOffer(arg.getId(), ((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+                                                        task3=Manager.subscribeStudentOfJobOffer(arg.getId(), ((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
                                                             @Override
                                                             public void process(Integer r, Exception e) {
+                                                                task3=null;
                                                                 if(e!=null){
                                                                     Log.d(OfferShowActivity.class.getSimpleName(),"Error subscription at this jobOffer");
                                                                     return;
@@ -245,7 +252,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 
                                                             @Override
                                                             public void cancel() {
-
+                                                                task3=null;
                                                             }
                                                         });
                                                     } catch (DataFormatException e1) {
@@ -258,7 +265,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 
                                     @Override
                                     public void cancel() {
-
+                                        task1=null;
                                     }
                                 });
 
@@ -294,10 +301,11 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
             @Override
             public void onClick(View v) {
                 try {
-                    Manager.deleteAFavouriteOfferOfAStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), arg.getId(),
+                    task5=Manager.deleteAFavouriteOfferOfAStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), arg.getId(),
                             new Manager.ResultProcessor<Integer>() {
                                 @Override
                                 public void process(Integer r, Exception e) {
+                                    task5=null;
                                     if (e != null) {
                                         Log.e(OfferShowActivity.class.getSimpleName(),"Error deleting favoutirte offer of a student");
                                         return;
@@ -312,7 +320,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 
                                 @Override
                                 public void cancel() {
-
+                                    task5=null;
                                 }
                             });
                 } catch (DataFormatException e1) {
@@ -330,9 +338,10 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
             @Override
             public void onClick(View v) {
                 try {
-                    Manager.addFavouriteOfferForStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), arg.getId(), new Manager.ResultProcessor<Offer>() {
+                    task4=Manager.addFavouriteOfferForStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), arg.getId(), new Manager.ResultProcessor<Offer>() {
                         @Override
                         public void process(Offer arg, Exception e) {
+                            task4=null;
                             if (e != null) {
                                 Log.e(OfferShowActivity.class.getSimpleName(),"Error adding favourite offer for student");
                                 return;
@@ -347,7 +356,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 
                         @Override
                         public void cancel() {
-
+                            task4=null;
                         }
                     });
                 } catch (Exception e) {
@@ -366,7 +375,29 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
             task.cancel(true);
             task=null;
         }
-    }@Override
+        if(task1!=null){
+            task1.cancel(true);
+            task1=null;
+        }
+        if(task2!=null){
+            task2.cancel(true);
+            task2=null;
+        }
+        if(task3!=null){
+            task3.cancel(true);
+            task3=null;
+        }
+        if(task4!=null){
+            task4.cancel(true);
+            task4=null;
+        }
+        if(task5!=null){
+            task5.cancel(true);
+            task5=null;
+        }
+    }
+
+    @Override
      public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         if(!isStudentFlow){getMenuInflater().inflate(R.menu.menu_offer_show, menu);
@@ -416,9 +447,10 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
     public void dialogResponse(int result, int kind) {
 
         if (result == 1 && kind ==2) {
-            Manager.deleteOffer(offerId, new Manager.ResultProcessor<Integer>() {
+            task2=Manager.deleteOffer(offerId, new Manager.ResultProcessor<Integer>() {
                 @Override
                 public void process(Integer arg, Exception e) {
+                    task2=null;
                     if(e!=null){
                         Log.d(OfferShowActivity.class.getSimpleName(), "Error deleteing account");
                         return;
@@ -429,10 +461,12 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 
                 @Override
                 public void cancel() {
-
+                    task2=null;
                 }
             });
         }
     }
+
+
 
 }

@@ -181,11 +181,11 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 						}
 
 
-						if (arg.size() == 0)
-							Toast.makeText(getApplicationContext(),
-									getResources().getString(R.string.no_fav_offers_yet),
-									Toast.LENGTH_SHORT).show();
-
+						if (arg.size() == 0) {
+							emptyMessage.setVisibility(View.VISIBLE);
+							emptyMessage.setText(getResources().getString(R.string.no_application_yet));
+							Toast.makeText(getApplicationContext(),getResources().getString(R.string.no_application_yet),Toast.LENGTH_LONG).show();
+						}
 
 
 						List<Offer> offers = OffersListsActivity.this.adapter.getValue();
@@ -238,7 +238,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 	@Override
 	public void onResume() {
 		super.onResume();  // Always call the superclass method first
-
+		findViewById(R.id.empy_favourite_message).setVisibility(View.GONE);
 
 		if (this.isOnFav == null) {
 			this.isOnFav = true;

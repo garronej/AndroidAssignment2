@@ -34,6 +34,7 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
 
 
     private ListView listView;
+    private AsyncTask<Object, Void, Object> task;
 
 
     private void addTabMenuButtonCallbacks(){
@@ -222,9 +223,10 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
 					break;
 				case 1://delete account
 					try {
-						Manager.deleteCompany(((AppContext)getApplication()).getSession().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
+						task=Manager.deleteCompany(((AppContext)getApplication()).getSession().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
 							@Override
 							public void process(Integer arg, Exception e) {
+                                task=null;
 								if (e != null) {
                                     Log.d(StudentsFavouritesActivity.class.getSimpleName(), "Error deleteing account");
 									return;
@@ -237,7 +239,7 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
 
 							@Override
 							public void cancel() {
-
+                                task=null;
 							}
 						});
 					} catch (DataFormatException e) {

@@ -3,6 +3,7 @@ package it.polito.mobile.androidassignment2.StudentFlow;
 import android.content.ContentResolver;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -56,6 +57,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	private Button bEditProfile;
 	private Button bSex;
 	private TextView tvLocation;
+	private AsyncTask<Object, Void, Object> task;
 
 
 	public class DownloadFinished extends BroadcastReceiver {
@@ -296,6 +298,10 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	protected void onPause() {
         unregisterReceiver(downloadfailed);
 		unregisterReceiver(downloadfinished);
+		if(task!=null){
+			task.cancel(true);
+			task=null;
+		}
 		super.onPause();
 	}
 
@@ -363,9 +369,10 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 					break;
 				case 1://delete account
 					try {
-						Manager.deleteStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+						task=Manager.deleteStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
 							@Override
 							public void process(Integer arg, Exception e) {
+								task=null;
 								if (e != null) {
 									Log.d(CompaniesFavouritesActivity.class.getSimpleName(), "Error deleteing user");
 									return;
@@ -378,7 +385,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 
 							@Override
 							public void cancel() {
-
+								task=null;
 							}
 						});
 					} catch (DataFormatException e) {

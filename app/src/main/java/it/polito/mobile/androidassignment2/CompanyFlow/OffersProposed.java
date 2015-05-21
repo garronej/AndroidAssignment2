@@ -2,6 +2,7 @@ package it.polito.mobile.androidassignment2.CompanyFlow;
 
 import android.content.Intent;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 
 import android.os.Bundle;
@@ -38,6 +39,9 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
 
 
     private ListView offerList;
+    private AsyncTask<Object, Void, Object> task;
+    private AsyncTask<Object, Void, Object> task1;
+
     private void myAddActionBar(){
         ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.company_tabbed_menu,null);
@@ -123,9 +127,10 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
         } catch (DataFormatException e) {
             //never here
         }
-        Manager.getOffersMatchingCriteria(o, new Manager.ResultProcessor<List<Offer>>() {
+        task1=Manager.getOffersMatchingCriteria(o, new Manager.ResultProcessor<List<Offer>>() {
             @Override
             public void process(final List<Offer> arg, Exception e) {
+                task1=null;
                 if (e != null) {
                     Log.e(OffersProposed.class.getSimpleName(),"Error retrieving offers list");
                 }
@@ -143,7 +148,7 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
 
             @Override
             public void cancel() {
-
+                task1=null;
             }
         });
 
@@ -154,6 +159,14 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
     @Override
     protected void onPause() {
         super.onPause();
+        if(task!=null){
+            task.cancel(true);
+            task=null;
+        }
+        if(task1!=null){
+            task1.cancel(true);
+            task1=null;
+        }
 
     }
 
@@ -221,9 +234,10 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
                     break;
                 case 1://delete account
                     try {
-                        Manager.deleteCompany(((AppContext)getApplication()).getSession().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
+                        task=Manager.deleteCompany(((AppContext)getApplication()).getSession().getCompanyLogged().getId(), new Manager.ResultProcessor<Integer>() {
                             @Override
                             public void process(Integer arg, Exception e) {
+                                task=null;
                                 if (e != null) {
                                     Log.d(OffersProposed.class.getSimpleName(), "Error deleteing account");
                                     return;
@@ -236,7 +250,7 @@ public class OffersProposed extends AppCompatActivity implements Communicator {
 
                             @Override
                             public void cancel() {
-
+                                task=null;
                             }
                         });
                     } catch (DataFormatException e) {
