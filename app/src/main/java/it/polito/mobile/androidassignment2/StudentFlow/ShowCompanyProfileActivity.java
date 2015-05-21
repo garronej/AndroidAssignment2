@@ -64,7 +64,7 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
         @Override
         public void onReceive(Context context, Intent intent) {
             String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
-            //TODO CHECK IS A PHOTO?
+            //CHECK IS A PHOTO? it' implicit
             pbLogoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
             Uri logoUri = Uri.parse(filePath);
             ivLogo.setImageURI(logoUri);
@@ -189,7 +189,7 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
         try {
             favCompanies = ((AppContext)getApplication()).getSession().getFavCompanies();
         } catch (DataFormatException e) {
-            throw new RuntimeException(); //TODO
+            throw new RuntimeException();
         }
         boolean isFaved = false;
         if (favCompanies != null) {

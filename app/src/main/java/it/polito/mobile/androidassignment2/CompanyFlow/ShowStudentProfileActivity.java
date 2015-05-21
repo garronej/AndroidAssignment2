@@ -126,7 +126,8 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 		Intent i = getIntent();
 		int studentId = i.getIntExtra("studentId", -1);
 		if (studentId == -1) {
-			throw new RuntimeException("studentId is required"); //TODO: toast?
+			Log.e(ShowStudentProfileActivity.class.getSimpleName(),"error studentId invalid or null");
+			throw new RuntimeException("studentId is required");
 		}
 
 		offerId = i.getIntExtra("offerId", -1);
@@ -194,7 +195,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 		try {
 			favStudents = ((AppContext)getApplication()).getSession().getFavStudents();
 		} catch (DataFormatException e) {
-			throw new RuntimeException(); //TODO
+			throw new RuntimeException();
 		}
 		boolean isFaved = false;
 		if (favStudents != null) {

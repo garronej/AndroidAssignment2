@@ -103,7 +103,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                     public void cancel() {
                     }
                 });
-            } else { // photo TODO CHECK IT
+            } else { // photo check is implicit
                 try {
                     ((AppContext)getApplication()).getSession().getStudentLogged().setPhotoUrl(filePath);
                 } catch (DataFormatException e) {
@@ -115,7 +115,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                         if (e == null) {
                             TransferController.download(getApplicationContext(), new String[]{ filePath });
                         } else {
-                            throw new RuntimeException(); //TODO
+                            throw new RuntimeException();
                         }
                     }
                     @Override
@@ -240,7 +240,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                     }
                     loggedStudent.setLocation(etLocation.getText().toString());
                 } catch (DataFormatException e) {
-                    throw new RuntimeException(e); //TODO
+                    throw new RuntimeException(e);
                 }
                 task3 = Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
                     @Override
@@ -250,7 +250,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                             startActivity(i);
                             finish();
                         } else {
-                            throw new RuntimeException(); //TODO
+                            throw new RuntimeException();
                         }
                     }
 

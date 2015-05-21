@@ -1,9 +1,9 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
+
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
+
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -47,7 +47,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 		final ListView listview = (ListView) findViewById(R.id.proposed_offers_list);
 
 
-		OfferArrayAdapter adapterTmp = null;
+
 		try {
 
 			List<Offer> offers = new ArrayList<>();
@@ -58,7 +58,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 				offers.addAll(((AppContext)getApplication()).getSession().getFavoriteOffer());
 			} else {
 
-				Toast.makeText(getApplicationContext(), "No favourite offer yet, use the search icon",
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_fav_offers_yet),
 						Toast.LENGTH_SHORT).show();
 			}
 
@@ -77,12 +77,12 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view,
-			                        final int position, long id) {
+									final int position, long id) {
 
 
 				Intent i = new Intent(OffersListsActivity.this, OfferShowActivity.class);
 				i.putExtra("offerId", (int) id);
-				i.putExtra("student_flow", true);
+				i.putExtra("student_flow", (boolean) true);
 
 				startActivity(i);
 
@@ -108,7 +108,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 				try {
 
 					if (((AppContext)getApplication()).getSession().getFavoriteOffer().size() == 0) {
-						Toast.makeText(getApplicationContext(), "No favourite offer yet, use the search icon",
+						Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_fav_offers_yet),
 								Toast.LENGTH_SHORT).show();
 
 					}

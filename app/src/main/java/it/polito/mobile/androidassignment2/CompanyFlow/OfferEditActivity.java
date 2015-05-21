@@ -44,7 +44,8 @@ public class OfferEditActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             pbLogoSpinner.setVisibility(ProgressBar.GONE);
             Toast.makeText(getApplicationContext(), R.string.download_error, Toast.LENGTH_LONG).show();
-            //TODO: set placeholder image
+            //exTODO: set placeholder image
+            photo.setImageDrawable(getResources().getDrawable(R.drawable.photo_placeholder_err));
         }
     }
 
@@ -158,7 +159,7 @@ public class OfferEditActivity extends AppCompatActivity {
             public void process(final Offer arg, Exception e) {
                 task=null;
                 if(e!=null){
-                    //TODO: show some error messge
+                    Log.d(OfferEditActivity.class.getSimpleName(),"Error retrieving offer");
                     finish();
                     return;
                 }

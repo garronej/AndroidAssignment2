@@ -78,7 +78,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String filePath = intent.getStringExtra(UploadModel.EXTRA_FILENAME);
-            //TODO: check if it's image
+            //check if it's image -> IT'S IMPLICIT
             try {
                 loggedCompany = ((AppContext)getApplication()).getSession().getCompanyLogged();
             } catch (DataFormatException e) {
@@ -91,7 +91,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
                     if (e == null) {
                         TransferController.download(getApplicationContext(), new String[]{filePath});
                     } else {
-                        throw new RuntimeException(); //TODO
+                        throw new RuntimeException();
                     }
                 }
 
@@ -184,7 +184,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
                     }
 
                 } catch (DataFormatException e) {
-                    throw new RuntimeException(e); //TODO
+                    throw new RuntimeException(e);
                 }
                 task2 = Manager.updateCompany(loggedCompany, new Manager.ResultProcessor<Company>() {
                     @Override
@@ -194,7 +194,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity  {
                             startActivity(i);
 	                        finish();
                         } else {
-                            throw new RuntimeException(); //TODO
+                            throw new RuntimeException();
                         }
                     }
 

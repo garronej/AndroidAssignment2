@@ -29,7 +29,6 @@ import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
-import it.polito.mobile.androidassignment2.businessLogic.Session;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.context.AppContext;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
@@ -50,7 +49,8 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
         public void onReceive(Context context, Intent intent) {
             pbLogoSpinner.setVisibility(ProgressBar.GONE);
             Toast.makeText(getApplicationContext(), R.string.download_error, Toast.LENGTH_LONG).show();
-            //TODO: set placeholder image
+            //exTODO: set placeholder image
+            photo.setImageDrawable(getResources().getDrawable(R.drawable.photo_placeholder_err));
         }
     }
 
@@ -149,7 +149,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
             public void process(final Offer arg, Exception e) {
                 task=null;
                 if(e!=null){
-                    //TODO: show some error messge
+                    Log.d(OfferShowActivity.class.getSimpleName(),"Error retrieving offer");
                     finish();
                     return;
                 }
@@ -184,7 +184,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                     }
 
 
-                    //TODO: test
+
                     if(((AppContext)getApplication()).getSession().getWhoIsLogged() == Student.class){
                         studentActions.setVisibility(View.VISIBLE);
                         if(((AppContext)getApplication()).getSession().getFavoriteOffer().contains(arg)){
@@ -198,7 +198,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                                     @Override
                                     public void process(List<Offer> l, Exception e) {
                                         if(e!=null){
-                                            //TODO: show some error..
+                                            Log.d(OfferShowActivity.class.getSimpleName(),"Error retrieving offer of student");
 
                                             return;
                                         }
@@ -217,7 +217,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                                                             @Override
                                                             public void process(Integer r, Exception e) {
                                                                 if(e!=null){
-                                                                    //TODO: show error message...
+                                                                    Log.d(OfferShowActivity.class.getSimpleName(),"Error subscription at this jobOffer");
                                                                     return;
                                                                 }
 
@@ -278,26 +278,26 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
             public void onClick(View v) {
                 try {
                     Manager.deleteAFavouriteOfferOfAStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), arg.getId(),
-		                    new Manager.ResultProcessor<Integer>() {
-			                    @Override
-			                    public void process(Integer r, Exception e) {
-				                    if (e != null) {
-					                    //TODO: show error message
-					                    return;
-				                    }
-				                    try {
+                            new Manager.ResultProcessor<Integer>() {
+                                @Override
+                                public void process(Integer r, Exception e) {
+                                    if (e != null) {
+                                        Log.e(OfferShowActivity.class.getSimpleName(),"Error deleting favoutirte offer of a student");
+                                        return;
+                                    }
+                                    try {
                                         ((AppContext)getApplication()).getSession().getFavoriteOffer().remove(arg);
-				                    } catch (DataFormatException e1) {
-					                    //never here
-				                    }
-				                    setButtonToFavStudent(arg);
-			                    }
+                                    } catch (DataFormatException e1) {
+                                        //never here
+                                    }
+                                    setButtonToFavStudent(arg);
+                                }
 
-			                    @Override
-			                    public void cancel() {
+                                @Override
+                                public void cancel() {
 
-			                    }
-		                    });
+                                }
+                            });
                 } catch (DataFormatException e1) {
                     //never here
                 }
@@ -310,32 +310,32 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
         addToFavouriteButton.setText(R.string.add_to_favourite);
 
         addToFavouriteButton.setOnClickListener(new View.OnClickListener() {
-	        @Override
-	        public void onClick(View v) {
-		        try {
-			        Manager.addFavouriteOfferForStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), arg.getId(), new Manager.ResultProcessor<Offer>() {
-				        @Override
-				        public void process(Offer arg, Exception e) {
-					        if (e != null) {
-						        //TODO: show error message
-						        return;
-					        }
-					        try {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Manager.addFavouriteOfferForStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), arg.getId(), new Manager.ResultProcessor<Offer>() {
+                        @Override
+                        public void process(Offer arg, Exception e) {
+                            if (e != null) {
+                                Log.e(OfferShowActivity.class.getSimpleName(),"Error adding favourite offer for student");
+                                return;
+                            }
+                            try {
                                 ((AppContext)getApplication()).getSession().getFavoriteOffer().add(arg);
-					        } catch (DataFormatException e1) {
-						        //never here
-					        }
-					        setButtonToUnfavStudent(arg);
-				        }
+                            } catch (DataFormatException e1) {
+                                //never here
+                            }
+                            setButtonToUnfavStudent(arg);
+                        }
 
-				        @Override
-				        public void cancel() {
+                        @Override
+                        public void cancel() {
 
-				        }
-			        });
-		        } catch (Exception e) {
-		        }
-	        }
+                        }
+                    });
+                } catch (Exception e) {
+                }
+            }
         });
     }
 
@@ -353,8 +353,8 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
      public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         if(!isStudentFlow){getMenuInflater().inflate(R.menu.menu_offer_show, menu);
-		return true;}
-		else return false;
+            return true;}
+        else return false;
     }
 
     @Override
@@ -366,7 +366,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_delete_offer) {
-	        showConfirmAlerter(2);
+            showConfirmAlerter(2);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -376,7 +376,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
         Bundle info = new Bundle();
         if (kind == 2)
             info.putString("message", getResources().getString(R.string.delete_offer_message));
-       else return;
+        else return;
         info.putString("title", getResources().getString(R.string.confirm));
         info.putInt("kind", kind);
         alert.setCommunicator(this);
@@ -399,25 +399,23 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
     public void dialogResponse(int result, int kind) {
 
         if (result == 1 && kind ==2) {
-                Manager.deleteOffer(offerId, new Manager.ResultProcessor<Integer>() {
-                    @Override
-                    public void process(Integer arg, Exception e) {
-                        if(e!=null){
-                            Log.d(OfferShowActivity.class.getSimpleName(), "Error deleteing account");
-                            return;
-                        }
-
-                        finish();
+            Manager.deleteOffer(offerId, new Manager.ResultProcessor<Integer>() {
+                @Override
+                public void process(Integer arg, Exception e) {
+                    if(e!=null){
+                        Log.d(OfferShowActivity.class.getSimpleName(), "Error deleteing account");
+                        return;
                     }
 
-                    @Override
-                    public void cancel() {
+                    finish();
+                }
 
-                    }
-                });
-            }
+                @Override
+                public void cancel() {
+
+                }
+            });
         }
+    }
 
 }
-
-
