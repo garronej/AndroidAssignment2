@@ -66,11 +66,11 @@
                     android:layout_height="@dimen/button_height"
                     android:id="@+id/edit_cv_b"
                     android:text="@string/upload_cv"
-                    android:background="@color/blue_sky"
                     android:textColor="#fff"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:layout_centerInParent="true" />
+                    android:layout_centerInParent="true"
+                    android:backgroundTint="@color/blue_sky"/>
                 <ProgressBar
                     android:id="@+id/edit_cv_pb"
                     android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/ProfileItemText"
-                />
+                android:background="@android:drawable/btn_dropdown"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
