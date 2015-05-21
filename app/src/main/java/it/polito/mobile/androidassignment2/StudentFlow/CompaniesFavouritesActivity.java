@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
@@ -29,13 +30,25 @@ import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 
+import it.polito.mobile.androidassignment2.businessLogic.Utils;
 import it.polito.mobile.androidassignment2.context.AppContext;
+
+
 
 public class CompaniesFavouritesActivity extends ActionBarActivity implements Communicator {
 
 
     private ListView listView;
-    private AsyncTask<Object, Void, Object> task;
+    private AsyncTask<?, ?, ?> task = null;
+    private AsyncTask<?, ?, ?> task2 = null;
+
+
+    private List<Company> companies = new ArrayList<Company>();
+
+    BaseAdapter adapter = null;
+
+
+
     private void myAddActionBar(){
         ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.student_tabbed_menu,null);
@@ -68,7 +81,7 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
                 startActivity(i);
-	            finish();
+                finish();
             }
         });
         findViewById(R.id.tab_menu_student_offers).setOnClickListener(new View.OnClickListener() {
@@ -76,7 +89,7 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), OffersListsActivity.class);
                 startActivity(i);
-	            finish();
+                finish();
             }
         });
 
@@ -113,23 +126,29 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
                         return;
                     }
 
-                    if(arg.size()==0){
+                    CompaniesFavouritesActivity.this.companies.addAll(arg);
+
+                    if(CompaniesFavouritesActivity.this.companies.size()==0){
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.favourite_company_empty), Toast.LENGTH_LONG).show();
                     }
-                    listView.setAdapter(new BaseAdapter() {
+
+
+                    listView.setAdapter(adapter = new BaseAdapter() {
+
+
                         @Override
                         public int getCount() {
-                            return arg.size();
+                            return CompaniesFavouritesActivity.this.companies.size();
                         }
 
                         @Override
                         public Object getItem(int position) {
-                            return arg.get(position);
+                            return CompaniesFavouritesActivity.this.companies.get(position);
                         }
 
                         @Override
                         public long getItemId(int position) {
-                            return arg.get(position).getId();
+                            return CompaniesFavouritesActivity.this.companies.get(position).getId();
                         }
 
 
@@ -160,6 +179,55 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+        if( adapter==null)return;
+
+        Integer studentId = null;
+
+        try{
+            studentId = ((AppContext)getApplication()).getSession().getStudentLogged().getId();
+
+        }catch(DataFormatException e){}
+
+        task2 = Manager.getFavouriteCompanyOfStudent(studentId, new Manager.ResultProcessor<List<Company>>() {
+
+            @Override
+            public void process(List<Company> arg, Exception e) {
+                if (e != null) {
+                    
+
+                    Toast.makeText(CompaniesFavouritesActivity.this
+                            , Utils.processException(e, "Refresh failed"), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                CompaniesFavouritesActivity.this.companies.clear();
+                CompaniesFavouritesActivity.this.companies.addAll(arg);
+
+
+
+                    CompaniesFavouritesActivity.this.adapter.notifyDataSetChanged();
+
+
+
+            }
+
+            @Override
+            public void cancel() {
+
+                task2 = null;
+
+            }
+        });
+
+
+
+    }
+
+
 
     @Override
     protected void onPause() {
@@ -168,9 +236,15 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
             task.cancel(true);
             task=null;
         }
+
+        if(task2!=null){
+            task2.cancel(true);
+            task2=null;
+        }
     }
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.global, menu);
 		return true;
