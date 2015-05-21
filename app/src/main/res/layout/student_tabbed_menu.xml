@@ -3,7 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="60dp"
     android:background="@color/app_default_background"
-    >
+    android:layout_gravity="left">
     <ImageButton
         android:id="@+id/tab_menu_student_profile"
         android:layout_width="0dp"
@@ -23,7 +23,7 @@
         android:text="@string/companies"
         android:background="@drawable/abc_tab_indicator_material"
         android:textColor="@color/white"
-        android:singleLine="true"
+        android:singleLine="false"
         />
 
     <Button
@@ -34,7 +34,7 @@
         android:text="@string/offers"
         android:background="@drawable/abc_tab_indicator_material"
         android:textColor="@color/white"
-        android:singleLine="true"/>
+        android:singleLine="false"/>
     <ImageButton
         android:id="@+id/tab_menu_student_search"
         android:layout_width="0dp"

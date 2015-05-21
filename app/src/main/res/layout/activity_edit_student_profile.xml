@@ -70,7 +70,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:layout_centerInParent="true"
-                    android:backgroundTint="@color/blue_sky"/>
+                    android:background="@color/blue_sky"/>
                 <ProgressBar
                     android:id="@+id/edit_cv_pb"
                     android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
             <ToggleButton
                 android:id="@+id/edit_availability_tb"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/button_height"
+                android:layout_height="50dp"
                 android:textColor="#fff"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
