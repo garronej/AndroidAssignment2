@@ -65,7 +65,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
             String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
             pbLogoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
             Uri logoUri = Uri.parse(filePath);
-            ((AppContext)getApplication()).getSession().setPhotoUri(logoUri);
+
             photo.setImageURI(logoUri);
         }
     }
@@ -236,6 +236,11 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                                                                 applyButton.setText(getResources().getText(R.string.applied));
                                                                 applyButton.setBackgroundColor(getResources().getColor(R.color.green_ok));
                                                                 applyButton.setEnabled(false);
+                                                                try {
+                                                                    ((AppContext)getApplication()).getSession().getAppliedOffers().add(arg);
+                                                                } catch (DataFormatException e1) {
+                                                                    //never here
+                                                                }
                                                             }
 
                                                             @Override

@@ -90,6 +90,26 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
         listView.setDivider(getResources().getDrawable(R.drawable.items_divider));
         ((LinearLayout)findViewById(R.id.favourite_students_list)).addView(listView);
 
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent i = new Intent(StudentsFavouritesActivity.this, ShowStudentProfileActivity.class);
+                i.putExtra("studentId", (int)id);
+                startActivity(i);
+
+
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         List<Student> students = null;
         try {
             students = ((AppContext)getApplication()).getSession().getFavStudents();
@@ -124,20 +144,6 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
                 return convertView;
             }
         });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent i = new Intent(StudentsFavouritesActivity.this, ShowStudentProfileActivity.class);
-                i.putExtra("studentId", (int)id);
-                startActivity(i);
-
-
-            }
-        });
-
-
     }
 
     @Override
