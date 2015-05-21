@@ -18,7 +18,7 @@
         <LinearLayout
             style="@style/ProfileItem" >
 
-            <EditText
+            <AutoCompleteTextView
                 style="@style/ProfileItemText"
                 android:id="@+id/location"
                 android:hint="@string/location"/>

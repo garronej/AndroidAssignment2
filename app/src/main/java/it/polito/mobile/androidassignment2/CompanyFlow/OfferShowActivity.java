@@ -156,7 +156,9 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                     return;
                 }
                 TransferController.download(getApplicationContext(), new String[]{arg.getCompany().getLogoUrl()});
+
                 photo.setOnClickListener(new View.OnClickListener() {
+
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(OfferShowActivity.this, ShowCompanyProfileActivity.class);
@@ -164,6 +166,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                         startActivity(i);
                     }
                 });
+
                 code.setText(arg.getCode());
                 location.setText(arg.getLocation());
                 companyName.setText(arg.getCompanyName());
