@@ -7,20 +7,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -28,6 +23,7 @@ import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.CompanyFlow.OfferShowActivity;
 import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
+import it.polito.mobile.androidassignment2.PlacesAutoCompleteAdapter;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.adapter.OfferArrayAdapter;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
@@ -63,13 +59,14 @@ public class SearchOffer extends AppCompatActivity {
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        editText1 = (EditText) findViewById(R.id.editText1);
+        editText1 = (EditText) findViewById(R.id.location_autocomplete);
         editText2 = (CompetencesCompletionTextView) findViewById(R.id.editText2);
         editText3 = (EditText) findViewById(R.id.editText3);
         editText4 = (EditText) findViewById(R.id.editText4);
 
         button = (Button) findViewById(R.id.button);
 
+	    location_autocomplete();
 
         Bundle extra=getIntent().getExtras();
         if(extra!=null){
@@ -219,10 +216,23 @@ public class SearchOffer extends AppCompatActivity {
 	    button.callOnClick();
     }
 
+	private void location_autocomplete() {
+		AutoCompleteTextView autocompleteView = (AutoCompleteTextView) findViewById(R.id.location_autocomplete);
+		autocompleteView.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.location_list_item));
+
+		autocompleteView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		    @Override
+		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		        // Get data associated with the specified position
+		        // in the list (AdapterView)
+		        String description = (String) parent.getItemAtPosition(position);
+		        Toast.makeText(SearchOffer.this, description, Toast.LENGTH_SHORT).show();
+		    }
+		});
+	}
 
 
-
-    @Override
+	@Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
 

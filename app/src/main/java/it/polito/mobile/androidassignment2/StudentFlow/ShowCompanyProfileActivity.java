@@ -109,7 +109,10 @@ public class ShowCompanyProfileActivity extends ActionBarActivity  {
         Intent i = getIntent();
         int companyId = i.getIntExtra("companyId", -1);
         if (companyId == -1) {
-            throw new RuntimeException("companyId is required"); //TODO: toast?
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_invalid_company), Toast.LENGTH_LONG).show();
+
+            throw new RuntimeException("companyId is required");
+
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_show_company_profile);

@@ -189,18 +189,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 				public void process(Integer arg, Exception e) {
 					Log.d("poliJobs", "here in the process");
 					if(e!=null){
-						//TODO: show some error...
 
 
 						String message;
 
-
-
-
-
 						//There where  problem during the request
 						if (e.getClass() == RestApiException.class) {
-
+							message = getResources().getString(R.string.error_server_side);
 							//It was an error on the web service side.
 							//Nb : err code -1 mean a internal bug, report if you exprerience.
 							Integer errCode =  ((RestApiException)e).getResponseCode();
@@ -208,7 +203,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 							if(errCode == 404){
 								message = getResources().getString(R.string.error_login_failed);
 							}
-							message = getResources().getString(R.string.error_server_side);
+
 						}else{
 							//It was an error with the internet conextion.
 							message = getResources().getString(R.string.error_network);

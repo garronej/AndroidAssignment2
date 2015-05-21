@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -366,7 +367,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 							@Override
 							public void process(Integer arg, Exception e) {
 								if (e != null) {
-									//TODO: show error message
+									Log.d(CompaniesFavouritesActivity.class.getSimpleName(), "Error deleteing user");
 									return;
 								}
 								getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();

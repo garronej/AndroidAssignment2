@@ -5,7 +5,6 @@
              tools:context="it.polito.s211371.mad2.UserProfile"
              android:background="#ffff8d00">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/section_label"
         android:layout_width="wrap_content"

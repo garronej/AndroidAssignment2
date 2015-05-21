@@ -308,7 +308,7 @@ public class CompanyProfileActivity extends ActionBarActivity implements Communi
 	                        @Override
 	                        public void process(Integer arg, Exception e) {
 		                        if (e != null) {
-			                        //TODO: show error message
+                                    Log.d(StudentsFavouritesActivity.class.getSimpleName(), "Error deleteing account");
 			                        return;
 		                        }
 		                        getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();

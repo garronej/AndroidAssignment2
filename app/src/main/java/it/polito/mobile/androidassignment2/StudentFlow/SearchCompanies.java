@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -99,11 +101,11 @@ public class SearchCompanies extends AppCompatActivity {
                     public void process(final List<Company> arg, Exception e) {
                         task=null;
                         if (e != null) {
-                            //TODO: show error message
+                            Log.d(SearchCompanies.class.getSimpleName(),"Error retrieving search results");
                             return;
                         }
                         if (arg.size() == 0) {
-                            //TODO: display some message...
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_empty_search), Toast.LENGTH_LONG).show();
                         }
                         listView.setAdapter(new BaseAdapter() {
                             @Override

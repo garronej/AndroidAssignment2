@@ -402,7 +402,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                     @Override
                     public void process(Integer arg, Exception e) {
                         if(e!=null){
-                            //TODO: show some error message..
+                            Log.d(OfferShowActivity.class.getSimpleName(), "Error deleteing account");
                             return;
                         }
 

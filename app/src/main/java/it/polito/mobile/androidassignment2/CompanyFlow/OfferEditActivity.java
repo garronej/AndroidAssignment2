@@ -136,7 +136,7 @@ public class OfferEditActivity extends AppCompatActivity {
                     @Override
                     public void process(Offer arg, Exception e) {
                         if(e!=null){
-                            //TODO: show some error message..
+                            Log.d(OfferEditActivity.class.getSimpleName(), "Error updating offer");
                             return;
                         }
                         finish();
