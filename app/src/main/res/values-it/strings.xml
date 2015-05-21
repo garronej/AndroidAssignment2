@@ -125,7 +125,7 @@
     <string name="show_all_candidates">Mostra candidature</string>
     <string name="action_delete_account">Cancella account</string>
     <string name="action_logout">Logout</string>
-    <string name="confirm">Attenzione</string>
+    <string name="confirm">Conferma</string>
     <string name="logout_message">Vuoi veramente fare logout?</string>
     <string name="delete_user_message">Vuoi veramente cancellare l\'account?</string>
     <string name="applied">Candidato</string>
