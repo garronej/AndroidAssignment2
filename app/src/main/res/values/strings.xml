@@ -56,11 +56,6 @@
     <string name="title_activity_main_student">MainStudentActivity</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_info_wrapper">InfoWrapperActivity</string>
-<<<<<<< HEAD
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-=======
->>>>>>> fix some strings and add it translation
     <string name="search_button">Search</string>
     <string name="offers">Offers</string>
 
