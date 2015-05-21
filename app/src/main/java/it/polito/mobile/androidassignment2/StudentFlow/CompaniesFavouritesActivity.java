@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +34,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Utils;
 import it.polito.mobile.androidassignment2.context.AppContext;
 
 
-public class CompaniesFavouritesActivity extends ActionBarActivity implements Communicator {
+public class CompaniesFavouritesActivity extends AppCompatActivity implements Communicator {
     private ListView listView;
     private AsyncTask<?, ?, ?> task = null;
     private AsyncTask<?, ?, ?> task2 = null;
@@ -173,13 +174,14 @@ public class CompaniesFavouritesActivity extends ActionBarActivity implements Co
 	public void onResume() {
 		super.onResume();  // Always call the superclass method first
 		final TextView emptyMessage = (TextView) findViewById(R.id.empy_favourite_message);
+		emptyMessage.setVisibility(View.GONE);
+
 		if (adapter == null) return;
 
 		Integer studentId = null;
 
 		try {
 			studentId = ((AppContext) getApplication()).getSession().getStudentLogged().getId();
-			emptyMessage.setVisibility(View.GONE);
 
 		} catch (DataFormatException e) {
 		}
