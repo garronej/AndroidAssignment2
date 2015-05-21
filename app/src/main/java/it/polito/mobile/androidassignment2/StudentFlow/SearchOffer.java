@@ -80,6 +80,7 @@ public class SearchOffer extends AppCompatActivity {
                         if( e != null ) return;
 
                         editText3.setText(arg.getName());
+                        editText3.setVisibility(View.GONE);
 
                         button.callOnClick();
                     }

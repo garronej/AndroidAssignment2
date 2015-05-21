@@ -26,6 +26,7 @@ import java.util.zip.DataFormatException;
 import it.polito.mobile.androidassignment2.AlertYesNo;
 import it.polito.mobile.androidassignment2.Communicator;
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.StudentFlow.ShowCompanyProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Offer;
@@ -139,6 +140,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
             }
         });
 
+
         registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
         registerReceiver(downloadError, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
 
@@ -154,7 +156,14 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                     return;
                 }
                 TransferController.download(getApplicationContext(), new String[]{arg.getCompany().getLogoUrl()});
-
+                photo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(OfferShowActivity.this, ShowCompanyProfileActivity.class);
+                        i.putExtra("companyId", (int)arg.getCompanyId());
+                        startActivity(i);
+                    }
+                });
                 code.setText(arg.getCode());
                 location.setText(arg.getLocation());
                 companyName.setText(arg.getCompanyName());
