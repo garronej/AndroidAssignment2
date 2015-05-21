@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:background="@color/app_default_background"
+            android:background="@color/blue_sky"
             android:textColor="@color/white"
             android:text="@string/button_show_favourite"
             />
