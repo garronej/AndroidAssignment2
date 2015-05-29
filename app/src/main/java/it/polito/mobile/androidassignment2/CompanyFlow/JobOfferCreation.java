@@ -31,6 +31,7 @@ public class JobOfferCreation extends AppCompatActivity {
 	private AsyncTask<Object, Void, Object> task;
 	private EditText code;
 	private AsyncTask<Object, Void, Object> task1;
+	private EditText title;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class JobOfferCreation extends AppCompatActivity {
 		setContentView(R.layout.activity_job_offer_creation);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+		title = (EditText) findViewById(R.id.job_title);
 		code = (EditText) findViewById(R.id.job_offer_code);
 		description = (EditText) findViewById(R.id.job_offer_description);
 		numberOfMonths = (EditText) findViewById(R.id.number_of_months);
@@ -86,6 +87,7 @@ public class JobOfferCreation extends AppCompatActivity {
 				}
 				o.setCode(code.getText().toString());
 				o.setLocation(location.getText().toString());
+				o.setTitle(title.getText().toString());
 				if (competences.getObjects().size() > 0) {
 					String[] comp = new String[competences.getObjects().size()];
 					int i = 0;

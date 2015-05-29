@@ -14,7 +14,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
+        <LinearLayout
+            style="@style/ProfileItem">
 
+            <EditText
+                android:id="@+id/job_title"
+                style="@style/ProfileItemText"
+                android:hint="@string/job_title"
+                android:imeActionId="@+id/location"/>
+        </LinearLayout>
 
         <LinearLayout
             style="@style/ProfileItem">

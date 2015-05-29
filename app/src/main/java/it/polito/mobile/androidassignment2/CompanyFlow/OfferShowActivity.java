@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -48,6 +49,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
     private AsyncTask<Object, Void, Object> task3;
     private AsyncTask<Object, Void, Object> task4;
     private AsyncTask<Object, Void, Object> task5;
+    private EditText title;
 
 
     private class DownloadErrorReceiver extends BroadcastReceiver {
@@ -99,7 +101,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
         editOfferButton = (Button) findViewById(R.id.edit_offer_button);
 
         candidatesButton = (Button) findViewById(R.id.show_all_candidates);
-
+        title = (EditText) findViewById(R.id.job_title);
         code = (TextView) findViewById(R.id.job_offer_code);
         description = (TextView) findViewById(R.id.job_offer_description);
         location = (TextView) findViewById(R.id.location);
@@ -171,7 +173,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
                         startActivity(i);
                     }
                 });
-
+                title.setText(arg.getTitle());
                 code.setText(arg.getCode());
                 location.setText(arg.getLocation());
                 companyName.setText(arg.getCompanyName());

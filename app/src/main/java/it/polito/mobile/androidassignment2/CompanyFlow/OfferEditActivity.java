@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -38,6 +39,7 @@ public class OfferEditActivity extends AppCompatActivity {
     private View pbLogoSpinner;
     private DownloadErrorReceiver downloadError;
     private AsyncTask<Object, Void, Object> task1;
+    private EditText title;
 
 
     private class DownloadErrorReceiver extends BroadcastReceiver {
@@ -78,7 +80,7 @@ public class OfferEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_edit);
-
+        title = (EditText) findViewById(R.id.job_title);
         code = (TextView) findViewById(R.id.job_offer_code);
         description = (TextView) findViewById(R.id.job_offer_description);
         location = (TextView) findViewById(R.id.location);
@@ -119,6 +121,7 @@ public class OfferEditActivity extends AppCompatActivity {
                 o.setCode(code.getText().toString());
                 o.setDescriptionOfWork(description.getText().toString());
                 o.setLocation(location.getText().toString());
+                o.setTitle(title.getText().toString());
                 o.setKindOfContract(contractType.getText().toString());
                 if(numberOfMonths.getText().toString().matches("[0-9]+")) {
                     o.setDurationMonths(Integer.parseInt(numberOfMonths.getText().toString()));
@@ -166,7 +169,7 @@ public class OfferEditActivity extends AppCompatActivity {
                     return;
                 }
                 TransferController.download(getApplicationContext(), new String[]{arg.getCompany().getLogoUrl()});
-
+                title.setText(arg.getTitle());
                 code.setText(arg.getCode());
                 location.setText(arg.getLocation());
                 companyName.setText(arg.getCompanyName());

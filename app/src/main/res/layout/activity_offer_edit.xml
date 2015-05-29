@@ -45,6 +45,19 @@
                 />
         </RelativeLayout>
 
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                style="@style/ProfileItemText"
+                android:id="@+id/job_title"
+                android:hint="@string/job_title"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+
         <LinearLayout
             style="@style/ProfileItem" >
 
@@ -66,6 +79,7 @@
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
 
         <LinearLayout
             style="@style/ProfileItem" >

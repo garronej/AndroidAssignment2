@@ -77,6 +77,18 @@
             android:visibility="gone"
             />
 
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/job_title" />
+            <TextView
+                style="@style/ProfileItemText"
+                android:id="@+id/job_title"
+                />
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
 
         <LinearLayout

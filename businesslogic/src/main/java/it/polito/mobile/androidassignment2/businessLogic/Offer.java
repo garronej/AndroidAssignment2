@@ -24,6 +24,16 @@ public class Offer {
     private String location = null;
     private String[] competences = null;
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    private String title;
+
 
 
     private Company company = new Company();
@@ -142,6 +152,11 @@ public class Offer {
             if( !buff.equals("null")){
                 this.location = buff;
             }
+            buff = json.getString("title");
+
+            if( !buff.equals("null")){
+                this.title = buff;
+            }
 
             buff = json.getString("competences");
             
@@ -192,7 +207,9 @@ public class Offer {
         if(this.durationMonths!=null){
             s.put("offer[duration_months]", this.durationMonths.toString());
         }
-
+        if(this.getTitle()!=null){
+            s.put("offer[title]", this.getTitle());
+        }
         if(this.company.getName()!=null){
             s.put("offer[company]", this.company.getName());
         }

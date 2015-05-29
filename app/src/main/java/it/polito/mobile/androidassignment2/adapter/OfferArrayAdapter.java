@@ -35,18 +35,20 @@ public class OfferArrayAdapter extends ArrayAdapter<Offer> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.list_offer_layout, parent, false);
-        TextView textView1 = (TextView) rowView.findViewById(R.id.firstLine);
-        TextView textView2 = (TextView) rowView.findViewById(R.id.secondLine);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+        if(convertView==null) {
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.list_offer_layout, parent, false);
+        }
+        TextView textView1 = (TextView) convertView.findViewById(R.id.firstLine);
+        TextView textView2 = (TextView) convertView.findViewById(R.id.secondLine);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.icon);
 
         Offer offer = this.values.get(position);
 
 
 
-        textView1.setText(offer.getDescriptionOfWork());
+        textView1.setText(offer.getTitle());
         textView2.setText(offer.getCompanyName() + ", " + offer.getLocation());
 
 
@@ -84,7 +86,7 @@ public class OfferArrayAdapter extends ArrayAdapter<Offer> {
 
 
 
-        return rowView;
+        return convertView;
     }
 
     @Override
