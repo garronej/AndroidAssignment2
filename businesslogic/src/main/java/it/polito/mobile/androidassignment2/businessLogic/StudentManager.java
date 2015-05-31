@@ -363,7 +363,7 @@ class StudentManager {
 
 
     protected static List<String> getAllCareers() throws IOException, RestApiException{
-            String resp = RESTManager.send(RESTManager.GET, BASE_URI + "/university_careers", null);
+            String resp = RESTManager.send(RESTManager.GET, "university_careers", null);
             try{
                 JSONArray json = (new JSONObject(resp)).getJSONArray("university_careers");
 

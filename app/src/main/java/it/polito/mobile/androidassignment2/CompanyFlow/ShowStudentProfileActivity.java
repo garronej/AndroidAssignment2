@@ -37,6 +37,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.context.AppContext;
+import it.polito.mobile.androidassignment2.customView.CareerLayout;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
@@ -127,42 +128,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 		} catch (DataFormatException e) {
 			throw new RuntimeException(e);
 		}
-		Intent i = getIntent();
-		int studentId = i.getIntExtra("studentId", -1);
-		if (studentId == -1) {
-			Log.e(ShowStudentProfileActivity.class.getSimpleName(),"error studentId invalid or null");
-			throw new RuntimeException("studentId is required");
-		}
 
-		offerId = i.getIntExtra("offerId", -1);
-		setContentView(R.layout.activity_show_student_profile);
-
-		rlDiscard = (RelativeLayout) findViewById(R.id.discard_rl);
-		if (offerId == -1) {
-			rlDiscard.setVisibility(View.GONE);
-		} else {
-			rlDiscard.setVisibility(View.VISIBLE);
-		}
-		findViews();
-		//fetch and setup
-		task1 = Manager.getStudentById(studentId, new Manager.ResultProcessor<Student>() {
-
-			@Override
-			public void cancel() {
-                task1 = null;
-			}
-
-			@Override
-			public void process(final Student arg, Exception e) {
-				task1=null;
-                if (e == null) {
-                    student = arg;
-                    setupViewsAndCallbacks();
-                } else {
-                    Toast.makeText(ShowStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
-                }
-			}
-		});
 	}
 
 	private void findViews() {
@@ -257,12 +223,11 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 		}
 		birthDate.setText(student.getBirthDate());
 		Career[] universityCareers = student.getUniversityCareers();
+		univCareers.removeAllViews();
 		if (universityCareers != null) {
 			for(int i=0;i<universityCareers.length;i++){
-				View cView = getLayoutInflater().inflate(R.layout.career_layout,univCareers, false);
-				((TextView)cView.findViewById(R.id.career_title)).setText(universityCareers[i].getCareer());
-				((TextView)cView.findViewById(R.id.career_mark)).setText(universityCareers[i].getFormattedMark());
-				((TextView)cView.findViewById(R.id.career_date)).setText(universityCareers[i].getDate());
+				CareerLayout cView = new CareerLayout(this);
+				cView.initializeValues(universityCareers[i]);
 
 				univCareers.addView(cView);
 
@@ -341,6 +306,42 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 		super.onResume();
 		registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
 		registerReceiver(downloadfailed, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
+		Intent i = getIntent();
+		int studentId = i.getIntExtra("studentId", -1);
+		if (studentId == -1) {
+			Log.e(ShowStudentProfileActivity.class.getSimpleName(),"error studentId invalid or null");
+			throw new RuntimeException("studentId is required");
+		}
+
+		offerId = i.getIntExtra("offerId", -1);
+		setContentView(R.layout.activity_show_student_profile);
+
+		rlDiscard = (RelativeLayout) findViewById(R.id.discard_rl);
+		if (offerId == -1) {
+			rlDiscard.setVisibility(View.GONE);
+		} else {
+			rlDiscard.setVisibility(View.VISIBLE);
+		}
+		findViews();
+		//fetch and setup
+		task1 = Manager.getStudentById(studentId, new Manager.ResultProcessor<Student>() {
+
+			@Override
+			public void cancel() {
+				task1 = null;
+			}
+
+			@Override
+			public void process(final Student arg, Exception e) {
+				task1=null;
+				if (e == null) {
+					student = arg;
+					setupViewsAndCallbacks();
+				} else {
+					Toast.makeText(ShowStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 	}
 
 	@Override

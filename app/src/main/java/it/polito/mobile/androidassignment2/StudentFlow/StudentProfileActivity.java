@@ -37,6 +37,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Career;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.context.AppContext;
+import it.polito.mobile.androidassignment2.customView.CareerLayout;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
@@ -169,7 +170,6 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 		}
 		setContentView(R.layout.activity_student_profile);
 		findViews();
-		setupViewsAndCallbacks();
 		myAddActionBar();
 		addTabMenuButtonCallbacks();
 	}
@@ -218,14 +218,13 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 		}
 
 		birthDate.setText(loggedStudent.getBirthDate());
-
+		univCareersLL.removeAllViews();
 		Career[] universityCareers = loggedStudent.getUniversityCareers();
 		if (universityCareers != null) {
 			for(int i=0;i<universityCareers.length;i++){
-				View cView = getLayoutInflater().inflate(R.layout.career_layout,univCareersLL, false);
-				((TextView)cView.findViewById(R.id.career_title)).setText(universityCareers[i].getCareer());
-				((TextView)cView.findViewById(R.id.career_mark)).setText(universityCareers[i].getFormattedMark());
-				((TextView)cView.findViewById(R.id.career_date)).setText(universityCareers[i].getDate());
+
+				CareerLayout cView = new CareerLayout(this);
+				cView.initializeValues(universityCareers[i]);
 
 				univCareersLL.addView(cView);
 
@@ -318,6 +317,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	@Override
 	protected void onResume() {
 		super.onResume();
+		setupViewsAndCallbacks();
 		registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
         registerReceiver(downloadfailed, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
 	}

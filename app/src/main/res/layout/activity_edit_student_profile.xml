@@ -223,9 +223,9 @@
                 >
 
             </LinearLayout>
-            <Button
+            <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/button_height"
+                android:layout_height="wrap_content"
                 android:id="@+id/add_career"
                 android:text="@string/add"
                 android:textColor="#fff"
@@ -234,7 +234,7 @@
                 android:paddingRight="10dp"
                 android:layout_marginRight="@dimen/side_margin"
                 android:layout_centerInParent="true"
-                android:background="@color/blue_sky"/>
+                android:background="@android:drawable/ic_input_add"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>

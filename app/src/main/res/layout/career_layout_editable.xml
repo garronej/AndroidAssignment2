@@ -20,7 +20,7 @@
 
             <AutoCompleteTextView
                 android:id="@+id/career_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
@@ -55,6 +55,16 @@
                 android:textSize="12sp"
                 android:singleLine="true"
                 android:inputType="numberDecimal" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/laude"
+                android:textColor="@color/secondary_text_default_material_light"
+                android:textSize="12sp"
+                android:id="@+id/laude_checkbox"
+                android:enabled="false"
+                />
 
 
         </LinearLayout>

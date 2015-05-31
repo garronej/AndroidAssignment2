@@ -151,4 +151,5 @@
     <string name="favourite_students_empty">Nessuno studente preferito, cerca cliccando l\'icona</string>
     <string name="no_application_yet">Nessuna candidatura, cerca cliccando l\'icona</string>
     <string name="open_file">Apri il file</string>
+    <string name="laude">Lode</string>
 </resources>

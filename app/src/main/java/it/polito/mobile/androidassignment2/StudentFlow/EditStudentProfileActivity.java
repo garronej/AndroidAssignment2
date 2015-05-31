@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -49,6 +50,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Career;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.context.AppContext;
+import it.polito.mobile.androidassignment2.customView.CareerEditableLayout;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.models.UploadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
@@ -82,6 +84,8 @@ public class EditStudentProfileActivity extends AppCompatActivity {
     private static final int PICK_PDF = 1;
     private EditText birthDate;
     private LinearLayout llUniversityCareer;
+    private ArrayAdapter<String> careersAdapter;
+    private AsyncTask<Object, Void, Object> task5;
 
     public class DownloadFinished extends BroadcastReceiver {
 
@@ -162,8 +166,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_student_profile);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         findViews();
-        setupViewsAndCallbacks();
-        location_autocomplete();
+
     }
 
     private void findViews() {
@@ -189,66 +192,17 @@ public class EditStudentProfileActivity extends AppCompatActivity {
     }
 
     private void setupViewsAndCallbacks() {
+        careersAdapter = new ArrayAdapter<String>(EditStudentProfileActivity.this, android.R.layout.simple_list_item_1, new ArrayList<String>());
         etName.setText(loggedStudent.getName());
         etSurname.setText(loggedStudent.getSurname());
         Career[] universityCareers = loggedStudent.getUniversityCareers();
+        llUniversityCareer.removeAllViews();
         if (universityCareers != null) {
             for(int i=0;i<universityCareers.length;i++){
-                final View cView = getLayoutInflater().inflate(R.layout.career_layout_editable,llUniversityCareer, false);
-                ((TextView)cView.findViewById(R.id.career_title)).setText(universityCareers[i].getCareer());
-                ((TextView)cView.findViewById(R.id.career_mark)).setText(universityCareers[i].getFormattedMark());
-                final TextView carDate = ((TextView) cView.findViewById(R.id.career_date));
-                carDate.setText(universityCareers[i].getDate());
-                carDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
 
-                            String[] ss = carDate.getText().toString().split("-");
-                            Calendar cal = Calendar.getInstance();
-                            int aaaa = cal.get(Calendar.YEAR);
-                            int mm = cal.get(Calendar.MONTH);
-                            int gg = cal.get(Calendar.DAY_OF_MONTH);
-
-                            if (ss.length == 3) {
-                                aaaa = Integer.parseInt(ss[0]);
-                                mm = Integer.parseInt(ss[1]) - 1;
-                                gg = Integer.parseInt(ss[2]);
-                            }
-
-                            DatePickerDialog dp = new DatePickerDialog(EditStudentProfileActivity.this,
-                                    new DatePickerDialog.OnDateSetListener() {
-                                        @Override
-                                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                            carDate.setText(String.format("%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth));
-                                        }
-                                    }, aaaa, mm, gg);
-
-                            dp.show();
-                        }
-                    }
-                });
-                cView.findViewById(R.id.delete_career).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ViewGroup p = ((ViewGroup) cView.getParent());
-                        int index = p.indexOfChild(cView) + 1;
-                        if (p.getChildCount() > index) {
-                            if (!(p.getChildAt(index) instanceof ViewGroup)) {
-                                p.removeViewAt(index);
-                            }
-                        }else{
-                            index = index - 2;
-                            if(index>0){
-                                if (!(p.getChildAt(index) instanceof ViewGroup)) {
-                                    p.removeViewAt(index);
-                                }
-                            }
-                        }
-                        p.removeView(cView);
-                    }
-
-                });
+                CareerEditableLayout cView = new CareerEditableLayout(this);
+                cView.initializeValues(universityCareers[i]);
+                cView.setCareerTitleAdapter(careersAdapter);
                 llUniversityCareer.addView(cView);
                 if(i!=universityCareers.length-1){
                     View v = new View(this);
@@ -270,58 +224,10 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                             LinearLayout.LayoutParams.WRAP_CONTENT));
                     llUniversityCareer.addView(div);
                 }
-                final View c=getLayoutInflater().inflate(R.layout.career_layout_editable,llUniversityCareer, false);
-                final TextView carDate = ((TextView) c.findViewById(R.id.career_date));
-                carDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
 
-                            String[] ss = carDate.getText().toString().split("-");
-                            Calendar cal = Calendar.getInstance();
-                            int aaaa=cal.get(Calendar.YEAR);
-                            int mm = cal.get(Calendar.MONTH);
-                            int gg = cal.get(Calendar.DAY_OF_MONTH);
-
-                            if(ss.length==3){
-                                aaaa=Integer.parseInt(ss[0]);
-                                mm=Integer.parseInt(ss[1])-1;
-                                gg=Integer.parseInt(ss[2]);
-                            }
-
-                            DatePickerDialog dp = new DatePickerDialog(EditStudentProfileActivity.this,
-                                    new DatePickerDialog.OnDateSetListener() {
-                                        @Override
-                                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                            carDate.setText(String.format("%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth));
-                                        }
-                                    },aaaa,mm,gg);
-
-                            dp.show();
-                        }
-                    }
-                });
-                c.findViewById(R.id.delete_career).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ViewGroup p = ((ViewGroup) c.getParent());
-                        int index = p.indexOfChild(c) + 1;
-                        if (p.getChildCount() > index) {
-                            if (!(p.getChildAt(index) instanceof ViewGroup)) {
-                                p.removeViewAt(index);
-                            }
-                        }else{
-                            index = index - 2;
-                            if(index>0){
-                                if (!(p.getChildAt(index) instanceof ViewGroup)) {
-                                    p.removeViewAt(index);
-                                }
-                            }
-                        }
-                        p.removeView(c);
-                    }
-                });
-                llUniversityCareer.addView(c);
+                CareerEditableLayout cView = new CareerEditableLayout(EditStudentProfileActivity.this);
+                cView.setCareerTitleAdapter(careersAdapter);
+                llUniversityCareer.addView(cView);
 
             }
         });
@@ -386,18 +292,21 @@ public class EditStudentProfileActivity extends AppCompatActivity {
 
                     loggedStudent.setBirthDate(birthDate.getText().toString());
                     List<Career> careers = new ArrayList<Career>();
-                    for(int i =0; i< llUniversityCareer.getChildCount();i++){
+                    for (int i = 0; i < llUniversityCareer.getChildCount(); i++) {
                         View child = llUniversityCareer.getChildAt(i);
 
-                        if(child instanceof LinearLayout) {
-
+                        if (child instanceof CareerEditableLayout) {
+                            CareerEditableLayout careerLayout = (CareerEditableLayout) child;
                             Career c = new Career();
-                            c.setCareer(((TextView) child.findViewById(R.id.career_title)).getText().toString());
-                            String mString=((TextView) child.findViewById(R.id.career_mark)).getText().toString();
-                            if(!mString.isEmpty()) {
+                            c.setCareer(careerLayout.getCareerTitle());
+                            String mString = careerLayout.getGraduationMark();
+                            if (!mString.isEmpty()) {
                                 c.setMark(Integer.parseInt(mString));
+                                if(c.getMark()==110 && careerLayout.isSetLaude()){
+                                    c.setMark(111);
+                                }
                             }
-                            c.setDate(((TextView) child.findViewById(R.id.career_date)).getText().toString());
+                            c.setDate(careerLayout.getDate());
                             careers.add(c);
                         }
 
@@ -454,7 +363,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                 task3 = Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
                     @Override
                     public void process(Student arg, Exception e) {
-                        task3=null;
+                        task3 = null;
                         if (e == null) {
                             Intent i = new Intent(EditStudentProfileActivity.this, StudentProfileActivity.class);
                             startActivity(i);
@@ -523,6 +432,21 @@ public class EditStudentProfileActivity extends AppCompatActivity {
             @Override
             public void cancel() {
                 task4 = null;
+            }
+        });
+
+        task5=Manager.getAllCareers(new Manager.ResultProcessor<List<String>>() {
+            @Override
+            public void process(List<String> arg, Exception e) {
+                task5=null;
+                if(e!=null) return;
+                careersAdapter.addAll(arg);
+                careersAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void cancel() {
+                task5=null;
             }
         });
 
@@ -602,6 +526,8 @@ public class EditStudentProfileActivity extends AppCompatActivity {
         super.onResume();
         registerReceiver(uploadfinished, new IntentFilter(UploadModel.INTENT_UPLOADED));
         registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
+        setupViewsAndCallbacks();
+        location_autocomplete();
     }
 
     @Override
@@ -623,6 +549,10 @@ public class EditStudentProfileActivity extends AppCompatActivity {
         if(task4 != null){
             task4.cancel(true);
             task4 = null;
+        }
+        if(task5 != null){
+            task5.cancel(true);
+            task5 = null;
         }
         super.onPause();
     }
