@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
     defaultConfig {
         applicationId "it.polito.mobile.androidassignment2"
         minSdkVersion 15
@@ -17,10 +16,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+    }
 }
 
 dependencies {
-    compile "com.splitwise:tokenautocomplete:1.3.3@aar"
+    compile 'com.splitwise:tokenautocomplete:1.3.3@aar'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile project(':businesslogic')
@@ -40,5 +41,12 @@ dependencies {
     compile files('libs/aws-android-sdk-ses-2.2.1.jar')
     compile files('libs/aws-android-sdk-sns-2.2.1.jar')
     compile files('libs/aws-android-sdk-sqs-2.2.1.jar')
-
+    compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.android.support:recyclerview-v7:22.1.1'
+    compile 'com.github.hdodenhof:CircleImageView:v1.3.0'
+}
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
 }

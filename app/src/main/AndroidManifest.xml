@@ -11,20 +11,16 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
 
     <application
-        android:allowBackup="true"
         android:name=".context.AppContext"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:windowSoftInputMode="stateHidden|adjustPan" >
+
         </activity>
         <activity
             android:name=".StudentFlow.StudentProfileActivity"
@@ -43,7 +39,7 @@
             android:name=".StudentFlow.EditStudentProfileActivity"
             android:label="@string/title_activity_edit_student_profile"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StudentFlow.StudentProfileActivity" />
@@ -53,7 +49,7 @@
             android:name=".CompanyFlow.EditCompanyProfileActivity"
             android:label="@string/title_activity_edit_company_profile"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CompanyFlow.CompanyProfileActivity" />
@@ -77,7 +73,7 @@
             android:label="@string/activity_search_companies"
             android:parentActivityName=".StudentFlow.CompaniesFavouritesActivity"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StudentFlow.CompaniesFavouritesActivity" />
@@ -92,7 +88,7 @@
             android:label="@string/activity_search_students"
             android:parentActivityName=".CompanyFlow.StudentsFavouritesActivity"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CompanyFlow.StudentsFavouritesActivity" />
@@ -118,7 +114,7 @@
         <activity
             android:name=".StudentFlow.SearchActivity"
             android:label="@string/title_activity_search"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".StudentFlow.InfoWrapperActivity"
@@ -139,7 +135,7 @@
             android:label="@string/title_activity_job_offer_creation"
             android:parentActivityName=".CompanyFlow.OffersProposed"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CompanyFlow.OffersProposed" />
@@ -149,7 +145,7 @@
             android:label="@string/title_activity_offer_edit_activity"
             android:parentActivityName=".CompanyFlow.JobOfferCreation"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CompanyFlow.JobOfferCreation" />
@@ -172,10 +168,21 @@
             android:name=".StudentFlow.SearchOffer"
             android:label="@string/title_activity_search_offer"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StudentFlow.OffersListsActivity" />
+        </activity>
+        <activity
+            android:name=".StudentFlow.Main2StudentActivity"
+            android:label="@string/title_activity_main2_student"
+            android:theme="@style/ActionBarTheme"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
