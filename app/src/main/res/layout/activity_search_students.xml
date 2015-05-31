@@ -85,7 +85,7 @@
                     android:layout_gravity="center"/>
             </LinearLayout>
 
-            <EditText
+            <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/student_search_career"
@@ -96,6 +96,41 @@
 
                 android:imeOptions="actionDone"
                 style="@style/ProfileItemText"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/student_min_mark"
+                android:hint="@string/minimum_mark"
+
+                android:layout_marginTop="2dp"
+                android:inputType="numberDecimal"
+
+                android:imeOptions="actionDone"
+                style="@style/ProfileItemText"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/age"
+                    style="@style/ProfileItemLabel"
+                    android:layout_gravity="center"/>
+                <Spinner
+                    android:id="@+id/student_search_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/age_entries"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:spinnerMode="dropdown"
+                    style="@style/ProfileItemText"/>
+
+            </LinearLayout>
 
 
             <Button

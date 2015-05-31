@@ -49,7 +49,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
     private AsyncTask<Object, Void, Object> task3;
     private AsyncTask<Object, Void, Object> task4;
     private AsyncTask<Object, Void, Object> task5;
-    private EditText title;
+    private TextView title;
 
 
     private class DownloadErrorReceiver extends BroadcastReceiver {
@@ -101,7 +101,7 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
         editOfferButton = (Button) findViewById(R.id.edit_offer_button);
 
         candidatesButton = (Button) findViewById(R.id.show_all_candidates);
-        title = (EditText) findViewById(R.id.job_title);
+        title = (TextView) findViewById(R.id.job_title);
         code = (TextView) findViewById(R.id.job_offer_code);
         description = (TextView) findViewById(R.id.job_offer_description);
         location = (TextView) findViewById(R.id.location);

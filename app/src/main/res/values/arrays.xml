@@ -9,4 +9,12 @@
         <item>Company</item>
         <item>Student</item>
     </string-array>
+    <string-array name="age_entries">
+        <item>All</item>
+        <item>&lt;20</item>
+        <item>20-25</item>
+        <item>26-35</item>
+        <item>36-50</item>
+        <item>&gt;50</item>
+    </string-array>
 </resources>

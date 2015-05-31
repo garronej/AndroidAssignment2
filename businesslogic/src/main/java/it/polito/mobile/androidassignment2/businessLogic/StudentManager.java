@@ -64,7 +64,7 @@ class StudentManager {
 
 
     //To test
-    protected static List<Student> getStudentsMatchingCriteria( Student criteria ) throws RestApiException, IOException {
+    protected static List<Student> getStudentsMatchingCriteria(Student criteria, Map<String, String> filters) throws RestApiException, IOException {
 
         Map<String,String> params = null;
 
@@ -82,6 +82,15 @@ class StudentManager {
             */
             params = criteria.toFormParams();
 
+
+        }
+
+        if(filters!=null){
+            if(params!=null) {
+                params.putAll(filters);
+            }else{
+                params=filters;
+            }
         }
 
         String resp = RESTManager.send(RESTManager.GET, BASE_URI, params);
@@ -353,6 +362,22 @@ class StudentManager {
     }
 
 
+    protected static List<String> getAllCareers() throws IOException, RestApiException{
+            String resp = RESTManager.send(RESTManager.GET, BASE_URI + "/university_careers", null);
+            try{
+                JSONArray json = (new JSONObject(resp)).getJSONArray("university_careers");
+
+                List<String> competences = new ArrayList<String>();
+
+                for( int i = 0; i < json.length(); i++){
+                    competences.add( json.getString(i) );
+                }
+
+                return competences;
 
 
+            } catch (JSONException e) {
+                throw new RestApiException(-1,"Internal Error CompetenceManager in getAllCompetences");
+            }
+        }
 }

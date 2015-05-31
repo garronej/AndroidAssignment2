@@ -3,6 +3,7 @@ package it.polito.mobile.androidassignment2.businessLogic;
 import android.os.AsyncTask;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -52,7 +53,7 @@ public class Task {
         SUBSCRIBE_STUDENTS_OF_JOB_OFFER,
         GET_ALL_STUDENT_COMPETENCES,
 
-        GET_ALL_COMPANY_COMPETENCES, GET_ALL_OFFER_COMPETENCES, UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER
+        GET_ALL_COMPANY_COMPETENCES, GET_ALL_OFFER_COMPETENCES, GET_ALL_CAREERS, UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER
 
     }
 
@@ -86,7 +87,7 @@ public class Task {
                         out = Manager.insertNewStudent((Student) params[0]);
                         break;
                     case GET_STUDENTS_MATCHING_CRITERIA:
-                        out = Manager.getStudentsMatchingCriteria((Student) params[0]);
+                        out = Manager.getStudentsMatchingCriteria((Student) params[0], (Map<String, String>) params[1]);
                         break;
                     case UPDATE_STUDENT:
                         out = Manager.updateStudent((Student) params[0]);
@@ -162,14 +163,14 @@ public class Task {
 
 
                     case LOGIN:
-                        out = Session.login((String)params[0],(String)params[1]);
+                        out = Session.login((String) params[0], (String) params[1]);
                         break;
 
                     case GET_STUDENTS_OF_JOB_OFFER:
                         out = Manager.getStudentsOfJobOffer((int) params[0], (Student) params[1]);
                         break;
                     case GET_APPLIED_OFFER_OF_STUDENT:
-                        out = Manager.getAppliedOfferOfStudent( (int) params[0], (Offer) params[1]);
+                        out = Manager.getAppliedOfferOfStudent((int) params[0], (Offer) params[1]);
                         break;
 
                     case SUBSCRIBE_STUDENTS_OF_JOB_OFFER:
@@ -187,6 +188,10 @@ public class Task {
 
                     case GET_ALL_OFFER_COMPETENCES:
                         out = Manager.getAllOffersCompetences();
+                        break;
+
+                    case GET_ALL_CAREERS:
+                        out = Manager.getAllCareers();
                         break;
 
                 }
@@ -260,6 +265,7 @@ public class Task {
                     case GET_ALL_STUDENT_COMPETENCES:
                     case GET_ALL_COMPANY_COMPETENCES:
                     case GET_ALL_OFFER_COMPETENCES:
+                    case GET_ALL_CAREERS:
                         ((Manager.ResultProcessor<List<String>>)this.postProcessor).process((List<String>)out,this.exception);
                         break;
 

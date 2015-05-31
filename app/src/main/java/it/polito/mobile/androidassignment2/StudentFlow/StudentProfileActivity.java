@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import it.polito.mobile.androidassignment2.AlertYesNo;
 import it.polito.mobile.androidassignment2.Communicator;
 import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.businessLogic.Career;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.context.AppContext;
@@ -47,7 +49,6 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	private TextView tvLinks;
 	private Button bCv;
 	private TextView tvEmail;
-	private TextView tvUniversityCareer;
 	private TextView tvCompetences;
 	private Button bAvailability;
 	private TextView tvHobbies;
@@ -58,6 +59,8 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	private Button bSex;
 	private TextView tvLocation;
 	private AsyncTask<Object, Void, Object> task;
+	private LinearLayout univCareersLL;
+	private TextView birthDate;
 
 
 	public class DownloadFinished extends BroadcastReceiver {
@@ -179,13 +182,14 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 		tvFullname = (TextView) findViewById(R.id.fullname);
 		bCv = (Button) findViewById(R.id.cv_button);
 		tvLinks = (TextView) findViewById(R.id.links);
-		tvUniversityCareer = (TextView) findViewById(R.id.university_career);
+		univCareersLL = (LinearLayout) findViewById(R.id.university_career);
 		tvCompetences = (TextView) findViewById(R.id.competences);
 		bAvailability = (Button) findViewById(R.id.availability);
 		tvHobbies = (TextView) findViewById(R.id.hobbies);
 		bEditProfile = (Button) findViewById(R.id.edit_profile_button);
 		bSex = (Button) findViewById(R.id.sex_b);
 		tvLocation = (TextView) findViewById(R.id.location_tv);
+		birthDate = (TextView) findViewById(R.id.location_tv);
 	}
 
 	private void setupViewsAndCallbacks() {
@@ -213,12 +217,29 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 			tvLinks.setText(links);
 		}
 
-		String universityCareer = loggedStudent.getUniversityCareer();
-		if (universityCareer == null) {
-			tvUniversityCareer.setVisibility(View.GONE);
-		} else {
-			tvUniversityCareer.setText(universityCareer);
+		birthDate.setText(loggedStudent.getBirthDate());
+
+		Career[] universityCareers = loggedStudent.getUniversityCareers();
+		if (universityCareers != null) {
+			for(int i=0;i<universityCareers.length;i++){
+				View cView = getLayoutInflater().inflate(R.layout.career_layout,univCareersLL, false);
+				((TextView)cView.findViewById(R.id.career_title)).setText(universityCareers[i].getCareer());
+				((TextView)cView.findViewById(R.id.career_mark)).setText(universityCareers[i].getFormattedMark());
+				((TextView)cView.findViewById(R.id.career_date)).setText(universityCareers[i].getDate());
+
+				univCareersLL.addView(cView);
+
+				if(i!=universityCareers.length-1){
+					View v = new View(this);
+					v.setBackgroundDrawable(getResources().getDrawable(R.drawable.items_divider));
+					v.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+							LinearLayout.LayoutParams.WRAP_CONTENT));
+					univCareersLL.addView(v);
+				}
+			}
 		}
+
+
 
 		String competences = loggedStudent.getCompetencesToString(", ");
 		if (competences == null) {

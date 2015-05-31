@@ -116,6 +116,22 @@
         <LinearLayout
             style="@style/ProfileItem" >
 
+            <EditText
+                android:id="@+id/birth_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileItemText"
+                android:hint="@string/birth_date"
+                android:editable="false"/>
+        </LinearLayout>
+
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
             <AutoCompleteTextView
                 android:id="@+id/edit_location_et"
                 android:layout_width="match_parent"
@@ -194,11 +210,31 @@
 
         <LinearLayout
             style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
+                android:text="@string/university_careers" />
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/university_career"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/side_margin"
+                android:layout_marginRight="@dimen/side_margin"
+                >
 
-            <EditText
-                android:id="@+id/edit_university_career_et"
-                style="@style/ProfileItemText"
-                android:hint="@string/university_career"/>
+            </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:id="@+id/add_career"
+                android:text="@string/add"
+                android:textColor="#fff"
+                android:paddingLeft="10dp"
+                android:layout_gravity="right"
+                android:paddingRight="10dp"
+                android:layout_marginRight="@dimen/side_margin"
+                android:layout_centerInParent="true"
+                android:background="@color/blue_sky"/>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>

@@ -27,12 +27,13 @@ public class Student {
     private String photoUrl = null;
     private String cvUrl = null;
     private String[] links = null;
-    private String universityCareer = null;
+    private Career[] universityCareers = null;
     private String[] competences = null;
     private String[] hobbies = null;
     private Boolean available = null;
     private String password = null;
     private String location = null;
+    private String birthDate = null;
 
 
 
@@ -51,6 +52,14 @@ public class Student {
 
         this.email = Utils.formatEmail(email);
 
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public void setName(String name) throws DataFormatException{
@@ -92,9 +101,9 @@ public class Student {
     }
 
 
-    public void setUniversityCareer(String universityCareer){
+    public void setUniversityCareer(Career[] universityCareer){
 
-        this.universityCareer = Utils.toLowerCase(universityCareer);
+        this.universityCareers = universityCareer;
 
     }
 
@@ -161,6 +170,12 @@ public class Student {
                 this.surname = buff;
             }
 
+            buff = json.getString("date_of_birth");
+
+            if( !buff.equals("null")){
+                this.birthDate = buff;
+            }
+
 
             buff = json.getString("photo");
 
@@ -176,11 +191,13 @@ public class Student {
                 this.cvUrl = buff;
             }
 
-            buff = json.getString("university_career");
+            JSONArray arr = json.getJSONArray("university_careers");
+            universityCareers=new Career[arr.length()];
 
-            if( !buff.equals("null")){
-                this.universityCareer = buff;
+            for(int i=0; i<arr.length(); i++){
+                universityCareers[i]=new Career(arr.getJSONObject(i));
             }
+
 
             buff = json.getString("location");
 
@@ -353,8 +370,8 @@ public class Student {
         return links;
     }
 
-    public String getUniversityCareer() {
-        return universityCareer;
+    public Career[] getUniversityCareers() {
+        return universityCareers;
     }
 
     public String[] getCompetences() {
@@ -381,7 +398,7 @@ public class Student {
                 "  photoUrl='" + photoUrl + "',\n" +
                 "  cvUrl='" + cvUrl + "',\n" +
                 "  links=" + Arrays.toString(links) + ",\n" +
-                "  universityCareer='" + universityCareer + "',\n" +
+                "  universityCareer='" + universityCareers + "',\n" +
                 "  competences=" + Arrays.toString(competences) + ",\n" +
                 "  hobbies=" + Arrays.toString(hobbies) + ",\n" +
                 "  available=" + available + ",\n" +
@@ -408,11 +425,18 @@ public class Student {
         if(cvUrl!=null){
             s.put("student[cv]", cvUrl);
         }
+        if(birthDate!=null){
+            s.put("student[date_of_birth]", birthDate);
+        }
         if(available!=null){
             s.put("student[availability]", available.toString());
         }
-        if(universityCareer!=null){
-            s.put("student[university_career]", universityCareer);
+        if(universityCareers!=null){
+            for(int i=0;i<universityCareers.length;i++){
+                s.put("student[university_careers]["+i+"][career]", universityCareers[i].getCareer());
+                s.put("student[university_careers]["+i+"][final_grade]", String.valueOf(universityCareers[i].getMark()));
+                s.put("student[university_careers]["+i+"][date]", universityCareers[i].getDate());
+            }
         }
         if(location!=null){
             s.put("student[location]", location);
