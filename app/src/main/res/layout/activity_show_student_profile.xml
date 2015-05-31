@@ -194,6 +194,20 @@
             style="@style/ProfileItem" >
             <TextView
                 style="@style/ProfileItemLabel"
+                android:text="@string/birth_date" />
+            <TextView
+                style="@style/ProfileItemText"
+                android:id="@+id/birth_date"
+                />
+        </LinearLayout>
+
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <TextView
+                style="@style/ProfileItemLabel"
                 android:text="@string/location" />
             <TextView
                 style="@style/ProfileItemText"
@@ -222,9 +236,16 @@
             <TextView
                 style="@style/ProfileItemLabel"
                 android:text="@string/university_career" />
-            <TextView
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
                 android:id="@+id/university_career"
-                style="@style/ProfileItemText" />
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/side_margin"
+                android:layout_marginRight="@dimen/side_margin"
+                >
+
+            </LinearLayout>
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>

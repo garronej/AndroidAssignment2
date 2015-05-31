@@ -25,11 +25,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import it.polito.mobile.androidassignment2.CompetencesCompletionTextView;
 import it.polito.mobile.androidassignment2.PlacesAutoCompleteAdapter;
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.businessLogic.Career;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 
@@ -42,11 +45,14 @@ public class SearchStudents extends AppCompatActivity {
 	private EditText locationText;
 	private CheckBox availability;
 	private Spinner sex;
-	private EditText career;
+	private AutoCompleteTextView career;
 	private CompetencesCompletionTextView competences;
 	private AsyncTask<Object, Void, Object> task1 = null;
 
 	private int offerId = -1;
+	private EditText minimumMark;
+	private Spinner ageSpinner;
+	private AsyncTask<Object, Void, Object> task2;
 
 	private void location_autocomplete() {
 		AutoCompleteTextView autocompleteView = (AutoCompleteTextView) findViewById(R.id.student_search_location);
@@ -75,7 +81,10 @@ public class SearchStudents extends AppCompatActivity {
 		locationText = (EditText) findViewById(R.id.student_search_location);
 		availability = (CheckBox) findViewById(R.id.student_search_availability);
 		sex = (Spinner) findViewById(R.id.student_search_sex);
-		career = (EditText) findViewById(R.id.student_search_career);
+		ageSpinner = (Spinner) findViewById(R.id.student_search_age);
+		career = (AutoCompleteTextView) findViewById(R.id.student_search_career);
+		minimumMark = (EditText) findViewById(R.id.student_min_mark);
+
 		competences = (CompetencesCompletionTextView) findViewById(R.id.student_search_keyword);
 
 
@@ -97,6 +106,27 @@ public class SearchStudents extends AppCompatActivity {
 			@Override
 			public void cancel() {
 				task1 = null;
+			}
+		});
+
+		task2 = Manager.getAllCareers(new Manager.ResultProcessor<List<String>>() {
+			@Override
+			public void process(final List<String> arg, Exception e) {
+				task2 = null;
+				if (e != null) {
+					return;
+				}
+
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchStudents.this, android.R.layout.simple_list_item_1, arg);
+
+				career.setAdapter(adapter);
+
+
+			}
+
+			@Override
+			public void cancel() {
+				task2 = null;
 			}
 		});
 
@@ -123,9 +153,36 @@ public class SearchStudents extends AppCompatActivity {
 				if (sex.getSelectedItemPosition() != 0) {
 					s.setSex(sex.getSelectedItem().toString());
 				}
+				Map<String, String> filters=new HashMap<>();
 				if (career.getText().toString() != null && career.getText().length() > 0) {
-					s.setUniversityCareer(career.getText().toString());
+					filters.put("student[career]", career.getText().toString());
+
 				}
+				if (minimumMark.getText().toString() != null && minimumMark.getText().length() > 0) {
+					filters.put("student[min_final_grade]", minimumMark.getText().toString());
+				}
+				switch (ageSpinner.getSelectedItemPosition()){
+					case 1:
+						filters.put("student[max_age]", "19");
+						break;
+					case 2:
+						filters.put("student[min_age]", "20");
+						filters.put("student[max_age]", "25");
+						break;
+					case 3:
+						filters.put("student[min_age]", "26");
+						filters.put("student[max_age]", "35");
+						break;
+					case 4:
+						filters.put("student[min_age]", "36");
+						filters.put("student[max_age]", "50");
+						break;
+					case 5:
+						filters.put("student[min_age]", "51");
+						break;
+				}
+
+
 				if (locationText.getText().toString() != null && locationText.getText().length() > 0) {
 					s.setLocation(locationText.getText().toString());
 				}
@@ -141,7 +198,7 @@ public class SearchStudents extends AppCompatActivity {
 				}
 
 				if (offerId == -1) {
-					task = Manager.getStudentsMatchingCriteria(s, new Manager.ResultProcessor<List<Student>>() {
+					task = Manager.getStudentsMatchingCriteria(s, filters,new Manager.ResultProcessor<List<Student>>() {
 						@Override
 						public void process(final List<Student> arg, Exception e) {
 							task = null;
@@ -174,7 +231,14 @@ public class SearchStudents extends AppCompatActivity {
 										convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
 									}
 									((TextView) convertView.findViewById(R.id.mainName)).setText(((Student) getItem(position)).getFullname());
-									((TextView) convertView.findViewById(R.id.descrption)).setText(((Student) getItem(position)).getUniversityCareer());
+									Career[] cs = ((Student) getItem(position)).getUniversityCareers();
+									String s="";
+									if(cs.length>0){
+										s+=cs[0].getCareer();
+										for(int i=1;i<cs.length;i++)
+											s+=", "+cs[i].getCareer();
+									}
+									((TextView) convertView.findViewById(R.id.descrption)).setText(s);
 									return convertView;
 								}
 							});
@@ -221,7 +285,14 @@ public class SearchStudents extends AppCompatActivity {
 										convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
 									}
 									((TextView) convertView.findViewById(R.id.mainName)).setText(((Student) getItem(position)).getFullname());
-									((TextView) convertView.findViewById(R.id.descrption)).setText(((Student) getItem(position)).getUniversityCareer());
+									Career[] cs = ((Student) getItem(position)).getUniversityCareers();
+									String s="";
+									if(cs.length>0){
+										s+=cs[0].getCareer();
+										for(int i=1;i<cs.length;i++)
+											s+=", "+cs[i].getCareer();
+									}
+									((TextView) convertView.findViewById(R.id.descrption)).setText(s);
 									return convertView;
 								}
 							});
@@ -285,6 +356,10 @@ public class SearchStudents extends AppCompatActivity {
 		if (task1 != null) {
 			task1.cancel(true);
 			task1 = null;
+		}
+		if (task2 != null) {
+			task2.cancel(true);
+			task2 = null;
 		}
 	}
 }

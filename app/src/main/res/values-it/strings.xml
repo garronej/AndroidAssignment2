@@ -151,4 +151,15 @@
     <string name="favourite_students_empty">Nessuno studente preferito, cerca cliccando l\'icona</string>
     <string name="no_application_yet">Nessuna candidatura, cerca cliccando l\'icona</string>
     <string name="open_file">Apri il file</string>
+    <string name="job_title">Titolo</string>
+    <string name="minimum_mark">Minimo voto di laurea</string>
+    <string name="age">Età</string>
+    <string name="career_title">Titolo:</string>
+    <string name="career_mark">Voto di laurea:</string>
+    <string name="career_graduation_date">Data conseguimento:</string>
+    <string name="university_careers">Carriera universitaria</string>
+    <string name="birth_date">Data di nascita</string>
+    <string name="laude">Lode</string>
+    <string name="student_update_failed">La modifica del profilo è fallita. Controlla di aver compilato correttamente il form.</string>
+
 </resources>

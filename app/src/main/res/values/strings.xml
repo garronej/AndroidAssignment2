@@ -158,4 +158,14 @@
     <string name="open_file">Open file</string>
     <string name="job_title">Title</string>
     <string name="title_activity_main2_student">Main2StudentActivity</string>
+    <string name="minimum_mark">Minimum graduation mark</string>
+    <string name="age">Age</string>
+    <string name="career_title">Title:</string>
+    <string name="career_mark">Final grade:</string>
+    <string name="career_graduation_date">Graduation date:</string>
+    <string name="university_careers">University careers</string>
+    <string name="birth_date">Birth date</string>
+    <string name="laude">Laude</string>
+    <string name="student_update_failed">The update of the student has failed. Please, check you have filled properly all the necessary fields.</string>
+
 </resources>

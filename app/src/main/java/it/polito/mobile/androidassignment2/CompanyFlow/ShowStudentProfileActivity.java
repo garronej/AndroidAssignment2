@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,10 +32,12 @@ import java.util.List;
 import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.businessLogic.Career;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.context.AppContext;
+import it.polito.mobile.androidassignment2.customView.CareerLayout;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
@@ -48,7 +51,6 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 	private TextView tvLinks;
 	private Button bCv;
 	private TextView tvEmail;
-	private TextView tvUniversityCareer;
 	private TextView tvCompetences;
 	private Button bAvailability;
 	private Button bDiscard;
@@ -66,6 +68,8 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 	private AsyncTask<Object, Void, Object> task4 = null;
 	private Company companyLogged;
 	private RelativeLayout rlDiscard;
+	private TextView birthDate;
+	private LinearLayout univCareers;
 
 	public class DownloadFinished extends BroadcastReceiver {
 
@@ -124,42 +128,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 		} catch (DataFormatException e) {
 			throw new RuntimeException(e);
 		}
-		Intent i = getIntent();
-		int studentId = i.getIntExtra("studentId", -1);
-		if (studentId == -1) {
-			Log.e(ShowStudentProfileActivity.class.getSimpleName(),"error studentId invalid or null");
-			throw new RuntimeException("studentId is required");
-		}
 
-		offerId = i.getIntExtra("offerId", -1);
-		setContentView(R.layout.activity_show_student_profile);
-
-		rlDiscard = (RelativeLayout) findViewById(R.id.discard_rl);
-		if (offerId == -1) {
-			rlDiscard.setVisibility(View.GONE);
-		} else {
-			rlDiscard.setVisibility(View.VISIBLE);
-		}
-		findViews();
-		//fetch and setup
-		task1 = Manager.getStudentById(studentId, new Manager.ResultProcessor<Student>() {
-
-			@Override
-			public void cancel() {
-                task1 = null;
-			}
-
-			@Override
-			public void process(final Student arg, Exception e) {
-				task1=null;
-                if (e == null) {
-                    student = arg;
-                    setupViewsAndCallbacks();
-                } else {
-                    Toast.makeText(ShowStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
-                }
-			}
-		});
 	}
 
 	private void findViews() {
@@ -172,7 +141,7 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 		tvFullname = (TextView) findViewById(R.id.fullname);
 		bCv = (Button) findViewById(R.id.cv_button);
 		tvLinks = (TextView) findViewById(R.id.links);
-		tvUniversityCareer = (TextView) findViewById(R.id.university_career);
+		univCareers = (LinearLayout) findViewById(R.id.university_career);
 		tvCompetences = (TextView) findViewById(R.id.competences);
 		bAvailability = (Button) findViewById(R.id.availability);
 		tvHobbies = (TextView) findViewById(R.id.hobbies);
@@ -180,6 +149,8 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 		tvLocation = (TextView) findViewById(R.id.location_tv);
 		bDiscard = (Button) findViewById(R.id.discard_b);
 		bFav = (Button) findViewById(R.id.fav_b);
+		birthDate = (TextView) findViewById(R.id.birth_date);
+
 	}
 
 	private void setupViewsAndCallbacks() {
@@ -250,12 +221,24 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 		} else {
 			tvLinks.setText(links);
 		}
+		birthDate.setText(student.getBirthDate());
+		Career[] universityCareers = student.getUniversityCareers();
+		univCareers.removeAllViews();
+		if (universityCareers != null) {
+			for(int i=0;i<universityCareers.length;i++){
+				CareerLayout cView = new CareerLayout(this);
+				cView.initializeValues(universityCareers[i]);
 
-		String universityCareer = student.getUniversityCareer();
-		if (universityCareer == null || universityCareer.equals("")) {
-			tvUniversityCareer.setVisibility(View.GONE);
-		} else {
-			tvUniversityCareer.setText(universityCareer);
+				univCareers.addView(cView);
+
+				if(i!=universityCareers.length-1){
+					View v = new View(this);
+					v.setBackgroundDrawable(getResources().getDrawable(R.drawable.items_divider));
+					v.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+							LinearLayout.LayoutParams.WRAP_CONTENT));
+					univCareers.addView(v);
+				}
+			}
 		}
 
 		String competences = student.getCompetencesToString(", ");
@@ -323,6 +306,42 @@ public class ShowStudentProfileActivity extends AppCompatActivity {
 		super.onResume();
 		registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
 		registerReceiver(downloadfailed, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
+		Intent i = getIntent();
+		int studentId = i.getIntExtra("studentId", -1);
+		if (studentId == -1) {
+			Log.e(ShowStudentProfileActivity.class.getSimpleName(),"error studentId invalid or null");
+			throw new RuntimeException("studentId is required");
+		}
+
+		offerId = i.getIntExtra("offerId", -1);
+		setContentView(R.layout.activity_show_student_profile);
+
+		rlDiscard = (RelativeLayout) findViewById(R.id.discard_rl);
+		if (offerId == -1) {
+			rlDiscard.setVisibility(View.GONE);
+		} else {
+			rlDiscard.setVisibility(View.VISIBLE);
+		}
+		findViews();
+		//fetch and setup
+		task1 = Manager.getStudentById(studentId, new Manager.ResultProcessor<Student>() {
+
+			@Override
+			public void cancel() {
+				task1 = null;
+			}
+
+			@Override
+			public void process(final Student arg, Exception e) {
+				task1=null;
+				if (e == null) {
+					student = arg;
+					setupViewsAndCallbacks();
+				} else {
+					Toast.makeText(ShowStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 	}
 
 	@Override

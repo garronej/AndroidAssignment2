@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -11,23 +12,31 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
@@ -37,9 +46,11 @@ import it.polito.mobile.androidassignment2.LinksCompletionTextView;
 import it.polito.mobile.androidassignment2.PlacesAutoCompleteAdapter;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.Utils;
+import it.polito.mobile.androidassignment2.businessLogic.Career;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.context.AppContext;
+import it.polito.mobile.androidassignment2.customView.CareerEditableLayout;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.models.UploadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
@@ -51,7 +62,6 @@ public class EditStudentProfileActivity extends AppCompatActivity {
     private EditText etSurname;
     private LinksCompletionTextView acLinks;
     private Button bCv;
-    private EditText etUniversityCareer;
     private ToggleButton tbAvailability;
     private Button bUpdateProfile;
     private Button bCancelUpdateProfile;
@@ -72,6 +82,10 @@ public class EditStudentProfileActivity extends AppCompatActivity {
     private HobbiesCompletionTextView acHobbies;
     private static final int PICK_PICTURE = 0;
     private static final int PICK_PDF = 1;
+    private EditText birthDate;
+    private LinearLayout llUniversityCareer;
+    private ArrayAdapter<String> careersAdapter;
+    private AsyncTask<Object, Void, Object> task5;
 
     public class DownloadFinished extends BroadcastReceiver {
 
@@ -152,8 +166,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_student_profile);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         findViews();
-        setupViewsAndCallbacks();
-        location_autocomplete();
+
     }
 
     private void findViews() {
@@ -162,7 +175,7 @@ public class EditStudentProfileActivity extends AppCompatActivity {
         etSurname = (EditText) findViewById(R.id.edit_surname_et);
         bCv = (Button) findViewById(R.id.edit_cv_b);
         acLinks = (LinksCompletionTextView) findViewById(R.id.edit_links_ac);
-        etUniversityCareer = (EditText) findViewById(R.id.edit_university_career_et);
+        llUniversityCareer = (LinearLayout) findViewById(R.id.university_career);
         acCompetences = (CompetencesCompletionTextView) findViewById(R.id.edit_competences_ac);
         tbAvailability = (ToggleButton) findViewById(R.id.edit_availability_tb);
         acHobbies = (HobbiesCompletionTextView) findViewById(R.id.edit_hobbies_ac);
@@ -173,15 +186,84 @@ public class EditStudentProfileActivity extends AppCompatActivity {
         pbCvSpinner = (ProgressBar) findViewById(R.id.edit_cv_pb);
         sSex = (Spinner) findViewById(R.id.edit_sex_s);
         etLocation = (EditText) findViewById(R.id.edit_location_et);
+
+        birthDate = (EditText) findViewById(R.id.birth_date);
+
     }
 
     private void setupViewsAndCallbacks() {
+        careersAdapter = new ArrayAdapter<String>(EditStudentProfileActivity.this, android.R.layout.simple_list_item_1, new ArrayList<String>());
         etName.setText(loggedStudent.getName());
         etSurname.setText(loggedStudent.getSurname());
-        etUniversityCareer.setText(loggedStudent.getUniversityCareer());
+        Career[] universityCareers = loggedStudent.getUniversityCareers();
+        llUniversityCareer.removeAllViews();
+        if (universityCareers != null) {
+            for(int i=0;i<universityCareers.length;i++){
+
+                CareerEditableLayout cView = new CareerEditableLayout(this);
+                cView.initializeValues(universityCareers[i]);
+                cView.setCareerTitleAdapter(careersAdapter);
+                llUniversityCareer.addView(cView);
+                if(i!=universityCareers.length-1){
+                    View v = new View(this);
+                    v.setBackgroundDrawable(getResources().getDrawable(R.drawable.items_divider));
+                    v.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT));
+                    llUniversityCareer.addView(v);
+                }
+            }
+        }
+
+        findViewById(R.id.add_career).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(llUniversityCareer.getChildCount()>0){
+                    View div = new View(EditStudentProfileActivity.this);
+                    div.setBackgroundDrawable(getResources().getDrawable(R.drawable.items_divider));
+                    div.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT));
+                    llUniversityCareer.addView(div);
+                }
+
+                CareerEditableLayout cView = new CareerEditableLayout(EditStudentProfileActivity.this);
+                cView.setCareerTitleAdapter(careersAdapter);
+                llUniversityCareer.addView(cView);
+
+            }
+        });
         ivPhoto.setImageURI(photoUri);
         tbAvailability.setChecked(loggedStudent.isAvailable());
         etLocation.setText(loggedStudent.getLocation());
+        birthDate.setText(loggedStudent.getBirthDate());
+        birthDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+
+                    String[] ss = birthDate.getText().toString().split("-");
+                    Calendar cal = Calendar.getInstance();
+                    int aaaa=cal.get(Calendar.YEAR);
+                    int mm = cal.get(Calendar.MONTH);
+                    int gg = cal.get(Calendar.DAY_OF_MONTH);
+
+                    if(ss.length==3){
+                        aaaa=Integer.parseInt(ss[0]);
+                        mm=Integer.parseInt(ss[1])-1;
+                        gg=Integer.parseInt(ss[2]);
+                    }
+
+                    DatePickerDialog dp = new DatePickerDialog(EditStudentProfileActivity.this,
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                    birthDate.setText(String.format("%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth));
+                                }
+                            },aaaa,mm,gg);
+
+                    dp.show();
+                }
+            }
+        });
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.sex_array, android.R.layout.simple_spinner_item);
@@ -208,7 +290,32 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                     loggedStudent.setName(etName.getText().toString());
                     loggedStudent.setSurname(etSurname.getText().toString());
 
-                    loggedStudent.setUniversityCareer(etUniversityCareer.getText().toString());
+                    loggedStudent.setBirthDate(birthDate.getText().toString());
+                    List<Career> careers = new ArrayList<Career>();
+                    for (int i = 0; i < llUniversityCareer.getChildCount(); i++) {
+                        View child = llUniversityCareer.getChildAt(i);
+
+                        if (child instanceof CareerEditableLayout) {
+                            CareerEditableLayout careerLayout = (CareerEditableLayout) child;
+
+                            if(!careerLayout.getCareerTitle().isEmpty()) {
+                                Career c = new Career();
+                                c.setCareer(careerLayout.getCareerTitle());
+                                String mString = careerLayout.getGraduationMark();
+                                if (!mString.isEmpty()) {
+                                    c.setMark(Integer.parseInt(mString));
+                                    if (c.getMark() == 110 && careerLayout.isSetLaude()) {
+                                        c.setMark(111);
+                                    }
+                                }
+                                c.setDate(careerLayout.getDate());
+                                careers.add(c);
+                            }
+                        }
+
+                    }
+
+                    loggedStudent.setUniversityCareer(careers.toArray(new Career[0]));
 
                     if (acCompetences.getObjects().size() > 0) {
                         String[] comp = new String[acCompetences.getObjects().size()];
@@ -259,19 +366,22 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                 task3 = Manager.updateStudent(loggedStudent, new Manager.ResultProcessor<Student>() {
                     @Override
                     public void process(Student arg, Exception e) {
-                        task3=null;
+                        task3 = null;
                         if (e == null) {
                             Intent i = new Intent(EditStudentProfileActivity.this, StudentProfileActivity.class);
                             startActivity(i);
                             finish();
                         } else {
-                            Toast.makeText(EditStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditStudentProfileActivity.this, getResources().getString(R.string.student_update_failed), Toast.LENGTH_LONG).show();
+                            pbUpdateSpinner.setVisibility(ProgressBar.INVISIBLE);
+                            bUpdateProfile.setVisibility(View.VISIBLE);
                         }
                     }
 
                     @Override
                     public void cancel() {
                         pbUpdateSpinner.setVisibility(ProgressBar.INVISIBLE);
+                        bUpdateProfile.setVisibility(View.VISIBLE);
                         task3 = null;
                     }
                 });
@@ -328,6 +438,21 @@ public class EditStudentProfileActivity extends AppCompatActivity {
             @Override
             public void cancel() {
                 task4 = null;
+            }
+        });
+
+        task5=Manager.getAllCareers(new Manager.ResultProcessor<List<String>>() {
+            @Override
+            public void process(List<String> arg, Exception e) {
+                task5=null;
+                if(e!=null) return;
+                careersAdapter.addAll(arg);
+                careersAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void cancel() {
+                task5=null;
             }
         });
 
@@ -407,6 +532,8 @@ public class EditStudentProfileActivity extends AppCompatActivity {
         super.onResume();
         registerReceiver(uploadfinished, new IntentFilter(UploadModel.INTENT_UPLOADED));
         registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
+        setupViewsAndCallbacks();
+        location_autocomplete();
     }
 
     @Override
@@ -428,6 +555,10 @@ public class EditStudentProfileActivity extends AppCompatActivity {
         if(task4 != null){
             task4.cancel(true);
             task4 = null;
+        }
+        if(task5 != null){
+            task5.cancel(true);
+            task5 = null;
         }
         super.onPause();
     }

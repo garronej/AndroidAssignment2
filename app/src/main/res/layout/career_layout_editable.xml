@@ -1,0 +1,106 @@
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="it.polito.mobile.androidassignment2.StudentFlow"
+    android:padding="6dip">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+         >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/career_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignWithParentIfMissing="true"
+                android:hint="@string/university_career"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:singleLine="true"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/career_mark"
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:layout_marginRight="10dp"/>
+            <EditText
+                android:id="@+id/career_mark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:minWidth="20dp"
+                android:imeOptions="actionDone"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:inputType="numberDecimal" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/laude"
+                android:textColor="@color/secondary_text_default_material_light"
+                android:textSize="12sp"
+                android:id="@+id/laude_checkbox"
+                android:enabled="false"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/career_graduation_date"
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:layout_marginRight="10dp"/>
+            <EditText
+                android:id="@+id/career_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:minWidth="20dp"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:editable="false"
+                 />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <ImageButton
+        android:id="@+id/delete_career"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/ic_menu_delete" />
+
+</LinearLayout>

@@ -26,6 +26,7 @@ import it.polito.mobile.androidassignment2.AlertYesNo;
 import it.polito.mobile.androidassignment2.Communicator;
 import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.businessLogic.Career;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.context.AppContext;
@@ -144,7 +145,14 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
                     convertView = getLayoutInflater().inflate(R.layout.list_adapter_item, parent, false);
                 }
                 ((TextView) convertView.findViewById(R.id.mainName)).setText(((Student) getItem(position)).getFullname());
-                ((TextView) convertView.findViewById(R.id.descrption)).setText(((Student) getItem(position)).getUniversityCareer());
+                Career[] cs = ((Student) getItem(position)).getUniversityCareers();
+                String s="";
+                if(cs.length>0){
+                    s+=cs[0].getCareer();
+                    for(int i=1;i<cs.length;i++)
+                        s+=", "+cs[i].getCareer();
+                }
+                ((TextView) convertView.findViewById(R.id.descrption)).setText(s);
                 return convertView;
             }
         });

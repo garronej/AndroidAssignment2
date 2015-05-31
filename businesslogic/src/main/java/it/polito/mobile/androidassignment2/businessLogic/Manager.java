@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -427,6 +428,7 @@ public class Manager {
      *                  Note : id of the criteria object must not be set, if you want to retrieve a
      *                  specific student use getStudentById ( e.g. do not call criteria.manuallySetId(666); )
      *
+     * @param param
      * @return List of students matching ALL criteria specified.
      *
      * @throws RestApiException when known, unpredictable error occur server side.
@@ -434,14 +436,14 @@ public class Manager {
      *          IOException when there is a problem with the network connection ( e.g. DNS resolution fail )
      *
      */
-    public static List<Student> getStudentsMatchingCriteria( Student criteria ) throws RestApiException, IOException {
-        return StudentManager.getStudentsMatchingCriteria(criteria);
+    public static List<Student> getStudentsMatchingCriteria(Student criteria, Map<String, String> filters) throws RestApiException, IOException {
+        return StudentManager.getStudentsMatchingCriteria(criteria, filters);
     }
 
 
-    public static Task.General getStudentsMatchingCriteria( Student criteria, ResultProcessor<List<Student>> postProcessor ){
+    public static Task.General getStudentsMatchingCriteria( Student criteria, Map<String,String> filters, ResultProcessor<List<Student>> postProcessor ){
         Task.General t = new Task.General(Task.Method.GET_STUDENTS_MATCHING_CRITERIA, postProcessor);
-        t.execute(criteria);
+        t.execute(criteria, filters);
         return t;
     }
 
@@ -667,6 +669,17 @@ public class Manager {
 
     public static Task.General getAllOffersCompetences(ResultProcessor<List<String>> postProcessor) {
         Task.General t = new Task.General(Task.Method.GET_ALL_OFFER_COMPETENCES, postProcessor);
+        t.execute();
+        return t;
+    }
+
+
+    public static List<String> getAllCareers() throws IOException, RestApiException{
+        return StudentManager.getAllCareers();
+    }
+
+    public static Task.General getAllCareers(ResultProcessor<List<String>> postProcessor) {
+        Task.General t = new Task.General(Task.Method.GET_ALL_CAREERS, postProcessor);
         t.execute();
         return t;
     }
