@@ -189,7 +189,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 		bEditProfile = (Button) findViewById(R.id.edit_profile_button);
 		bSex = (Button) findViewById(R.id.sex_b);
 		tvLocation = (TextView) findViewById(R.id.location_tv);
-		birthDate = (TextView) findViewById(R.id.location_tv);
+		birthDate = (TextView) findViewById(R.id.birth_date);
 	}
 
 	private void setupViewsAndCallbacks() {

@@ -160,4 +160,6 @@
     <string name="university_careers">Carriera universitaria</string>
     <string name="birth_date">Data di nascita</string>
     <string name="laude">Lode</string>
+    <string name="student_update_failed">La modifica del profilo è fallita. Controlla di aver compilato correttamente il form.</string>
+
 </resources>

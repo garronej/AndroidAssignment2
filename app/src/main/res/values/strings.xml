@@ -163,4 +163,6 @@
     <string name="university_careers">University careers</string>
     <string name="birth_date">Birth date</string>
     <string name="laude">Laude</string>
+    <string name="student_update_failed">The update of the student has failed. Please, check you have filled properly all the necessary fields.</string>
+
 </resources>

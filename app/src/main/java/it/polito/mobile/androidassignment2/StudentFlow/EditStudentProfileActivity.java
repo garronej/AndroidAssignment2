@@ -297,17 +297,20 @@ public class EditStudentProfileActivity extends AppCompatActivity {
 
                         if (child instanceof CareerEditableLayout) {
                             CareerEditableLayout careerLayout = (CareerEditableLayout) child;
-                            Career c = new Career();
-                            c.setCareer(careerLayout.getCareerTitle());
-                            String mString = careerLayout.getGraduationMark();
-                            if (!mString.isEmpty()) {
-                                c.setMark(Integer.parseInt(mString));
-                                if(c.getMark()==110 && careerLayout.isSetLaude()){
-                                    c.setMark(111);
+
+                            if(!careerLayout.getCareerTitle().isEmpty()) {
+                                Career c = new Career();
+                                c.setCareer(careerLayout.getCareerTitle());
+                                String mString = careerLayout.getGraduationMark();
+                                if (!mString.isEmpty()) {
+                                    c.setMark(Integer.parseInt(mString));
+                                    if (c.getMark() == 110 && careerLayout.isSetLaude()) {
+                                        c.setMark(111);
+                                    }
                                 }
+                                c.setDate(careerLayout.getDate());
+                                careers.add(c);
                             }
-                            c.setDate(careerLayout.getDate());
-                            careers.add(c);
                         }
 
                     }
@@ -369,13 +372,16 @@ public class EditStudentProfileActivity extends AppCompatActivity {
                             startActivity(i);
                             finish();
                         } else {
-                            Toast.makeText(EditStudentProfileActivity.this, it.polito.mobile.androidassignment2.businessLogic.Utils.processException(e, "Error message"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditStudentProfileActivity.this, getResources().getString(R.string.student_update_failed), Toast.LENGTH_LONG).show();
+                            pbUpdateSpinner.setVisibility(ProgressBar.INVISIBLE);
+                            bUpdateProfile.setVisibility(View.VISIBLE);
                         }
                     }
 
                     @Override
                     public void cancel() {
                         pbUpdateSpinner.setVisibility(ProgressBar.INVISIBLE);
+                        bUpdateProfile.setVisibility(View.VISIBLE);
                         task3 = null;
                     }
                 });
