@@ -33,7 +33,6 @@ Need to replace Session session = Session.getInstance();
 
  */
 
-
 public class AppContext extends Application {
 
     public AppContext(){
@@ -61,16 +60,16 @@ public class AppContext extends Application {
     }
 
 
-    public AsyncTask<Object, Void, Integer> login( String email, String password, final Manager.ResultProcessor<Integer> postProcessor ){
+    public AsyncTask<?, ?, ?> login( final String email, final String password, final Manager.ResultProcessor<Integer> postProcessor ){
 
-        AsyncTask<Object, Void, Integer> pool = new AsyncTask<Object, Void, Integer>() {
+        AsyncTask<Void, Void, Integer> pool = new AsyncTask<Void, Void, Integer>() {
 
             private Exception exception = null;
 
             @Override
-            protected Integer doInBackground(Object... params) {
+            protected Integer doInBackground(Void... params) {
                 try {
-                    ((AppContext) params[0]).login((String) params[1], (String) params[2]);
+                   AppContext.this.login(email, password);
                 } catch ( Exception e){
 
                     this.exception = e;
@@ -89,7 +88,7 @@ public class AppContext extends Application {
 
         };
 
-        pool.execute(this, email, password);
+        pool.execute();
 
         return pool;
 
