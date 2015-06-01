@@ -1,9 +1,13 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -42,7 +46,7 @@ import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
 
-public class StudentProfileActivity extends ActionBarActivity implements Communicator {
+public class StudentProfileActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Communicator {
 	private ImageView ivPhoto;
 	private ProgressBar pbPhotoSpinner;
 	private ProgressBar pbCvSpinner;
@@ -54,7 +58,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	private Button bAvailability;
 	private TextView tvHobbies;
 	private DownloadFinished downloadfinished = new DownloadFinished();
-    private DownloadFailed downloadfailed = new DownloadFailed();
+	private DownloadFailed downloadfailed = new DownloadFailed();
 	private Uri photoUri;
 	private Button bEditProfile;
 	private Button bSex;
@@ -62,7 +66,10 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	private AsyncTask<Object, Void, Object> task;
 	private LinearLayout univCareersLL;
 	private TextView birthDate;
-
+	private NavigationDrawerFragment mNavigationDrawerFragment;
+	private CharSequence mTitle;
+	Main2StudentActivity parent;
+	private boolean firstRun = false;
 
 	public class DownloadFinished extends BroadcastReceiver {
 		@Override
@@ -75,7 +82,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 				pbCvSpinner.setVisibility(View.INVISIBLE);
 				startActivity(i);*/
 				Intent target = new Intent(Intent.ACTION_VIEW);
-				target.setDataAndType(Uri.parse(filePath),"application/pdf");
+				target.setDataAndType(Uri.parse(filePath), "application/pdf");
 				bCv.setVisibility(View.VISIBLE);
 				pbCvSpinner.setVisibility(View.INVISIBLE);
 				target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -84,7 +91,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 			} else { // photo
 				pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
 				photoUri = Uri.parse(filePath);
-				((AppContext)getApplication()).getSession().setPhotoUri(photoUri);
+				((AppContext) getApplication()).getSession().setPhotoUri(photoUri);
 				ivPhoto.setImageURI(photoUri);
 				tvFullname.setVisibility(View.VISIBLE);
 				bCv.setEnabled(true);
@@ -93,35 +100,35 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 		}
 	}
 
-    public class DownloadFailed extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
-            if (filePath.indexOf(".pdf") != -1) { //pdf -> cv
-                bCv.setVisibility(View.VISIBLE);
-                pbCvSpinner.setVisibility(View.INVISIBLE);
-                Toast t = Toast.makeText(StudentProfileActivity.this, getResources().getString(R.string.error_loading_cv), Toast.LENGTH_LONG);
-                t.setGravity(Gravity.CENTER, 0, 0);
-                t.show();
-            } else { // photo
-                pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
-                photoUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
-                        getResources().getResourcePackageName(R.drawable.photo_placeholder_err) +
-                        '/' +
-                        getResources().getResourceTypeName(R.drawable.photo_placeholder_err) +
-                        '/' +
-                        getResources().getResourceEntryName(R.drawable.photo_placeholder_err));
-				((AppContext)getApplication()).getSession().setPhotoUri(photoUri);
-                ivPhoto.setImageURI(photoUri);
-                tvFullname.setVisibility(View.VISIBLE);
-                bCv.setEnabled(true);
-                bEditProfile.setEnabled(true);
-                Toast t = Toast.makeText(StudentProfileActivity.this, getResources().getString(R.string.error_loading_photo), Toast.LENGTH_LONG);
-                t.setGravity(Gravity.CENTER, 0, 0);
-                t.show();
-            }
-        }
-    }
+	public class DownloadFailed extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String filePath = intent.getStringExtra(DownloadModel.EXTRA_FILE_URI);
+			if (filePath.indexOf(".pdf") != -1) { //pdf -> cv
+				bCv.setVisibility(View.VISIBLE);
+				pbCvSpinner.setVisibility(View.INVISIBLE);
+				Toast t = Toast.makeText(StudentProfileActivity.this, getResources().getString(R.string.error_loading_cv), Toast.LENGTH_LONG);
+				t.setGravity(Gravity.CENTER, 0, 0);
+				t.show();
+			} else { // photo
+				pbPhotoSpinner.setVisibility(ProgressBar.GONE);//gone=invisible+view does not take space
+				photoUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+						getResources().getResourcePackageName(R.drawable.photo_placeholder_err) +
+						'/' +
+						getResources().getResourceTypeName(R.drawable.photo_placeholder_err) +
+						'/' +
+						getResources().getResourceEntryName(R.drawable.photo_placeholder_err));
+				((AppContext) getApplication()).getSession().setPhotoUri(photoUri);
+				ivPhoto.setImageURI(photoUri);
+				tvFullname.setVisibility(View.VISIBLE);
+				bCv.setEnabled(true);
+				bEditProfile.setEnabled(true);
+				Toast t = Toast.makeText(StudentProfileActivity.this, getResources().getString(R.string.error_loading_photo), Toast.LENGTH_LONG);
+				t.setGravity(Gravity.CENTER, 0, 0);
+				t.show();
+			}
+		}
+	}
 
 	private void myAddActionBar() {
 		ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
@@ -129,10 +136,11 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 
 		// Set up your ActionBar
 		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setCustomView(actionBarLayout);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
 	}
 
@@ -165,15 +173,27 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (((AppContext)getApplication()).getSession().getPhotoUri() != null) {
-			photoUri =((AppContext)getApplication()).getSession().getPhotoUri();
+		if (((AppContext) getApplication()).getSession().getPhotoUri() != null) {
+			photoUri = ((AppContext) getApplication()).getSession().getPhotoUri();
 		}
 		setContentView(R.layout.activity_student_profile);
 		findViews();
 		myAddActionBar();
 		addTabMenuButtonCallbacks();
-	}
+		setUpNavigationDrawer();
 
+	}
+private void setUpNavigationDrawer(){
+	mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+	mTitle = getTitle();
+	// Set up the drawer.
+	onNavigationDrawerItemSelected(3);
+	mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position",3));
+
+	mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+	//due it's a new instance of NavDraw
+	parent = (Main2StudentActivity) getParent();
+}
 	private void findViews() {
 		tvEmail = (TextView) findViewById(R.id.email);
 		ivPhoto = (ImageView) findViewById(R.id.photo);
@@ -195,7 +215,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	private void setupViewsAndCallbacks() {
 		final Student loggedStudent;
 		try {
-			loggedStudent = ((AppContext)getApplication()).getSession().getStudentLogged();
+			loggedStudent = ((AppContext) getApplication()).getSession().getStudentLogged();
 		} catch (DataFormatException e) {
 			throw new RuntimeException();
 		}
@@ -221,14 +241,14 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 		univCareersLL.removeAllViews();
 		Career[] universityCareers = loggedStudent.getUniversityCareers();
 		if (universityCareers != null) {
-			for(int i=0;i<universityCareers.length;i++){
+			for (int i = 0; i < universityCareers.length; i++) {
 
 				CareerLayout cView = new CareerLayout(this);
 				cView.initializeValues(universityCareers[i]);
 
 				univCareersLL.addView(cView);
 
-				if(i!=universityCareers.length-1){
+				if (i != universityCareers.length - 1) {
 					View v = new View(this);
 					v.setBackgroundDrawable(getResources().getDrawable(R.drawable.items_divider));
 					v.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -237,7 +257,6 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 				}
 			}
 		}
-
 
 
 		String competences = loggedStudent.getCompetencesToString(", ");
@@ -319,16 +338,16 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 		super.onResume();
 		setupViewsAndCallbacks();
 		registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
-        registerReceiver(downloadfailed, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
+		registerReceiver(downloadfailed, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
 	}
 
 	@Override
 	protected void onPause() {
-        unregisterReceiver(downloadfailed);
+		unregisterReceiver(downloadfailed);
 		unregisterReceiver(downloadfinished);
-		if(task!=null){
+		if (task != null) {
 			task.cancel(true);
-			task=null;
+			task = null;
 		}
 		super.onPause();
 	}
@@ -397,10 +416,10 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 					break;
 				case 1://delete account
 					try {
-						task=Manager.deleteStudent(((AppContext)getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+						task = Manager.deleteStudent(((AppContext) getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
 							@Override
 							public void process(Integer arg, Exception e) {
-								task=null;
+								task = null;
 								if (e != null) {
 									Log.d(CompaniesFavouritesActivity.class.getSimpleName(), "Error deleteing user");
 									return;
@@ -413,7 +432,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 
 							@Override
 							public void cancel() {
-								task=null;
+								task = null;
 							}
 						});
 					} catch (DataFormatException e) {
@@ -425,4 +444,36 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 			}
 		}
 	}
+
+
+
+	@Override
+	public void onNavigationDrawerItemSelected(int position) {
+		// update the main content by replacing fragments
+		if(!firstRun){
+			firstRun = true;
+			return;
+		}
+		Intent i =new Intent(StudentProfileActivity.this,Main2StudentActivity.class);
+					switch(position){
+						case 0:
+							i.putExtra("position",(int)0);
+							startActivity(i);
+							finish();
+							break;
+						case 1:
+							i.putExtra("position",(int)2);
+							startActivity(i);
+							finish();
+							break;
+						case 2:
+							i.putExtra("position",(int)2);
+							startActivity(i);
+							finish();
+							break;
+					}
+					//finish();
+
+	}
+
 }

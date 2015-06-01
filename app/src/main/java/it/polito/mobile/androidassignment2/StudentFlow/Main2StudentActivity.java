@@ -35,6 +35,10 @@ import it.polito.mobile.androidassignment2.context.AppContext;
 public class Main2StudentActivity extends AppCompatActivity
 		implements NavigationDrawerFragment.NavigationDrawerCallbacks, Communicator {
 
+	public NavigationDrawerFragment getmNavigationDrawerFragment() {
+		return mNavigationDrawerFragment;
+	}
+
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
 	 */
@@ -53,16 +57,25 @@ public class Main2StudentActivity extends AppCompatActivity
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
 		// Set up the drawer.
+		mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position",0));
+
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 	}
 
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
 		// update the main content by replacing fragments
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-				.commit();
+		Intent i =new Intent(Main2StudentActivity.this,StudentProfileActivity.class);
+		if (position == 3) {
+			i.putExtra("position",3);
+			startActivity(i);
+			finish();
+		} else {
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			fragmentManager.beginTransaction()
+					.replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+					.commit();
+		}
 	}
 
 	public void onSectionAttached(int number) {

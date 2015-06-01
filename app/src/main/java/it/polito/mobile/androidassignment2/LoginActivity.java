@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.androidassignment2.CompanyFlow.CompanyProfileActivity;
+import it.polito.mobile.androidassignment2.StudentFlow.Main2StudentActivity;
 import it.polito.mobile.androidassignment2.StudentFlow.StudentProfileActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Company;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
@@ -250,7 +251,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 					}else{
 						Log.d("poliJobs", "Student");
-						Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
+						Intent i = new Intent(getApplicationContext(), Main2StudentActivity.class);
 						startActivity(i);
 						finish();
 					}
