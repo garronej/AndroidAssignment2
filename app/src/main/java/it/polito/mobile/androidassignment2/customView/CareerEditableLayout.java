@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Career;
 public class CareerEditableLayout extends LinearLayout {
 
 
-    private TextView carMark;
+    private EditText carMark;
     private CheckBox laudeCb;
     private TextView carDate;
     private AutoCompleteTextView carTitle;
@@ -48,9 +49,10 @@ public class CareerEditableLayout extends LinearLayout {
     private void init() {
         inflate(getContext(), R.layout.career_layout_editable, this);
         carTitle = (AutoCompleteTextView) this.findViewById(R.id.career_title);
-        carMark = (TextView) this.findViewById(R.id.career_mark);
+        carMark = (EditText) this.findViewById(R.id.career_mark);
         laudeCb = (CheckBox) this.findViewById(R.id.laude_checkbox);
         carMark.addTextChangedListener(new TextWatcher() {
+
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -63,6 +65,11 @@ public class CareerEditableLayout extends LinearLayout {
 
                 @Override
                 public void afterTextChanged(Editable s) {
+                    try{
+                    if(Integer.parseInt(carMark.getText().toString())>110){
+                        carMark.setText(carMark.getText().toString().substring(0,carMark.getText().toString().length()-1));
+                        carMark.setSelection(carMark.getText().toString().length());
+                    }}catch(NumberFormatException e){}
                     if (carMark.getText().toString().equals("110")) {
                         laudeCb.setEnabled(true);
                     } else {
