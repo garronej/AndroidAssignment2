@@ -68,7 +68,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Navigat
 	private TextView birthDate;
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 	private CharSequence mTitle;
-	Main2StudentActivity parent;
+
 	private boolean firstRun = false;
 
 	public class DownloadFinished extends BroadcastReceiver {
@@ -191,8 +191,6 @@ private void setUpNavigationDrawer(){
 	mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position",3));
 
 	mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-	//due it's a new instance of NavDraw
-	parent = (Main2StudentActivity) getParent();
 }
 	private void findViews() {
 		tvEmail = (TextView) findViewById(R.id.email);
@@ -462,7 +460,7 @@ private void setUpNavigationDrawer(){
 							finish();
 							break;
 						case 1:
-							i.putExtra("position",(int)2);
+							i.putExtra("position",(int)1);
 							startActivity(i);
 							finish();
 							break;

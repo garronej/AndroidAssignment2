@@ -71,6 +71,13 @@ public class Main2StudentActivity extends AppCompatActivity
 			startActivity(i);
 			finish();
 		} else {
+			/*
+			fragment = getFragmentManager().findFragmentByTag(ExampleFragment.TAG);
+			if (fragment == null) {
+				fragment = new StatsFragment();
+			}
+			getFragmentManager().beginTransaction().replace(R.id.container, fragment, ExampleFragment.TAG).commit();*/
+
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.container, PlaceholderFragment.newInstance(position + 1))

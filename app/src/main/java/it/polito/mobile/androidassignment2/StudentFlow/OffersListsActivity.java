@@ -3,6 +3,7 @@ package it.polito.mobile.androidassignment2.StudentFlow;
 import android.content.Intent;
 
 import android.os.AsyncTask;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.DataFormatException;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import it.polito.mobile.androidassignment2.AlertYesNo;
 import it.polito.mobile.androidassignment2.Communicator;
@@ -35,19 +38,23 @@ import it.polito.mobile.androidassignment2.businessLogic.Utils;
 import it.polito.mobile.androidassignment2.context.AppContext;
 
 
-public class OffersListsActivity extends AppCompatActivity implements Communicator {
+public class OffersListsActivity extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Communicator {
 
 	protected Boolean isOnFav = null;
 	private OfferArrayAdapter adapter = null;
 	private Task.General task = null;
 	private AsyncTask<Object, Void, Object> task1;
+	private NavigationDrawerFragment mNavigationDrawerFragment;
+	private CharSequence mTitle;
 
+	private boolean firstRun = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_offers_lists);
 		myAddActionBar();
 		addTabMenuButtonCallbacks();
+		setUpNavigationDrawer();
 		final TextView emptyMessage = (TextView) findViewById(R.id.empy_favourite_message);
 		emptyMessage.setVisibility(View.GONE);
 		final ListView listview = (ListView) findViewById(R.id.proposed_offers_list);
@@ -196,7 +203,7 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 
 
-						listview.animate().setDuration(350).translationX(1000).withEndAction(new Runnable() {
+						listview.animate().setDuration(350).translationX(-1000).withEndAction(new Runnable() {
 							@Override
 							public void run() {
 
@@ -354,16 +361,17 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 		// Set up your ActionBar
 		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setCustomView(actionBarLayout);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
 	}
 
 	private void addTabMenuButtonCallbacks() {
 		//findViewById(R.id.tab_menu_student_companies)
-		setContentView(R.layout.activity_offers_lists);
+		//setContentView(R.layout.activity_offers_lists);
 		findViewById(R.id.tab_menu_student_profile).setBackgroundColor(getResources().getColor(R.color.blue_sky));
 		findViewById(R.id.tab_menu_student_offers).setBackgroundColor(getResources().getColor(R.color.strong_blue));
 		findViewById(R.id.tab_menu_student_companies).setBackgroundColor(getResources().getColor(R.color.blue_sky));
@@ -393,5 +401,43 @@ public class OffersListsActivity extends AppCompatActivity implements Communicat
 
 
 	}
+	private void setUpNavigationDrawer(){
+		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+		mTitle = getTitle();
+		// Set up the drawer.
+		onNavigationDrawerItemSelected(3);
+		mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position", 3));
 
+		mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+		//due it's a new instance of NavDraw
+	}
+
+	@Override
+	public void onNavigationDrawerItemSelected(int position) {
+		// update the main content by replacing fragments
+		if(!firstRun){
+			firstRun = true;
+			return;
+		}
+		Intent i =new Intent(OffersListsActivity.this,Main2StudentActivity.class);
+		switch(position){
+			case 0:
+				i.putExtra("position",(int)0);
+				startActivity(i);
+				finish();
+				break;
+			case 1:
+				i.putExtra("position",(int)1);
+				startActivity(i);
+				finish();
+				break;
+			case 2:
+				i.putExtra("position",(int)2);
+				startActivity(i);
+				finish();
+				break;
+		}
+		//finish();
+
+	}
 }
