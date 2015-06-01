@@ -38,7 +38,7 @@ public class Results extends Fragment {
 
                 ((TextView) rootLayout.findViewById(R.id.textView)).setText("Loading...");
 
-                Manager.getStudentsMatchingCriteria(null, new Manager.ResultProcessor<List<Student>>() {
+                Manager.getStudentsMatchingCriteria(null, null,new Manager.ResultProcessor<List<Student>>() {
 
                     @Override
                     public void cancel() {
@@ -57,7 +57,7 @@ public class Results extends Fragment {
                             if (exception.getClass() == RestApiException.class) {
 
                                 //It was an error on the web service side.
-                                //Nb : err code -1 mean a internal bug, report if you exprerience.
+                                //Nb : err code -1 mean a internal bug, report if you experience.
                                 Integer errCode =  ((RestApiException)exception).getResponseCode();
                                 message = errCode.toString() + " / " + exception.getMessage();
 

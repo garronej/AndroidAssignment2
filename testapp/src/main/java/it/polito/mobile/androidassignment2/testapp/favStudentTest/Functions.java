@@ -64,7 +64,7 @@ public class Functions extends Fragment {
 
                 //textView1.setText(textView1.getText() + "Searching for for student matching criteria name=Dupon, surname=Paul\n");
 
-                Manager.getStudentsMatchingCriteria(criteria, new Manager.ResultProcessor<List<Student>>() {
+                Manager.getStudentsMatchingCriteria(criteria, null,new Manager.ResultProcessor<List<Student>>() {
 
 
                     @Override
@@ -267,7 +267,7 @@ public class Functions extends Fragment {
 
                 }
 
-                Manager.getStudentsMatchingCriteria(criteria, new Manager.ResultProcessor<List<Student>>(){
+                Manager.getStudentsMatchingCriteria(criteria, null,new Manager.ResultProcessor<List<Student>>(){
 
                     @Override
                     public void process(List<Student> arg, Exception e) {

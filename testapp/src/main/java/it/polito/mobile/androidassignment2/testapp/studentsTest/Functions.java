@@ -53,7 +53,7 @@ public class Functions extends Fragment {
 
                 textView1.setText("Loading ...");
 
-                Manager.getStudentsMatchingCriteria(null, new Manager.ResultProcessor<List<Student>>(){
+                Manager.getStudentsMatchingCriteria(null, null, new Manager.ResultProcessor<List<Student>>(){
 
                     @Override
                     public void cancel() {}
@@ -208,7 +208,6 @@ public class Functions extends Fragment {
                     s.setSurname("paul");
                     s.setPassword("passOfPaul");
                     s.setCvUrl("eu-west-1:3f1af8e8-7e5e-4210-b9eb-f4f29f7b66ab/photo/student3/esercitazione2.pdf");
-                    s.setUniversityCareer("computer engineering");
                     s.setAvailable(false);
                     s.setCompetences(new String[]{"java", "c#"});
                     s.setHobbies(new String[]{"sport", "literature"});
@@ -262,7 +261,7 @@ public class Functions extends Fragment {
                 }
 
 
-                Manager.getStudentsMatchingCriteria(criteria, new Manager.ResultProcessor<List<Student>>() {
+                Manager.getStudentsMatchingCriteria(criteria, null, new Manager.ResultProcessor<List<Student>>() {
 
                     @Override
                     public void cancel() {

@@ -48,7 +48,7 @@ public class Results extends Fragment {
                 textView.setText("");
 
 
-                Manager.getStudentsMatchingCriteria(null, new Manager.ResultProcessor<List<Student>>() {
+                Manager.getStudentsMatchingCriteria(null, null,new Manager.ResultProcessor<List<Student>>() {
                     @Override
                     public void process(List<Student> arg, Exception e) {
                         if (e != null) {
