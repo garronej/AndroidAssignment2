@@ -188,7 +188,7 @@ public class Functions extends Fragment {
                             criteria.setSurname("Paul");
                         } catch (Exception ee) {}
 
-                        Manager.getStudentsMatchingCriteria(criteria, new Manager.ResultProcessor<List<Student>>() {
+                        Manager.getStudentsMatchingCriteria(criteria, null, new Manager.ResultProcessor<List<Student>>() {
 
 
                             @Override
