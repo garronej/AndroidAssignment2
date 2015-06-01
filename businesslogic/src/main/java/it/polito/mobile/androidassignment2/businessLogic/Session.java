@@ -21,7 +21,7 @@ import java.util.zip.DataFormatException;
  */
 public class Session {
 
-    private static Session instance = null;
+
 
     private Class whoIsLogged;
 
@@ -128,55 +128,11 @@ public class Session {
     }
 
 
-    //Synchronous version of login
-    protected static synchronized Integer login( String email, String password) throws IOException,RestApiException, DataFormatException{
-        Session.instance = new Session(email,password);
-        return 0;
-    }
-
-    //First you have to Login
-    //If login fail => ResApiException.
-    //If Email malformed => DataFormatException
-    //If network problem IOException
-    public static Task.General login( String email, String password, Manager.ResultProcessor<Integer> postProcessor ){
-
-
-        Task.General t = new Task.General(Task.Method.LOGIN, postProcessor);
-        t.execute(email,password);
-        return t;
-
-    }
-
-
-    //Then you can get the instance synchronously.
-    public static Session getInstance() throws ExceptionInInitializerError {
-        if (Session.instance == null)
-            throw new ExceptionInInitializerError("Session error : login First !");
-
-        return Session.instance;
-
-    }
-
-
-    //Method to use for update the value of the instance
-    public Task.General update(Manager.ResultProcessor<Integer> postProcessor) throws ExceptionInInitializerError, IOException,RestApiException, DataFormatException {
-
-        if (Session.instance == null)
-            throw new ExceptionInInitializerError("Session error : login First !");
-
-
-        Task.General t = new Task.General(Task.Method.LOGIN, postProcessor);
-        t.execute(this.email,this.password);
-        return t;
-
-    }
 
 
 
-    private String email = null;
-    private String password = null;
 
-    //Private constructor.
+    //Should be called only from context/AppContext
     public Session(String email, String password) throws IOException, RestApiException, DataFormatException{
 
 
@@ -184,8 +140,7 @@ public class Session {
         if ( email == null || password == null )
             throw new DataFormatException("Session : can't login with null email and/or password");
 
-        this.email = email;
-        this.password = password;
+
 
         String emailFormatted = Utils.formatEmail(email);
 
@@ -252,6 +207,50 @@ public class Session {
             this.offers = Manager.getOffersMatchingCriteria(criteria);
         }
 
+
+    }
+
+
+
+
+    /*
+    *
+    *
+    * Deprecated
+    *
+    *
+     */
+
+
+    private static Session instance = null;
+
+
+    //Synchronous version of login
+    protected static synchronized Integer login( String email, String password) throws IOException,RestApiException, DataFormatException{
+        Session.instance = new Session(email,password);
+        return 0;
+    }
+
+    //First you have to Login
+    //If login fail => ResApiException.
+    //If Email malformed => DataFormatException
+    //If network problem IOException
+    public static Task.General login( String email, String password, Manager.ResultProcessor<Integer> postProcessor ){
+
+
+        Task.General t = new Task.General(Task.Method.LOGIN, postProcessor);
+        t.execute(email,password);
+        return t;
+
+    }
+
+
+    //Then you can get the instance synchronously.
+    public static Session getInstance() throws ExceptionInInitializerError {
+        if (Session.instance == null)
+            throw new ExceptionInInitializerError("Session error : login First !");
+
+        return Session.instance;
 
     }
 
