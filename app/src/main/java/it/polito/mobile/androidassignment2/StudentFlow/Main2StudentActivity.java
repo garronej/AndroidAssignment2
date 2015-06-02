@@ -2,6 +2,8 @@ package it.polito.mobile.androidassignment2.StudentFlow;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -25,15 +27,21 @@ import android.widget.TextView;
 
 import java.util.zip.DataFormatException;
 
+import it.neokree.materialtabs.MaterialTab;
+import it.neokree.materialtabs.MaterialTabHost;
+import it.neokree.materialtabs.MaterialTabListener;
+
 import it.polito.mobile.androidassignment2.AlertYesNo;
 import it.polito.mobile.androidassignment2.Communicator;
 import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.StudentFlow.chat.ChatFragment;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.context.AppContext;
 
 public class Main2StudentActivity extends AppCompatActivity
-		implements NavigationDrawerFragment.NavigationDrawerCallbacks, Communicator {
+		implements NavigationDrawerFragment.NavigationDrawerCallbacks, Communicator, MaterialTabListener {
+
 
 	public NavigationDrawerFragment getmNavigationDrawerFragment() {
 		return mNavigationDrawerFragment;
@@ -48,6 +56,9 @@ public class Main2StudentActivity extends AppCompatActivity
 	 * Used to store the last screen title. For use in {@link #restoreActionBar()}.
 	 */
 	private CharSequence mTitle;
+	private ViewPager mContentPager;
+	private MaterialTabHost mTabHost;
+	private ViewPagerAdapter pagerAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +68,55 @@ public class Main2StudentActivity extends AppCompatActivity
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
 		// Set up the drawer.
-		mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position",0));
 
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+		mTabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
+		mContentPager = (ViewPager) findViewById(R.id.view_container);
+		mTabHost.setVisibility(View.GONE);
+		mContentPager.setVisibility(View.GONE);
+		mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position", 0));
+		if(getIntent().getIntExtra("position", 0)==2 && mTabHost!=null){
+			mTabHost.setVisibility(View.VISIBLE);
+			mContentPager.setVisibility(View.VISIBLE);
+			}
+	}
+
+	private void setUpTabs() {
+		mTabHost.setVisibility(View.VISIBLE);
+		mContentPager.setVisibility(View.VISIBLE);
+		pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+		mContentPager.setAdapter(pagerAdapter);
+		mContentPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int position) {
+				mTabHost.setSelectedNavigationItem(position);
+			}
+		});
+		// insert all tabs from pagerAdapter data
+		for (int i = 0; i < pagerAdapter.getCount(); i++) {
+			mTabHost.addTab(
+					mTabHost.createTabText(pagerAdapter.getPageTitle(i).toString())
+							.setTabListener(this)
+			);
+		}
 	}
 
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
 		// update the main content by replacing fragments
-		Intent i =new Intent(Main2StudentActivity.this,StudentProfileActivity.class);
+		Intent i = new Intent(Main2StudentActivity.this, StudentProfileActivity.class);
+		hideTabs();
 		if (position == 3) {
-			i.putExtra("position",3);
+
+			i.putExtra("position", 3);
 			startActivity(i);
 			finish();
+		} else if (position == 2) {//chat
+			if (mTabHost != null) setUpTabs();
 		} else {
+
+
 			/*
 			fragment = getFragmentManager().findFragmentByTag(ExampleFragment.TAG);
 			if (fragment == null) {
@@ -82,6 +128,14 @@ public class Main2StudentActivity extends AppCompatActivity
 			fragmentManager.beginTransaction()
 					.replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
 					.commit();
+		}
+	}
+
+	private void hideTabs() {
+		if (mTabHost != null) {
+			mContentPager.setCurrentItem(0);
+			mTabHost.setVisibility(View.GONE);
+			mContentPager.setVisibility(View.GONE);
 		}
 	}
 
@@ -212,6 +266,21 @@ public class Main2StudentActivity extends AppCompatActivity
 		}
 	}
 
+	@Override
+	public void onTabSelected(MaterialTab materialTab) {
+		mContentPager.setCurrentItem(materialTab.getPosition());
+	}
+
+	@Override
+	public void onTabReselected(MaterialTab materialTab) {
+
+	}
+
+	@Override
+	public void onTabUnselected(MaterialTab materialTab) {
+
+	}
+
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
@@ -246,6 +315,29 @@ public class Main2StudentActivity extends AppCompatActivity
 			super.onAttach(activity);
 			((Main2StudentActivity) activity).onSectionAttached(
 					getArguments().getInt(ARG_SECTION_NUMBER));
+		}
+	}
+
+	private class ViewPagerAdapter extends FragmentStatePagerAdapter {
+		public ViewPagerAdapter(FragmentManager fm) {
+			super(fm);
+
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			onSectionAttached(3);
+			return ChatFragment.newInstance(position);
+		}
+
+		@Override
+		public int getCount() {
+			return 3;
+
+		}
+
+		public CharSequence getPageTitle(int position) {
+			return getResources().getStringArray(R.array.chat_tabs)[position];
 		}
 	}
 }

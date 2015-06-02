@@ -17,4 +17,5 @@
         <item>36-50</item>
         <item>&gt;50</item>
     </string-array>
+    <string-array name="chat_tabs">contacts</string-array>
 </resources>

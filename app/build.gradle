@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
     defaultConfig {
         applicationId "it.polito.mobile.androidassignment2"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -44,9 +44,14 @@ dependencies {
     compile 'com.android.support:support-v4:22.1.1'
     compile 'com.android.support:recyclerview-v7:22.1.1'
     compile 'com.github.hdodenhof:CircleImageView:v1.3.0'
+    compile 'com.hkm:advancedmaterialtabs:1.0.1@aar'
+
 }
 repositories {
     maven {
         url "https://jitpack.io"
     }
+    maven {  url "http://dl.bintray.com/jjhesk/maven"  }
+
+
 }
