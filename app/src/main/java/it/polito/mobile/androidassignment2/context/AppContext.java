@@ -21,7 +21,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Session;
 
 Need to replace Session.login(email,password,postProcessor); by
 
-    AppContext appState = ((AppContext)getApplication());
+    AppContext appState = ((AppContext)getApplicationContext());
     AsyncTask<?,?,?> task = appState.login( email, password, postProcessor);
 
 
@@ -29,7 +29,7 @@ Need to replace Session session = Session.getInstance();
 
  by
 
-   Session session = ((AppContext)getApplication()).getSession()
+   Session session = ((AppContext)getApplicationContext()).getSession()
 
  */
 
@@ -43,6 +43,7 @@ public class AppContext extends Application {
     private Session state = null;
 
     public Session getSession() throws ExceptionInInitializerError{
+
 
         if( this.state == null ){
             throw new ExceptionInInitializerError("Session error : login First !");
