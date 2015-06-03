@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Created by mark9 on 28/04/15.
  */
-class RESTManager {
+public class RESTManager {
 
 
     private static final String BASE_URI = "https://poli-jobs-dev.herokuapp.com/api/v1/";
