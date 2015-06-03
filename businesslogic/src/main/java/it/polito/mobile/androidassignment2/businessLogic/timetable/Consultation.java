@@ -23,11 +23,11 @@ public class Consultation implements Event {
         protected Consultation( JSONObject consultationJson ){
 
             try {
-                this.teacher = consultationJson.getString("teacherName");
+                this.teacher = consultationJson.getString("professor");
                 this.info = new ArrayList<>();
 
 
-                JSONArray allPracticalInformationJson = consultationJson.getJSONArray("timePlace");
+                JSONArray allPracticalInformationJson = consultationJson.getJSONArray("consulting_hours");
 
 
                 for (int i = 0; i < allPracticalInformationJson.length(); i++)
@@ -37,7 +37,7 @@ public class Consultation implements Event {
 
 
             }catch(JSONException exception){
-                throw new RuntimeException("Error parsing course");
+                throw new RuntimeException("Error parsing consultation");
             }
 
         }

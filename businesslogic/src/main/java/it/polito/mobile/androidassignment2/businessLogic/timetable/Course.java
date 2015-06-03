@@ -23,8 +23,8 @@ public class Course implements Event {
         protected Course( JSONObject courseJson ){
 
             try {
-                this.teacher = courseJson.getString("teacherName");
-                this.title = courseJson.getString("courseTitle");
+                this.teacher = courseJson.getString("professor");
+                this.title = courseJson.getString("course");
                 this.lectures = new ArrayList<>();
 
 

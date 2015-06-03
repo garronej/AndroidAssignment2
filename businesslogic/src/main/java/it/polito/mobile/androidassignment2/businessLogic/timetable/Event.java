@@ -7,9 +7,7 @@ import java.util.List;
  */
 public interface Event {
 
-
-    List<PracticalInformation> getPracticalInformation();
-    String getTeacher();
-
+    public abstract List<PracticalInformation> getPracticalInformation();
+    public abstract String getTeacher();
 
 }

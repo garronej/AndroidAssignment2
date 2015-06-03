@@ -75,7 +75,7 @@ public class PracticalInformation {
                 }
 
 
-                String[] time = practicalInformationJson.getString("startTime").split(":");
+                String[] time = practicalInformationJson.getString("start_time").split(":");
 
                 String[] duration = practicalInformationJson.getString("duration").split(":");
 
@@ -105,6 +105,10 @@ public class PracticalInformation {
 
         public String getRoom(){
             return this.room;
+        }
+
+        public int getDay(){
+            return this.day;
         }
 
         //Return something like 8h30 : 11h30
