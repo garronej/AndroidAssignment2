@@ -11,5 +11,6 @@
     <color name="app_default_background">#ff00356f</color>
     <color name="white">#ffffff</color>
     <color name="gray_back">#D8D8D8</color>
+    <color name="orange_polito">#FF7C11</color>
 
 </resources>
