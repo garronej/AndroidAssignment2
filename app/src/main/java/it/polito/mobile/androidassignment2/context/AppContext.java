@@ -10,6 +10,7 @@ import java.util.zip.DataFormatException;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.RestApiException;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
+import it.polito.mobile.androidassignment2.businessLogic.timetable.TimeTableData;
 
 
 /**
@@ -30,6 +31,15 @@ Need to replace Session session = Session.getInstance();
  by
 
    Session session = ((AppContext)getApplicationContext()).getSession()
+
+
+
+   For initializing timetable data :
+    AppContext appState = ((AppContext)getApplicationContext());
+    AsyncTask<?,?,?> task = appState.retrieveTimeTableData(postProcessor);
+
+For getting timetable data
+   TimeTableData timeTableData = ((AppContext)getApplicationContext()).getTimeTableData();
 
  */
 
@@ -92,6 +102,60 @@ public class AppContext extends Application {
         pool.execute();
 
         return pool;
+
+    }
+
+    private TimeTableData timeTableData = null;
+
+
+    public TimeTableData getTimeTableData(){
+
+        if( this.timeTableData == null ){
+            throw new RuntimeException("AppContext not initialised : call retrieveTimeTableData first");
+        }else{
+            return this.timeTableData;
+        }
+
+    }
+
+
+    //Synchronous version of login
+    private synchronized Integer retrieveTimeTableData() throws IOException, RestApiException {
+        this.timeTableData = new TimeTableData(this);
+        return 0;
+    }
+
+
+    public AsyncTask<?, ?, ?> retrieveTimeTableData(final Manager.ResultProcessor<Integer> postProcessor ){
+
+        AsyncTask<Void, Void, Integer> task = new AsyncTask<Void, Void, Integer>() {
+
+            private Exception exception = null;
+
+            @Override
+            protected Integer doInBackground(Void... params) {
+                try {
+                    AppContext.this.retrieveTimeTableData();
+                } catch ( Exception e){
+
+                    this.exception = e;
+                    return -1;
+                }
+                return 1;
+            }
+
+            @Override
+            protected void onPostExecute(Integer out) {
+                postProcessor.process(out,this.exception);
+                return;
+
+            }
+
+        };
+
+        task.execute();
+
+        return task;
 
     }
 
