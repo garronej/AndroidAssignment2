@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     tools:context=".Search">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/seeFull"
+            android:id="@+id/button"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/searchByCourse"
+            android:id="@+id/textView1"
+            android:gravity="center"
+            android:textColor="#ffff0200"
+            android:layout_marginTop="60px"/>
+
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/autoCompleteTextView1"
+                android:completionThreshold="1"
+                android:hint="@string/course"
+                />
+
+
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/searchByTeacher"
+            android:id="@+id/textView2"
+            android:gravity="center"
+            android:textColor="#ffff0200"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30px"/>
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/autoCompleteTextView2"
+            android:completionThreshold="1"
+            android:hint="@string/teacher"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

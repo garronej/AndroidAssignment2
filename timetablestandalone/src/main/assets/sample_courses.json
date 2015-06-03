@@ -1,0 +1,110 @@
+{
+  "courses": [
+    {
+      "teacherName":"MALNATI GIOVANNI",
+      "courseTitle":"Mobile application development",
+      "lectures" : [
+        {
+          "day":"monday",
+          "room":"4D",
+          "startTime":"11:30",
+          "duration":"1:30"
+        },
+        {
+          "day":"thursday",
+          "room":"4D",
+          "startTime":"8:30",
+          "duration":"3:00"
+        },
+        {
+          "day":"wednesday",
+          "room":"LABINF",
+          "startTime":"14:30",
+          "duration":"3:00"
+        }
+        
+        ]
+    },
+    
+    {
+      "teacherName":"MALNATI GIOVANNI",
+      "courseTitle":"Internet Application",
+      "lectures" : [
+        {
+          "day":"monday",
+          "room":"4D",
+          "startTime":"10:00",
+          "duration":"1:30"
+        },
+        {
+          "day":"tuesday",
+          "room":"4D",
+          "startTime":"13:00",
+          "duration":"3:00"
+        },
+        {
+          "day":"friday",
+          "room":"LABINF",
+          "startTime":"11:30",
+          "duration":"3:00"
+        }
+        
+        ]
+    },
+	
+	 {
+      "teacherName":"LAFACE PIETRO",
+      "courseTitle":"System and device programming",
+      "lectures" : [
+        {
+          "day":"monday",
+          "room":"12D",
+          "startTime":"16:00",
+          "duration":"3:00"
+        },
+        {
+          "day":"tuesday",
+          "room":"LABINF",
+          "startTime":"8:30",
+          "duration":"3:00"
+        }
+        
+        ]
+    },
+	
+	 {
+      "teacherName":"RIVOIRA SILVANO",
+      "courseTitle":"Formal languages and compilers",
+      "lectures" : [
+        {
+          "day":"thursday",
+          "room":"4D",
+          "startTime":"14:30",
+          "duration":"3:00"
+        },
+        {
+          "day":"wednesday",
+          "room":"10I",
+          "startTime":"10:00",
+          "duration":"3:00"
+        }
+        
+        ]
+    },
+    
+     {
+      "teacherName":"JOSEPH GARRONE",
+      "courseTitle":"Belly Dance",
+      "lectures" : [
+        {
+          "day":"friday",
+          "room":"Studio Latino",
+          "startTime":"13:30",
+          "duration":"3:45"
+        }
+        
+        ]
+    }
+	
+    ]
+}
