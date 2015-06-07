@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListener {
@@ -189,11 +190,11 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                     break;
                 case 2:
                     //TODO
-                    layout = R.layout.fragment_notice_board;
+                    layout = R.layout.fragment_bookmarks;
                     break;
                 case 3:
                     //TODO
-                    layout = R.layout.fragment_notice_board;
+                    layout = R.layout.fragment_my_notices;
                     break;
             }
 
@@ -203,6 +204,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
 
             return rootView;
         }
+
 
         private void initOnCreate(final View rootView, int sectionNumber) {
             switch (sectionNumber){
@@ -290,7 +292,77 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
 
 
                     break;
-                //TODO
+                case 2:
+                    final NoticesListView list1=((NoticesListView) rootView.findViewById(R.id.notice_list));
+                    AsyncTask<Integer, Integer, List<Notice>> t2 = new AsyncTask<Integer, Integer, List<Notice>>() {
+                        Exception e=null;
+                        @Override
+                        protected List<Notice> doInBackground(Integer... integers) {
+
+                            List<Notice> notices = new ArrayList<>();
+                            try {
+                                String response = RESTManager.send(RESTManager.GET, "students/"+LoggedStudent.getId()+"/favs/notices", null);
+                                JSONArray obj = (new JSONObject(response)).getJSONArray("fav_notices");
+                                for(int i=0;i<obj.length();i++){
+                                    notices.add(new Notice(obj.getJSONObject(i).getJSONObject("notice")));
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                this.e=e;
+                            }
+                            return notices;
+                        }
+
+                        @Override
+                        protected void onPostExecute(List<Notice> notices) {
+                            super.onPostExecute(notices);
+                            if(e!=null){
+                                Toast.makeText(PlaceholderFragment.this.getActivity(), getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            list1.setContent(PlaceholderFragment.this.getActivity(), notices);
+                        }
+                    };
+                    t2.execute();
+                    pendingTasks.add(t2);
+
+                    break;
+                case 3:
+                    final NoticesListView list2=((NoticesListView) rootView.findViewById(R.id.notice_list));
+                    AsyncTask<Integer, Integer, List<Notice>> t3 = new AsyncTask<Integer, Integer, List<Notice>>() {
+                        Exception e=null;
+                        @Override
+                        protected List<Notice> doInBackground(Integer... integers) {
+                            Map<String, String> params = new HashMap<>();
+                            params.put("notice[student_id]", ""+LoggedStudent.getId());
+                            List<Notice> notices = new ArrayList<>();
+                            try {
+                                String response = RESTManager.send(RESTManager.GET, "notices", params);
+                                JSONArray obj = (new JSONObject(response)).getJSONArray("notices");
+                                for(int i=0;i<obj.length();i++){
+                                    notices.add(new Notice(obj.getJSONObject(i)));
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                this.e=e;
+                            }
+                            return notices;
+                        }
+
+                        @Override
+                        protected void onPostExecute(List<Notice> notices) {
+                            super.onPostExecute(notices);
+                            if(e!=null){
+                                Toast.makeText(PlaceholderFragment.this.getActivity(), getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            list2.setContent(PlaceholderFragment.this.getActivity(), notices);
+                        }
+                    };
+                    t3.execute();
+                    pendingTasks.add(t3);
+
+                    break;
             }
         }
 

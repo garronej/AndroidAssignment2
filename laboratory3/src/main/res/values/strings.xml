@@ -8,4 +8,5 @@
     <string name="title_section2">Bookmarks</string>
     <string name="title_section3">My offers</string>
     <string name="error_rest">Error while retrieving informations. Please try again.</string>
+    <string name="btn_add_notice">Add new rent offer</string>
 </resources>
