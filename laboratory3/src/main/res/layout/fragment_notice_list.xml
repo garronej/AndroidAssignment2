@@ -1,0 +1,19 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_marginLeft="16dp" android:layout_marginRight="16dp"
+    tools:context="it.polito.mobile.laboratory3.NoticeListFragment"
+    android:orientation="vertical"
+    >
+    <it.polito.mobile.lab3.noticesList.NoticesListView android:id="@+id/notice_list"
+        android:name="it.polito.mobile.laboratory3.NoticeListFragment"
+        android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1"
+    />
+    <Button
+        android:id="@+id/btn_load_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_more_text"/>
+</LinearLayout>

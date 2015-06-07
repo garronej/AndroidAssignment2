@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Laboratory3</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="btn_more_text">Load more results</string>
+    <string name="title_section1">Offers</string>
+    <string name="title_section2">Bookmarks</string>
+    <string name="title_section3">My offers</string>
+    <string name="error_rest">Error while retrieving informations. Please try again.</string>
+</resources>
