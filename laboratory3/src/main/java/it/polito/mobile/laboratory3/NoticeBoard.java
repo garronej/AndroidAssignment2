@@ -259,7 +259,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                                 protected List<Notice> doInBackground(Integer... integers) {
                                     HashMap<String, String> params = new HashMap<>();
 
-                                    params.put("notice[page]",""+(list.getNumberOfNotices()/5));
+                                    params.put("notice[page]",""+Math.ceil(list.getNumberOfNotices()/5.0));
                                     params.put("notice[items_per_page]","5");
 
                                     List<Notice> notices = new ArrayList<>();
