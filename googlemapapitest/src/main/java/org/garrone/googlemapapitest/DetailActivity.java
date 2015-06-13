@@ -17,9 +17,9 @@ public class DetailActivity extends AppCompatActivity {
 
 
         Bundle extras = getIntent().getExtras();
-        String coordinate = null;
-        String title = null;
-        String snippet = null;
+        String coordinate;
+        String title;
+        String snippet;
 
 
         if (extras == null) {
