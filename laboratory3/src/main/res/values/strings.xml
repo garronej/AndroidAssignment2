@@ -14,4 +14,10 @@
     <string name="category">Category</string>
     <string name="location">Location</string>
     <string name="radius">Radius</string>
+    <string-array name="sort_order">
+        <item>Newest</item>
+        <item>Oldest</item>
+        <item>Nearest</item>
+</string-array>
+
 </resources>

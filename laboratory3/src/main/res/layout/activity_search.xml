@@ -9,7 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="3">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,18 +75,36 @@
                     android:layout_gravity="center"/>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/search_go_btn"
-                android:layout_width="200dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:background="@color/orange_polito"
-                android:clickable="true"
-                android:enabled="true"
-                android:text="@string/action_search"
-                android:textColor="#ffffff"
-                android:textStyle="bold"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <Button
+                    android:id="@+id/search_go_btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:enabled="true"
+                    android:text="@string/action_search"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/side_margin"
+                    android:background="@color/orange_polito"/>
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/sort"
+                    android:layout_weight="2"
+                    android:spinnerMode="dropdown"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:layout_marginRight="@dimen/side_margin"
+                    android:layout_marginLeft="@dimen/side_margin"/>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
@@ -104,8 +122,39 @@
         android:name="it.polito.mobile.laboratory3.NoticeListFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="4"
         />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/orange_polito">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:text="List"
+            android:id="@+id/show_list"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/side_margin"
+            android:background="@color/orange_polito"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Map"
+            android:id="@+id/show_map"
+            android:layout_gravity="center"
+            android:enabled="true"
+            android:layout_marginRight="@dimen/side_margin"
+            android:layout_marginLeft="10dp"
+            android:background="@color/orange_polito"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

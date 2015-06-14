@@ -4,14 +4,17 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +28,10 @@ public class SearchActivity extends ActionBarActivity {
 	private AutoCompleteTextView autocompleteView;
 	private EditText categoryText;
 	private Button searchBtn;
+	private Spinner sortSpinner;
+	private Button listShowBtn;
+	private Button mapShowbtn;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,15 +75,45 @@ public class SearchActivity extends ActionBarActivity {
 		radiusDisplayText = (TextView) findViewById(R.id.radius_value);
 		autocompleteView = (AutoCompleteTextView) findViewById(R.id.location_input);
 		location = autocompleteView;
-		categoryText = (EditText)findViewById(R.id.category_input);
+		sortSpinner = (Spinner) findViewById(R.id.sort);
+		categoryText = (EditText) findViewById(R.id.category_input);
 		searchBtn = (Button) findViewById(R.id.search_go_btn);
+		listShowBtn = (Button) findViewById(R.id.show_list);
+		mapShowbtn = (Button) findViewById(R.id.show_map);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.sort_order));
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		sortSpinner.setAdapter(adapter);
+
 		searchBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				//sortSpinner.getSelectedItem()
 				//TODO
 			}
 		});
+
+		listShowBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				listShowBtn.setBackgroundColor(getResources().getColor(R.color.fab_material_deep_orange_900));
+				mapShowbtn.setBackgroundColor(getResources().getColor(R.color.orange_polito));
+
+				//TODO change to list mode
+
+			}
+		});
+		mapShowbtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mapShowbtn.setBackgroundColor(getResources().getColor(R.color.fab_material_deep_orange_900));
+				listShowBtn.setBackgroundColor(getResources().getColor(R.color.orange_polito));
+				//TODO change to map mode
+			}
+		});
+		listShowBtn.callOnClick();
+
 	}
+
 	private void location_autocomplete() {
 		autocompleteView.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.location_list_item));
 
