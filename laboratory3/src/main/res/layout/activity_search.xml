@@ -1,0 +1,111 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:focusable="false"
+              android:orientation="vertical"
+              tools:context="it.polito.mobile.laboratory3.SearchActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+
+            android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/category_input"
+                style="@style/MyItemText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/category"
+                android:imeOptions="actionDone"
+                android:inputType="text"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/location_input"
+                style="@style/MyItemText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:hint="@string/location"
+                android:imeOptions="actionDone"
+
+                android:inputType="text"/>
+
+
+            <TextView
+                style="@style/MyItemText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/radius"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/side_margin"
+                android:layout_marginRight="@dimen/side_margin">
+
+                <SeekBar
+                    android:id="@+id/radius_seekBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:paddingBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/radius_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="100 Km"
+                    android:textSize="17sp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/search_go_btn"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:background="@color/orange_polito"
+                android:clickable="true"
+                android:enabled="true"
+                android:text="@string/action_search"
+                android:textColor="#ffffff"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/medium_dark_gray">
+
+    </View>
+
+
+    <it.polito.mobile.laboratory3.NoticesListView
+        android:id="@+id/notice_list"
+        android:name="it.polito.mobile.laboratory3.NoticeListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        />
+
+
+</LinearLayout>

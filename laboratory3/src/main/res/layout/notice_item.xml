@@ -1,19 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
 
     >
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/icon"
+        android:src="@drawable/ic_action_home"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:scaleType="fitXY"/>
     <TextView
         android:id="@+id/mainName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="24sp"/>
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:text="main text"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/descrption"
+        android:layout_alignStart="@+id/descrption"/>
+
     <TextView
         android:id="@+id/descrption"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="secondary text"
+        android:layout_below="@+id/mainName"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_toEndOf="@+id/icon"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"/>
+</RelativeLayout>

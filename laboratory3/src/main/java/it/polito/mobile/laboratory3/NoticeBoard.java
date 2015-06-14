@@ -1,5 +1,6 @@
 package it.polito.mobile.laboratory3;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import com.software.shell.fab.ActionButton;
 
 
 public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListener {
@@ -47,7 +50,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notice_board);
+	    setContentView(R.layout.activity_notice_board);
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
@@ -56,10 +59,9 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+	    mViewPager.setAdapter(mSectionsPagerAdapter);
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -84,6 +86,11 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -93,7 +100,9 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+
+        if (id == R.id.action_search) {
+            startActivity(new Intent(NoticeBoard.this, SearchActivity.class));
             return true;
         }
 
@@ -177,8 +186,6 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
             return fragment;
         }
 
-        public PlaceholderFragment() {
-        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -329,6 +336,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                     break;
                 case 3:
                     final NoticesListView list2=((NoticesListView) rootView.findViewById(R.id.notice_list));
+	                final ActionButton fab = (ActionButton) rootView.findViewById(R.id.btn_new_rent);
                     AsyncTask<Integer, Integer, List<Notice>> t3 = new AsyncTask<Integer, Integer, List<Notice>>() {
                         Exception e=null;
                         @Override
@@ -361,8 +369,14 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                     };
                     t3.execute();
                     pendingTasks.add(t3);
+					fab.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							Toast.makeText(PlaceholderFragment.this.getActivity(), "NEW ONE", Toast.LENGTH_LONG).show();
+						}
+					});
 
-                    break;
+	                break;
             }
         }
 
