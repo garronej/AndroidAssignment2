@@ -1,0 +1,138 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:focusable="false"
+              android:orientation="vertical" android:background="@android:color/background_light"
+              tools:context="it.polito.mobile.laboratory3.SearchActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <it.polito.mobile.laboratory3.AutoCompletionTextView
+                android:id="@+id/category_input"
+                style="@style/MyItemText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/category"
+                android:imeOptions="actionDone"
+                android:inputType="text"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/location_input"
+                style="@style/MyItemText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:hint="@string/location"
+                android:imeOptions="actionDone"
+
+                android:inputType="text"/>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    style="@style/MyItemText"
+                    android:id="@+id/size"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:hint="@string/size"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    />
+
+                <EditText
+                    style="@style/MyItemText"
+                    android:id="@+id/price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="2dp"
+                    android:hint="@string/price"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/MyItemText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/radius"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    />
+                <SeekBar
+                    android:id="@+id/radius_seekBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:paddingBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/radius_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="100 Km"
+                    android:textSize="17sp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <Button
+                    android:id="@+id/search_go_btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:enabled="true"
+                    android:text="@string/action_search"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/side_margin"
+                    android:background="@color/orange_polito"/>
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/sort"
+                    android:layout_weight="2"
+                    android:spinnerMode="dropdown"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:layout_marginRight="@dimen/side_margin"
+                    android:layout_marginLeft="@dimen/side_margin"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

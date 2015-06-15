@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Laboratory3</string>
+    <string name="app_name">Notice Board</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -9,4 +9,20 @@
     <string name="title_section3">My offers</string>
     <string name="error_rest">Error while retrieving informations. Please try again.</string>
     <string name="btn_add_notice">Add new rent offer</string>
+    <string name="title_activity_search">Search</string>
+    <string name="action_search">Search</string>
+    <string name="category">Category</string>
+    <string name="location">Location</string>
+    <string name="radius">Radius</string>
+    <string name="size">size</string>
+    <string name="price">price</string>
+    <string-array name="sort_order">
+        <item>Newest</item>
+        <item>Oldest</item>
+        <item>Cheaper</item>
+        <item>More expensive</item>
+        <item>Smaller</item>
+        <item>Bigger</item>
+</string-array>
+
 </resources>
