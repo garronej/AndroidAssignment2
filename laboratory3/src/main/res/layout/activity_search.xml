@@ -1,25 +1,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:focusable="false"
-              android:orientation="vertical"
+              android:orientation="vertical" android:background="@android:color/background_light"
               tools:context="it.polito.mobile.laboratory3.SearchActivity">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3">
+        android:layout_height="wrap_content"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-
             android:orientation="vertical">
 
 
-            <EditText
+            <it.polito.mobile.laboratory3.AutoCompletionTextView
                 android:id="@+id/category_input"
                 style="@style/MyItemText"
                 android:layout_width="match_parent"
@@ -40,24 +38,52 @@
                 android:inputType="text"/>
 
 
-            <TextView
-                style="@style/MyItemText"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="@string/radius"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    style="@style/MyItemText"
+                    android:id="@+id/size"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:hint="@string/size"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    />
+
+                <EditText
+                    style="@style/MyItemText"
+                    android:id="@+id/price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="2dp"
+                    android:hint="@string/price"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    />
+            </LinearLayout>
+
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/side_margin"
-                android:layout_marginRight="@dimen/side_margin">
-
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/MyItemText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/radius"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    />
                 <SeekBar
                     android:id="@+id/radius_seekBar"
                     android:layout_width="0dp"
@@ -108,53 +134,5 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/medium_dark_gray">
-
-    </View>
-
-
-    <it.polito.mobile.laboratory3.NoticesListView
-        android:id="@+id/notice_list"
-        android:name="it.polito.mobile.laboratory3.NoticeListFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/orange_polito">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:text="List"
-            android:id="@+id/show_list"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="@dimen/side_margin"
-            android:background="@color/orange_polito"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:text="Map"
-            android:id="@+id/show_map"
-            android:layout_gravity="center"
-            android:enabled="true"
-            android:layout_marginRight="@dimen/side_margin"
-            android:layout_marginLeft="10dp"
-            android:background="@color/orange_polito"/>
-
-    </LinearLayout>
-
 
 </LinearLayout>

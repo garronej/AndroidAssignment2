@@ -3,6 +3,7 @@ package it.polito.mobile.laboratory3;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,6 +11,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +42,8 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
+    Fragment searchFragment = null;
+    Bundle searchFilters = null;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -52,6 +57,10 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_notice_board);
 
+        if(savedInstanceState!=null){
+            searchFilters = savedInstanceState.getBundle("last_search");
+        }
+
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -62,6 +71,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
 	    mViewPager.setAdapter(mSectionsPagerAdapter);
+
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -87,6 +97,12 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBundle("last_search", searchFilters);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main,menu);
         return super.onCreateOptionsMenu(menu);
@@ -102,7 +118,23 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         //noinspection SimplifiableIfStatement
 
         if (id == R.id.action_search) {
-            startActivity(new Intent(NoticeBoard.this, SearchActivity.class));
+            //startActivity(new Intent(NoticeBoard.this, SearchActivity.class));
+            //return true;
+            if(searchFragment!=null){
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .remove(searchFragment)
+                        .commit();
+                searchFragment=null;
+
+            }else {
+                searchFragment= new SearchActivity();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.search_container, searchFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
             return true;
         }
 
@@ -125,11 +157,28 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+
+    public void applyFiltersFromSearch(Bundle b){
+        searchFilters=b;
+        if(searchFragment!=null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .remove(searchFragment)
+                    .commit();
+            searchFragment = null;
+        }
+
+        ((PlaceholderFragment)mSectionsPagerAdapter.getRegisteredFragment(0)).updateViewContent();
+
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        private SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -140,6 +189,23 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            registeredFragments.put(position, fragment);
+            return fragment;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            registeredFragments.remove(position);
+            super.destroyItem(container, position, object);
+        }
+
+        public Fragment getRegisteredFragment(int position) {
+            return registeredFragments.get(position);
         }
 
         @Override
@@ -174,6 +240,9 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         private static final String ARG_SECTION_NUMBER = "section_number";
         List<AsyncTask<?,?,?>> pendingTasks = new ArrayList<>();
 
+        private View root=null;
+        private int sectionNumber = 0;
+
         /**
          * Returns a new instance of this fragment for the given section
          * number.
@@ -196,20 +265,24 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                     layout = R.layout.fragment_notice_list;
                     break;
                 case 2:
-                    //TODO
                     layout = R.layout.fragment_bookmarks;
                     break;
                 case 3:
-                    //TODO
                     layout = R.layout.fragment_my_notices;
                     break;
             }
 
             View rootView = inflater.inflate(layout, container, false);
-
+            root=rootView;
+            sectionNumber=getArguments().getInt(ARG_SECTION_NUMBER);
             initOnCreate(rootView, getArguments().getInt(ARG_SECTION_NUMBER));
 
             return rootView;
+        }
+
+
+        public void updateViewContent(){
+            initOnCreate(root,sectionNumber);
         }
 
 
@@ -218,12 +291,64 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                 case 1:
 
                     final NoticesListView list=((NoticesListView) rootView.findViewById(R.id.notice_list));
+                    final HashMap<String, String> params = new HashMap<>();
+                    NoticeBoard main =((NoticeBoard)getActivity());
+                    if(main.searchFilters != null){
+
+                        if(main.searchFilters.getString("location")!=null
+                                && !main.searchFilters.getString("location").equals("")){
+                            params.put("notice[full_location]", main.searchFilters.getString("location"));
+                        }
+                        if(main.searchFilters.getInt("radius", -1)!=-1){
+                            params.put("notice[radius]", ""+main.searchFilters.getInt("radius",-1));
+                        }
+                        if(main.searchFilters.getInt("size",-1)!=-1){
+                            params.put("notice[size]", ""+main.searchFilters.getInt("size",-1));
+                        }
+                        if(main.searchFilters.getInt("price",-1)!=-1){
+                            params.put("notice[price]", ""+main.searchFilters.getInt("price",-1));
+                        }
+                        if(main.searchFilters.getString("categories")!=null
+                                && !main.searchFilters.getString("categories").equals("")){
+                            params.put("notice[tags]", main.searchFilters.getString("categories"));
+                        }
+                        String[] sortOptions = getResources().getStringArray(R.array.sort_order);
+                        int index = -1;
+                        for(int i = 0; i<sortOptions.length;i++){
+                            if(sortOptions[i].equals(main.searchFilters.getString("sort"))) {
+                                index=i;
+                                break;
+                            }
+                        }
+
+                        switch(index){
+                            case 0:
+                                params.put("notice[date_order]", "desc");
+                                break;
+                            case 1:
+                                params.put("notice[date_order]", "asc");
+                                break;
+                            case 2:
+                                params.put("notice[price_order]", "asc");
+                                break;
+                            case 3:
+                                params.put("notice[price_order]", "desc");
+                                break;
+                            case 4:
+                                params.put("notice[size_order]", "asc");
+                                break;
+                            case 5:
+                                params.put("notice[size_order]", "desc");
+                                break;
+                        }
+
+                    }
 
                     AsyncTask<Integer, Integer, List<Notice>> t = new AsyncTask<Integer, Integer, List<Notice>>() {
                         Exception e=null;
                         @Override
                         protected List<Notice> doInBackground(Integer... integers) {
-                            HashMap<String, String> params = new HashMap<>();
+
 
                             params.put("notice[page]","0");
                             params.put("notice[items_per_page]","5");
@@ -369,10 +494,10 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                     };
                     t3.execute();
                     pendingTasks.add(t3);
-					fab.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							Toast.makeText(PlaceholderFragment.this.getActivity(), "NEW ONE", Toast.LENGTH_LONG).show();
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(PlaceholderFragment.this.getActivity(), "NEW ONE", Toast.LENGTH_LONG).show();
 						}
 					});
 
