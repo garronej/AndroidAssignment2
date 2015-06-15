@@ -28,6 +28,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.software.shell.fab.ActionButton;
 
 
@@ -134,6 +144,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                         .add(R.id.search_container, searchFragment)
                         .addToBackStack(null)
                         .commit();
+                mViewPager.setCurrentItem(0);
             }
             return true;
         }
@@ -242,6 +253,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
 
         private View root=null;
         private int sectionNumber = 0;
+        private MapView mapView = null;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -272,12 +284,37 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                     break;
             }
 
+
             View rootView = inflater.inflate(layout, container, false);
             root=rootView;
             sectionNumber=getArguments().getInt(ARG_SECTION_NUMBER);
+            mapView = (MapView) rootView.findViewById(R.id.mapview);
+            if(mapView!=null){
+                mapView.onCreate(savedInstanceState);
+            }
             initOnCreate(rootView, getArguments().getInt(ARG_SECTION_NUMBER));
 
             return rootView;
+        }
+        @Override
+        public void onResume() {
+            if(mapView!=null)
+                mapView.onResume();
+            super.onResume();
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            if(mapView!=null)
+                mapView.onDestroy();
+        }
+
+        @Override
+        public void onLowMemory() {
+            super.onLowMemory();
+            if(mapView!=null)
+                mapView.onLowMemory();
         }
 
 
@@ -291,6 +328,8 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                 case 1:
 
                     final NoticesListView list=((NoticesListView) rootView.findViewById(R.id.notice_list));
+
+
                     final HashMap<String, String> params = new HashMap<>();
                     NoticeBoard main =((NoticeBoard)getActivity());
                     if(main.searchFilters != null){
@@ -368,60 +407,101 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                         }
 
                         @Override
-                        protected void onPostExecute(List<Notice> notices) {
+                        protected void onPostExecute(final List<Notice> notices) {
                             super.onPostExecute(notices);
                             if(e!=null){
                                 Toast.makeText(PlaceholderFragment.this.getActivity(), getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
                                 return;
                             }
-                            list.setContent(PlaceholderFragment.this.getActivity(), notices);
+                            if(list!=null) {
+                                list.setContent(PlaceholderFragment.this.getActivity(), notices);
+                            }
+                            if(mapView!=null){
+                                mapView.getMapAsync(new OnMapReadyCallback() {
+                                    @Override
+                                    public void onMapReady(final GoogleMap googleMap) {
+                                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+                                        for( Notice n : notices){
+                                            googleMap.addMarker(new MarkerOptions().position(new LatLng(n.getLatitude(), n.getLongitude()))
+                                                    .title(n.getTitle())
+                                                    .snippet(n.getDescription()));
+
+                                            builder.include(new LatLng(n.getLatitude(), n.getLongitude()));
+                                        }
+
+
+                                        LatLngBounds bounds = builder.build();
+                                        int padding = 30; // offset from edges of the map in pixels
+                                        final CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+                                        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                                            @Override
+                                            public void onMapLoaded() {
+                                                googleMap.animateCamera(cu);
+                                            }
+                                        });
+
+                                        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+                                            @Override
+                                            public boolean onMarkerClick(Marker arg0) {
+                                                //TODO
+                                                return false;
+                                            }
+
+                                        });
+                                    }
+                                });
+                            }
                         }
                     };
                     t.execute();
                     pendingTasks.add(t);
+                    if(rootView.findViewById(R.id.btn_load_more)!=null) {
+                        rootView.findViewById(R.id.btn_load_more).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
 
-                    rootView.findViewById(R.id.btn_load_more).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
 
+                                AsyncTask<Integer, Integer, List<Notice>> t1 = new AsyncTask<Integer, Integer, List<Notice>>() {
+                                    Exception e = null;
 
-                            AsyncTask<Integer, Integer, List<Notice>> t1 = new AsyncTask<Integer, Integer, List<Notice>>() {
-                                Exception e=null;
-                                @Override
-                                protected List<Notice> doInBackground(Integer... integers) {
-                                    HashMap<String, String> params = new HashMap<>();
+                                    @Override
+                                    protected List<Notice> doInBackground(Integer... integers) {
+                                        HashMap<String, String> params = new HashMap<>();
 
-                                    params.put("notice[page]",""+Math.ceil(list.getNumberOfNotices()/5.0));
-                                    params.put("notice[items_per_page]","5");
+                                        params.put("notice[page]", "" + Math.ceil(list.getNumberOfNotices() / 5.0));
+                                        params.put("notice[items_per_page]", "5");
 
-                                    List<Notice> notices = new ArrayList<>();
-                                    try {
-                                        String response = RESTManager.send(RESTManager.GET, "notices", params);
-                                        JSONArray obj = (new JSONObject(response)).getJSONArray("notices");
-                                        for(int i=0;i<obj.length();i++){
-                                            notices.add(new Notice(obj.getJSONObject(i)));
+                                        List<Notice> notices = new ArrayList<>();
+                                        try {
+                                            String response = RESTManager.send(RESTManager.GET, "notices", params);
+                                            JSONArray obj = (new JSONObject(response)).getJSONArray("notices");
+                                            for (int i = 0; i < obj.length(); i++) {
+                                                notices.add(new Notice(obj.getJSONObject(i)));
+                                            }
+                                        } catch (Exception e) {
+                                            this.e = e;
                                         }
-                                    } catch (Exception e) {
-                                        this.e=e;
+                                        return notices;
                                     }
-                                    return notices;
-                                }
 
-                                @Override
-                                protected void onPostExecute(List<Notice> notices) {
-                                    super.onPostExecute(notices);
-                                    if(e!=null){
-                                        Toast.makeText(PlaceholderFragment.this.getActivity(), getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
-                                        return;
+                                    @Override
+                                    protected void onPostExecute(List<Notice> notices) {
+                                        super.onPostExecute(notices);
+                                        if (e != null) {
+                                            Toast.makeText(PlaceholderFragment.this.getActivity(), getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+                                        list.addNotices(notices);
                                     }
-                                    list.addNotices(notices);
-                                }
-                            };
-                            t1.execute();
-                            pendingTasks.add(t1);
-                        }
-                    });
-
+                                };
+                                t1.execute();
+                                pendingTasks.add(t1);
+                            }
+                        });
+                    }
 
                     break;
                 case 2:
