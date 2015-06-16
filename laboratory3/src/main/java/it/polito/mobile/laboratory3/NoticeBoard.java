@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -138,7 +137,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         //noinspection SimplifiableIfStatement
 
         if (id == R.id.action_search) {
-            //startActivity(new Intent(NoticeBoard.this, SearchActivity.class));
+            //startActivity(new Intent(NoticeBoard.this, SearchFragment.class));
             //return true;
             searchFragment = getSupportFragmentManager().findFragmentByTag("searchFragment");
             Log.d("marco", "search fragment is "+searchFragment);
@@ -151,7 +150,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                             .commit();
 
             }else {
-                searchFragment= new SearchActivity();
+                searchFragment= new SearchFragment();
 
                 getSupportFragmentManager()
                         .beginTransaction()

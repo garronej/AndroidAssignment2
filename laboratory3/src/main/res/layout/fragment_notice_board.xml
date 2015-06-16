@@ -4,7 +4,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".NoticeBoard$PlaceholderFragment">
+    tools:context=".NoticeBoard$PlaceholderFragment"
+                android:background="@android:color/background_light"
+    >
 
     <!--
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"

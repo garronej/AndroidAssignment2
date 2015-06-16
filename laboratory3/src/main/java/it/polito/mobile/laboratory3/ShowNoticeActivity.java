@@ -46,7 +46,9 @@ public class ShowNoticeActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_show_notice);
 		findViews();
 
+
 		noticeId = getIntent().getIntExtra("noticeId", -1);
+
 		//if (noticeId == -1) { throw new RuntimeException("noticeId param is required"); }; TODO
 
 		AsyncTask<Integer, Void, Notice> t1 = new AsyncTask<Integer, Void, Notice>() {

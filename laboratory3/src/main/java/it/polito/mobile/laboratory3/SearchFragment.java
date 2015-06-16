@@ -1,15 +1,9 @@
 package it.polito.mobile.laboratory3;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,11 +21,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
-public class SearchActivity extends Fragment {
+public class SearchFragment extends Fragment {
 
 	public static final int MAX_RADIUS = 5000;
 	private SeekBar radiusSeekBar;
@@ -185,10 +178,10 @@ public class SearchActivity extends Fragment {
 				t=null;
 				super.onPostExecute(notices);
 				if(e!=null){
-					Toast.makeText(SearchActivity.this.getActivity(), getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+					Toast.makeText(SearchFragment.this.getActivity(), getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
 					return;
 				}
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchActivity.this.getActivity(), android.R.layout.simple_list_item_1, notices);
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchFragment.this.getActivity(), android.R.layout.simple_list_item_1, notices);
 
 				categoryText.setAdapter(adapter);
 			}
@@ -214,7 +207,7 @@ public class SearchActivity extends Fragment {
 				// Get data associated with the specified position
 				// in the list (AdapterView)
 				String description = (String) parent.getItemAtPosition(position);
-				Toast.makeText(SearchActivity.this.getActivity(), description, Toast.LENGTH_SHORT).show();
+				Toast.makeText(SearchFragment.this.getActivity(), description, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
