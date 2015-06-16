@@ -133,7 +133,6 @@ public class GalleryGridViewActivity extends FragmentActivity {
             Bundle arguments = getArguments();
             String url = arguments.getString(KEY_URL);
 
-            urlView.setText(url);
             Picasso.with(activity)
                     .load(url)
                     .fit()
