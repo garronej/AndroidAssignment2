@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:focusableInTouchMode="true"
+        >
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                android:id="@+id/title_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileItemText"
+                android:hint="@string/title"
+                android:imeOptions="actionDone"
+                android:inputType="text"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                android:id="@+id/description_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileItemText"
+                android:hint="@string/description"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <AutoCompleteTextView
+                android:id="@+id/location_ac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileItemText"
+                android:imeOptions="actionDone"
+                android:hint="@string/complete_address"
+                android:inputType="text"
+                />
+
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+            <it.polito.mobile.laboratory3.TagsCompletionTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tags_ac"
+                android:layout_marginTop="2dp"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                style="@style/ProfileItemText"
+                android:hint="@string/tags"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                android:id="@+id/telephone_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileItemText"
+                android:hint="@string/telephone_number"
+                android:inputType="phone"
+                android:imeOptions="actionDone"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                android:id="@+id/size_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileItemText"
+                android:hint="@string/size"
+                android:inputType="number"
+                android:imeOptions="actionDone"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                android:id="@+id/price_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileItemText"
+                android:hint="@string/price"
+                android:inputType="number"
+                android:imeOptions="actionDone"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/side_margin"
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginLeft="@dimen/side_margin"
+            android:layout_marginBottom="@dimen/vertical_margin"
+            >
+            <Button
+                android:id="@+id/submit_b"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/blue_sky"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="#fff"
+                />
+            <ProgressBar
+                android:id="@+id/submit_pb"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"
+                style="@android:style/Widget.ProgressBar.Small"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

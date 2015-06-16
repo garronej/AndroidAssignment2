@@ -62,4 +62,7 @@
     <style name="Widget.PicassoSample.DescriptionText" parent="android:Widget.TextView">
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="HoloTheme" parent="@android:style/Theme.Holo.Light" />
+
 </resources>

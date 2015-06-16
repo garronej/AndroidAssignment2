@@ -10,6 +10,7 @@
         android:orientation="vertical"
         >
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -17,6 +18,38 @@
             android:layout_marginLeft="@dimen/side_margin"
             android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
+            android:id="@+id/upload_l"
+            android:visibility="gone"
+            >
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:id="@+id/upload_b"
+                android:text="@string/upload_pics_b"
+                android:textColor="#fff"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_centerInParent="true"
+                android:background="@color/blue_sky"
+                />
+            <ProgressBar
+                android:id="@+id/upload_pb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"
+                style="@android:style/Widget.ProgressBar.Small"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/side_margin"
+            android:layout_marginLeft="@dimen/side_margin"
+            android:layout_marginBottom="@dimen/vertical_margin"
+            android:id="@+id/gallery_l"
+            android:visibility="gone"
             >
             <Button
                 android:id="@+id/gallery_b"
@@ -29,7 +62,6 @@
                 android:paddingRight="10dp"
                 android:textColor="#fff"
                 android:text="@string/open_gallery"
-                android:visibility="gone"
                 />
         </RelativeLayout>
 

@@ -1,25 +1,40 @@
 package it.polito.mobile.laboratory3;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import it.polito.mobile.laboratory3.Picasso.GalleryGridViewActivity;
+import it.polito.mobile.laboratory3.s3client.models.UploadModel;
+import it.polito.mobile.laboratory3.s3client.network.TransferController;
+import nl.changer.polypicker.ImagePickerActivity;
 
 public class ShowNoticeActivity extends AppCompatActivity {
 
@@ -35,12 +50,35 @@ public class ShowNoticeActivity extends AppCompatActivity {
 	private Button bPrice;
     private Button bFav;
     private Button bInad;
-	private Button bOpenGallery;
     int noticeId;
+    private Button bOpenGallery;
+    private RelativeLayout lOpenGallery;
+    private boolean owner;
+    private RelativeLayout lUpload;
+    private Button bUpload;
+    private ProgressBar pbUpload;
+    private UploadFinished uploadfinished = new UploadFinished();
+    private int pendingUploads = 0;
 
     private List<AsyncTask<?, ?, ?>> pendingTasks = new ArrayList<AsyncTask<?, ?, ?>>();
 
 	private static final String TAG = "ShowNoticeActivity";
+    private final static int ACTIVITY_MULTIUPLOAD = 147;
+    private final static int MAX_UPLOAD_PICTURES = 5;
+
+    public class UploadFinished extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String filePath = intent.getStringExtra(UploadModel.EXTRA_FILENAME);
+            Log.d(TAG, "upped " + filePath);
+            pendingUploads--;
+            if (pendingUploads == 0) {
+                bUpload.setVisibility(View.VISIBLE);
+                pbUpload.setVisibility(View.GONE);
+                // send to backend
+            }
+        }
+    }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +86,8 @@ public class ShowNoticeActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_show_notice);
 		findViews();
 
-
-		noticeId = getIntent().getIntExtra("noticeId", -1);
-
-		//if (noticeId == -1) { throw new RuntimeException("noticeId param is required"); }; TODO
+        noticeId = getIntent().getIntExtra("noticeId", -1);
+		if (noticeId == -1) { throw new RuntimeException("noticeId param is required"); }
 
 		AsyncTask<Integer, Void, Notice> t1 = new AsyncTask<Integer, Void, Notice>() {
 			Exception e=null;
@@ -97,9 +133,21 @@ public class ShowNoticeActivity extends AppCompatActivity {
         bOpenGallery = (Button) findViewById(R.id.gallery_b);
         bFav = (Button) findViewById(R.id.bookmark_b);
         bInad = (Button) findViewById(R.id.inadequate_b);
+        bUpload = (Button) findViewById(R.id.upload_b);
+        pbUpload = (ProgressBar) findViewById(R.id.upload_pb);
+        lOpenGallery = (RelativeLayout) findViewById(R.id.gallery_l);
+        lUpload = (RelativeLayout) findViewById(R.id.upload_l);
     }
 
     private void setupViews(Notice notice) {
+        if (notice.getStudentId() == LoggedStudent.getId()) {
+            owner = true;
+        } else {
+            owner = false;
+        }
+
+        if (owner) { lUpload.setVisibility(View.VISIBLE); }
+
         String title = notice.getTitle();
         if (title != null && !title.equals("")) {
             tvTitle.setText(title);
@@ -153,27 +201,34 @@ public class ShowNoticeActivity extends AppCompatActivity {
 
         int size = notice.getSize();
         if (size != 0) {
-            bSize.setText(notice.getSize() + "mq");
+            bSize.setText(size + "mq");
         } else {
             bSize.setVisibility(View.GONE);
         }
 
         double price = notice.getPrice();
         if (price != 0.0) {
-            bPrice.setText(String.valueOf(notice.getPrice()) + "€");
+            bPrice.setText(String.valueOf(price) + "€");
         } else {
             bPrice.setVisibility(View.GONE);
         }
 
         String[] pictures = notice.getPictures();
         if (pictures == null || pictures.length == 0) {
-            bOpenGallery.setVisibility(View.GONE);
+            lOpenGallery.setVisibility(View.GONE);
         } else {
-            bOpenGallery.setVisibility(View.VISIBLE);
+            lOpenGallery.setVisibility(View.VISIBLE);
         }
     }
 
     private void setupCallbacks(final Notice notice) {
+        bUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getImages();
+            }
+        });
+
         bOpenGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,6 +237,12 @@ public class ShowNoticeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    private void getImages() {
+        Intent intent = new Intent(ShowNoticeActivity.this, ImagePickerActivity.class);
+        intent.putExtra(ImagePickerActivity.EXTRA_SELECTION_LIMIT, MAX_UPLOAD_PICTURES);
+        startActivityForResult(intent, ACTIVITY_MULTIUPLOAD);
     }
 
 	@Override
@@ -259,7 +320,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
         };
         t2.execute();
         pendingTasks.add(t2);
-
+        registerReceiver(uploadfinished, new IntentFilter(UploadModel.INTENT_UPLOADED));
 	}
 
     private void setupUnfav(){
@@ -366,7 +427,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
                             Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
                             return;
                         }
-                        tvInappropriate.setText(""+(Integer.parseInt(tvInappropriate.getText().toString())-1));
+                        tvInappropriate.setText("" + (Integer.parseInt(tvInappropriate.getText().toString()) - 1));
                         setupInadequate();
                     }
                 };
@@ -383,29 +444,30 @@ public class ShowNoticeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
-                    Exception e=null;
+                    Exception e = null;
 
                     @Override
                     protected Integer doInBackground(Integer... integers) {
                         try {
                             HashMap<String, String> s = new HashMap<String, String>();
-                            s.put("inappropriate_notice[notice_id]", ""+noticeId);
-                            String response = RESTManager.send(RESTManager.POST, "students/"+LoggedStudent.getId()+ "/inappropriate/notices", s);
+                            s.put("inappropriate_notice[notice_id]", "" + noticeId);
+                            String response = RESTManager.send(RESTManager.POST, "students/" + LoggedStudent.getId() + "/inappropriate/notices", s);
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                            this.e=e;
+                            this.e = e;
                         }
                         return 0;
                     }
+
                     @Override
                     protected void onPostExecute(Integer i) {
                         super.onPostExecute(i);
-                        if(e!=null){
+                        if (e != null) {
                             Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
                             return;
                         }
-                        tvInappropriate.setText(""+(Integer.parseInt(tvInappropriate.getText().toString())+1));
+                        tvInappropriate.setText("" + (Integer.parseInt(tvInappropriate.getText().toString()) + 1));
                         setupRemoveInadequate();
                     }
                 };
@@ -422,10 +484,10 @@ public class ShowNoticeActivity extends AppCompatActivity {
             t.cancel(true);
         }
         pendingTasks.clear();
+        unregisterReceiver(uploadfinished);
 		super.onPause();
 	}
 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(R.string.delete_notice);
         return super.onCreateOptionsMenu(menu);
@@ -433,7 +495,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getTitle().equals(getResources().getString(R.string.delete_notice))){
+        if (item.getTitle().equals(getResources().getString(R.string.delete_notice))) {
             AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
                 Exception e = null;
 
@@ -465,5 +527,62 @@ public class ShowNoticeActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == ACTIVITY_MULTIUPLOAD) {
+                bUpload.setVisibility(View.GONE);
+                pbUpload.setVisibility(View.VISIBLE);
+                Parcelable[] parcelableUris = intent.getParcelableArrayExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
+
+                if (parcelableUris == null) {
+                    return;
+                }
+
+                // Java doesn't allow array casting, this is a little hack
+                Uri[] uris = new Uri[parcelableUris.length];
+                System.arraycopy(parcelableUris, 0, uris, 0, parcelableUris.length);
+
+                if (uris != null) {
+                    pendingUploads += uris.length;
+                    for (Uri uri : uris) {
+                        if (!uri.toString().contains("content://")) { // probably a relative uri
+                            uri = getImageContentUri(ShowNoticeActivity.this, new File(uri.toString()));
+                        }
+                        if (uri != null) {
+                            Log.i(TAG, "uploading: " + uri);
+                            bUpload.setVisibility(View.INVISIBLE);
+                            pbUpload.setVisibility(View.VISIBLE);
+                            TransferController.upload(ShowNoticeActivity.this, uri, "photo/student3");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static Uri getImageContentUri(Context context, File imageFile) {
+        String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = context.getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[] { MediaStore.Images.Media._ID },
+                MediaStore.Images.Media.DATA + "=? ",
+                new String[] { filePath }, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+            return Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + id);
+        } else {
+            if (imageFile.exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, filePath);
+                return context.getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } else {
+                return null;
+            }
+        }
     }
 }

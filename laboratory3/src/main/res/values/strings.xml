@@ -55,4 +55,14 @@
     <string name="unfav">Remove from bookmarks</string>
     <string name="delete_notice">Delete notice</string>
     <string name="unflag_as_inadequate">Unflag as inadequate</string>
+    <string name="upload_pics">Upload pics</string>
+    <string name="complete_address">Complete address</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="upload_pics_b">Upload pics</string>
+
+    <string name="network_error">An error occurred while trying to connect to the remote server. Please, check your Internet connection then try again.</string>
+    <string name="title_show_notice_view">Show notice</string>
+    <string name="title_edit_notice_view">Edit notice</string>
+
 </resources>
