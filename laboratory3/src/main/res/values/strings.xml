@@ -53,4 +53,6 @@
     <string name="add_to_bookmark">Add to bookmark</string>
     <string name="flag_as_inadequate">Flag as inadequate</string>
     <string name="unfav">Remove from bookmarks</string>
+    <string name="delete_notice">Delete notice</string>
+    <string name="unflag_as_inadequate">Unflag as inadequate</string>
 </resources>

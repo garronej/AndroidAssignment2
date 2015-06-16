@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -185,6 +187,42 @@ public class ShowNoticeActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+        AsyncTask<Integer, Integer, Boolean> t1 = new AsyncTask<Integer, Integer, Boolean>() {
+            Exception e=null;
+            @Override
+            protected Boolean doInBackground(Integer... integers) {
+
+                try {
+                    String response = RESTManager.send(RESTManager.GET, "students/"+LoggedStudent.getId()+"/inappropriate/notices", null);
+                    JSONArray obj = (new JSONObject(response)).getJSONArray("inappropriate_notices");
+                    for(int i=0;i<obj.length();i++){
+                        if(noticeId==obj.getJSONObject(i).getInt("notice_id")){
+                            return true;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    this.e=e;
+                }
+                return false;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean isFav) {
+                super.onPostExecute(isFav);
+                if(e!=null){
+                    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(isFav){
+                    setupRemoveInadequate();
+                }else{
+                    setupInadequate();
+                }
+            }
+        };
+        t1.execute();
+        pendingTasks.add(t1);
         AsyncTask<Integer, Integer, Boolean> t2 = new AsyncTask<Integer, Integer, Boolean>() {
             Exception e=null;
             @Override
@@ -220,6 +258,8 @@ public class ShowNoticeActivity extends AppCompatActivity {
             }
         };
         t2.execute();
+        pendingTasks.add(t2);
+
 	}
 
     private void setupUnfav(){
@@ -266,14 +306,91 @@ public class ShowNoticeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
+                    Exception e = null;
+
+                    @Override
+                    protected Integer doInBackground(Integer... integers) {
+                        try {
+                            HashMap<String, String> hm = new HashMap<String, String>();
+                            hm.put("fav_notice[notice_id]", "" + noticeId);
+                            String response = RESTManager.send(RESTManager.POST, "students/" + LoggedStudent.getId() + "/favs/notices", hm);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            this.e = e;
+                        }
+                        return 0;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Integer i) {
+                        super.onPostExecute(i);
+                        if (e != null) {
+                            Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        setupUnfav();
+                    }
+                };
+                t1.execute();
+                pendingTasks.add(t1);
+            }
+        });
+    }
+
+    private void setupRemoveInadequate(){
+        bInad.setText(getResources().getString(R.string.unflag_as_inadequate));
+        bInad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
+                    Exception e = null;
+
+                    @Override
+                    protected Integer doInBackground(Integer... integers) {
+
+                        try {
+                            RESTManager.send(RESTManager.DELETE, "students/" + LoggedStudent.getId() + "/inappropriate/notices/" + noticeId, null);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            this.e = e;
+                        }
+                        return 0;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Integer i) {
+                        super.onPostExecute(i);
+                        if (e != null) {
+                            Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        tvInappropriate.setText(""+(Integer.parseInt(tvInappropriate.getText().toString())-1));
+                        setupInadequate();
+                    }
+                };
+                t1.execute();
+                pendingTasks.add(t1);
+            }
+        });
+    }
+
+
+    private void setupInadequate(){
+        bInad.setText(getResources().getString(R.string.flag_as_inadequate));
+        bInad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
                     Exception e=null;
 
                     @Override
                     protected Integer doInBackground(Integer... integers) {
                         try {
-                            HashMap<String,String> hm = new HashMap<String, String>();
-                            hm.put("fav_notice[notice_id]", ""+noticeId);
-                            String response = RESTManager.send(RESTManager.POST, "students/"+LoggedStudent.getId()+ "/favs/notices/", hm);
+                            HashMap<String, String> s = new HashMap<String, String>();
+                            s.put("inappropriate_notice[notice_id]", ""+noticeId);
+                            String response = RESTManager.send(RESTManager.POST, "students/"+LoggedStudent.getId()+ "/inappropriate/notices", s);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -288,7 +405,8 @@ public class ShowNoticeActivity extends AppCompatActivity {
                             Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
                             return;
                         }
-                        setupUnfav();
+                        tvInappropriate.setText(""+(Integer.parseInt(tvInappropriate.getText().toString())+1));
+                        setupRemoveInadequate();
                     }
                 };
                 t1.execute();
@@ -296,6 +414,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
             }
         });
     }
+
 
 	@Override
 	protected void onPause() {
@@ -305,4 +424,46 @@ public class ShowNoticeActivity extends AppCompatActivity {
         pendingTasks.clear();
 		super.onPause();
 	}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(R.string.delete_notice);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getTitle().equals(getResources().getString(R.string.delete_notice))){
+            AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
+                Exception e = null;
+
+                @Override
+                protected Integer doInBackground(Integer... integers) {
+
+                    try {
+                        RESTManager.send(RESTManager.DELETE, "notices/" + noticeId, null);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        this.e = e;
+                    }
+                    return 0;
+                }
+
+                @Override
+                protected void onPostExecute(Integer i) {
+                    super.onPostExecute(i);
+                    if (e != null) {
+                        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    finish();
+                }
+            };
+            t1.execute();
+            pendingTasks.add(t1);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -279,6 +279,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         private int sectionNumber = 0;
         private MapView mapView = null;
         private int numberOfNotices=0;
+        private HashMap<String, Integer> markerMap=new HashMap<>();
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -460,10 +461,11 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                                         LatLngBounds.Builder builder = new LatLngBounds.Builder();
                                         googleMap.clear();
                                         for( Notice n : notices){
-                                            googleMap.addMarker(new MarkerOptions().position(new LatLng(n.getLatitude(), n.getLongitude()))
+                                            Marker m=googleMap.addMarker(new MarkerOptions().position(new LatLng(n.getLatitude(), n.getLongitude()))
                                                     .title(n.getTitle())
                                                     .snippet(n.getDescription())
                                                     );
+                                            markerMap.put(m.getId(), n.getId());
 
                                             builder.include(new LatLng(n.getLatitude(), n.getLongitude()));
                                         }
@@ -480,12 +482,13 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                                             }
                                         });
 
-                                        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
                                             @Override
-                                            public boolean onMarkerClick(Marker arg0) {
-                                                //TODO
-                                                return false;
+                                            public void onInfoWindowClick(Marker arg0) {
+                                                Intent i = new Intent(getActivity(),ShowNoticeActivity.class);
+                                                i.putExtra("noticeId",markerMap.get(arg0.getId()));
+                                                startActivity(i);
                                             }
 
                                         });
@@ -544,9 +547,10 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                                                         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
                                                         for (Notice n : notices) {
-                                                            googleMap.addMarker(new MarkerOptions().position(new LatLng(n.getLatitude(), n.getLongitude()))
+                                                            Marker m=googleMap.addMarker(new MarkerOptions().position(new LatLng(n.getLatitude(), n.getLongitude()))
                                                                     .title(n.getTitle())
                                                                     .snippet(n.getDescription()));
+                                                            markerMap.put(m.getId(),n.getId());
 
                                                             builder.include(new LatLng(n.getLatitude(), n.getLongitude()));
                                                         }
@@ -563,12 +567,13 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                                                             }
                                                         });
 
-                                                        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                                        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
                                                             @Override
-                                                            public boolean onMarkerClick(Marker arg0) {
-                                                                //TODO
-                                                                return false;
+                                                            public void onInfoWindowClick(Marker arg0) {
+                                                                Intent i = new Intent(getActivity(), ShowNoticeActivity.class);
+                                                                i.putExtra("noticeId", markerMap.get(arg0.getId()));
+                                                                startActivity(i);
                                                             }
 
                                                         });
