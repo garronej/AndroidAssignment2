@@ -5,4 +5,6 @@
           android:padding="10dp"
           android:id="@+id/autocompleteText"
           android:shadowColor="@color/button_material_dark"
-          android:phoneNumber="false"/>
+          android:phoneNumber="false"
+          android:background="@android:color/background_light"
+    />

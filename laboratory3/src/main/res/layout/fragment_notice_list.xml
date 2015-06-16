@@ -5,7 +5,8 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:layout_marginLeft="16dp" android:layout_marginRight="16dp"
     tools:context="it.polito.mobile.laboratory3.NoticeListFragment"
-    android:orientation="vertical"
+    android:orientation="vertical" android:background="@android:color/background_light"
+    android:elevation="2dp"
     >
     <it.polito.mobile.laboratory3.NoticesListView android:id="@+id/notice_list"
         android:name="it.polito.mobile.laboratory3.NoticeListFragment"

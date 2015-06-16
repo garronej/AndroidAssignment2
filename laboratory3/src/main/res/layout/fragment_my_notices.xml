@@ -7,6 +7,8 @@
               android:layout_marginRight="16dp"
               android:orientation="vertical"
               tools:context="it.polito.mobile.laboratory3.NoticeListFragment"
+              android:background="@android:color/background_light"
+
     >
 
     <it.polito.mobile.laboratory3.NoticesListView
