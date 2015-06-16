@@ -28,6 +28,7 @@ public class Notice {
     private int size;
     private int countInappropriate;
     private String[] pictures;
+    private String email;
 
     public Notice() {
     }
@@ -137,6 +138,14 @@ public class Notice {
                     pictures[i] =jsonLinks.getString(i);
 
                 }
+
+            }
+
+            buff = json.getString("email");
+
+            if( !buff.equals("null") ){
+
+                this.email = json.getString("email");
 
             }
 
@@ -266,6 +275,10 @@ public class Notice {
         this.pictures = pictures;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     @Override
     public String toString() {
         return "Notice{" +
@@ -284,6 +297,7 @@ public class Notice {
                 ", size=" + size +
                 ", countInappropriate=" + countInappropriate +
                 ", pictures=" + Arrays.toString(pictures) +
+                ", email=" + email +
                 '}';
     }
 
@@ -338,6 +352,22 @@ public class Notice {
         } else if (pictures != null && pictures.length == 0) {
             s.put("notice[pictures]", "");
         }
+        return s;
+    }
+
+    public String getTagsToString(String separator) {
+        String s = "";
+        String[] tags = getTags();
+        if (tags != null && tags.length > 0) {
+            String lastTag = tags[tags.length - 1];
+            for (String t : tags) {
+                s += t;
+                if (t != lastTag) {
+                    s += separator;
+                }
+            }
+        }
+        if (s.equals("")) { return null; }
         return s;
     }
 

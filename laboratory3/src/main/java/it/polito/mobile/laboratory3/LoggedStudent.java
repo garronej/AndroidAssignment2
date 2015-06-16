@@ -6,6 +6,6 @@ package it.polito.mobile.laboratory3;
 public class LoggedStudent {
 
     public static int getId(){
-        return 5;
+        return 9;
     }
 }

@@ -16,6 +16,14 @@
     <string name="radius">Radius</string>
     <string name="size">size</string>
     <string name="price">price</string>
+    <string name="tags">Tags</string>
+    <string name="telephone_number">Telephone number</string>
+    <string name="email">Email</string>
+    <string name="created_on">Created on</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
+    <string name="inappropriate_count">Inappropriate count</string>
+    <string name="open_gallery">Open gallery</string>
     <string-array name="sort_order">
         <item>Newest</item>
         <item>Oldest</item>
@@ -29,4 +37,17 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_show_notice">ShowNoticeActivity</string>
 
+
+    <!-- picasso -->
+    <string name="hide">HIDE</string>
+    <string name="more">MORE</string>
+    <string name="sample_widget">Picasso Sample Widget</string>
+    <string name="sample_notification">Picasso Sample Notification</string>
+    <string name="select_picture">Select Picture</string>
+  <string name="disk_cache_description">On Ice Cream Sandwich and above, a disk cache is
+    automatically used so that subsequent requests for the same URL do not re-download the
+    image.\n\nTo enable this functionality on pre-ICS use a standalone HTTP client with caching such
+    as OkHttp.
+  </string>
+    <string name="title_activity_gallery_grid_view">Gallery</string>
 </resources>
