@@ -349,7 +349,11 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                //TODO start the activity. Log.d("marco", "l'id è questo "+l);
+                                Intent intent = new Intent(getActivity(), ShowNoticeActivity.class);
+
+                                intent.getIntExtra("noticeId", (int)l);
+                                startActivity(intent);
+
                             }
                         });
                     }
