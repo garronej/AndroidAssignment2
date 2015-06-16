@@ -29,6 +29,7 @@
                 android:paddingRight="10dp"
                 android:textColor="#fff"
                 android:text="@string/open_gallery"
+                android:visibility="gone"
                 />
         </RelativeLayout>
 

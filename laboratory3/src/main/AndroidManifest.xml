@@ -37,6 +37,20 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search"
+            android:parentActivityName=".NoticeBoard"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.polito.mobile.laboratory3.NoticeBoard" />
+        </activity>
+
+        <activity
+            android:name=".Picasso.GalleryGridViewActivity"
+            android:label="@string/title_activity_gallery_grid_view">
+        </activity>
     </application>
 
 </manifest>

@@ -13,6 +13,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polito.mobile.laboratory3.Picasso.GalleryGridViewActivity;
+
 public class ShowNoticeActivity extends AppCompatActivity {
 
 	private TextView tvTitle;
@@ -47,7 +49,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
 			protected Notice doInBackground(Integer... integers) {
 				Notice notice = null;
 				try {
-					String response = RESTManager.send(RESTManager.GET, "notices/" + 14, null);
+					String response = RESTManager.send(RESTManager.GET, "notices/" + 15, null);
 					JSONObject obj = (new JSONObject(response));
 					notice = new Notice(obj.getJSONObject("notice"));
                     Log.d(TAG, notice.toString());
@@ -126,19 +128,34 @@ public class ShowNoticeActivity extends AppCompatActivity {
             tvLocation.setVisibility(View.GONE);
         }
 
-        //tvEmail TODO
+        String email = notice.getEmail();
+        if (email != null && !email.equals("")) {
+            tvEmail.setText(email);
+        } else {
+            tvEmail.setVisibility(View.GONE);
+        }
 
         tvInappropriate.setText(String.valueOf(notice.getCountInappropriate())); // it's at least 0
 
-        // TODO what if size == null?
-        bSize.setText(notice.getSize() + "mq");
+        int size = notice.getSize();
+        if (size != 0) {
+            bSize.setText(notice.getSize() + "mq");
+        } else {
+            bSize.setVisibility(View.GONE);
+        }
 
-        // TODO what if price == null?
-        bPrice.setText(String.valueOf(notice.getPrice()) + "€");
+        double price = notice.getPrice();
+        if (price != 0.0) {
+            bPrice.setText(String.valueOf(notice.getPrice()) + "€");
+        } else {
+            bPrice.setVisibility(View.GONE);
+        }
 
         String[] pictures = notice.getPictures();
         if (pictures == null || pictures.length == 0) {
             bOpenGallery.setVisibility(View.GONE);
+        } else {
+            bOpenGallery.setVisibility(View.VISIBLE);
         }
     }
 
@@ -146,12 +163,8 @@ public class ShowNoticeActivity extends AppCompatActivity {
         bOpenGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ShowNoticeActivity.this, GalleryActivity.class);
-                Bundle b = new Bundle();
-                //b.putStringArray("picturesUrlsArray", notice.getPictures()); TODO
-                String[] urls = {};
-                b.putStringArray("picturesUrlsArray", urls);
-
+                Intent i = new Intent(ShowNoticeActivity.this, GalleryGridViewActivity.class);
+                i.putExtra("picturesUrls", notice.getPictures());
                 startActivity(i);
             }
         });
