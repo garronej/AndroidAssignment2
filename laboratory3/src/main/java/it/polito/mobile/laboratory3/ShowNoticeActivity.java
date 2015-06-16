@@ -39,7 +39,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_show_notice);
 		findViews();
 
-		int noticeId = getIntent().getIntExtra("noticeId", -1);
+		final int noticeId = 15;//getIntent().getIntExtra("noticeId", -1);
 		//if (noticeId == -1) { throw new RuntimeException("noticeId param is required"); }; TODO
 
 		AsyncTask<Integer, Void, Notice> t1 = new AsyncTask<Integer, Void, Notice>() {
@@ -49,7 +49,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
 			protected Notice doInBackground(Integer... integers) {
 				Notice notice = null;
 				try {
-					String response = RESTManager.send(RESTManager.GET, "notices/" + 15, null);
+					String response = RESTManager.send(RESTManager.GET, "notices/" + noticeId, null);
 					JSONObject obj = (new JSONObject(response));
 					notice = new Notice(obj.getJSONObject("notice"));
                     Log.d(TAG, notice.toString());
