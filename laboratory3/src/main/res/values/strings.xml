@@ -45,4 +45,7 @@
     as OkHttp.
   </string>
     <string name="title_activity_gallery_grid_view">Gallery</string>
+    <string name="add_to_bookmark">Add to bookmark</string>
+    <string name="flag_as_inadequate">Flag as inadequate</string>
+    <string name="unfav">Remove from bookmarks</string>
 </resources>

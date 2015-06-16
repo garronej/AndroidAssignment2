@@ -110,6 +110,13 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        PlaceholderFragment f = (PlaceholderFragment)mSectionsPagerAdapter.getRegisteredFragment(mViewPager.getCurrentItem());
+        if(f!=null) f.updateViewContent();
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBundle("last_search", searchFilters);
         super.onSaveInstanceState(outState);
@@ -165,6 +172,8 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
+        PlaceholderFragment f = (PlaceholderFragment)mSectionsPagerAdapter.getRegisteredFragment(tab.getPosition());
+        if(f!=null) f.updateViewContent();
     }
 
     @Override
@@ -351,7 +360,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 Intent intent = new Intent(getActivity(), ShowNoticeActivity.class);
 
-                                intent.getIntExtra("noticeId", (int)l);
+                                intent.putExtra("noticeId", (int)l);
                                 startActivity(intent);
 
                             }
@@ -579,6 +588,18 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                     break;
                 case 2:
                     final NoticesListView list1=((NoticesListView) rootView.findViewById(R.id.notice_list));
+                    if(list1!=null) {
+                        list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                Intent intent = new Intent(getActivity(), ShowNoticeActivity.class);
+
+                                intent.putExtra("noticeId", (int) l);
+                                startActivity(intent);
+
+                            }
+                        });
+                    }
                     AsyncTask<Integer, Integer, List<Notice>> t2 = new AsyncTask<Integer, Integer, List<Notice>>() {
                         Exception e=null;
                         @Override
@@ -614,6 +635,18 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                     break;
                 case 3:
                     final NoticesListView list2=((NoticesListView) rootView.findViewById(R.id.notice_list));
+                    if(list2!=null) {
+                        list2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                Intent intent = new Intent(getActivity(), ShowNoticeActivity.class);
+
+                                intent.putExtra("noticeId", (int)l);
+                                startActivity(intent);
+
+                            }
+                        });
+                    }
 	                final ActionButton fab = (ActionButton) rootView.findViewById(R.id.btn_new_rent);
                     AsyncTask<Integer, Integer, List<Notice>> t3 = new AsyncTask<Integer, Integer, List<Notice>>() {
                         Exception e=null;

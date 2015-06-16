@@ -8,9 +8,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import it.polito.mobile.laboratory3.Picasso.GalleryGridViewActivity;
@@ -27,7 +31,10 @@ public class ShowNoticeActivity extends AppCompatActivity {
     private TextView tvLocation;
 	private Button bSize;
 	private Button bPrice;
+    private Button bFav;
+    private Button bInad;
 	private Button bOpenGallery;
+    int noticeId;
 
     private List<AsyncTask<?, ?, ?>> pendingTasks = new ArrayList<AsyncTask<?, ?, ?>>();
 
@@ -39,7 +46,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_show_notice);
 		findViews();
 
-		int noticeId = getIntent().getIntExtra("noticeId", -1);
+		noticeId = getIntent().getIntExtra("noticeId", -1);
 		//if (noticeId == -1) { throw new RuntimeException("noticeId param is required"); }; TODO
 
 		AsyncTask<Integer, Void, Notice> t1 = new AsyncTask<Integer, Void, Notice>() {
@@ -49,7 +56,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
 			protected Notice doInBackground(Integer... integers) {
 				Notice notice = null;
 				try {
-					String response = RESTManager.send(RESTManager.GET, "notices/" + 15, null);
+					String response = RESTManager.send(RESTManager.GET, "notices/" + noticeId, null);
 					JSONObject obj = (new JSONObject(response));
 					notice = new Notice(obj.getJSONObject("notice"));
                     Log.d(TAG, notice.toString());
@@ -67,9 +74,10 @@ public class ShowNoticeActivity extends AppCompatActivity {
                 setupCallbacks(notice);
 			}
 		};
-		t1.execute(noticeId);
+		t1.execute();
         pendingTasks.add(t1);
 	}
+
 
     private void findViews() {
         tvTitle = (TextView) findViewById(R.id.title_tv);
@@ -83,6 +91,8 @@ public class ShowNoticeActivity extends AppCompatActivity {
         bSize = (Button) findViewById(R.id.size_b);
         bPrice = (Button) findViewById(R.id.price_b);
         bOpenGallery = (Button) findViewById(R.id.gallery_b);
+        bFav = (Button) findViewById(R.id.bookmark_b);
+        bInad = (Button) findViewById(R.id.inadequate_b);
     }
 
     private void setupViews(Notice notice) {
@@ -173,8 +183,117 @@ public class ShowNoticeActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+        AsyncTask<Integer, Integer, Boolean> t2 = new AsyncTask<Integer, Integer, Boolean>() {
+            Exception e=null;
+            @Override
+            protected Boolean doInBackground(Integer... integers) {
 
+                try {
+                    String response = RESTManager.send(RESTManager.GET, "students/"+LoggedStudent.getId()+"/favs/notices", null);
+                    JSONArray obj = (new JSONObject(response)).getJSONArray("fav_notices");
+                    for(int i=0;i<obj.length();i++){
+                        if(noticeId==obj.getJSONObject(i).getInt("notice_id")){
+                            return true;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    this.e=e;
+                }
+                return false;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean isFav) {
+                super.onPostExecute(isFav);
+                if(e!=null){
+                    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(isFav){
+                    setupUnfav();
+                }else{
+                    setupFav();
+                }
+            }
+        };
+        t2.execute();
 	}
+
+    private void setupUnfav(){
+        bFav.setText(getResources().getString(R.string.unfav));
+        bFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
+                    Exception e = null;
+
+                    @Override
+                    protected Integer doInBackground(Integer... integers) {
+
+                        try {
+                            RESTManager.send(RESTManager.DELETE, "students/" + LoggedStudent.getId() + "/favs/notices/" + noticeId, null);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            this.e = e;
+                        }
+                        return 0;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Integer i) {
+                        super.onPostExecute(i);
+                        if (e != null) {
+                            Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        setupFav();
+                    }
+                };
+                t1.execute();
+                pendingTasks.add(t1);
+            }
+        });
+    }
+
+
+    private void setupFav(){
+        bFav.setText(getResources().getString(R.string.add_to_bookmark));
+        bFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
+                    Exception e=null;
+
+                    @Override
+                    protected Integer doInBackground(Integer... integers) {
+                        try {
+                            HashMap<String,String> hm = new HashMap<String, String>();
+                            hm.put("fav_notice[notice_id]", ""+noticeId);
+                            String response = RESTManager.send(RESTManager.POST, "students/"+LoggedStudent.getId()+ "/favs/notices/", hm);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            this.e=e;
+                        }
+                        return 0;
+                    }
+                    @Override
+                    protected void onPostExecute(Integer i) {
+                        super.onPostExecute(i);
+                        if(e!=null){
+                            Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        setupUnfav();
+                    }
+                };
+                t1.execute();
+                pendingTasks.add(t1);
+            }
+        });
+    }
 
 	@Override
 	protected void onPause() {
