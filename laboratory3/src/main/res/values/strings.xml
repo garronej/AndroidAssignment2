@@ -16,6 +16,14 @@
     <string name="radius">Radius</string>
     <string name="size">size</string>
     <string name="price">price</string>
+    <string name="tags">Tags</string>
+    <string name="telephone_number">Telephone number</string>
+    <string name="email">Email</string>
+    <string name="created_on">Created on</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
+    <string name="inappropriate_count">Inappropriate count</string>
+    <string name="open_gallery">Open gallery</string>
     <string-array name="sort_order">
         <item>Newest</item>
         <item>Oldest</item>

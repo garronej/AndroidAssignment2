@@ -341,5 +341,21 @@ public class Notice {
         return s;
     }
 
+    public String getTagsToString(String separator) {
+        String s = "";
+        String[] tags = getTags();
+        if (tags != null && tags.length > 0) {
+            String lastTag = tags[tags.length - 1];
+            for (String t : tags) {
+                s += t;
+                if (t != lastTag) {
+                    s += separator;
+                }
+            }
+        }
+        if (s.equals("")) { return null; }
+        return s;
+    }
+
 
 }
