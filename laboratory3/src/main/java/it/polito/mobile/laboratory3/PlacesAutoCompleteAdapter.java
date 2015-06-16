@@ -26,6 +26,14 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements F
 		mResource = resource;
 	}
 
+	public PlacesAutoCompleteAdapter(Context context, int resource, String type) {
+		super(context, resource);
+
+		mContext = context;
+		mResource = resource;
+		mPlaceAPI.setTypeRequest(type);
+	}
+
 	@Override
 	public int getCount() {
 		// Last item will be the footer

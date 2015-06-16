@@ -199,7 +199,7 @@ public class SearchFragment extends Fragment {
 	}
 
 	private void location_autocomplete() {
-		location.setAdapter(new PlacesAutoCompleteAdapter(this.getActivity(), R.layout.location_list_item));
+		location.setAdapter(new PlacesAutoCompleteAdapter(this.getActivity(), R.layout.location_list_item,"address"));
 
 		location.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override

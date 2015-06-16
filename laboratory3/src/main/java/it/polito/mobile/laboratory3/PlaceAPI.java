@@ -27,6 +27,12 @@ public class PlaceAPI {
 
 	private static final String API_KEY = "AIzaSyA2Z0mVx4zLKa5PVkyzDdfsBAVoKyiR7-U";
 
+	private String placeType="(cities)";
+
+	public void setTypeRequest(String type){
+		placeType=type;
+	}
+
 	public ArrayList<String> autocomplete (String input) {
 		ArrayList<String> resultList = null;
 
@@ -36,7 +42,7 @@ public class PlaceAPI {
 		try {
 			StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
 			sb.append("?key=" + API_KEY);
-			sb.append("&types=(cities)");
+			sb.append("&types="+placeType);
 			sb.append("&language=it");
 			sb.append("&input=" + URLEncoder.encode(input, "utf8"));
 
