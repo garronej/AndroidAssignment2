@@ -1,5 +1,6 @@
 package it.polito.mobile.laboratory3;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -114,7 +117,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -130,18 +133,22 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         if (id == R.id.action_search) {
             //startActivity(new Intent(NoticeBoard.this, SearchActivity.class));
             //return true;
-            if(searchFragment!=null){
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .remove(searchFragment)
-                        .commit();
-                searchFragment=null;
+            searchFragment = getSupportFragmentManager().findFragmentByTag("searchFragment");
+            Log.d("marco", "search fragment is "+searchFragment);
+            if(searchFragment!=null
+                    && searchFragment.isVisible()){
+
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .remove(searchFragment)
+                            .commit();
 
             }else {
                 searchFragment= new SearchActivity();
+
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.search_container, searchFragment)
+                        .add(R.id.search_container, searchFragment, "searchFragment")
                         .addToBackStack(null)
                         .commit();
                 mViewPager.setCurrentItem(0);
@@ -167,18 +174,27 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
 
 
     public void applyFiltersFromSearch(Bundle b){
         searchFilters=b;
+        searchFragment = getSupportFragmentManager().findFragmentByTag("searchFragment");
+
         if(searchFragment!=null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .remove(searchFragment)
                     .commit();
-            searchFragment = null;
         }
-
+        hideKeyboard();
         ((PlaceholderFragment)mSectionsPagerAdapter.getRegisteredFragment(0)).updateViewContent();
 
     }
@@ -254,6 +270,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         private View root=null;
         private int sectionNumber = 0;
         private MapView mapView = null;
+        private int numberOfNotices=0;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -319,7 +336,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
 
 
         public void updateViewContent(){
-            initOnCreate(root,sectionNumber);
+            initOnCreate(root, sectionNumber);
         }
 
 
@@ -328,7 +345,14 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                 case 1:
 
                     final NoticesListView list=((NoticesListView) rootView.findViewById(R.id.notice_list));
-
+                    if(list!=null) {
+                        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                //TODO start the activity. Log.d("marco", "l'id è questo "+l);
+                            }
+                        });
+                    }
 
                     final HashMap<String, String> params = new HashMap<>();
                     NoticeBoard main =((NoticeBoard)getActivity());
@@ -413,6 +437,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                                 Toast.makeText(PlaceholderFragment.this.getActivity(), getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
                                 return;
                             }
+                            numberOfNotices=notices.size();
                             if(list!=null) {
                                 list.setContent(PlaceholderFragment.this.getActivity(), notices);
                             }
@@ -421,11 +446,12 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                                     @Override
                                     public void onMapReady(final GoogleMap googleMap) {
                                         LatLngBounds.Builder builder = new LatLngBounds.Builder();
-
+                                        googleMap.clear();
                                         for( Notice n : notices){
                                             googleMap.addMarker(new MarkerOptions().position(new LatLng(n.getLatitude(), n.getLongitude()))
                                                     .title(n.getTitle())
-                                                    .snippet(n.getDescription()));
+                                                    .snippet(n.getDescription())
+                                                    );
 
                                             builder.include(new LatLng(n.getLatitude(), n.getLongitude()));
                                         }
@@ -469,9 +495,9 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
 
                                     @Override
                                     protected List<Notice> doInBackground(Integer... integers) {
-                                        HashMap<String, String> params = new HashMap<>();
 
-                                        params.put("notice[page]", "" + Math.ceil(list.getNumberOfNotices() / 5.0));
+
+                                        params.put("notice[page]", "" + Math.ceil(numberOfNotices / 5.0));
                                         params.put("notice[items_per_page]", "5");
 
                                         List<Notice> notices = new ArrayList<>();
@@ -488,13 +514,56 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                                     }
 
                                     @Override
-                                    protected void onPostExecute(List<Notice> notices) {
+                                    protected void onPostExecute(final List<Notice> notices) {
                                         super.onPostExecute(notices);
                                         if (e != null) {
                                             Toast.makeText(PlaceholderFragment.this.getActivity(), getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
                                             return;
                                         }
-                                        list.addNotices(notices);
+                                        numberOfNotices+=notices.size();
+                                        if(list!=null)
+                                            list.addNotices(notices);
+
+                                        if(mapView!=null){
+                                            if(notices.size()>0) {
+                                                mapView.getMapAsync(new OnMapReadyCallback() {
+                                                    @Override
+                                                    public void onMapReady(final GoogleMap googleMap) {
+                                                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+                                                        for (Notice n : notices) {
+                                                            googleMap.addMarker(new MarkerOptions().position(new LatLng(n.getLatitude(), n.getLongitude()))
+                                                                    .title(n.getTitle())
+                                                                    .snippet(n.getDescription()));
+
+                                                            builder.include(new LatLng(n.getLatitude(), n.getLongitude()));
+                                                        }
+
+
+                                                        LatLngBounds bounds = builder.build();
+                                                        int padding = 30; // offset from edges of the map in pixels
+                                                        final CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+                                                        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                                                            @Override
+                                                            public void onMapLoaded() {
+                                                                googleMap.animateCamera(cu);
+                                                            }
+                                                        });
+
+                                                        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+                                                            @Override
+                                                            public boolean onMarkerClick(Marker arg0) {
+                                                                //TODO
+                                                                return false;
+                                                            }
+
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        }
                                     }
                                 };
                                 t1.execute();
