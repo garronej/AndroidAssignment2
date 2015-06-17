@@ -116,80 +116,40 @@
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
-
 
         <RelativeLayout
-            android:id="@+id/relativeLayout"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:layout_marginLeft="@dimen/side_margin"
-            android:layout_marginRight="@dimen/side_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:visibility="visible">
-            <com.software.shell.fab.ActionButton
-                android:id="@+id/upload_b"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center|left"
-                android:layout_marginBottom="@dimen/fab_margin"
-                android:layout_marginLeft="@dimen/fab_margin"
-                fab:button_color="@color/orange_polito"
-                fab:button_colorPressed="@color/fab_material_orange_900"
-                fab:image="@drawable/ic_action_image_upload"
-                fab:image_size="40dp"
-                android:visibility="visible"
-                />
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/side_margin"
+                android:layout_marginTop="@dimen/vertical_margin"
+                android:layout_marginLeft="@dimen/side_margin"
+                android:layout_marginBottom="@dimen/vertical_margin"
+                >
+                <com.software.shell.fab.ActionButton
+                    android:id="@+id/submit_b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/fab_margin"
+                    fab:button_color="@color/orange_polito"
+                    fab:button_colorPressed="@color/fab_material_orange_900"
+                    fab:image="@drawable/ic_action_check"
+                    fab:image_size="40dp"
+                    fab:type="BIG"
+                    />
 
+                <ProgressBar
+                    android:id="@+id/submit_pb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_centerInParent="true"
+                    android:visibility="invisible"
+                    style="@android:style/Widget.ProgressBar.Small"
+                    />
+            </RelativeLayout>
 
-            <ProgressBar
-                style="@android:style/Widget.ProgressBar.Small"
-                android:id="@+id/upload_pb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="invisible"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/side_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginLeft="@dimen/side_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            >
-            <com.software.shell.fab.ActionButton
-                android:id="@+id/submit_b"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center|right"
-                android:layout_marginBottom="@dimen/fab_margin"
-                android:layout_marginLeft="@dimen/fab_margin"
-                fab:button_color="@color/orange_polito"
-                fab:button_colorPressed="@color/fab_material_orange_900"
-                fab:image="@drawable/ic_action_check"
-                fab:image_size="40dp"
-                android:visibility="visible"
-                />
-
-            <ProgressBar
-                android:id="@+id/submit_pb"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/button_height"
-                android:layout_centerInParent="true"
-                android:visibility="invisible"
-                style="@android:style/Widget.ProgressBar.Small"
-                />
-        </RelativeLayout>
-</LinearLayout>
     </LinearLayout>
 </ScrollView>

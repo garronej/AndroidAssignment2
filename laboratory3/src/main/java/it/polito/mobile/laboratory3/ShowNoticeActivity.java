@@ -54,12 +54,12 @@ public class ShowNoticeActivity extends AppCompatActivity implements Communicato
     private ActionButton bFav;
     private ActionButton bInad;
     int noticeId;
-    private Button bOpenGallery;
+    private ActionButton bOpenGallery;
     private ActionButton bEdit;
     private RelativeLayout lOpenGallery;
     private boolean owner;
     private RelativeLayout lUpload;
-    private Button bUpload;
+    private ActionButton bUpload;
     private ProgressBar pbUpload;
     private UploadFinished uploadfinished = new UploadFinished();
     private int pendingUploads = 0;
@@ -139,10 +139,10 @@ public class ShowNoticeActivity extends AppCompatActivity implements Communicato
         tvInappropriate = (TextView) findViewById(R.id.inappropriate_count_tv);
         bSize = (Button) findViewById(R.id.size_b);
         bPrice = (Button) findViewById(R.id.price_b);
-        bOpenGallery = (Button) findViewById(R.id.gallery_b);
+        bOpenGallery = (ActionButton) findViewById(R.id.gallery_b);
         bFav = (ActionButton) findViewById(R.id.bookmark_b);
         bInad = (ActionButton) findViewById(R.id.inadequate_b);
-        bUpload = (Button) findViewById(R.id.upload_b);
+        bUpload = (ActionButton) findViewById(R.id.upload_b);
         bEdit = (ActionButton) findViewById(R.id.edit_b);
         pbUpload = (ProgressBar) findViewById(R.id.upload_pb);
         lOpenGallery = (RelativeLayout) findViewById(R.id.gallery_l);
@@ -156,7 +156,7 @@ public class ShowNoticeActivity extends AppCompatActivity implements Communicato
             owner = false;
         }
 
-        //if (owner) { lUpload.setVisibility(View.VISIBLE); }
+        if (owner) { lUpload.setVisibility(View.VISIBLE); }
         if (owner) { bEdit.setVisibility(View.VISIBLE); }
 
         String title = notice.getTitle();
@@ -382,8 +382,8 @@ public class ShowNoticeActivity extends AppCompatActivity implements Communicato
 
     private void setupUnfav(){
         //bFav.setText(getResources().getString(R.string.unfav));
-        bFav.setImageDrawable(getResources().getDrawable(R.drawable.abc_btn_rating_star_off_mtrl_alpha));
-	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.unfav_ok), Toast.LENGTH_SHORT).show();
+        bFav.setImageDrawable(getResources().getDrawable(R.drawable.abc_btn_rating_star_on_mtrl_alpha));
+	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.fav_ok), Toast.LENGTH_SHORT).show();
 
 	    bFav.setOnClickListener(new View.OnClickListener() {
 		    @Override
@@ -424,8 +424,8 @@ public class ShowNoticeActivity extends AppCompatActivity implements Communicato
 
     private void setupFav(){
         //bFav.setText(getResources().getString(R.string.add_to_bookmark));
-        bFav.setImageDrawable(getResources().getDrawable(R.drawable.abc_btn_rating_star_on_mtrl_alpha));
-	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.fav_ok), Toast.LENGTH_SHORT).show();
+        bFav.setImageDrawable(getResources().getDrawable(R.drawable.abc_btn_rating_star_off_mtrl_alpha));
+	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.unfav_ok), Toast.LENGTH_SHORT).show();
 
 	    bFav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -493,7 +493,10 @@ public class ShowNoticeActivity extends AppCompatActivity implements Communicato
                             Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
                             return;
                         }
-                        tvInappropriate.setText("" + (Integer.parseInt(tvInappropriate.getText().toString()) - 1));
+	                    tvInappropriate.setText("" + (Integer.parseInt(tvInappropriate.getText().toString()) - 1));
+
+	                    //int inCount = (Integer.parseInt(tvInappropriate.getText().toString()) - 1);
+                        //tvInappropriate.setText("This notice is inappropiate to "  + inCount +" "+(inCount ==1 ?"person":"people"));
                         setupInadequate();
                     }
                 };
@@ -536,7 +539,10 @@ public class ShowNoticeActivity extends AppCompatActivity implements Communicato
                             return;
                         }
                         tvInappropriate.setText("" + (Integer.parseInt(tvInappropriate.getText().toString()) + 1));
-                        setupRemoveInadequate();
+	                    //int inCount = (Integer.parseInt(tvInappropriate.getText().toString()) + 1);
+	                    //tvInappropriate.setText("This notice is inappropiate to "  + inCount +" "+(inCount ==1 ?"person":"people"));
+
+	                    setupRemoveInadequate();
                     }
                 };
                 t1.execute();

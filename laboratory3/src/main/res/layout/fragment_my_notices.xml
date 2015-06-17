@@ -23,8 +23,6 @@
         android:id="@+id/btn_new_rent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-
         fab:image_size="24dp"
         fab:button_color="@color/orange_polito"
         fab:button_colorPressed="@color/fab_material_orange_900"
