@@ -24,6 +24,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.software.shell.fab.ActionButton;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,28 +44,78 @@ import nl.changer.polypicker.ImagePickerActivity;
 
 public class EditNoticeActivity extends AppCompatActivity {
 
-	private EditText etTitle;
-	private EditText etDescription;
+    private EditText etTitle;
+    private EditText etDescription;
     private TagsCompletionTextView acTags;
-	private EditText etTelephoneNumber;
+    private EditText etTelephoneNumber;
     private AutoCompleteTextView acLocation;
-	private EditText etSize;
-	private EditText etPrice;
-	private Button bSubmit;
+    private EditText etSize;
+    private EditText etPrice;
+    private ActionButton bSubmit;
     private ProgressBar pbSubmit;
     private int noticeId;
     private String role;
     private Notice notice;
-
+    private ActionButton bUpload;
+    private ProgressBar pbUpload;
     private List<AsyncTask<?, ?, ?>> pendingTasks = new ArrayList<AsyncTask<?, ?, ?>>();
-	private static final String TAG = "EditNoticeActivity";
+    private List<String> pendingPictures = new ArrayList<String>();
+    private UploadFinished uploadfinished = new UploadFinished();
+    private int pendingUploads = 0;
+    private static final String TAG = "EditNoticeActivity";
+    private final static int ACTIVITY_MULTIUPLOAD = 147;
+    private final static int MAX_UPLOAD_PICTURES = 5;
+    public class UploadFinished extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String filePath = intent.getStringExtra(UploadModel.EXTRA_FILENAME);
+            pendingPictures.add(filePath);
+            Log.d(TAG, "upped " + filePath);
+            pendingUploads--;
+            if (pendingUploads == 0) {
+                putPictures();
+            }
+        }
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_edit_notice);
-		findViews();
+    private void putPictures() {
+        final Map<String, String> params = new HashMap<String, String>();
+        int i = 0;
+        for (String url : pendingPictures) {
+            params.put("notice[pictures][" + i + "]", url);
+            i++;
+        }
+        Log.d(TAG, params.toString());
 
+        AsyncTask<Void, Void, String> t = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    RESTManager.send(RESTManager.PUT, "notices/" + noticeId, params);
+                } catch (Exception e) {
+                    Toast.makeText(EditNoticeActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                bUpload.setVisibility(View.VISIBLE);
+                pbUpload.setVisibility(View.GONE);
+                //lOpenGallery.setVisibility(View.VISIBLE);
+                notice.setPictures(pendingPictures.toArray(new String[pendingPictures.size()]));
+            }
+        };
+        t.execute();
+        pendingTasks.add(t);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_notice);
+        findViews();
         role = getIntent().getStringExtra("role");
         if (role == null || (!role.equals("create") && !role.equals("update"))) {
             throw new RuntimeException("role param is required and be create or update");
@@ -108,7 +160,7 @@ public class EditNoticeActivity extends AppCompatActivity {
             setupViews();
             setupCallbacks();
         }
-	}
+    }
 
     private void findViews() {
         etTitle = (EditText) findViewById(R.id.title_et);
@@ -118,8 +170,10 @@ public class EditNoticeActivity extends AppCompatActivity {
         acLocation = (AutoCompleteTextView) findViewById(R.id.location_ac);
         etSize = (EditText) findViewById(R.id.size_et);
         etPrice = (EditText) findViewById(R.id.price_et);
-        bSubmit = (Button) findViewById(R.id.submit_b);
+        bSubmit = (ActionButton) findViewById(R.id.submit_b);
         pbSubmit = (ProgressBar) findViewById(R.id.submit_pb);
+        pbUpload = (ProgressBar) findViewById(R.id.upload_pb);
+        bUpload = (ActionButton) findViewById(R.id.upload_b);
     }
 
     private void setupViews() {
@@ -127,7 +181,7 @@ public class EditNoticeActivity extends AppCompatActivity {
         location_autocomplete();
 
         if (role.equals("update")) {
-            bSubmit.setText(R.string.update);
+            //bSubmit.setText(R.string.update);
 
             String title = notice.getTitle();
             if (title != null && !title.equals("")) {
@@ -169,11 +223,17 @@ public class EditNoticeActivity extends AppCompatActivity {
                 etPrice.setText(String.valueOf(price));
             }
         } else { // role == create
-            bSubmit.setText(R.string.create);
+            //bSubmit.setText(R.string.create);
         }
     }
 
     private void setupCallbacks() {
+        bUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getImages();
+            }
+        });
         bSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,6 +241,13 @@ public class EditNoticeActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void getImages() {
+       // bUpload.setVisibility(View.INVISIBLE);
+        //pbUpload.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(EditNoticeActivity.this, ImagePickerActivity.class);
+        intent.putExtra(ImagePickerActivity.EXTRA_SELECTION_LIMIT, MAX_UPLOAD_PICTURES);
+        startActivityForResult(intent, ACTIVITY_MULTIUPLOAD);
     }
 
     private void submit() {
@@ -283,8 +350,11 @@ public class EditNoticeActivity extends AppCompatActivity {
                         Intent i = new Intent(EditNoticeActivity.this, ShowNoticeActivity.class);
                         i.putExtra("noticeId", noticeId);
                         startActivity(i);
+
                     }
                     finish();
+                    overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_top);
+
                 }
             };
             t.execute();
@@ -293,19 +363,21 @@ public class EditNoticeActivity extends AppCompatActivity {
     }
 
 
-	@Override
-	protected void onResume() {
+    @Override
+    protected void onResume() {
         super.onResume();
-	}
+        this.overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_top);
 
-	@Override
-	protected void onPause() {
+    }
+
+    @Override
+    protected void onPause() {
         for(AsyncTask<?,?,?> t : pendingTasks){
             t.cancel(true);
         }
         pendingTasks.clear();
-		super.onPause();
-	}
+        super.onPause();
+    }
 
     private void location_autocomplete() {
         acLocation.setAdapter(new PlacesAutoCompleteAdapter(EditNoticeActivity.this, R.layout.location_list_item));
@@ -319,5 +391,61 @@ public class EditNoticeActivity extends AppCompatActivity {
                 Toast.makeText(EditNoticeActivity.this, description, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == ACTIVITY_MULTIUPLOAD) {
+                bUpload.setVisibility(View.GONE);
+                pbUpload.setVisibility(View.VISIBLE);
+                Parcelable[] parcelableUris = intent.getParcelableArrayExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
+
+                if (parcelableUris == null) {
+                    return;
+                }
+
+                // Java doesn't allow array casting, this is a little hack
+                Uri[] uris = new Uri[parcelableUris.length];
+                System.arraycopy(parcelableUris, 0, uris, 0, parcelableUris.length);
+
+                if (uris != null) {
+                    pendingUploads += uris.length;
+                    for (Uri uri : uris) {
+                        if (!uri.toString().contains("content://")) { // probably a relative uri
+                            uri = getImageContentUri(EditNoticeActivity.this, new File(uri.toString()));
+                        }
+                        if (uri != null) {
+                            Log.i(TAG, "uploading: " + uri);
+                            bUpload.setVisibility(View.INVISIBLE);
+                            pbUpload.setVisibility(View.VISIBLE);
+                            TransferController.upload(EditNoticeActivity.this, uri, "photo/student3");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static Uri getImageContentUri(Context context, File imageFile) {
+        String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = context.getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[] { MediaStore.Images.Media._ID },
+                MediaStore.Images.Media.DATA + "=? ",
+                new String[] { filePath }, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+            return Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + id);
+        } else {
+            if (imageFile.exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, filePath);
+                return context.getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } else {
+                return null;
+            }
+        }
     }
 }

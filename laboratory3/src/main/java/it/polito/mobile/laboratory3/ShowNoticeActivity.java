@@ -39,7 +39,7 @@ import it.polito.mobile.laboratory3.s3client.models.UploadModel;
 import it.polito.mobile.laboratory3.s3client.network.TransferController;
 import nl.changer.polypicker.ImagePickerActivity;
 
-public class ShowNoticeActivity extends AppCompatActivity {
+public class ShowNoticeActivity extends AppCompatActivity implements Communicator {
 
 	private TextView tvTitle;
 	private TextView tvDescription;
@@ -72,7 +72,9 @@ public class ShowNoticeActivity extends AppCompatActivity {
     private final static int ACTIVITY_MULTIUPLOAD = 147;
     private final static int MAX_UPLOAD_PICTURES = 5;
 
-    public class UploadFinished extends BroadcastReceiver {
+
+
+	public class UploadFinished extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String filePath = intent.getStringExtra(UploadModel.EXTRA_FILENAME);
@@ -122,6 +124,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_show_notice);
+
 	}
 
 
@@ -153,7 +156,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
             owner = false;
         }
 
-        if (owner) { lUpload.setVisibility(View.VISIBLE); }
+        //if (owner) { lUpload.setVisibility(View.VISIBLE); }
         if (owner) { bEdit.setVisibility(View.VISIBLE); }
 
         String title = notice.getTitle();
@@ -383,39 +386,39 @@ public class ShowNoticeActivity extends AppCompatActivity {
 	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.unfav_ok), Toast.LENGTH_SHORT).show();
 
 	    bFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
-                    Exception e = null;
+		    @Override
+		    public void onClick(View view) {
+			    AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
+				    Exception e = null;
 
-                    @Override
-                    protected Integer doInBackground(Integer... integers) {
+				    @Override
+				    protected Integer doInBackground(Integer... integers) {
 
-                        try {
-                            RESTManager.send(RESTManager.DELETE, "students/" + LoggedStudent.getId() + "/favs/notices/" + noticeId, null);
-                            //Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.unfav_ok), Toast.LENGTH_SHORT).show();
+					    try {
+						    RESTManager.send(RESTManager.DELETE, "students/" + LoggedStudent.getId() + "/favs/notices/" + noticeId, null);
+						    //Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.unfav_ok), Toast.LENGTH_SHORT).show();
 
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            this.e = e;
-                        }
-                        return 0;
-                    }
+					    } catch (Exception e) {
+						    e.printStackTrace();
+						    this.e = e;
+					    }
+					    return 0;
+				    }
 
-                    @Override
-                    protected void onPostExecute(Integer i) {
-                        super.onPostExecute(i);
-                        if (e != null) {
-                            Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        setupFav();
-                    }
-                };
-                t1.execute();
-                pendingTasks.add(t1);
-            }
-        });
+				    @Override
+				    protected void onPostExecute(Integer i) {
+					    super.onPostExecute(i);
+					    if (e != null) {
+						    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+						    return;
+					    }
+					    setupFav();
+				    }
+			    };
+			    t1.execute();
+			    pendingTasks.add(t1);
+		    }
+	    });
     }
 
 
@@ -462,8 +465,8 @@ public class ShowNoticeActivity extends AppCompatActivity {
 
     private void setupRemoveInadequate(){
         //bInad.setText(getResources().getString(R.string.unflag_as_inadequate));
-	    bInad.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_flag));
-	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.rem_in_ok), Toast.LENGTH_SHORT).show();
+	    bInad.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_deny));
+	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.add_in_ok), Toast.LENGTH_SHORT).show();
         bInad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -503,8 +506,8 @@ public class ShowNoticeActivity extends AppCompatActivity {
 
     private void setupInadequate(){
         //bInad.setText(getResources().getString(R.string.flag_as_inadequate));
-	    bInad.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_deny));
-	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.add_in_ok), Toast.LENGTH_SHORT).show();
+	    bInad.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_flag));
+	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.rem_in_ok), Toast.LENGTH_SHORT).show();
         bInad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -561,39 +564,56 @@ public class ShowNoticeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getTitle().equals(getResources().getString(R.string.delete_notice))) {
-            AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
-                Exception e = null;
-
-                @Override
-                protected Integer doInBackground(Integer... integers) {
-
-                    try {
-                        RESTManager.send(RESTManager.DELETE, "notices/" + noticeId, null);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        this.e = e;
-                    }
-                    return 0;
-                }
-
-                @Override
-                protected void onPostExecute(Integer i) {
-                    super.onPostExecute(i);
-                    if (e != null) {
-                        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    finish();
-                }
-            };
-            t1.execute();
-            pendingTasks.add(t1);
+            showConfirmAlerter();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+	public void showConfirmAlerter() {
+		AlertYesNo alert = new AlertYesNo();
+		Bundle info = new Bundle();
 
+		info.putString("message", getResources().getString(R.string.delete_notice_message));
+
+		info.putString("title", getResources().getString(R.string.confirm));
+		alert.setCommunicator(this);
+		alert.setArguments(info);
+		alert.show(getSupportFragmentManager(), "Confirm");
+
+	}
+	@Override
+	public void dialogResponse(int result) {
+		if(result == 1){
+		AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
+			Exception e = null;
+
+			@Override
+			protected Integer doInBackground(Integer... integers) {
+
+				try {
+					RESTManager.send(RESTManager.DELETE, "notices/" + noticeId, null);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					this.e = e;
+				}
+				return 0;
+			}
+
+			@Override
+			protected void onPostExecute(Integer i) {
+				super.onPostExecute(i);
+				if (e != null) {
+					Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.error_rest), Toast.LENGTH_LONG).show();
+					return;
+				}
+				finish();
+			}
+		};
+		t1.execute();
+		pendingTasks.add(t1);
+		}
+	}
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 

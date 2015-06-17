@@ -77,4 +77,6 @@
     <string name="add_in_ok">Is Inadequate</string>
     
     <string name="no_tags">No tags for this notice</string>
+    <string name="confirm">Confirm</string>
+    <string name="delete_notice_message">Delete the notice definetly?</string>
 </resources>
