@@ -71,5 +71,9 @@
     <string name="error_field_required">This field is required</string>
     <string name="size_undef">mq undef</string>
     <string name="price_undef">€ undef</string>
+    <string name="fav_ok">Added to Favourite</string>
+    <string name="unfav_ok">Removed from Favourite</string>
+    <string name="rem_in_ok">Is Adequate</string>
+    <string name="add_in_ok">Is Inadequate</string>
 
 </resources>

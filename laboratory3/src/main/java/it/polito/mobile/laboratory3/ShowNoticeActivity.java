@@ -23,6 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.software.shell.fab.ActionButton;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -49,15 +51,14 @@ public class ShowNoticeActivity extends AppCompatActivity {
     private TextView tvLocation;
 	private Button bSize;
 	private Button bPrice;
-    private Button bFav;
-    private Button bInad;
+    private ActionButton bFav;
+    private ActionButton bInad;
     int noticeId;
     private Button bOpenGallery;
-    private Button bEdit;
+    private ActionButton bEdit;
     private RelativeLayout lOpenGallery;
     private boolean owner;
     private RelativeLayout lUpload;
-    private RelativeLayout lEdit;
     private Button bUpload;
     private ProgressBar pbUpload;
     private UploadFinished uploadfinished = new UploadFinished();
@@ -136,14 +137,13 @@ public class ShowNoticeActivity extends AppCompatActivity {
         bSize = (Button) findViewById(R.id.size_b);
         bPrice = (Button) findViewById(R.id.price_b);
         bOpenGallery = (Button) findViewById(R.id.gallery_b);
-        bFav = (Button) findViewById(R.id.bookmark_b);
-        bInad = (Button) findViewById(R.id.inadequate_b);
+        bFav = (ActionButton) findViewById(R.id.bookmark_b);
+        bInad = (ActionButton) findViewById(R.id.inadequate_b);
         bUpload = (Button) findViewById(R.id.upload_b);
-        bEdit = (Button) findViewById(R.id.edit_b);
+        bEdit = (ActionButton) findViewById(R.id.edit_b);
         pbUpload = (ProgressBar) findViewById(R.id.upload_pb);
         lOpenGallery = (RelativeLayout) findViewById(R.id.gallery_l);
         lUpload = (RelativeLayout) findViewById(R.id.upload_l);
-        lEdit = (RelativeLayout) findViewById(R.id.edit_l);
     }
 
     private void setupViews(Notice notice) {
@@ -154,7 +154,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
         }
 
         if (owner) { lUpload.setVisibility(View.VISIBLE); }
-        if (owner) { lEdit.setVisibility(View.VISIBLE); }
+        if (owner) { bEdit.setVisibility(View.VISIBLE); }
 
         String title = notice.getTitle();
         if (title != null && !title.equals("")) {
@@ -378,8 +378,11 @@ public class ShowNoticeActivity extends AppCompatActivity {
 	}
 
     private void setupUnfav(){
-        bFav.setText(getResources().getString(R.string.unfav));
-        bFav.setOnClickListener(new View.OnClickListener() {
+        //bFav.setText(getResources().getString(R.string.unfav));
+        bFav.setImageDrawable(getResources().getDrawable(R.drawable.abc_btn_rating_star_off_mtrl_alpha));
+	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.unfav_ok), Toast.LENGTH_SHORT).show();
+
+	    bFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
@@ -390,6 +393,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
 
                         try {
                             RESTManager.send(RESTManager.DELETE, "students/" + LoggedStudent.getId() + "/favs/notices/" + noticeId, null);
+                            //Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.unfav_ok), Toast.LENGTH_SHORT).show();
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -416,8 +420,11 @@ public class ShowNoticeActivity extends AppCompatActivity {
 
 
     private void setupFav(){
-        bFav.setText(getResources().getString(R.string.add_to_bookmark));
-        bFav.setOnClickListener(new View.OnClickListener() {
+        //bFav.setText(getResources().getString(R.string.add_to_bookmark));
+        bFav.setImageDrawable(getResources().getDrawable(R.drawable.abc_btn_rating_star_on_mtrl_alpha));
+	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.fav_ok), Toast.LENGTH_SHORT).show();
+
+	    bFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AsyncTask<Integer, Void, Integer> t1 = new AsyncTask<Integer, Void, Integer>() {
@@ -454,7 +461,9 @@ public class ShowNoticeActivity extends AppCompatActivity {
     }
 
     private void setupRemoveInadequate(){
-        bInad.setText(getResources().getString(R.string.unflag_as_inadequate));
+        //bInad.setText(getResources().getString(R.string.unflag_as_inadequate));
+	    bInad.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_flag));
+	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.rem_in_ok), Toast.LENGTH_SHORT).show();
         bInad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -493,7 +502,9 @@ public class ShowNoticeActivity extends AppCompatActivity {
 
 
     private void setupInadequate(){
-        bInad.setText(getResources().getString(R.string.flag_as_inadequate));
+        //bInad.setText(getResources().getString(R.string.flag_as_inadequate));
+	    bInad.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_deny));
+	    Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.add_in_ok), Toast.LENGTH_SHORT).show();
         bInad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

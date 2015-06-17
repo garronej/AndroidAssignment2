@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
-    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,268 +11,310 @@
         android:orientation="vertical"
         >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/side_margin"
-            android:layout_marginLeft="@dimen/side_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:id="@+id/edit_l"
-            android:visibility="gone"
-            >
-            <Button
-                android:id="@+id/edit_b"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
-                android:layout_marginTop="@dimen/vertical_margin"
-                android:layout_marginBottom="@dimen/vertical_margin"
-                android:background="@color/blue_sky"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="#fff"
-                android:text="@string/edit"
-                />
-        </RelativeLayout>
-
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/side_margin"
-            android:layout_marginLeft="@dimen/side_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
             android:id="@+id/upload_l"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/vertical_margin"
+            android:layout_marginLeft="@dimen/side_margin"
+            android:layout_marginRight="@dimen/side_margin"
+            android:layout_marginTop="@dimen/vertical_margin"
             android:visibility="gone"
             >
+
             <Button
+                android:id="@+id/upload_b"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
-                android:id="@+id/upload_b"
-                android:text="@string/upload_pics_b"
-                android:textColor="#fff"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:layout_centerInParent="true"
                 android:background="@color/blue_sky"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/upload_pics_b"
+                android:textColor="#fff"
                 />
+
             <ProgressBar
                 android:id="@+id/upload_pb"
+                style="@android:style/Widget.ProgressBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:visibility="invisible"
-                style="@android:style/Widget.ProgressBar.Small"
                 />
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/gallery_l"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/side_margin"
-            android:layout_marginLeft="@dimen/side_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
-            android:id="@+id/gallery_l"
+            android:layout_marginLeft="@dimen/side_margin"
+            android:layout_marginRight="@dimen/side_margin"
             android:visibility="gone"
             >
+
             <Button
                 android:id="@+id/gallery_b"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
-                android:layout_marginTop="@dimen/vertical_margin"
                 android:layout_marginBottom="@dimen/vertical_margin"
+                android:layout_marginTop="@dimen/vertical_margin"
                 android:background="@color/blue_sky"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="#fff"
                 android:text="@string/open_gallery"
+                android:textColor="#fff"
                 />
         </RelativeLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/medium_gray"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/vertical_margin"
             android:layout_marginLeft="@dimen/side_margin"
-            android:layout_marginRight="@dimen/side_margin">
+            android:layout_marginRight="@dimen/side_margin"
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:orientation="horizontal">
 
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
+            <com.software.shell.fab.ActionButton
                 android:id="@+id/bookmark_b"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:background="@color/orange_polito"
-                android:textColor="@color/fab_material_white"
-                android:text="@string/add_to_bookmark"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="top|left"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:layout_marginLeft="@dimen/fab_margin"
+                fab:button_color="@color/orange_polito"
+                fab:button_colorPressed="@color/fab_material_orange_900"
+                fab:image="@drawable/abc_btn_rating_star_off_mtrl_alpha"
+                fab:image_size="32dp"/>
+
+            <com.software.shell.fab.ActionButton
+                android:id="@+id/inadequate_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="top|left"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:layout_marginLeft="@dimen/fab_margin"
+                fab:button_color="@color/orange_polito"
+                fab:button_colorPressed="@color/fab_material_orange_900"
+                fab:image="@drawable/ic_action_deny"
+                fab:image_size="32dp"/>
+
+
+            <com.software.shell.fab.ActionButton
+                android:id="@+id/edit_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="top|left"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:layout_marginLeft="@dimen/fab_margin"
+                fab:button_color="@color/orange_polito"
+                fab:button_colorPressed="@color/fab_material_orange_900"
+                fab:image="@drawable/ic_action_edit"
+                fab:image_size="32dp"
+                android:visibility="gone"
                 />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:id="@+id/inadequate_b"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:background="@color/orange_polito"
-                android:textColor="@color/fab_material_white"
-                android:text="@string/flag_as_inadequate"
-                android:layout_marginRight="10dp"
-                />
+
 
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/medium_gray"/>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
             android:layout_marginLeft="@dimen/side_margin"
-            android:layout_marginRight="@dimen/side_margin">
+            android:layout_marginRight="@dimen/side_margin"
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:orientation="horizontal">
 
 
             <Button
-                android:layout_width="0dp"
-                android:layout_weight="5"
-                android:layout_height="match_parent"
                 android:id="@+id/size_b"
-                android:textColor="#fff"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/side_margin"
+                android:layout_weight="5"
+                android:clickable="false"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:clickable="false"
-                android:layout_marginRight="@dimen/side_margin"
+                android:textColor="#fff"
                 />
 
             <Button
                 android:id="@+id/price_b"
                 android:layout_width="0dp"
-                android:layout_weight="5"
                 android:layout_height="match_parent"
-                android:textColor="#fff"
+                android:layout_gravity="end"
+                android:layout_weight="5"
+                android:clickable="false"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_gravity="end"
-                android:clickable="false"
+                android:textColor="#fff"
                 />
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/medium_gray"/>
 
         <LinearLayout
-            style="@style/ProfileItem" >
+            style="@style/ProfileItem">
+
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/location" />
+                android:text="@string/location"/>
+
             <TextView
-                style="@style/ProfileItemText"
                 android:id="@+id/location_tv"
+                style="@style/ProfileItemText"
                 />
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/medium_gray"/>
 
         <LinearLayout
-            style="@style/ProfileItem" >
+            style="@style/ProfileItem">
+
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/title" />
+                android:text="@string/title"/>
+
             <TextView
-                style="@style/ProfileItemText"
                 android:id="@+id/title_tv"
+                style="@style/ProfileItemText"
                 />
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/medium_gray"/>
 
         <LinearLayout
-            style="@style/ProfileItem" >
+            style="@style/ProfileItem">
+
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/description" />
+                android:text="@string/description"/>
+
             <TextView
-                style="@style/ProfileItemText"
                 android:id="@+id/description_tv"
+                style="@style/ProfileItemText"
                 />
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/medium_gray"/>
 
         <LinearLayout
-            style="@style/ProfileItem" >
+            style="@style/ProfileItem">
+
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/created_on" />
+                android:text="@string/created_on"/>
+
             <TextView
-                style="@style/ProfileItemText"
                 android:id="@+id/created_on_tv"
+                style="@style/ProfileItemText"
                 />
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/medium_gray"/>
 
         <LinearLayout
-            style="@style/ProfileItem" >
+            style="@style/ProfileItem">
+
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/email" />
+                android:text="@string/email"/>
+
             <TextView
-                style="@style/ProfileItemText"
                 android:id="@+id/email_tv"
+                style="@style/ProfileItemText"
                 android:autoLink="email"
                 android:textColorLink="@color/blue_sky"
                 />
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/medium_gray"/>
 
         <LinearLayout
-            style="@style/ProfileItem" >
+            style="@style/ProfileItem">
+
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/telephone_number" />
+                android:text="@string/telephone_number"/>
+
             <TextView
-                style="@style/ProfileItemText"
                 android:id="@+id/telephone_number_tv"
+                style="@style/ProfileItemText"
                 android:autoLink="phone"
                 android:textColorLink="@color/blue_sky"
                 />
         </LinearLayout>
 
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/medium_gray"/>
 
         <LinearLayout
-            style="@style/ProfileItem" >
+            style="@style/ProfileItem">
+
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/tags" />
+                android:text="@string/tags"/>
+
             <TextView
                 android:id="@+id/tags_tv"
-                style="@style/ProfileItemText" />
+                style="@style/ProfileItemText"/>
         </LinearLayout>
 
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/medium_gray"/>
 
         <LinearLayout
-            style="@style/ProfileItem" >
+            style="@style/ProfileItem">
+
             <TextView
                 style="@style/ProfileItemLabel"
-                android:text="@string/inappropriate_count" />
+                android:text="@string/inappropriate_count"/>
+
             <TextView
                 android:id="@+id/inappropriate_count_tv"
-                style="@style/ProfileItemText" />
+                style="@style/ProfileItemText"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
