@@ -360,7 +360,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 Intent intent = new Intent(getActivity(), ShowNoticeActivity.class);
 
-                                intent.putExtra("noticeId", (int)l);
+                                intent.putExtra("noticeId", (int) l);
                                 startActivity(intent);
 
                             }
@@ -486,8 +486,8 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
 
                                             @Override
                                             public void onInfoWindowClick(Marker arg0) {
-                                                Intent i = new Intent(getActivity(),ShowNoticeActivity.class);
-                                                i.putExtra("noticeId",markerMap.get(arg0.getId()));
+                                                Intent i = new Intent(getActivity(), ShowNoticeActivity.class);
+                                                i.putExtra("noticeId", markerMap.get(arg0.getId()));
                                                 startActivity(i);
                                             }
 
@@ -550,7 +550,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                                                             Marker m=googleMap.addMarker(new MarkerOptions().position(new LatLng(n.getLatitude(), n.getLongitude()))
                                                                     .title(n.getTitle())
                                                                     .snippet(n.getDescription()));
-                                                            markerMap.put(m.getId(),n.getId());
+                                                            markerMap.put(m.getId(), n.getId());
 
                                                             builder.include(new LatLng(n.getLatitude(), n.getLongitude()));
                                                         }
@@ -687,7 +687,9 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                     fab.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(PlaceholderFragment.this.getActivity(), "NEW ONE", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getActivity(), EditNoticeActivity.class);
+                            intent.putExtra("role", "create");
+                            startActivity(intent);
 						}
 					});
 

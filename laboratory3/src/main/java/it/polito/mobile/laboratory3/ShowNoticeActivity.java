@@ -30,6 +30,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import it.polito.mobile.laboratory3.Picasso.GalleryGridViewActivity;
 import it.polito.mobile.laboratory3.s3client.models.UploadModel;
@@ -52,13 +53,17 @@ public class ShowNoticeActivity extends AppCompatActivity {
     private Button bInad;
     int noticeId;
     private Button bOpenGallery;
+    private Button bEdit;
     private RelativeLayout lOpenGallery;
     private boolean owner;
     private RelativeLayout lUpload;
+    private RelativeLayout lEdit;
     private Button bUpload;
     private ProgressBar pbUpload;
     private UploadFinished uploadfinished = new UploadFinished();
     private int pendingUploads = 0;
+    private List<String> pendingPictures = new ArrayList<String>();
+    private Notice notice;
 
     private List<AsyncTask<?, ?, ?>> pendingTasks = new ArrayList<AsyncTask<?, ?, ?>>();
 
@@ -70,52 +75,52 @@ public class ShowNoticeActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String filePath = intent.getStringExtra(UploadModel.EXTRA_FILENAME);
+            pendingPictures.add(filePath);
             Log.d(TAG, "upped " + filePath);
             pendingUploads--;
             if (pendingUploads == 0) {
-                bUpload.setVisibility(View.VISIBLE);
-                pbUpload.setVisibility(View.GONE);
-                // send to backend
+                putPictures();
             }
         }
+    }
+
+    private void putPictures() {
+        final Map<String, String> params = new HashMap<String, String>();
+        int i = 0;
+        for (String url : pendingPictures) {
+            params.put("notice[pictures][" + i + "]", url);
+            i++;
+        }
+        Log.d(TAG, params.toString());
+
+        AsyncTask<Void, Void, String> t = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    RESTManager.send(RESTManager.PUT, "notices/" + noticeId, params);
+                } catch (Exception e) {
+                    Toast.makeText(ShowNoticeActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                bUpload.setVisibility(View.VISIBLE);
+                pbUpload.setVisibility(View.GONE);
+                lOpenGallery.setVisibility(View.VISIBLE);
+                notice.setPictures(pendingPictures.toArray(new String[pendingPictures.size()]));
+            }
+        };
+        t.execute();
+        pendingTasks.add(t);
     }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_show_notice);
-		findViews();
-
-        noticeId = getIntent().getIntExtra("noticeId", -1);
-		if (noticeId == -1) { throw new RuntimeException("noticeId param is required"); }
-
-		AsyncTask<Integer, Void, Notice> t1 = new AsyncTask<Integer, Void, Notice>() {
-			Exception e=null;
-
-			@Override
-			protected Notice doInBackground(Integer... integers) {
-				Notice notice = null;
-				try {
-					String response = RESTManager.send(RESTManager.GET, "notices/" + noticeId, null);
-					JSONObject obj = (new JSONObject(response));
-					notice = new Notice(obj.getJSONObject("notice"));
-                    Log.d(TAG, notice.toString());
-				} catch (Exception e) {
-					e.printStackTrace();
-					this.e=e;
-				}
-
-				return notice;
-			}
-			@Override
-			protected void onPostExecute(Notice notice) {
-				super.onPostExecute(notice);
-                setupViews(notice);
-                setupCallbacks(notice);
-			}
-		};
-		t1.execute();
-        pendingTasks.add(t1);
 	}
 
 
@@ -134,9 +139,11 @@ public class ShowNoticeActivity extends AppCompatActivity {
         bFav = (Button) findViewById(R.id.bookmark_b);
         bInad = (Button) findViewById(R.id.inadequate_b);
         bUpload = (Button) findViewById(R.id.upload_b);
+        bEdit = (Button) findViewById(R.id.edit_b);
         pbUpload = (ProgressBar) findViewById(R.id.upload_pb);
         lOpenGallery = (RelativeLayout) findViewById(R.id.gallery_l);
         lUpload = (RelativeLayout) findViewById(R.id.upload_l);
+        lEdit = (RelativeLayout) findViewById(R.id.edit_l);
     }
 
     private void setupViews(Notice notice) {
@@ -147,6 +154,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
         }
 
         if (owner) { lUpload.setVisibility(View.VISIBLE); }
+        if (owner) { lEdit.setVisibility(View.VISIBLE); }
 
         String title = notice.getTitle();
         if (title != null && !title.equals("")) {
@@ -203,14 +211,14 @@ public class ShowNoticeActivity extends AppCompatActivity {
         if (size != 0) {
             bSize.setText(size + "mq");
         } else {
-            bSize.setVisibility(View.GONE);
+            bSize.setText(getResources().getString(R.string.size_undef));
         }
 
         double price = notice.getPrice();
         if (price != 0.0) {
             bPrice.setText(String.valueOf(price) + "€");
         } else {
-            bPrice.setVisibility(View.GONE);
+            bPrice.setText(getResources().getString(R.string.price_undef));
         }
 
         String[] pictures = notice.getPictures();
@@ -237,9 +245,21 @@ public class ShowNoticeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        bEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ShowNoticeActivity.this, EditNoticeActivity.class);
+                i.putExtra("noticeId", notice.getId());
+                i.putExtra("role", "update");
+                startActivity(i);
+            }
+        });
     }
 
     private void getImages() {
+        bUpload.setVisibility(View.INVISIBLE);
+        pbUpload.setVisibility(View.VISIBLE);
         Intent intent = new Intent(ShowNoticeActivity.this, ImagePickerActivity.class);
         intent.putExtra(ImagePickerActivity.EXTRA_SELECTION_LIMIT, MAX_UPLOAD_PICTURES);
         startActivityForResult(intent, ACTIVITY_MULTIUPLOAD);
@@ -248,6 +268,40 @@ public class ShowNoticeActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+        findViews();
+
+        noticeId = getIntent().getIntExtra("noticeId", -1);
+        if (noticeId == -1) { throw new RuntimeException("noticeId param is required"); }
+
+        AsyncTask<Integer, Void, Notice> t0 = new AsyncTask<Integer, Void, Notice>() {
+            Exception e=null;
+
+            @Override
+            protected Notice doInBackground(Integer... integers) {
+                Notice notice = null;
+                try {
+                    String response = RESTManager.send(RESTManager.GET, "notices/" + noticeId, null);
+                    JSONObject obj = (new JSONObject(response));
+                    notice = new Notice(obj.getJSONObject("notice"));
+                    Log.d(TAG, notice.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    this.e=e;
+                }
+
+                return notice;
+            }
+            @Override
+            protected void onPostExecute(Notice notice) {
+                ShowNoticeActivity.this.notice = notice;
+                super.onPostExecute(notice);
+                setupViews(notice);
+                setupCallbacks(notice);
+            }
+        };
+        t0.execute();
+        pendingTasks.add(t0);
+
         AsyncTask<Integer, Integer, Boolean> t1 = new AsyncTask<Integer, Integer, Boolean>() {
             Exception e=null;
             @Override

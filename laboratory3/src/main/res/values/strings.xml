@@ -58,11 +58,18 @@
     <string name="upload_pics">Upload pics</string>
     <string name="complete_address">Complete address</string>
     <string name="update">Update</string>
+    <string name="create">Create</string>
     <string name="cancel">Cancel</string>
     <string name="upload_pics_b">Upload pics</string>
 
     <string name="network_error">An error occurred while trying to connect to the remote server. Please, check your Internet connection then try again.</string>
     <string name="title_show_notice_view">Show notice</string>
-    <string name="title_edit_notice_view">Edit notice</string>
+    <string name="title_edit_notice_view">Form for notice</string>
+    <string name="edit">Edit</string>
+
+    <string name="notice_validation_failed">Insertion of this notice failed. Please, check you have filled all the required field in the form.</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="size_undef">mq undef</string>
+    <string name="price_undef">€ undef</string>
 
 </resources>

@@ -10,6 +10,29 @@
         android:orientation="vertical"
         >
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/side_margin"
+            android:layout_marginLeft="@dimen/side_margin"
+            android:layout_marginBottom="@dimen/vertical_margin"
+            android:id="@+id/edit_l"
+            android:visibility="gone"
+            >
+            <Button
+                android:id="@+id/edit_b"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/vertical_margin"
+                android:layout_marginBottom="@dimen/vertical_margin"
+                android:background="@color/blue_sky"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="#fff"
+                android:text="@string/edit"
+                />
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
