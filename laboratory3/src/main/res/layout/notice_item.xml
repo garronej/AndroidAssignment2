@@ -26,7 +26,7 @@ android:elevation="4dp"
         android:layout_alignLeft="@+id/descrption"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/descrption"
-        android:text="main text"
+        android:text=""
         android:textColor="@android:color/black"
         android:textSize="20sp"
         android:textStyle="bold"/>
@@ -40,6 +40,6 @@ android:elevation="4dp"
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@+id/icon"
         android:layout_toRightOf="@+id/icon"
-        android:text="secondary text"
+        android:text="@string/no_tags"
         android:textSize="15sp"/>
 </RelativeLayout>
