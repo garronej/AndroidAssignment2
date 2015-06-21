@@ -1,29 +1,41 @@
-package org.garrone.googlemapapitest;
+package it.polito.mobile.androidassignment2.timetablestandalone;
 
 import android.app.Fragment;
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
+
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+
 
 /**
- * Created by Joseph on 13/06/2015.
+ * A simple {@link Fragment} subclass.
  */
-public class MyFragment extends Fragment {
+public class MapRoom extends Fragment {
+
 
     public static class  Place{
         public LatLng coordinate = null;
@@ -34,27 +46,44 @@ public class MyFragment extends Fragment {
     private List<Place> places = new ArrayList<>();
     private MapView mapView;
 
-    public static List<Place> getSamplePlaces(){
+    public List<Place> getSamplePlaces(){
 
         List<Place> out =new ArrayList<>();
 
-        Place place = new Place();
-        place.coordinate = new LatLng(43.614258,3.870448);
-        place.title = "Joseph Garrone";
-        place.snippet = "Joseph's house";
-        out.add(place);
+        String resp = null;
+        try {
+            InputStream is = (this.getActivity()).getAssets().open("room_coordinates.json");
+            Scanner scan = new Scanner(is);
+            resp = new String();
+            while (scan.hasNext())
+                resp += scan.nextLine();
+            scan.close();
+        }catch(IOException exception){
+            throw new RuntimeException(exception.getMessage());
+        }
 
-        place = new Place();
-        place.coordinate = new LatLng(43.613077,3.876057);
-        place.title = "Gabrielle Rucheton";
-        place.snippet = "Gabrielle's house";
-        out.add(place);
 
-        place = new Place();
-        place.coordinate = new LatLng(43.609192,3.876008);
-        place.title = "Jean-Marie Lepen";
-        place.snippet = "666's house";
-        out.add(place);
+        try {
+
+            JSONArray roomsJson = new JSONArray(resp);
+
+            Place place;
+            for (int i = 0; i < roomsJson.length(); i++) {
+                JSONObject roomJson = roomsJson.getJSONObject(i);
+
+
+                place = new Place();
+                place.coordinate = new LatLng(roomJson.getDouble("lat"),roomJson.getDouble("lng"));
+                place.title = roomJson.getString("name");
+                place.snippet = roomJson.getString("info");
+                out.add(place);
+
+            }
+
+
+        } catch (JSONException e) {
+            throw new RuntimeException();
+        }
 
         return out;
 
@@ -74,7 +103,7 @@ public class MyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View v = inflater.inflate(R.layout.my_fragment, container, false);
+        View v = inflater.inflate(R.layout.map_room, container, false);
 
 
         this.mapView = (MapView) v.findViewById(R.id.map);
@@ -83,7 +112,7 @@ public class MyFragment extends Fragment {
 
         //By uncommenting that there will be nothing to do in the main activity.
 
-        //this.setPlaces(getSamplePlaces());
+        this.setPlaces(getSamplePlaces());
         //this.generateMap();
 
 
@@ -108,26 +137,26 @@ public class MyFragment extends Fragment {
             public void onMapReady(final GoogleMap map) {
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-                for (Place place : MyFragment.this.places) {
+                for (Place place : MapRoom.this.places) {
 
+                    MarkerOptions markerOptions = new MarkerOptions().position(place.coordinate)
+                            .title(place.title)
+                            .snippet(place.snippet)
+                            .alpha(0.3f)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
-
-                    if( MyFragment.this.centerMarkerTitle == null) {
-                        //Pre-positioning.
-                        if (MyFragment.this.places.indexOf(place) == 0) {
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.coordinate, 13));
-                        }
-                    }else{
-                        if(place.title == MyFragment.this.centerMarkerTitle){
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.coordinate, 13));
-                            builder=null;
-                        }
+                    //Pre-positioning.
+                    if (MapRoom.this.places.indexOf(place) == 0) {
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.coordinate, 15));
                     }
 
+                    if( MapRoom.this.centerMarkerTitle != null && place.title.equals(MapRoom.this.centerMarkerTitle)){
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.coordinate, 18));
+                            builder=null;
+                            markerOptions.alpha(1.0f).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    }
 
-                    map.addMarker(new MarkerOptions().position(place.coordinate)
-                            .title(place.title)
-                            .snippet(place.snippet));
+                    map.addMarker(markerOptions);
 
                     try {
                         builder.include(place.coordinate);
@@ -136,6 +165,7 @@ public class MyFragment extends Fragment {
                 }
 
 
+                //If not explicitly centered on a marker, show them all.
                 if( builder != null ) {
                     LatLngBounds bounds = builder.build();
                     int padding = 30; // offset from edges of the map in pixels
@@ -148,37 +178,12 @@ public class MyFragment extends Fragment {
                         }
                     });
 
-
-                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-
-                        @Override
-                        public boolean onMarkerClick(Marker arg0) {
-
-
-                            if (round(map.getCameraPosition().target.latitude, 6) == arg0.getPosition().latitude &&
-                                    round(map.getCameraPosition().target.longitude, 6) == arg0.getPosition().longitude) {
-                                MyFragment.this.startActivity(arg0);
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }
-
-                    });
-
-
                 }
-
-
 
             }
         });
 
     }
-
-
-
-
 
 
     @Override
@@ -200,21 +205,6 @@ public class MyFragment extends Fragment {
     }
 
 
-
-
-    //Start activity after ckick on a marker.
-    private void startActivity(Marker marker){
-
-        Intent intent = new Intent(MyFragment.this.getActivity(),DetailActivity.class);
-        intent.putExtra("coordinate","Lat : " + marker.getPosition().latitude + "; Lng : " + marker.getPosition().longitude);
-        intent.putExtra("title",marker.getTitle());
-        intent.putExtra("snippet",marker.getSnippet());
-        startActivity(intent);
-    }
-
-
-
-
     private static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
@@ -223,5 +213,7 @@ public class MyFragment extends Fragment {
         long tmp = Math.round(value);
         return (double) tmp / factor;
     }
+
+
 
 }

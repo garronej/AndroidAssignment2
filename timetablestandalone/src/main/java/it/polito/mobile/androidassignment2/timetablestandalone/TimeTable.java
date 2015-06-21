@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.timetablestandalone;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
@@ -140,7 +141,25 @@ public class TimeTable extends AppCompatActivity {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TimeTable.this, res.getString(R.string.teacherName) + " : " + teacherName + "\n" + res.getString(R.string.room) + " : " + info.getRoom(), Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(TimeTable.this,ViewDetail.class);
+
+                intent.putExtra("dayOfTheWeek",info.getDay());
+
+                intent.putExtra("timeStartHour", info.getStartTime().getHour());
+                intent.putExtra("timeStartMin", info.getStartTime().getMin());
+
+                intent.putExtra("timeRange", info.getRange());
+
+                intent.putExtra("timeEndHour",info.getEndTime().getHour());
+                intent.putExtra("timeEndMin",info.getEndTime().getMin());
+
+                intent.putExtra("teacherName",teacherName);
+                intent.putExtra("roomName",info.getRoom());
+
+                startActivity(intent);
+
+
             }
         });
 

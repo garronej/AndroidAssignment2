@@ -11,7 +11,7 @@ import java.util.Calendar;
 public class PracticalInformation {
 
 
-        class Time {
+        public class Time {
             private int hour;
             private int min;
 
@@ -45,6 +45,19 @@ public class PracticalInformation {
 
 
         private Time startTime;
+
+        public Time getStartTime(){
+            return this.startTime;
+        }
+
+        public Time getEndTime(){
+
+            PracticalInformation.Time end = new PracticalInformation.Time(this.startTime.getHour(), this.startTime.getMin());
+
+            end.add(this.duration);
+
+            return end;
+        }
 
         //Duration of the lecture in minute.
         private int duration;
@@ -114,11 +127,7 @@ public class PracticalInformation {
         //Return something like 8h30 : 11h30
         public String getRange() {
 
-            PracticalInformation.Time end = new PracticalInformation.Time(this.startTime.getHour(), this.startTime.getMin());
-
-            end.add(this.duration);
-
-            return new String(this.startTime.toString() + " : " + end.toString());
+            return new String(this.startTime.toString() + " : " + this.getEndTime().toString());
 
         }
 
