@@ -145,10 +145,7 @@ public class MapRoom extends Fragment {
                             .alpha(0.3f)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
-                    //Pre-positioning.
-                    if (MapRoom.this.places.indexOf(place) == 0) {
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.coordinate, 15));
-                    }
+
 
                     if( MapRoom.this.centerMarkerTitle != null && place.title.equals(MapRoom.this.centerMarkerTitle)){
                             map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.coordinate, 18));
@@ -167,6 +164,11 @@ public class MapRoom extends Fragment {
 
                 //If not explicitly centered on a marker, show them all.
                 if( builder != null ) {
+
+                    //Pre-positioning.
+
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(MapRoom.this.places.get(0).coordinate, 15));
+
                     LatLngBounds bounds = builder.build();
                     int padding = 30; // offset from edges of the map in pixels
                     final CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
