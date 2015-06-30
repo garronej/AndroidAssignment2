@@ -1,0 +1,12 @@
+
+    <it.polito.mobile.androidassignment2.StudentFlow.lab3.noticesList.NoticesListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/bookmarks_list"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="it.polito.mobile.lab3.NoticeBoard$PlaceholderFragment"
+        />

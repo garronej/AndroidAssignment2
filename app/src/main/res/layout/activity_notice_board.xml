@@ -1,0 +1,35 @@
+<!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="it.polito.mobile.androidassignment2.StudentFlow.lab3.NoticeBoard">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/background_light"
+        android:elevation="2dp"
+        >
+        <android.support.v4.view.ViewPager  android:id="@+id/pager"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            tools:context=".NoticeBoard" />
+
+        <FrameLayout
+        android:id="@+id/search_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></FrameLayout>
+    </RelativeLayout>
+
+    <fragment
+        android:id="@+id/navigation_drawer"
+        android:name="it.polito.mobile.androidassignment2.StudentFlow.NavigationDrawerFragment"
+        android:layout_width="@dimen/navigation_drawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:layout="@layout/fragment_navigation_drawer"
+        tools:layout="@layout/fragment_navigation_drawer"/>
+</android.support.v4.widget.DrawerLayout>

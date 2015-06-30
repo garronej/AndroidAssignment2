@@ -171,4 +171,34 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="rent_offers">Rent offers</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="your_offers">Your offers</string>
+
+    <string name="title_notice_list">Notices</string>
+    <string name="title_notice_detail">Notice Detail</string>
+    <string name="load_more">Load More</string>
+    <string name="action_show_as_map">Show as map</string>
+    <string name="action_show_as_list">Show as list</string>
+    <string name="add_new_notice">Add a new notice</string>
+
+    <string name="radius">Radius</string>
+    <string name="price">Price</string>
+    <string name="tags">Tags</string>
+    <string name="edit_notice">Edit notice</string>
+    <string name="upload_pictures">Upload pictures</string>
+    <string name="open_gallery">Open the gallery</string>
+    <string name="phone_number">Phone number</string>
+    <string name="inappropriate_count">Inappropriate count</string>
+    <string name="creation_date">Creation date</string>
+    <string name="title">Title</string>
+    <string name="delete_notice">Delete notice</string>
+    <string name="remove_from_bookmarks">Remove from bookmarks</string>
+    <string name="add_to_bookmarks">Add to bookmarks</string>
+    <string name="create_notice">Create notice</string>
+    <string name="field_required">You must fill all the required fields</string>
+    <string name="show_notice">Notice details</string>
+    <string name="price_with_unit">Price (€)</string>
+    <string name="size_with_unit">Size (mq)</string>
+
 </resources>

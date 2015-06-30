@@ -35,7 +35,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Utils;
 import it.polito.mobile.androidassignment2.context.AppContext;
 
 
-public class CompaniesFavouritesActivity extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Communicator {
+public class CompaniesFavouritesActivity extends AppCompatActivity implements Communicator {
     private ListView listView;
     private AsyncTask<?, ?, ?> task = null;
     private AsyncTask<?, ?, ?> task2 = null;
@@ -346,38 +346,10 @@ public class CompaniesFavouritesActivity extends AppCompatActivity implements Na
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
 		// Set up the drawer.
-		onNavigationDrawerItemSelected(3);
 		mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position", 3));
 
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 		//due it's a new instance of NavDraw
 	}
-	@Override
-	public void onNavigationDrawerItemSelected(int position) {
-		// update the main content by replacing fragments
-		if(!firstRun){
-			firstRun = true;
-			return;
-		}
-		Intent i =new Intent(CompaniesFavouritesActivity.this,Main2StudentActivity.class);
-		switch(position){
-			case 0:
-				i.putExtra("position",(int)0);
-				startActivity(i);
-				finish();
-				break;
-			case 1:
-				i.putExtra("position",(int)1);
-				startActivity(i);
-				finish();
-				break;
-			case 2:
-				i.putExtra("position",(int)2);
-				startActivity(i);
-				finish();
-				break;
-		}
-		//finish();
 
-	}
 }

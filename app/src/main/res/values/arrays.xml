@@ -22,4 +22,12 @@
         <item>conversations</item>
         <item>xxxxx</item>
     </string-array>
+    <string-array name="sort_order">
+        <item>Newest</item>
+        <item>Oldest</item>
+        <item>Cheaper</item>
+        <item>More expensive</item>
+        <item>Smaller</item>
+        <item>Bigger</item>
+    </string-array>
 </resources>

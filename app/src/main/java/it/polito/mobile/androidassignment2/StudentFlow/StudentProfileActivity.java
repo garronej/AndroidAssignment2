@@ -46,7 +46,7 @@ import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
 
-public class StudentProfileActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Communicator {
+public class StudentProfileActivity extends ActionBarActivity implements Communicator {
 	private ImageView ivPhoto;
 	private ProgressBar pbPhotoSpinner;
 	private ProgressBar pbCvSpinner;
@@ -186,8 +186,6 @@ public class StudentProfileActivity extends ActionBarActivity implements Navigat
 private void setUpNavigationDrawer(){
 	mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 	mTitle = getTitle();
-	// Set up the drawer.
-	onNavigationDrawerItemSelected(3);
 	mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position",3));
 
 	mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
@@ -443,35 +441,5 @@ private void setUpNavigationDrawer(){
 		}
 	}
 
-
-
-	@Override
-	public void onNavigationDrawerItemSelected(int position) {
-		// update the main content by replacing fragments
-		if(!firstRun){
-			firstRun = true;
-			return;
-		}
-		Intent i =new Intent(StudentProfileActivity.this,Main2StudentActivity.class);
-					switch(position){
-						case 0:
-							i.putExtra("position",(int)0);
-							startActivity(i);
-							finish();
-							break;
-						case 1:
-							i.putExtra("position",(int)1);
-							startActivity(i);
-							finish();
-							break;
-						case 2:
-							i.putExtra("position",(int)2);
-							startActivity(i);
-							finish();
-							break;
-					}
-					//finish();
-
-	}
 
 }

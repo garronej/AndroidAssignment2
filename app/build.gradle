@@ -9,6 +9,7 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        multiDexEnabled = true
     }
     buildTypes {
         release {
@@ -25,25 +26,12 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile project(':businesslogic')
-    compile files('libs/aws-android-sdk-autoscaling-2.2.1.jar')
-    compile files('libs/aws-android-sdk-cloudwatch-2.2.1.jar')
-    compile files('libs/aws-android-sdk-core-2.2.1.jar')
-    compile files('libs/aws-android-sdk-ddb-2.2.1.jar')
-    compile files('libs/aws-android-sdk-ddb-mapper-2.2.1.jar')
-    compile files('libs/aws-android-sdk-ec2-2.2.1.jar')
-    compile files('libs/aws-android-sdk-elb-2.2.1.jar')
-    compile files('libs/aws-android-sdk-kinesis-2.2.1.jar')
-    compile files('libs/aws-android-sdk-lambda-2.2.1.jar')
-    compile files('libs/aws-android-sdk-machinelearning-2.2.1.jar')
-    compile files('libs/aws-android-sdk-mobilenalytics-2.2.1.jar')
-    compile files('libs/aws-android-sdk-s3-2.2.1.jar')
-    compile files('libs/aws-android-sdk-sdb-2.2.1.jar')
-    compile files('libs/aws-android-sdk-ses-2.2.1.jar')
-    compile files('libs/aws-android-sdk-sns-2.2.1.jar')
-    compile files('libs/aws-android-sdk-sqs-2.2.1.jar')
     compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.google.android.gms:play-services-maps:7.5.0'
     compile 'com.android.support:recyclerview-v7:22.1.1'
     compile 'com.github.hdodenhof:CircleImageView:v1.3.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'net.the4thdimension:poly-picker:1.0.11'
     compile(name:'MaterialTabsModule-release', ext:'aar')
 
 
@@ -54,7 +42,7 @@ repositories {
         url "https://jitpack.io"
     }
     maven {  url "http://dl.bintray.com/jjhesk/maven"  }
-
+    maven { url "https://repo.commonsware.com.s3.amazonaws.com" }
     flatDir {
         dirs 'libs'
     }

@@ -1,5 +1,6 @@
 package it.polito.mobile.androidassignment2.StudentFlow;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +28,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.StudentFlow.lab3.NoticeBoard;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -45,10 +48,7 @@ public class NavigationDrawerFragment extends Fragment {
 	 */
 	private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
-	/**
-	 * A pointer to the current callbacks instance (the Activity).
-	 */
-	private NavigationDrawerCallbacks mCallbacks;
+
 
 	/**
 	 * Helper component that ties the action bar to the navigation drawer.
@@ -97,7 +97,7 @@ public class NavigationDrawerFragment extends Fragment {
 		mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				selectItem(position);
+				selectItem(position, true);
 			}
 		});
 		mDrawerListView.setAdapter(new ArrayAdapter<String>(getActionBar().getThemedContext(),
@@ -196,35 +196,43 @@ public class NavigationDrawerFragment extends Fragment {
 
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 	}
+	public void selectItem(int position) {
+		selectItem(position,false);
+	}
 
-	protected void selectItem(int position) {
-		mCurrentSelectedPosition = position;
+	protected void selectItem(int position, boolean startActivity) {
+
 		if (mDrawerListView != null) {
 			mDrawerListView.setItemChecked(position, true);
 		}
 		if (mDrawerLayout != null) {
 			mDrawerLayout.closeDrawer(mFragmentContainerView);
 		}
-		if (mCallbacks != null) {
+		if(startActivity
+				&& mCurrentSelectedPosition != position) {
+			switch (position) {
+				case 3:
+					Intent i = new Intent(getActivity(), StudentProfileActivity.class);
+					startActivity(i);
+					getActivity().finish();
+					break;
+				case 1:
+					Intent i2 = new Intent(getActivity(), NoticeBoard.class);
+					startActivity(i2);
+					getActivity().finish();
+					break;
+				default:
+					Log.e("navDrawer", "Not implemented section "+position);
+
+			}
+		}
+		mCurrentSelectedPosition = position;
+		/*if (mCallbacks != null) {
 			mCallbacks.onNavigationDrawerItemSelected(position);
-		}
+		}*/
+
 	}
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		try {
-			mCallbacks = (NavigationDrawerCallbacks) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mCallbacks = null;
-	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
@@ -279,13 +287,5 @@ public class NavigationDrawerFragment extends Fragment {
 		return ((AppCompatActivity) getActivity()).getSupportActionBar();
 	}
 
-	/**
-	 * Callbacks interface that all activities using this fragment must implement.
-	 */
-	public static interface NavigationDrawerCallbacks {
-		/**
-		 * Called when an item in the navigation drawer is selected.
-		 */
-		void onNavigationDrawerItemSelected(int position);
-	}
+
 }

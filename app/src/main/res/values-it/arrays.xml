@@ -18,4 +18,10 @@
         <item>&gt;50</item>
     </string-array>
     <string-array name="chat_tabs">contacts</string-array>
+    <string-array name="sort_order">
+        <item>Più nuove</item>
+        <item>Più vecchie</item>
+        <item>Più economiche</item>
+        <item>Più costose</item>
+    </string-array>
 </resources>

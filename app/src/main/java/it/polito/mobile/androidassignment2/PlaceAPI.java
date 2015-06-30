@@ -20,12 +20,17 @@ import java.util.ArrayList;
 public class PlaceAPI {
 
 	private static final String TAG = PlaceAPI.class.getSimpleName();
-
+	private String type="(cities)";
 	private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
 	private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
 	private static final String OUT_JSON = "/json";
 
 	private static final String API_KEY = "AIzaSyA2Z0mVx4zLKa5PVkyzDdfsBAVoKyiR7-U";
+
+
+	public void setType(String type){
+		this.type=type;
+	}
 
 	public ArrayList<String> autocomplete (String input) {
 		ArrayList<String> resultList = null;
@@ -36,7 +41,7 @@ public class PlaceAPI {
 		try {
 			StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
 			sb.append("?key=" + API_KEY);
-			sb.append("&types=(cities)");
+			sb.append("&types="+type);
 			sb.append("&language=it");
 			sb.append("&input=" + URLEncoder.encode(input, "utf8"));
 

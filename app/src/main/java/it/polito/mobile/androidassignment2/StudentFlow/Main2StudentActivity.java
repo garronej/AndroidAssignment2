@@ -40,7 +40,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.context.AppContext;
 
 public class Main2StudentActivity extends AppCompatActivity
-		implements NavigationDrawerFragment.NavigationDrawerCallbacks, Communicator, MaterialTabListener {
+		implements Communicator, MaterialTabListener {
 
 
 	public NavigationDrawerFragment getmNavigationDrawerFragment() {
@@ -102,13 +102,13 @@ public class Main2StudentActivity extends AppCompatActivity
 		}
 	}
 
-	@Override
+	/*@Override
 	public void onNavigationDrawerItemSelected(int position) {
 		// update the main content by replacing fragments
-		Intent i = new Intent(Main2StudentActivity.this, StudentProfileActivity.class);
+
 		hideTabs();
 		if (position == 3) {
-
+			Intent i = new Intent(Main2StudentActivity.this, StudentProfileActivity.class);
 			i.putExtra("position", 3);
 			startActivity(i);
 			finish();
@@ -117,19 +117,19 @@ public class Main2StudentActivity extends AppCompatActivity
 		} else {
 
 
-			/*
+			/
 			fragment = getFragmentManager().findFragmentByTag(ExampleFragment.TAG);
 			if (fragment == null) {
 				fragment = new StatsFragment();
 			}
-			getFragmentManager().beginTransaction().replace(R.id.container, fragment, ExampleFragment.TAG).commit();*/
+			getFragmentManager().beginTransaction().replace(R.id.container, fragment, ExampleFragment.TAG).commit();/
 
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
 					.commit();
 		}
-	}
+	}*/
 
 	private void hideTabs() {
 		if (mTabHost != null) {
