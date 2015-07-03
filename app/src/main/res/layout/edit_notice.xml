@@ -135,7 +135,7 @@
                 style="@style/NoticeBoardAppTheme.Title"
                 />
 
-            <it.polito.mobile.lab3.util.AutocompleteTokensInput
+            <it.polito.mobile.androidassignment2.StudentFlow.lab3.AutocompleteTokensInput
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tags_ac"

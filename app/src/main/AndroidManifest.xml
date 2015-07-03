@@ -205,15 +205,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".StudentFlow.lab3.notice.EditNoticeActivity"
+            android:theme="@style/ActionBarTheme"
             android:label="@string/edit_notice">
 
         </activity>
         <activity android:name=".StudentFlow.lab3.notice.ShowNoticeActivity"
+            android:theme="@style/ActionBarTheme"
             android:label="@string/show_notice">
 
         </activity>
 
         <activity android:name=".StudentFlow.lab3.notice.gallery.GalleryActivity"
+            android:theme="@style/ActionBarTheme"
             android:label="@string/gallery">
 
         </activity>

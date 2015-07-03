@@ -7,7 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="it.polito.mobile.androidassignment2.StudentFlow.lab3.NoticeBoard">
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/background_light">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,11 +33,13 @@
             android:layout_width="match_parent" android:layout_height="match_parent"
             tools:context=".NoticeBoard" />
 
-        <FrameLayout
+
+    </LinearLayout>
+    <FrameLayout
         android:id="@+id/search_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></FrameLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <fragment
         android:id="@+id/navigation_drawer"

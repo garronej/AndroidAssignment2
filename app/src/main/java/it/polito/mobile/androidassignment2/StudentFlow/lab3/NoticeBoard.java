@@ -92,12 +92,12 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
 
-setUpTabs();
+        setUpTabs();
         // Set up the ViewPager with the sections adapter.
 
 
@@ -124,9 +124,9 @@ setUpTabs();
         }*/
 
        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position",1));
+       mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position",1));
 
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+       mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 	private void setUpTabs() {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -208,6 +208,7 @@ setUpTabs();
             return true;
         }
         if (id == R.id.action_search) {
+            Log.d("searchFragment", "search fragment clicked...");
             Fragment searchFragment = getSupportFragmentManager().findFragmentByTag("searchFragment");
             if(searchFragment!=null
                     && searchFragment.isVisible()){
@@ -219,7 +220,7 @@ setUpTabs();
 
             }else {
                 searchFragment= new FiltersFragment();
-
+                Log.d("searchFragment", "search fragment opened...");
                 getSupportFragmentManager()
                         .beginTransaction()
                         .add(R.id.search_container, searchFragment, "searchFragment")
