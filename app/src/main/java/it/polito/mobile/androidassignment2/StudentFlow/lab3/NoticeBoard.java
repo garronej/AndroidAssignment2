@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
@@ -19,10 +20,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.support.v4.view.ViewPager;
 
 import java.util.Locale;
 import java.util.zip.DataFormatException;
 
+import it.neokree.materialtabs.MaterialTab;
+import it.neokree.materialtabs.MaterialTabHost;
+import it.neokree.materialtabs.MaterialTabListener;
 import it.polito.mobile.androidassignment2.AlertYesNo;
 import it.polito.mobile.androidassignment2.Communicator;
 import it.polito.mobile.androidassignment2.LoginActivity;
@@ -41,11 +46,18 @@ import it.polito.mobile.androidassignment2.context.AppContext;
 /**
  * Created by mark9 on 02/06/2015.
  */
-public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListener, Communicator {
+public class NoticeBoard extends AppCompatActivity implements Communicator,MaterialTabListener{
 
     private static String FILTERS = "filters";
     private static String SHOW_AS_MAP = "map_show";
 
+    private MaterialTabHost mTabHost;
+    //private ViewPagerAdapter pagerAdapter;
+	private NavigationDrawerFragment mNavigationDrawerFragment;
+
+	public NavigationDrawerFragment getmNavigationDrawerFragment() {
+		return mNavigationDrawerFragment;
+	}
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -80,26 +92,25 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
+setUpTabs();
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
         // a reference to the Tab.
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+      /*  mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
             }
         });
-
+/*
         // For each of the sections in the app, add a tab to the action bar.
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title defined by
@@ -110,14 +121,39 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
                     actionBar.newTab()
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
-        }
+        }*/
 
-        NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+       mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position",1));
 
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
     }
+	private void setUpTabs() {
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mTabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
+		mViewPager.setAdapter(mSectionsPagerAdapter);
+		mTabHost.setVisibility(View.VISIBLE);
+		mViewPager.setVisibility(View.VISIBLE);
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
+
+		mViewPager.setAdapter(mSectionsPagerAdapter);
+		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int position) {
+				mTabHost.setSelectedNavigationItem(position);
+			}
+		});
+		// insert all tabs from pagerAdapter data
+		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+			mTabHost.addTab(
+					mTabHost.createTabText(mSectionsPagerAdapter.getPageTitle(i).toString())
+							.setTabListener(this)
+			);
+		}
+	}
     public Bundle getFilters(){
         return filters;
     }
@@ -247,7 +283,7 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
     }
 
     @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    public void onTabSelected(MaterialTab tab) {
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
@@ -258,15 +294,18 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
 
     }
 
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
+	@Override
+	public void onTabReselected(MaterialTab materialTab) {
 
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
+	}
 
-    private void hideKeyboard() {
+	@Override
+	public void onTabUnselected(MaterialTab materialTab) {
+
+	}
+
+
+	private void hideKeyboard() {
         // Check if no view has focus:
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -351,7 +390,9 @@ public class NoticeBoard extends ActionBarActivity implements ActionBar.TabListe
         }
     }
 
-    /**
+
+
+	/**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
