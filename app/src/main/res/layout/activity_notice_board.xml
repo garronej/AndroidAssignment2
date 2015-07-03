@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/background_light"
-        android:elevation="2dp"
+        android:elevation="4dp"
         android:orientation="vertical">
         <it.neokree.materialtabs.MaterialTabHost
             android:id="@+id/materialTabHost"
@@ -37,6 +37,7 @@
     </LinearLayout>
     <FrameLayout
         android:id="@+id/search_container"
+        android:elevation="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></FrameLayout>
     </RelativeLayout>

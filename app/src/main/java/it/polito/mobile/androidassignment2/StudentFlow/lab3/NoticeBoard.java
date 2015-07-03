@@ -54,6 +54,7 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
     private MaterialTabHost mTabHost;
     //private ViewPagerAdapter pagerAdapter;
 	private NavigationDrawerFragment mNavigationDrawerFragment;
+	private CharSequence mTitle;
 
 	public NavigationDrawerFragment getmNavigationDrawerFragment() {
 		return mNavigationDrawerFragment;
@@ -127,7 +128,27 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
        mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position",1));
 
        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+	    onSectionAttached(2);
+	 
+	    setTitle(mTitle);
+	    mNavigationDrawerFragment.setTitle(mTitle);
     }
+	public void onSectionAttached(int number) {
+		switch (number) {
+			case 1:
+				mTitle = getString(R.string.title_section1);
+				break;
+			case 2:
+				mTitle = getString(R.string.title_section2);
+				break;
+			case 3:
+				mTitle = getString(R.string.title_section3);
+				break;
+			case 4:
+				mTitle = getString(R.string.title_section4);
+				break;
+		}
+	}
 	private void setUpTabs() {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -217,8 +238,9 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
                         .beginTransaction()
                         .remove(searchFragment)
                         .commit();
-
             }else {
+                mViewPager.setCurrentItem(0);
+
                 searchFragment= new FiltersFragment();
                 Log.d("searchFragment", "search fragment opened...");
                 getSupportFragmentManager()

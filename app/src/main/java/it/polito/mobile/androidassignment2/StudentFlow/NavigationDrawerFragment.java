@@ -63,7 +63,7 @@ public class NavigationDrawerFragment extends Fragment {
 	private boolean mFromSavedInstanceState;
 	private boolean mUserLearnedDrawer;
 	private ScrollView root;
-
+private CharSequence mTitle;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -278,9 +278,13 @@ public class NavigationDrawerFragment extends Fragment {
 	 */
 	private void showGlobalContextActionBar() {
 		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		actionBar.setTitle(R.string.app_name);
+		actionBar.setTitle(getTitle());
+	}
+
+	public void setTitle(CharSequence t) {
+		mTitle = t;
 	}
 
 	private ActionBar getActionBar() {
@@ -288,4 +292,7 @@ public class NavigationDrawerFragment extends Fragment {
 	}
 
 
+	public CharSequence getTitle() {
+		return mTitle;
+	}
 }
