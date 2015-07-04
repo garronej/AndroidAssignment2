@@ -5,8 +5,10 @@ import android.content.ContentResolver;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.content.BroadcastReceiver;
@@ -31,6 +33,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.AlertYesNo;
@@ -42,6 +47,8 @@ import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.context.AppContext;
 import it.polito.mobile.androidassignment2.customView.CareerLayout;
+import it.polito.mobile.androidassignment2.gcm.QuickstartPreferences;
+import it.polito.mobile.androidassignment2.gcm.RegistrationIntentService;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
@@ -68,6 +75,11 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	private TextView birthDate;
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 	private CharSequence mTitle;
+    private Student loggedStudent;
+
+	private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+	private static final String TAG = "MainActivity";
+	private BroadcastReceiver mRegistrationBroadcastReceiver;
 
 	private boolean firstRun = false;
 
@@ -150,22 +162,22 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 		findViewById(R.id.tab_menu_student_offers).setBackgroundColor(getResources().getColor(R.color.blue_sky));
 		findViewById(R.id.tab_menu_student_companies).setBackgroundColor(getResources().getColor(R.color.blue_sky));
 		findViewById(R.id.tab_menu_student_companies).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(getApplicationContext(), CompaniesFavouritesActivity.class);
-				startActivity(i);
-				finish();
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), CompaniesFavouritesActivity.class);
+                startActivity(i);
+                finish();
 
-			}
-		});
+            }
+        });
 		findViewById(R.id.tab_menu_student_offers).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(getApplicationContext(), OffersListsActivity.class);
-				startActivity(i);
-				finish();
-			}
-		});
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), OffersListsActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
 	}
 
@@ -176,17 +188,44 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 		if (((AppContext) getApplication()).getSession().getPhotoUri() != null) {
 			photoUri = ((AppContext) getApplication()).getSession().getPhotoUri();
 		}
+        try {
+            loggedStudent = ((AppContext) getApplication()).getSession().getStudentLogged();
+        } catch (DataFormatException e) {
+            throw new RuntimeException();
+        }
 		setContentView(R.layout.activity_student_profile);
 		findViews();
 		myAddActionBar();
 		addTabMenuButtonCallbacks();
 		setUpNavigationDrawer();
 
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                if (sentToken) {
+                    Log.d(TAG, getString(R.string.gcm_send_message));
+                } else {
+                    Log.d(TAG, getString(R.string.token_error_message));
+                }
+            }
+        };
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            intent.putExtra("studentId", loggedStudent.getId());
+            startService(intent);
+        }
+
 	}
 private void setUpNavigationDrawer(){
 	mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 	mTitle = getTitle();
-	mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position",3));
+	mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position", 3));
 
 	mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 }
@@ -209,12 +248,6 @@ private void setUpNavigationDrawer(){
 	}
 
 	private void setupViewsAndCallbacks() {
-		final Student loggedStudent;
-		try {
-			loggedStudent = ((AppContext) getApplication()).getSession().getStudentLogged();
-		} catch (DataFormatException e) {
-			throw new RuntimeException();
-		}
 		tvEmail.setText(loggedStudent.getEmail());
 		pbCvSpinner.setVisibility(View.INVISIBLE);
 
@@ -335,10 +368,13 @@ private void setUpNavigationDrawer(){
 		setupViewsAndCallbacks();
 		registerReceiver(downloadfinished, new IntentFilter(DownloadModel.INTENT_DOWNLOADED));
 		registerReceiver(downloadfailed, new IntentFilter(DownloadModel.INTENT_DOWNLOAD_FAILED));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
 	}
 
 	@Override
 	protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
 		unregisterReceiver(downloadfailed);
 		unregisterReceiver(downloadfinished);
 		if (task != null) {
@@ -347,6 +383,26 @@ private void setUpNavigationDrawer(){
 		}
 		super.onPause();
 	}
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Log.i(TAG, "This device is not supported."); // TODO: toast it
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
