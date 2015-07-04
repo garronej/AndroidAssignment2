@@ -200,5 +200,6 @@
     <string name="show_notice">Notice details</string>
     <string name="price_with_unit">Price (€)</string>
     <string name="size_with_unit">Size (mq)</string>
+    <string name="notice_board">Notice Board</string>
 
 </resources>

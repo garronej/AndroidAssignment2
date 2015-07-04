@@ -197,7 +197,7 @@
         <activity
             android:name=".StudentFlow.lab3.NoticeBoard"
             android:theme="@style/ActionBarTheme"
-            android:label="@string/app_name" >
+            android:label="@string/notice_board" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

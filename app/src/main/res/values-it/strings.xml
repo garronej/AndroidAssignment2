@@ -162,5 +162,6 @@
     <string name="laude">Lode</string>
     <string name="student_update_failed">La modifica del profilo è fallita. Controlla di aver compilato correttamente il form.</string>
     <string name="title_section4">Aziende</string>
+    <string name="notice_board">Bacheca</string>
 
 </resources>
