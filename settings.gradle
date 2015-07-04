@@ -1,1 +1,1 @@
-include ':app', ':businesslogic', ':testapp', ':timetablestandalone', ':googlemapapitest', ':laboratory3'
+include ':app', ':businesslogic'
