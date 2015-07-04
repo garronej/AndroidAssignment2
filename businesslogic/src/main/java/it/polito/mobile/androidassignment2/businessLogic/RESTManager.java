@@ -19,7 +19,7 @@ import java.util.Map;
 public class RESTManager {
 
 
-    private static final String BASE_URI = "https://poli-jobs-dev.herokuapp.com/api/v1/";
+    private static final String BASE_URI = "https://poli-jobs-production.herokuapp.com/api/v1/";
 
     public static final String GET = "GET";
     public static final String POST = "POST";
