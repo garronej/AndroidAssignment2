@@ -65,6 +65,7 @@ public class SelectRecipientsActivity extends ActionBarActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Log.d(TAG, adapterView.getItemAtPosition(i).toString());
                     //create conversation on backend using loggedUser id and selected one
+                    //or return one if already existing
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("conversationId", 1);
                     returnIntent.putExtra("isGroup", false);
@@ -92,6 +93,7 @@ public class SelectRecipientsActivity extends ActionBarActivity {
                         outputStrArr[i] = selectedItems.get(i);
                     }
                     //create group conversation on backend on backend using loggedUser id and selected ones
+                    //or return one if already existing
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("conversationId", 2);
                     returnIntent.putExtra("isGroup", true);
