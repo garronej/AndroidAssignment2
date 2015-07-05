@@ -1,22 +1,25 @@
 package it.polito.mobile.chat;
 
+import android.app.FragmentManager;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class ChatsActivity extends ActionBarActivity {
+public class ConversationsActivity extends AppCompatActivity implements ConversationsListFragment.Callbacks {
 
-    private final String TAG = "chats";
+    private final String TAG = "ConversationsActivity";
     private final int SELECT_RECIPIENTS = 149;
+    private int selectedConversationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chats);
+        setContentView(R.layout.activity_conversations);
         //TODO added by marco, to be decommented to join with the app module
         /*mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mNavigationDrawerFragment.selectItem(getIntent().getIntExtra("position",1));
@@ -49,7 +52,7 @@ public class ChatsActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_chats, menu);
+        getMenuInflater().inflate(R.menu.menu_conversations, menu);
         //TODO added by marco, to be decommented to join with the app module
         //getMenuInflater().inflate(R.menu.global, menu);
         return true;
@@ -58,7 +61,7 @@ public class ChatsActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Intent i = new Intent(ChatsActivity.this, SelectRecipientsActivity.class);
+        Intent i = new Intent(ConversationsActivity.this, SelectRecipientsActivity.class);
         switch(id){
             case R.id.action_group_message:
                 i.putExtra("isMultipleSelection", true);
@@ -149,11 +152,31 @@ public class ChatsActivity extends ActionBarActivity {
                 Log.d(TAG, String.valueOf(data.getIntExtra("conversationId", -1)));
                 if (data.getBooleanExtra("isGroup", false)) {
                     Log.d(TAG, "is group conversation");
+                    // fetch again from backend and select it with onItemClick
                 } else {
                     Log.d(TAG, "is private conversation");
+                    // fetch again from backend and select it with onItemClick
                 }
-                //startActivity "conversation"
             }
         }
+    }
+
+    @Override
+    public void onItemClick(int conversationId) {
+        Fragment fragConversationShow = getSupportFragmentManager()
+                .findFragmentById(R.id.conversation_show_fragment);
+        if (fragConversationShow != null && fragConversationShow.isVisible()) {
+            selectedConversationId = conversationId;
+            ((ConversationShowFragment) fragConversationShow ).onItemClick();
+        } else {
+            Intent i = new Intent(ConversationsActivity.this, ConversationShowActivity.class);
+            i.putExtra("conversationId", conversationId);
+            startActivity(i);
+        }
+    }
+
+    //used by child fragment to know who is selected
+    public int getSelectedConversationId() {
+        return selectedConversationId;
     }
 }

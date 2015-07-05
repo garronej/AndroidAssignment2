@@ -7,4 +7,5 @@
     <string name="new_message">Compose message</string>
     <string name="select_recipients_title">Select recipients</string>
     <string name="create_group">Create group</string>
+    <string name="conversation_show_title">Conversation show</string>
 </resources>

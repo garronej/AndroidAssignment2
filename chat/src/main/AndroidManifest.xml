@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ChatsActivity"
+            android:name=".ConversationsActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +20,11 @@
         <activity
             android:name=".SelectRecipientsActivity"
             android:label="@string/select_recipients_title" >
+        </activity>
+
+        <activity
+            android:name=".ConversationShowActivity"
+            android:label="@string/conversation_show_title" >
         </activity>
     </application>
 
