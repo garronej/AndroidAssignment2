@@ -145,7 +145,7 @@ public class Student {
 
 
     //We asume the JSON object sended are well formed.
-    protected Student(JSONObject json) throws RestApiException{
+    public Student(JSONObject json) throws RestApiException{
 
 
         try {
