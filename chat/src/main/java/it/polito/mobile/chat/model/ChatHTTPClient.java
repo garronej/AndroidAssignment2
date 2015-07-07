@@ -1,14 +1,20 @@
 package it.polito.mobile.chat.model;
 
 import android.os.AsyncTask;
+import android.os.Debug;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import it.polito.mobile.androidassignment2.businessLogic.Student;
+import it.polito.mobile.chat.FakeStudent;
 import it.polito.mobile.chat.RESTManager;
 
 
@@ -160,6 +166,10 @@ public class ChatHTTPClient {
                 Conversation conv = null;
 
                 try {
+                    Map<String, String> m = c[0].toFormParams();
+                    /*for(Map.Entry<String, String> e : m.entrySet()){
+                        Log.d("marco", "key: "+e.getKey()+"; value: "+e.getValue());
+                    }*/
                     String response = RESTManager.send(RESTManager.POST, "conversations/", c[0].toFormParams());
 
                     conv = new Conversation((new JSONObject(response)).getJSONObject("conversation"));
@@ -186,6 +196,53 @@ public class ChatHTTPClient {
             }
         };
         t.execute(message);
+        return t;
+    }
+
+    public static AsyncTask<Integer, Void, List<Student>>
+        getAvailableStudents(final ResultProcessor<List<Student>> processor){
+
+        AsyncTask<Integer, Void, List<Student>>
+                t = new AsyncTask<Integer, Void, List<Student>>() {
+            Exception e = null;
+            @Override
+            protected List<Student> doInBackground(Integer... c) {
+                List<Student> students = new ArrayList<>();
+
+                try {
+                    String response = RESTManager.send(RESTManager.GET, "students/", null);
+
+                    JSONArray obj = (new JSONObject(response)).getJSONArray("students");
+                    for(int i=0;i<obj.length();i++){
+                        students.add(new Student(obj.getJSONObject(i)));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    this.e=e;
+                }
+                return students;
+            }
+
+            @Override
+            protected void onPostExecute(List<Student> conversations) {
+                if(this.e==null) {
+                    //TODO put logged student in session
+                    Student loggedStudent = new Student();
+                    loggedStudent.manuallySetId(FakeStudent.getId());
+                    conversations.remove(loggedStudent);
+                    processor.process(conversations);
+                }else{
+                    processor.onException(this.e);
+                }
+            }
+
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+                processor.cancel();
+            }
+        };
+        t.execute();
         return t;
     }
 

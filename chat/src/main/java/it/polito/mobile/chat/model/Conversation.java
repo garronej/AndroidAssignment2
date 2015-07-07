@@ -38,10 +38,12 @@ public class Conversation {
             JSONArray sArr = json.getJSONArray("students");
             students=new ArrayList<>();
             for(int i = 0; i < sArr.length(); ++i){
-                students.add(new Student(sArr.getJSONObject(i)));
+                //TODO: decomment
+                // students.add(new Student(sArr.getJSONObject(i)));
             }
 
         }catch (Exception e){
+            e.printStackTrace();
             throw new RuntimeException("Conversation wrong format: "+json.toString());
 
         }
@@ -90,7 +92,7 @@ public class Conversation {
     public Map<String, String> toFormParams() {
         Map<String, String> m = new HashMap<>();
         m.put("conversation[is_group]", String.valueOf(isGroup()));
-        m.put("conversation[title]", title);
+        m.put("conversation[title]", title==null?"":title);
         int i=0;
         for (Student s : students){
             m.put("conversation[student_ids]["+(i++)+"]", ""+s.getId());

@@ -9,17 +9,35 @@
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="9"
+        android:layout_weight="1"
 
         android:id="@+id/recipients_lv">
     </ListView>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="@string/create_group"
-        android:id="@+id/create_group_b"
-        android:visibility="gone"/>
+    <LinearLayout
+        android:id="@+id/groupLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
+
+        <EditText
+            android:id="@+id/groupTitle"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="@string/title"
+            android:imeOptions="actionDone"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_group"
+            android:id="@+id/create_group_b"
+            />
+    </LinearLayout>
+
+
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package it.polito.mobile.chat;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,16 +13,22 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import it.polito.mobile.chat.model.ChatHTTPClient;
+import it.polito.mobile.chat.model.Conversation;
+
 public class ConversationsListFragment extends Fragment {
     private final String TAG = "ConversationsListFrag";
     private ListView lvConversations;
-    private List<Map<String, Object>> conversations;
     private View selectedView;
+    private List<AsyncTask<Integer, Void, List<Conversation>>> tList;
 
     public interface Callbacks {
         void onItemClick(int i);
@@ -32,22 +39,14 @@ public class ConversationsListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_conversations_list, container, false);
         lvConversations = (ListView) view.findViewById(R.id.conversations_lv);
         //this should fetch from backend and prepare the list for being shown in the listView
-        conversations = buildConversations();
-        SimpleAdapter simpleAdapter = new SimpleAdapter(
-                getActivity(),
-                conversations,
-                R.layout.conversation_list_item,
-                new String[] { "recipient", "last_message_time", "message" },
-                new int[] { R.id.recipient_tv, R.id.timestamp_tv, R.id.message_snippet_tv }
-        );
-        lvConversations.setAdapter(simpleAdapter);
+
 
         lvConversations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Activity parentActivity = getActivity();
                 if (parentActivity instanceof ConversationsListFragment.Callbacks) {
-                    Map<String, Object> m = (Map<String,Object>) adapterView.getItemAtPosition(i);
+                    Map<String, Object> m = (Map<String, Object>) adapterView.getItemAtPosition(i);
                     if (selectedView != null) {
                         selectedView.setBackgroundColor(Color.TRANSPARENT);
                     }
@@ -58,6 +57,92 @@ public class ConversationsListFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        tList = new ArrayList<>();
+        refreshConversations();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        for(AsyncTask<?,?,?> t:tList){
+            if(!t.isCancelled() && (t.getStatus()== AsyncTask.Status.RUNNING||t.getStatus()== AsyncTask.Status.PENDING)){
+                t.cancel(true);
+            }
+        }
+    }
+
+    public void refreshConversations(){
+        tList.add(
+                ChatHTTPClient.getConversationsForStudent(FakeStudent.getId(), new ChatHTTPClient.ResultProcessor<List<Conversation>>() {
+                    @Override
+                    public void process(List<Conversation> arg) {
+                        List<Map<String, Object>> conversations = buildMapFromConversations(arg);
+                        SimpleAdapter simpleAdapter = new SimpleAdapter(
+                                getActivity(),
+                                conversations,
+                                R.layout.conversation_list_item,
+                                new String[]{"recipient", "last_message_time", "message"},
+                                new int[]{R.id.recipient_tv, R.id.timestamp_tv, R.id.message_snippet_tv}
+                        );
+                        lvConversations.setAdapter(simpleAdapter);
+                    }
+
+                    @Override
+                    public void onException(Exception e) {
+                        //TODO: handle exceptions
+
+                    }
+
+                    @Override
+                    public void cancel() {
+                        //do nothing
+                    }
+
+                })
+        );
+
+
+    }
+
+    private List<Map<String, Object>> buildMapFromConversations(List<Conversation> cs) {
+        List<Map<String, Object>> conversations = new ArrayList<Map<String, Object>>();
+        for(Conversation c:cs){
+            Map<String, Object> m = new HashMap<String, Object>();
+            if(c.isGroup()) {
+                m.put("recipient", c.getTitle() == null ? "TODO" : c.getTitle()); //TODO : what to do if title == null?
+            }else{
+                //TODO if it is not group show other student name
+                //It is not working now for an issue in parsing the student json
+            }
+            if(c.getLastMessage()!=null) {
+                SimpleDateFormat df = null;
+                Calendar cal = Calendar.getInstance();
+
+// set the calendar to start of today
+                cal.set(Calendar.HOUR, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+
+// and get that as a Date
+                Date today = cal.getTime();
+                if(c.getLastMessage().getDate().after(today))
+                    df=new SimpleDateFormat("HH:mm");
+                else
+                    df=new SimpleDateFormat("dd/MM/YYYY");
+                m.put("last_message_time", df.format(c.getLastMessage().getDate()));
+                m.put("message", c.getLastMessage().getMessage());
+            }else{
+                //TODO what to do?
+            }
+            m.put("conversationId", c.getId());
+            conversations.add(m);
+        }
+        return conversations;
     }
 
     private List<Map<String, Object>> buildConversations() {
