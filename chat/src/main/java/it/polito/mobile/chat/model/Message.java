@@ -20,7 +20,7 @@ public class Message {
     private Conversation conversation;
     private String message;
     private Date date;
-
+    public Message(){}
     public Message(JSONObject json) {
         try{
             id=json.getInt("id");
