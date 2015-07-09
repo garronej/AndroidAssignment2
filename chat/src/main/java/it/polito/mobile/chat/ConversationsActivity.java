@@ -151,16 +151,10 @@ public class ConversationsActivity extends AppCompatActivity implements Conversa
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_RECIPIENTS) {
-                Log.d(TAG, String.valueOf(data.getIntExtra("conversationId", -1)));
-                if (data.getBooleanExtra("isGroup", false)) {
-                    Log.d(TAG, "is group conversation");
-                    // fetch again from backend and select it with onItemClick
-                    onItemClick(data.getIntExtra("conversationId", -1), true);
-                } else {
-                    Log.d(TAG, "is private conversation");
-                    // fetch again from backend and select it with onItemClick
-                    onItemClick(data.getIntExtra("conversationId", -1), false);
-                }
+
+                // fetch again from backend and select it with onItemClick
+                onItemClick((Conversation)data.getSerializableExtra("conversation"));
+
             }
         }
     }
@@ -168,18 +162,15 @@ public class ConversationsActivity extends AppCompatActivity implements Conversa
 
 
     @Override
-    public void onItemClick(int conversationId, boolean isGroup) {
+    public void onItemClick(Conversation conversation) {
         Fragment fragConversationShow = getSupportFragmentManager()
                 .findFragmentById(R.id.conversation_show_fragment);
         if (fragConversationShow != null && fragConversationShow.isVisible()) {
-            selectedConversation = new Conversation();
-            selectedConversation.setId(conversationId);
-            selectedConversation.setGroup(isGroup);
+            selectedConversation = conversation;
             ((ConversationShowFragment) fragConversationShow ).onItemClick();
         } else {
             Intent i = new Intent(ConversationsActivity.this, ConversationShowActivity.class);
-            i.putExtra("conversationId", conversationId);
-            i.putExtra("isGroup", isGroup);
+            i.putExtra("conversation", conversation);
             startActivity(i);
         }
     }

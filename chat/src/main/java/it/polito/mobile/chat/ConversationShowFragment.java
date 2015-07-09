@@ -1,37 +1,26 @@
 package it.polito.mobile.chat;
 
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.HeaderViewListAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.chat.model.ChatHTTPClient;
@@ -45,7 +34,7 @@ public class ConversationShowFragment extends Fragment {
     //TODO for testing...put to 20 or something similar before the delivery..
     private static int NUMBER_OF_MESSAGES_PER_PAGE = 5;
     private final String TAG = "ConversationShowFrag";
-    private TextView tv;
+    private TextView membersTitle;
     private ListView messageList;
     private EditText messageText;
     private List<Message> messages = new ArrayList<>();
@@ -57,7 +46,7 @@ public class ConversationShowFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(layout.fragment_conversation_show, container, false);
-        tv = (TextView) view.findViewById(id.tv);
+        membersTitle = (TextView) view.findViewById(id.members_tv);
         messageList = (ListView)view.findViewById(id.message_list);
 
         messageText = (EditText)view.findViewById(id.message_et);
@@ -143,7 +132,7 @@ public class ConversationShowFragment extends Fragment {
             messageText.setVisibility(View.INVISIBLE);
         }else {
 
-
+            updateMembersListTV();
             messageText.setVisibility(View.VISIBLE);
             initMessageList();
         }
@@ -306,7 +295,9 @@ public class ConversationShowFragment extends Fragment {
                             container.setBackgroundResource(drawable.speech_bubble_brown);
                             if(getConversation().isGroup()){
                                 tvSender.setVisibility(View.VISIBLE);
-                                tvSender.setText(n.getSender().getFullname());
+
+                                int senderIndex = getConversation().getStudents().indexOf(n.getSender());
+                                tvSender.setText(getConversation().getStudents().get(senderIndex).getFullname());
                             }else{
                                 tvSender.setVisibility(View.GONE);
                             }
@@ -351,10 +342,18 @@ public class ConversationShowFragment extends Fragment {
         messageText.setText("");//to clear the message edit area when
                                 //changing conversation
         messageText.setVisibility(View.VISIBLE);
-        int conversationId=getConversation().getId();
-        //fetch from backend and show
-        tv.setText("conversationId: " + String.valueOf(conversationId));
+
+        updateMembersListTV();
         initMessageList();
 
+    }
+
+    private void updateMembersListTV(){
+        String membersList ="";
+        for(Student s : getConversation().getStudents()){
+            if(s.getId() == FakeStudent.getId()) continue; //TODO replace with logged student
+            membersList+=s.getFullname()+",";
+        }
+        membersTitle.setText(membersList.substring(0,membersList.length()-1));
     }
 }

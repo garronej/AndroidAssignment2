@@ -2,6 +2,7 @@ package it.polito.mobile.chat.model;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Student;
 /**
  * Created by mark9 on 06/07/15.
  */
-public class Message {
+public class Message implements Serializable {
 
     private int id;
     private Student sender;

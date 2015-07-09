@@ -148,8 +148,7 @@ public class SelectRecipientsActivity extends ActionBarActivity {
                             //create group conversation on backend on backend using loggedUser id and selected ones
                             //or return one if already existing
                             Intent returnIntent = new Intent();
-                            returnIntent.putExtra("conversationId", arg.getId());
-                            returnIntent.putExtra("isGroup", arg.isGroup());
+                            returnIntent.putExtra("conversation", arg);
                             setResult(RESULT_OK, returnIntent);
                             finish();
                         }
@@ -211,8 +210,7 @@ public class SelectRecipientsActivity extends ActionBarActivity {
                                 //create group conversation on backend on backend using loggedUser id and selected ones
                                 //or return one if already existing
                                 Intent returnIntent = new Intent();
-                                returnIntent.putExtra("conversationId", arg.getId());
-                                returnIntent.putExtra("isGroup", arg.isGroup());
+                                returnIntent.putExtra("conversation", arg);
                                 setResult(RESULT_OK, returnIntent);
                                 finish();
                             }

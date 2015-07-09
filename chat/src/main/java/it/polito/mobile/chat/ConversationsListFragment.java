@@ -29,11 +29,12 @@ import it.polito.mobile.chat.model.Util;
 public class ConversationsListFragment extends Fragment {
     private final String TAG = "ConversationsListFrag";
     private ListView lvConversations;
+    private Map<Integer, Conversation> conversationsMap = new HashMap<>();
     private View selectedView;
     private List<AsyncTask<Integer, Void, List<Conversation>>> tList;
 
     public interface Callbacks {
-        void onItemClick(int i, boolean isGroup);
+        void onItemClick(Conversation c);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class ConversationsListFragment extends Fragment {
                     }
                     selectedView = view;
                     selectedView.setBackgroundColor(Color.RED);
-                    ((Callbacks) parentActivity).onItemClick((Integer) m.get("conversationId"), (Boolean)m.get("isGroup"));
+                    ((Callbacks) parentActivity).onItemClick(conversationsMap.get(m.get("conversationId")));
                 }
             }
         });
@@ -84,6 +85,7 @@ public class ConversationsListFragment extends Fragment {
                     @Override
                     public void process(List<Conversation> arg) {
                         //TODO init the proper conversation with the selection
+
                         List<Map<String, Object>> conversations = buildMapFromConversations(arg);
                         SimpleAdapter simpleAdapter = new SimpleAdapter(
                                 getActivity(),
@@ -117,6 +119,7 @@ public class ConversationsListFragment extends Fragment {
     private List<Map<String, Object>> buildMapFromConversations(List<Conversation> cs) {
         List<Map<String, Object>> conversations = new ArrayList<Map<String, Object>>();
         for(Conversation c:cs){
+            conversationsMap.put(c.getId(),c);
             Map<String, Object> m = new HashMap<String, Object>();
             if(c.isGroup()) {
                 m.put("recipient", c.getTitle());

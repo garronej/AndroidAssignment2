@@ -3,10 +3,12 @@ package it.polito.mobile.androidassignment2.businessLogic;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by mark9 on 30/05/15.
  */
-public class Career {
+public class Career implements Serializable {
 
     private String career;
     private int mark;

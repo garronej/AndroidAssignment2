@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ import java.util.zip.DataFormatException;
 
 
 //Tdodo manage exception
-public class Student {
+public class Student implements Serializable {
 
     private String sex;
     private Integer id = null;

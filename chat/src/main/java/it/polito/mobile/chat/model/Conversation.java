@@ -3,6 +3,7 @@ package it.polito.mobile.chat.model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Student;
 /**
  * Created by mark9 on 06/07/15.
  */
-public class Conversation {
+public class Conversation implements Serializable {
 
     private int id;
     private List<Student> students;

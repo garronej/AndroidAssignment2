@@ -21,10 +21,12 @@ public class ConversationShowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation_show);
-        selectedConversation = new Conversation();
+        /*selectedConversation = new Conversation();
         selectedConversation.setId(getIntent().getIntExtra("conversationId", -1));
         if (selectedConversation.getId() == -1) { throw new RuntimeException("conversationID required"); }
-        selectedConversation.setGroup(getIntent().getBooleanExtra("isGroup", false));
+        selectedConversation.setGroup(getIntent().getBooleanExtra("isGroup", false));*/
+        selectedConversation = (Conversation)getIntent().getSerializableExtra("conversation");
+        if(selectedConversation==null) throw new RuntimeException("conversation required");
     }
 
     //used by child fragment to know who is selected
