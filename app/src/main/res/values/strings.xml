@@ -210,4 +210,6 @@
     <string name="group_message">Group message</string>
     <string name="new_message">New message</string>
 
+    <string name="schedule_changed_activity">Schedule changed</string>
+    <string name="message">Message</string>
 </resources>

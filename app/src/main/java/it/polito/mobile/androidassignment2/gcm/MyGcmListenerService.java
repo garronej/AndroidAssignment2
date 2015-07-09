@@ -29,7 +29,9 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.StudentFlow.ScheduleChangedActivity;
 import it.polito.mobile.androidassignment2.StudentFlow.StudentProfileActivity;
+import it.polito.mobile.androidassignment2.StudentFlow.lab3.NoticeBoard;
 
 public class MyGcmListenerService extends GcmListenerService {
 
@@ -45,7 +47,10 @@ public class MyGcmListenerService extends GcmListenerService {
     // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
+        String title = data.getString("title");
         String message = data.getString("message");
+        String type = data.getString("type");
+
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
 
@@ -60,7 +65,7 @@ public class MyGcmListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
-        sendNotification(message);
+        sendNotification(type, title, message);
     }
     // [END receive_message]
 
@@ -69,16 +74,35 @@ public class MyGcmListenerService extends GcmListenerService {
      *
      * @param message GCM message received.
      */
-    private void sendNotification(String message) {
-        Intent intent = new Intent(this, StudentProfileActivity.class);
+    static int scheduleChangeCounter = 0;
+
+    private void sendNotification(String type, String title, String message) {
+        Intent intent = null;
+        int notificationId;
+
+        if (type.contains("schedule_change")) {
+            scheduleChangeCounter++;
+            if (scheduleChangeCounter == 10) {
+                scheduleChangeCounter = 0;
+            }
+            notificationId = scheduleChangeCounter;
+            intent = new Intent(this, ScheduleChangedActivity.class);
+        } else if (type.contains("message")) {
+            notificationId = 0;
+            intent = new Intent(this, NoticeBoard.class);
+        } else {
+            throw new RuntimeException("type of notification not supported");
+        }
+        intent.putExtra("title", title);
+        intent.putExtra("message", message);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, notificationId, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_stat_notification)
-                .setContentTitle("GCM Message")
+                .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
@@ -87,6 +111,6 @@ public class MyGcmListenerService extends GcmListenerService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(notificationId, notificationBuilder.build());
     }
 }

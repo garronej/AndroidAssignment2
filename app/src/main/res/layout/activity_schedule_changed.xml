@@ -1,0 +1,30 @@
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        style="@style/ProfileItem" >
+        <TextView
+            style="@style/ProfileItemLabel"
+            android:text="@string/title" />
+        <TextView
+            style="@style/ProfileItemText"
+            android:id="@+id/title_tv"
+            android:text="title"/>
+    </LinearLayout>
+
+    <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+    <LinearLayout
+        style="@style/ProfileItem" >
+        <TextView
+            style="@style/ProfileItemLabel"
+            android:text="@string/message" />
+        <TextView
+            style="@style/ProfileItemText"
+            android:id="@+id/message_tv"
+            android:text="message" />
+    </LinearLayout>
+</LinearLayout>
