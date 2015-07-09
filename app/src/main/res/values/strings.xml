@@ -212,4 +212,5 @@
 
     <string name="schedule_changed_activity">Schedule changed</string>
     <string name="message">Message</string>
+    <string name="you_have_received_new_messages">You have received new messages</string>
 </resources>

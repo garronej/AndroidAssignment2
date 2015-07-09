@@ -20,6 +20,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -74,11 +75,14 @@ public class MyGcmListenerService extends GcmListenerService {
      *
      * @param message GCM message received.
      */
-    static int scheduleChangeCounter = 0;
+    private static int scheduleChangeCounter = 0;
 
     private void sendNotification(String type, String title, String message) {
         Intent intent = null;
         int notificationId;
+        int counter;
+        String notificationTitle;
+        String notificationMessage;
 
         if (type.contains("schedule_change")) {
             scheduleChangeCounter++;
@@ -86,15 +90,31 @@ public class MyGcmListenerService extends GcmListenerService {
                 scheduleChangeCounter = 0;
             }
             notificationId = scheduleChangeCounter;
+            counter = 0;
             intent = new Intent(this, ScheduleChangedActivity.class);
+            intent.putExtra("title", title);
+            intent.putExtra("message", message);
+            notificationTitle = title;
+            notificationMessage = message;
         } else if (type.contains("message")) {
             notificationId = 0;
-            intent = new Intent(this, NoticeBoard.class);
+            if(getSharedPreferences("notifications", MODE_PRIVATE).contains("message_counter")) {
+                counter = getSharedPreferences("notifications", MODE_PRIVATE).getInt("message_counter", -1);
+                counter++;
+            } else {
+                counter = 1;
+            }
+            SharedPreferences.Editor editor = getSharedPreferences("notifications", MODE_PRIVATE).edit();
+            editor.putInt("message_counter", counter);
+            editor.commit();
+
+            intent = new Intent(this, NoticeBoard.class); //TODO: use conversationsActivity here
+            notificationTitle = getApplicationContext().getString(R.string.app_name);
+            notificationMessage = getApplicationContext().getString(R.string.you_have_received_new_messages);
         } else {
             throw new RuntimeException("type of notification not supported");
         }
-        intent.putExtra("title", title);
-        intent.putExtra("message", message);
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, notificationId, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -102,11 +122,12 @@ public class MyGcmListenerService extends GcmListenerService {
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_stat_notification)
-                .setContentTitle(title)
-                .setContentText(message)
+                .setContentTitle(notificationTitle)
+                .setContentText(notificationMessage)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setNumber(counter);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
