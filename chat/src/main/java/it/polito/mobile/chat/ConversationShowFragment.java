@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -39,6 +42,8 @@ import it.polito.mobile.chat.model.Util;
 import static it.polito.mobile.chat.R.*;
 
 public class ConversationShowFragment extends Fragment {
+    //TODO for testing...put to 20 or something similar before the delivery..
+    private static int NUMBER_OF_MESSAGES_PER_PAGE = 5;
     private final String TAG = "ConversationShowFrag";
     private TextView tv;
     private ListView messageList;
@@ -47,6 +52,7 @@ public class ConversationShowFragment extends Fragment {
     private View header;
     private AsyncTask<Conversation, Void, List<Message>> t;
     private AsyncTask<Message, Void, Message> t1;
+    private AsyncTask<Conversation, Void, List<Message>> t2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,31 +60,26 @@ public class ConversationShowFragment extends Fragment {
         tv = (TextView) view.findViewById(id.tv);
         messageList = (ListView)view.findViewById(id.message_list);
 
-
-
-
         messageText = (EditText)view.findViewById(id.message_et);
-
-
         return view;
     }
 
     private void sendMessage() {
+        if(messageText.getText().toString().trim().equals(""))return;
         final Message m = new Message();
         Student s = new Student();
         s.manuallySetId(FakeStudent.getId()); //TODO: put the real student logged
         m.setSender(s);
-        Conversation c = new Conversation();
-        c.setId(getConversationId());
-        m.setConversation(c);
-        m.setMessage(messageText.getText().toString());
+
+        m.setConversation(getConversation());
+        m.setMessage(messageText.getText().toString().trim());
         messageText.setText("");
         t1=ChatHTTPClient.sendMessage(m, new ChatHTTPClient.ResultProcessor<Message>() {
             @Override
             public void process(Message arg) {
                 messages.add(arg);
                 ((BaseAdapter)((HeaderViewListAdapter)messageList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
-                messageList.setSelection(messageList.getAdapter().getCount() - 1); //TODO debug...perché non funge???
+                messageList.setSelection(messageList.getAdapter().getCount() - 1);
 
             }
 
@@ -97,15 +98,15 @@ public class ConversationShowFragment extends Fragment {
 
     }
 
-    private int getConversationId(){
-        int conversationId;
+    private Conversation getConversation(){
+        Conversation conversationId;
         if (getActivity() instanceof ConversationShowActivity) {
             ConversationShowActivity parentActivity = (ConversationShowActivity) getActivity();
-            conversationId = parentActivity.getSelectedConversationId();
+            conversationId = parentActivity.getSelectedConversation();
         }
         else {
             ConversationsActivity parentActivity = (ConversationsActivity) getActivity();
-            conversationId = parentActivity.getSelectedConversationId();
+            conversationId = parentActivity.getSelectedConversation();
         }
         return conversationId;
     }
@@ -114,11 +115,9 @@ public class ConversationShowFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        int conversationId=getConversationId();
+        Conversation conversation = getConversation();
 
-        //fetch from backend and show
-        tv.setText("conversationId: " + String.valueOf(conversationId));
-        if(conversationId == 0){
+        if(conversation == null){
             messageList.removeHeaderView(header);
             messageList.setAdapter(new BaseAdapter() {
                 @Override
@@ -143,6 +142,8 @@ public class ConversationShowFragment extends Fragment {
             });
             messageText.setVisibility(View.INVISIBLE);
         }else {
+
+
             messageText.setVisibility(View.VISIBLE);
             initMessageList();
         }
@@ -182,23 +183,63 @@ public class ConversationShowFragment extends Fragment {
             header.findViewById(id.btn_more_messages).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO paging of messages
+
+                    t2 = ChatHTTPClient.getMessages(getConversation(), (int)Math.ceil(messages.size() / (double) NUMBER_OF_MESSAGES_PER_PAGE), NUMBER_OF_MESSAGES_PER_PAGE, new ChatHTTPClient.ResultProcessor<List<Message>>() {
+                        @Override
+                        public void process(List<Message> arg) {
+
+                            messages.addAll(0,arg);
+                            ((BaseAdapter)((HeaderViewListAdapter)messageList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
+                            //TODO we should prevent the scroll to the bottom..
+
+                        }
+
+                        @Override
+                        public void onException(Exception e) {
+                            //TODO handle exception
+                        }
+
+                        @Override
+                        public void cancel() {
+                            //nothing to do
+                        }
+                    });
                 }
             });
         }
-        messageText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        /*messageText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                Log.d("marco", "Ime :"+i+"; key event: "+keyEvent);
                 if (i == EditorInfo.IME_ACTION_DONE) {
                     sendMessage();
                     return true;
                 }
-                return false;
+                return true;
+            }
+        });*/
+        messageText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                String string = s.toString();
+                if (string.length() > 0 && string.charAt(string.length() - 1) == '\n') {
+                    sendMessage();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
             }
         });
-        messageText.setOnKeyListener(new View.OnKeyListener() {
+        /*messageText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                Log.d("marco", "Key pressed :"+keyCode+"; key event: "+keyEvent);
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
                         sendMessage();
@@ -207,10 +248,9 @@ public class ConversationShowFragment extends Fragment {
                 }
                 return false;
             }
-        });
-        Conversation c = new Conversation();
-        c.setId(getConversationId());
-        t = ChatHTTPClient.getMessages(c, 0, 20, new ChatHTTPClient.ResultProcessor<List<Message>>() {
+        });*/
+
+        t = ChatHTTPClient.getMessages(getConversation(), 0, NUMBER_OF_MESSAGES_PER_PAGE, new ChatHTTPClient.ResultProcessor<List<Message>>() {
             @Override
             public void process(List<Message> arg) {
                 messages = arg;
@@ -250,17 +290,26 @@ public class ConversationShowFragment extends Fragment {
                             df = new SimpleDateFormat("dd/MM/yyyy");
                         ((TextView) convertView.findViewById(id.message_date)).setText(df.format(n.getDate()));
                         LinearLayout container = (LinearLayout) convertView.findViewById(id.message_container);
+                        TextView tvSender = (TextView)container.findViewById(id.message_sender);
                         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) container.getLayoutParams();
                         if (n.getSender().getId() == FakeStudent.getId()) {
                             //lp.gravity = Gravity.RIGHT;
                             ((LinearLayout)convertView).setGravity(Gravity.RIGHT);
-                            lp.setMargins((int)ConversationShowFragment.this.getActivity().getResources().getDisplayMetrics().density*30,0,0,0);
+                            lp.setMargins((int) ConversationShowFragment.this.getActivity().getResources().getDisplayMetrics().density * 30, 0, 0, 0);
                             container.setBackgroundResource(drawable.speech_bubble_green);
+                            tvSender.setVisibility(View.GONE);
+
                         } else {
                             //lp.gravity = Gravity.LEFT;
                             ((LinearLayout)convertView).setGravity(Gravity.LEFT);
-                            lp.setMargins(0,0,(int)ConversationShowFragment.this.getActivity().getResources().getDisplayMetrics().density*30,0);
+                            lp.setMargins(0, 0, (int) ConversationShowFragment.this.getActivity().getResources().getDisplayMetrics().density * 30, 0);
                             container.setBackgroundResource(drawable.speech_bubble_brown);
+                            if(getConversation().isGroup()){
+                                tvSender.setVisibility(View.VISIBLE);
+                                tvSender.setText(n.getSender().getFullname());
+                            }else{
+                                tvSender.setVisibility(View.GONE);
+                            }
                         }
                         container.setLayoutParams(lp);
 
@@ -292,6 +341,9 @@ public class ConversationShowFragment extends Fragment {
         if(t1!=null && (t1.getStatus()== AsyncTask.Status.RUNNING || t1.getStatus() == AsyncTask.Status.PENDING)){
             t1.cancel(true);
         }
+        if(t2!=null && (t2.getStatus()== AsyncTask.Status.RUNNING || t2.getStatus() == AsyncTask.Status.PENDING)){
+            t2.cancel(true);
+        }
     }
 
     //only called from ConversationsActivity when both frags are visible at the same time
@@ -299,7 +351,7 @@ public class ConversationShowFragment extends Fragment {
         messageText.setText("");//to clear the message edit area when
                                 //changing conversation
         messageText.setVisibility(View.VISIBLE);
-        int conversationId=getConversationId();
+        int conversationId=getConversation().getId();
         //fetch from backend and show
         tv.setText("conversationId: " + String.valueOf(conversationId));
         initMessageList();

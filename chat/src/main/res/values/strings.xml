@@ -12,4 +12,6 @@
     <string name="write_your_message_here">Write your message here...</string>
     <string name="load_earlier_messages">Load earlier messages</string>
     <string name="no_message">There is no message in this conversation!</string>
+    <string name="empty_title_error">The title of a group conversation cannot be empty</string>
+    <string name="no_student_selected">You have not selected any student! You should select at least another student to create a conversation.</string>
 </resources>

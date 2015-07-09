@@ -5,5 +5,5 @@ package it.polito.mobile.chat;
  */
 public class FakeStudent {
 
-    public static int getId(){return 1;}
+    public static int getId(){return 4;}
 }

@@ -9,23 +9,27 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import it.polito.mobile.chat.model.Conversation;
+
 
 public class ConversationShowActivity extends AppCompatActivity {
 
     private final String TAG = "ConversationShowActivity";
-    private int selectedConversationId;
+    private Conversation selectedConversation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation_show);
-        selectedConversationId = getIntent().getIntExtra("conversationId", -1);
-        if (selectedConversationId == -1) { throw new RuntimeException("conversationID required"); }
+        selectedConversation = new Conversation();
+        selectedConversation.setId(getIntent().getIntExtra("conversationId", -1));
+        if (selectedConversation.getId() == -1) { throw new RuntimeException("conversationID required"); }
+        selectedConversation.setGroup(getIntent().getBooleanExtra("isGroup", false));
     }
 
     //used by child fragment to know who is selected
-    public int getSelectedConversationId() {
-        return selectedConversationId;
+    public Conversation getSelectedConversation() {
+        return selectedConversation;
     }
 
 }

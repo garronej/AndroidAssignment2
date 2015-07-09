@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -181,9 +182,14 @@ public class SelectRecipientsActivity extends ActionBarActivity {
                     }
                     EditText title_tv = (EditText) findViewById(R.id.groupTitle);
                     if(selectedItems.size()==0 || title_tv.getText().toString().trim().equals("")){
-                        //TODO show some error...
-                        //titolo set error
-                        //size toastino
+                        if(selectedItems.size()==0){
+                            //TODO something better of a toast message...
+                            Toast.makeText(SelectRecipientsActivity.this,R.string.no_student_selected, Toast.LENGTH_LONG).show();
+                        }
+                        if(title_tv.getText().toString().trim().equals("")){
+                            title_tv.setError(getResources().getString(R.string.empty_title_error));
+                        }
+
                     }else{
                          /*String[] outputStrArr = new String[selectedItems.size()];
 

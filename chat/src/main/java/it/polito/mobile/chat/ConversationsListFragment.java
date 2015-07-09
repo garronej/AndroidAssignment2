@@ -33,7 +33,7 @@ public class ConversationsListFragment extends Fragment {
     private List<AsyncTask<Integer, Void, List<Conversation>>> tList;
 
     public interface Callbacks {
-        void onItemClick(int i);
+        void onItemClick(int i, boolean isGroup);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ConversationsListFragment extends Fragment {
                     }
                     selectedView = view;
                     selectedView.setBackgroundColor(Color.RED);
-                    ((Callbacks) parentActivity).onItemClick((Integer) m.get("conversationId"));
+                    ((Callbacks) parentActivity).onItemClick((Integer) m.get("conversationId"), (Boolean)m.get("isGroup"));
                 }
             }
         });
@@ -139,6 +139,7 @@ public class ConversationsListFragment extends Fragment {
                 m.put("message",getResources().getString(R.string.no_message));
             }
             m.put("conversationId", c.getId());
+            m.put("isGroup", c.isGroup());
             conversations.add(m);
         }
         return conversations;

@@ -9,12 +9,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import it.polito.mobile.chat.model.Conversation;
+
 
 public class ConversationsActivity extends AppCompatActivity implements ConversationsListFragment.Callbacks {
 
     private final String TAG = "ConversationsActivity";
     private final int SELECT_RECIPIENTS = 149;
-    private int selectedConversationId;
+    private Conversation selectedConversation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,11 +155,11 @@ public class ConversationsActivity extends AppCompatActivity implements Conversa
                 if (data.getBooleanExtra("isGroup", false)) {
                     Log.d(TAG, "is group conversation");
                     // fetch again from backend and select it with onItemClick
-                    onItemClick(data.getIntExtra("conversationId", -1));
+                    onItemClick(data.getIntExtra("conversationId", -1), true);
                 } else {
                     Log.d(TAG, "is private conversation");
                     // fetch again from backend and select it with onItemClick
-                    onItemClick(data.getIntExtra("conversationId", -1));
+                    onItemClick(data.getIntExtra("conversationId", -1), false);
                 }
             }
         }
@@ -166,21 +168,24 @@ public class ConversationsActivity extends AppCompatActivity implements Conversa
 
 
     @Override
-    public void onItemClick(int conversationId) {
+    public void onItemClick(int conversationId, boolean isGroup) {
         Fragment fragConversationShow = getSupportFragmentManager()
                 .findFragmentById(R.id.conversation_show_fragment);
         if (fragConversationShow != null && fragConversationShow.isVisible()) {
-            selectedConversationId = conversationId;
+            selectedConversation = new Conversation();
+            selectedConversation.setId(conversationId);
+            selectedConversation.setGroup(isGroup);
             ((ConversationShowFragment) fragConversationShow ).onItemClick();
         } else {
             Intent i = new Intent(ConversationsActivity.this, ConversationShowActivity.class);
             i.putExtra("conversationId", conversationId);
+            i.putExtra("isGroup", isGroup);
             startActivity(i);
         }
     }
 
     //used by child fragment to know who is selected
-    public int getSelectedConversationId() {
-        return selectedConversationId;
+    public Conversation getSelectedConversation() {
+        return selectedConversation;
     }
 }
