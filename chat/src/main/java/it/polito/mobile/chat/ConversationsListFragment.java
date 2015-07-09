@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 import it.polito.mobile.chat.model.ChatHTTPClient;
 import it.polito.mobile.chat.model.Conversation;
+import it.polito.mobile.chat.model.Util;
 
 public class ConversationsListFragment extends Fragment {
     private final String TAG = "ConversationsListFrag";
@@ -81,6 +83,7 @@ public class ConversationsListFragment extends Fragment {
                 ChatHTTPClient.getConversationsForStudent(FakeStudent.getId(), new ChatHTTPClient.ResultProcessor<List<Conversation>>() {
                     @Override
                     public void process(List<Conversation> arg) {
+                        //TODO init the proper conversation with the selection
                         List<Map<String, Object>> conversations = buildMapFromConversations(arg);
                         SimpleAdapter simpleAdapter = new SimpleAdapter(
                                 getActivity(),
@@ -89,7 +92,9 @@ public class ConversationsListFragment extends Fragment {
                                 new String[]{"recipient", "last_message_time", "message"},
                                 new int[]{R.id.recipient_tv, R.id.timestamp_tv, R.id.message_snippet_tv}
                         );
+
                         lvConversations.setAdapter(simpleAdapter);
+
                     }
 
                     @Override
@@ -114,30 +119,24 @@ public class ConversationsListFragment extends Fragment {
         for(Conversation c:cs){
             Map<String, Object> m = new HashMap<String, Object>();
             if(c.isGroup()) {
-                m.put("recipient", c.getTitle() == null ? "TODO" : c.getTitle()); //TODO : what to do if title == null?
+                m.put("recipient", c.getTitle());
             }else{
-                //TODO if it is not group show other student name
-                //It is not working now for an issue in parsing the student json
+                //not really safe....
+                //TODO change the student with the logged one
+                m.put("recipient", c.getStudents().get(0).getId()==FakeStudent.getId()?c.getStudents().get(1).getFullname():c.getStudents().get(0).getFullname());
             }
             if(c.getLastMessage()!=null) {
                 SimpleDateFormat df = null;
-                Calendar cal = Calendar.getInstance();
 
-// set the calendar to start of today
-                cal.set(Calendar.HOUR, 0);
-                cal.set(Calendar.MINUTE, 0);
-                cal.set(Calendar.SECOND, 0);
-
-// and get that as a Date
-                Date today = cal.getTime();
-                if(c.getLastMessage().getDate().after(today))
+                if(Util.isToday(c.getLastMessage().getDate()))
                     df=new SimpleDateFormat("HH:mm");
                 else
-                    df=new SimpleDateFormat("dd/MM/YYYY");
+                    df=new SimpleDateFormat("dd/MM/yyyy");
                 m.put("last_message_time", df.format(c.getLastMessage().getDate()));
                 m.put("message", c.getLastMessage().getMessage());
             }else{
-                //TODO what to do?
+                m.put("last_message_time","");
+                m.put("message",getResources().getString(R.string.no_message));
             }
             m.put("conversationId", c.getId());
             conversations.add(m);

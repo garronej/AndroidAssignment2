@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 
@@ -28,10 +29,11 @@ public class Message {
             sender.manuallySetId(json.getInt("sender_id"));
             conversation=new Conversation();
             conversation.setId(json.getInt("conversation_id"));
-            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ITALY);
-            date = f.parse(json.getString("created_at"));
+
+            date = Util.convertStringToDate(json.getString("created_at"));
             message = json.getString("message");
         }catch(Exception e){
+            e.printStackTrace();
             throw new RuntimeException("Message wrong format: "+json.toString());
         }
     }

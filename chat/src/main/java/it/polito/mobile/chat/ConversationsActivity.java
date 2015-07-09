@@ -153,13 +153,17 @@ public class ConversationsActivity extends AppCompatActivity implements Conversa
                 if (data.getBooleanExtra("isGroup", false)) {
                     Log.d(TAG, "is group conversation");
                     // fetch again from backend and select it with onItemClick
+                    onItemClick(data.getIntExtra("conversationId", -1));
                 } else {
                     Log.d(TAG, "is private conversation");
                     // fetch again from backend and select it with onItemClick
+                    onItemClick(data.getIntExtra("conversationId", -1));
                 }
             }
         }
     }
+
+
 
     @Override
     public void onItemClick(int conversationId) {

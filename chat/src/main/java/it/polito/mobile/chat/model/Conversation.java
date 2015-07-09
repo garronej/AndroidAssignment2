@@ -38,8 +38,7 @@ public class Conversation {
             JSONArray sArr = json.getJSONArray("students");
             students=new ArrayList<>();
             for(int i = 0; i < sArr.length(); ++i){
-                //TODO: decomment
-                // students.add(new Student(sArr.getJSONObject(i)));
+                students.add(new Student(sArr.getJSONObject(i)));
             }
 
         }catch (Exception e){

@@ -10,4 +10,6 @@
     <string name="conversation_show_title">Conversation show</string>
     <string name="title">Title</string>
     <string name="write_your_message_here">Write your message here...</string>
+    <string name="load_earlier_messages">Load earlier messages</string>
+    <string name="no_message">There is no message in this conversation!</string>
 </resources>

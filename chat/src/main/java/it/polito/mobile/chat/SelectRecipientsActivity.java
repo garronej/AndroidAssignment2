@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -178,8 +179,11 @@ public class SelectRecipientsActivity extends ActionBarActivity {
                         if (checked.valueAt(i))
                             selectedItems.add((Student)arrayAdapter.getItem(position));
                     }
-                    if(selectedItems.size()==0){
+                    EditText title_tv = (EditText) findViewById(R.id.groupTitle);
+                    if(selectedItems.size()==0 || title_tv.getText().toString().trim().equals("")){
                         //TODO show some error...
+                        //titolo set error
+                        //size toastino
                     }else{
                          /*String[] outputStrArr = new String[selectedItems.size()];
 

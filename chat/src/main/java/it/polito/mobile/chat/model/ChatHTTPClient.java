@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -243,6 +244,53 @@ public class ChatHTTPClient {
             }
         };
         t.execute();
+        return t;
+    }
+
+
+    public static AsyncTask<Conversation, Void, List<Message>>
+    getMessages(Conversation conversation, final int pageNo, final int itemsPerPage, final ResultProcessor<List<Message>> processor){
+
+        AsyncTask<Conversation, Void, List<Message>>
+                t = new AsyncTask<Conversation, Void, List<Message>>() {
+            Exception e = null;
+            @Override
+            protected List<Message> doInBackground(Conversation... c) {
+                List<Message> conv = new LinkedList<>();
+
+                try {
+                    HashMap<String,String> params = new HashMap<>();
+                    params.put("messages[items_per_page]", ""+itemsPerPage);
+                    params.put("messages[page]", ""+pageNo);
+                    params.put("messages[conversation_id]", ""+c[0].getId());
+                    String response = RESTManager.send(RESTManager.GET, "messages/", params);
+                    JSONArray obj = (new JSONObject(response)).getJSONArray("messages");
+                    for(int i=0;i<obj.length();i++){
+                        conv.add(new Message(obj.getJSONObject(i)));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    this.e=e;
+                }
+                return conv;
+            }
+
+            @Override
+            protected void onPostExecute(List<Message> conversations) {
+                if(this.e==null) {
+                    processor.process(conversations);
+                }else{
+                    processor.onException(this.e);
+                }
+            }
+
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+                processor.cancel();
+            }
+        };
+        t.execute(conversation);
         return t;
     }
 
