@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import it.polito.mobile.chat.model.Conversation;
+import it.polito.mobile.chat.model.Message;
 
 
 public class ConversationsActivity extends AppCompatActivity implements ConversationsListFragment.Callbacks {
@@ -172,6 +173,14 @@ public class ConversationsActivity extends AppCompatActivity implements Conversa
             Intent i = new Intent(ConversationsActivity.this, ConversationShowActivity.class);
             i.putExtra("conversation", conversation);
             startActivity(i);
+        }
+    }
+
+    public void onNewMessageSent(Message m){
+        ConversationsListFragment fragConversationShow = (ConversationsListFragment)getSupportFragmentManager()
+                .findFragmentById(R.id.conversations_list_fragment);
+        if (fragConversationShow != null && fragConversationShow.isVisible()) {
+            fragConversationShow.onMessageSent(m);
         }
     }
 

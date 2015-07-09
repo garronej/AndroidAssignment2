@@ -80,6 +80,12 @@ public class ConversationShowFragment extends Fragment {
 
                 messages.add(arg);
                 ((BaseAdapter)((HeaderViewListAdapter)messageList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
+
+
+                if(getActivity() instanceof ConversationsActivity){
+                    ((ConversationsActivity)getActivity()).onNewMessageSent(arg);
+                }
+
                 messageList.post(new Runnable() {
                     @Override
                     public void run() {
@@ -231,6 +237,7 @@ public class ConversationShowFragment extends Fragment {
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_DONE) {
                     sendMessage();
+                    hideKeyboard();
                     return true;
                 }
                 return true;

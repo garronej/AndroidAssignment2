@@ -11,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,14 +26,33 @@ import java.util.Map;
 
 import it.polito.mobile.chat.model.ChatHTTPClient;
 import it.polito.mobile.chat.model.Conversation;
+import it.polito.mobile.chat.model.Message;
 import it.polito.mobile.chat.model.Util;
 
 public class ConversationsListFragment extends Fragment {
     private final String TAG = "ConversationsListFrag";
     private ListView lvConversations;
-    private Map<Integer, Conversation> conversationsMap = new HashMap<>();
-    private View selectedView;
+    //private Map<Integer, Conversation> conversationsMap = new HashMap<>();
+    //private View selectedView;
+    private int selectedItem;
+    private List<Conversation> conversations;
     private List<AsyncTask<Integer, Void, List<Conversation>>> tList;
+
+    public void onMessageSent(Message m) {
+        if (((ConversationsActivity) getActivity()).getSelectedConversation() != null) {
+            for (int i =0;i<conversations.size();++i) {
+                if (((ConversationsActivity) getActivity()).getSelectedConversation().getId() == conversations.get(i).getId()) {
+                    Conversation c = conversations.get(i);
+                    c.setLastMessage(m);
+                    conversations.remove(i);
+                    conversations.add(0,c);
+                    ((BaseAdapter)lvConversations.getAdapter()).notifyDataSetChanged();
+                    lvConversations.setSelectionFromTop(0,0);
+                    break;
+                }
+            }
+        }
+    }
 
     public interface Callbacks {
         void onItemClick(Conversation c);
@@ -49,13 +70,11 @@ public class ConversationsListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Activity parentActivity = getActivity();
                 if (parentActivity instanceof ConversationsListFragment.Callbacks) {
-                    Map<String, Object> m = (Map<String, Object>) adapterView.getItemAtPosition(i);
-                    if (selectedView != null) {
-                        selectedView.setBackgroundColor(Color.TRANSPARENT);
-                    }
-                    selectedView = view;
-                    selectedView.setBackgroundColor(Color.RED);
-                    ((Callbacks) parentActivity).onItemClick(conversationsMap.get(m.get("conversationId")));
+                    Conversation c = (Conversation) adapterView.getItemAtPosition(i);
+
+                    ((Callbacks) parentActivity).onItemClick(c);
+
+                    lvConversations.invalidateViews();
                 }
             }
         });
@@ -85,17 +104,80 @@ public class ConversationsListFragment extends Fragment {
                     @Override
                     public void process(List<Conversation> arg) {
                         //TODO init the proper conversation with the selection
-
-                        List<Map<String, Object>> conversations = buildMapFromConversations(arg);
+                        conversations = arg;
+                        /*final List<Map<String, Object>> conversations = buildMapFromConversations(arg);
                         SimpleAdapter simpleAdapter = new SimpleAdapter(
                                 getActivity(),
                                 conversations,
                                 R.layout.conversation_list_item,
                                 new String[]{"recipient", "last_message_time", "message"},
                                 new int[]{R.id.recipient_tv, R.id.timestamp_tv, R.id.message_snippet_tv}
-                        );
+                        );*/
 
-                        lvConversations.setAdapter(simpleAdapter);
+                        lvConversations.setAdapter(new BaseAdapter() {
+                            @Override
+                            public int getCount() {
+                                return conversations.size();
+                            }
+
+                            @Override
+                            public Object getItem(int i) {
+                                return conversations.get(i);
+                            }
+
+                            @Override
+                            public long getItemId(int i) {
+                                return 0;
+                            }
+
+                            @Override
+                            public View getView(int position, View convertView, ViewGroup parent) {
+                                if (convertView == null) {
+                                    convertView = ConversationsListFragment.this.getActivity().getLayoutInflater().inflate(R.layout.conversation_list_item, parent, false);
+                                }
+                                Conversation c = (Conversation)getItem(position);
+                                TextView recipient = (TextView) convertView.findViewById(R.id.recipient_tv);
+                                TextView last_message_time = (TextView) convertView.findViewById(R.id.timestamp_tv);
+                                TextView message = (TextView) convertView.findViewById(R.id.message_snippet_tv);
+
+                                if(c.isGroup()) {
+                                    recipient.setText(c.getTitle());
+                                }else{
+                                    //not really safe....
+                                    //TODO change the student with the logged one
+                                    recipient.setText(c.getStudents().get(0).getId()==FakeStudent.getId()?c.getStudents().get(1).getFullname():c.getStudents().get(0).getFullname());
+                                }
+                                if(c.getLastMessage()!=null) {
+                                    SimpleDateFormat df = null;
+
+                                    if(Util.isToday(c.getLastMessage().getDate()))
+                                        df=new SimpleDateFormat("HH:mm");
+                                    else
+                                        df=new SimpleDateFormat("dd/MM/yyyy");
+                                    last_message_time.setText(df.format(c.getLastMessage().getDate()));
+                                    message.setText(c.getLastMessage().getMessage());
+                                }else{
+                                    last_message_time.setText("");
+                                    message.setText(getResources().getString(R.string.no_message));
+                                }
+                                if(((ConversationsActivity)getActivity()).getSelectedConversation() != null
+                                        && ((ConversationsActivity)getActivity()).getSelectedConversation().getId() == c.getId()) {
+                                    convertView.setBackgroundColor(Color.RED);
+                                }else{
+                                    convertView.setBackgroundColor(Color.TRANSPARENT);
+                                }
+
+                                return convertView;
+                            }
+                        });
+                        if (((ConversationsActivity) getActivity()).getSelectedConversation() != null) {
+                            for (int i =0;i<conversations.size();++i) {
+                                if (((ConversationsActivity) getActivity()).getSelectedConversation().getId() == conversations.get(i).getId()) {
+                                    lvConversations.setSelectionFromTop(i, 0);
+                                    break;
+                                }
+                            }
+                        }
 
                     }
 
@@ -116,7 +198,7 @@ public class ConversationsListFragment extends Fragment {
 
     }
 
-    private List<Map<String, Object>> buildMapFromConversations(List<Conversation> cs) {
+    /*private List<Map<String, Object>> buildMapFromConversations(List<Conversation> cs) {
         List<Map<String, Object>> conversations = new ArrayList<Map<String, Object>>();
         for(Conversation c:cs){
             conversationsMap.put(c.getId(),c);
@@ -147,7 +229,7 @@ public class ConversationsListFragment extends Fragment {
         }
         return conversations;
     }
-
+*/
     private List<Map<String, Object>> buildConversations() {
         List<Map<String, Object>> conversations = new ArrayList<Map<String, Object>>();
         Map<String, Object> c1 = new HashMap<String, Object>();
