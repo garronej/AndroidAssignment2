@@ -38,6 +38,7 @@ import it.polito.mobile.androidassignment2.StudentFlow.lab3.fragments.NoticeFrag
 import it.polito.mobile.androidassignment2.StudentFlow.lab3.fragments.YourNoticesFragment;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.context.AppContext;
+import it.polito.mobile.androidassignment2.gcm.UnregistrationManager;
 
 
 /**
@@ -374,6 +375,7 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
         if (result == 1) {
             switch (kind) {
                 case 0://logout
+                    new UnregistrationManager(NoticeBoard.this).unregisterGcm();
                     getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(i);

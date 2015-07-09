@@ -38,6 +38,7 @@ import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.StudentFlow.chat.ChatFragment;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.context.AppContext;
+import it.polito.mobile.androidassignment2.gcm.UnregistrationManager;
 
 public class Main2StudentActivity extends AppCompatActivity
 		implements Communicator, MaterialTabListener {
@@ -231,6 +232,7 @@ public class Main2StudentActivity extends AppCompatActivity
 		if (result == 1) {
 			switch (kind) {
 				case 0://logout
+					new UnregistrationManager(Main2StudentActivity.this).unregisterGcm();
 					getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
 					Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 					startActivity(i);

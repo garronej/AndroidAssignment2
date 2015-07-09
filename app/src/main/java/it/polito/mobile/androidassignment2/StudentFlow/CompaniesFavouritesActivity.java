@@ -33,6 +33,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Manager;
 
 import it.polito.mobile.androidassignment2.businessLogic.Utils;
 import it.polito.mobile.androidassignment2.context.AppContext;
+import it.polito.mobile.androidassignment2.gcm.UnregistrationManager;
 
 
 public class CompaniesFavouritesActivity extends AppCompatActivity implements Communicator {
@@ -307,6 +308,7 @@ public class CompaniesFavouritesActivity extends AppCompatActivity implements Co
 		if (result == 1) {
 			switch (kind) {
 				case 0://logout
+					new UnregistrationManager(CompaniesFavouritesActivity.this).unregisterGcm();
 					getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
 					Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 					startActivity(i);

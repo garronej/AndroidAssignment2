@@ -36,6 +36,7 @@ import it.polito.mobile.androidassignment2.businessLogic.Offer;
 import it.polito.mobile.androidassignment2.businessLogic.Task;
 import it.polito.mobile.androidassignment2.businessLogic.Utils;
 import it.polito.mobile.androidassignment2.context.AppContext;
+import it.polito.mobile.androidassignment2.gcm.UnregistrationManager;
 
 
 public class OffersListsActivity extends AppCompatActivity implements  Communicator {
@@ -319,6 +320,7 @@ public class OffersListsActivity extends AppCompatActivity implements  Communica
 		if (result == 1) {
 			switch (kind) {
 				case 0://logout
+					new UnregistrationManager(OffersListsActivity.this).unregisterGcm();
 					getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
 					Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 					startActivity(i);

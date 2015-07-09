@@ -49,6 +49,7 @@ import it.polito.mobile.androidassignment2.context.AppContext;
 import it.polito.mobile.androidassignment2.customView.CareerLayout;
 import it.polito.mobile.androidassignment2.gcm.QuickstartPreferences;
 import it.polito.mobile.androidassignment2.gcm.RegistrationIntentService;
+import it.polito.mobile.androidassignment2.gcm.UnregistrationManager;
 import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
@@ -461,6 +462,7 @@ private void setUpNavigationDrawer(){
 		if (result == 1) {
 			switch (kind) {
 				case 0://logout
+					new UnregistrationManager(StudentProfileActivity.this).unregisterGcm();
 					getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
 					Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 					startActivity(i);
