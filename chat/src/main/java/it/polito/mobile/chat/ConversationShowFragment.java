@@ -1,15 +1,20 @@
 package it.polito.mobile.chat;
 
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.HeaderViewListAdapter;
@@ -55,20 +60,34 @@ public class ConversationShowFragment extends Fragment {
 
     private void sendMessage() {
         if(messageText.getText().toString().trim().equals(""))return;
+
         final Message m = new Message();
+        m.setMessage(messageText.getText().toString().trim());
+        messageText.setText("");
+        hideKeyboard();
         Student s = new Student();
         s.manuallySetId(FakeStudent.getId()); //TODO: put the real student logged
         m.setSender(s);
 
         m.setConversation(getConversation());
-        m.setMessage(messageText.getText().toString().trim());
-        messageText.setText("");
+
         t1=ChatHTTPClient.sendMessage(m, new ChatHTTPClient.ResultProcessor<Message>() {
             @Override
             public void process(Message arg) {
+
+                View v = messageList.getChildAt(0);
+                final int top = (v == null) ? 0 : v.getTop();
+
                 messages.add(arg);
                 ((BaseAdapter)((HeaderViewListAdapter)messageList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
-                messageList.setSelection(messageList.getAdapter().getCount() - 1);
+                messageList.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        messageList.setSelectionFromTop(messages.size(),top);
+                        //TODO funziona quando cazzo vuole lui
+                    }
+                });
+
 
             }
 
@@ -85,6 +104,13 @@ public class ConversationShowFragment extends Fragment {
             }
         });
 
+    }
+    private void hideKeyboard() {
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     private Conversation getConversation(){
@@ -176,10 +202,14 @@ public class ConversationShowFragment extends Fragment {
                     t2 = ChatHTTPClient.getMessages(getConversation(), (int)Math.ceil(messages.size() / (double) NUMBER_OF_MESSAGES_PER_PAGE), NUMBER_OF_MESSAGES_PER_PAGE, new ChatHTTPClient.ResultProcessor<List<Message>>() {
                         @Override
                         public void process(List<Message> arg) {
-
-                            messages.addAll(0,arg);
+                            //int index = messageList.getFirstVisiblePosition();
+                            View v = messageList.getChildAt(0);
+                            int top = (v == null) ? 0 : v.getTop();
+                            messages.addAll(0, arg);
                             ((BaseAdapter)((HeaderViewListAdapter)messageList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
-                            //TODO we should prevent the scroll to the bottom..
+                            //TODO maybe the scrolling management has to be improved...
+                            //Log.d("marco", "Index is "+index+" and top is "+top);
+                            messageList.setSelectionFromTop(arg.size(), top);
 
                         }
 
@@ -196,17 +226,16 @@ public class ConversationShowFragment extends Fragment {
                 }
             });
         }
-        /*messageText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        messageText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                Log.d("marco", "Ime :"+i+"; key event: "+keyEvent);
                 if (i == EditorInfo.IME_ACTION_DONE) {
                     sendMessage();
                     return true;
                 }
                 return true;
             }
-        });*/
+        });
         messageText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -225,10 +254,9 @@ public class ConversationShowFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
             }
         });
-        /*messageText.setOnKeyListener(new View.OnKeyListener() {
+        messageText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
-                Log.d("marco", "Key pressed :"+keyCode+"; key event: "+keyEvent);
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
                         sendMessage();
@@ -237,7 +265,7 @@ public class ConversationShowFragment extends Fragment {
                 }
                 return false;
             }
-        });*/
+        });
 
         t = ChatHTTPClient.getMessages(getConversation(), 0, NUMBER_OF_MESSAGES_PER_PAGE, new ChatHTTPClient.ResultProcessor<List<Message>>() {
             @Override
