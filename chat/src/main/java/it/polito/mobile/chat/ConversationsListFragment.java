@@ -103,7 +103,8 @@ public class ConversationsListFragment extends Fragment {
                 ChatHTTPClient.getConversationsForStudent(FakeStudent.getId(), new ChatHTTPClient.ResultProcessor<List<Conversation>>() {
                     @Override
                     public void process(List<Conversation> arg) {
-                        //TODO init the proper conversation with the selection
+                        getActivity().getSharedPreferences("notifications", getActivity().MODE_PRIVATE).edit().clear().commit();
+
                         conversations = arg;
                         /*final List<Map<String, Object>> conversations = buildMapFromConversations(arg);
                         SimpleAdapter simpleAdapter = new SimpleAdapter(
