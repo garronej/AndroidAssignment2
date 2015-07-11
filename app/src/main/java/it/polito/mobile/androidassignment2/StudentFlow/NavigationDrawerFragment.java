@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.StudentFlow.lab3.NoticeBoard;
+import it.polito.mobile.androidassignment2.StudentFlow.timetable.MenuTimetable;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -219,6 +220,11 @@ private CharSequence mTitle;
 				case 1:
 					Intent i2 = new Intent(getActivity(), NoticeBoard.class);
 					startActivity(i2);
+					getActivity().finish();
+					break;
+				case 0:
+					Intent i3 = new Intent(getActivity(), MenuTimetable.class);
+					startActivity(i3);
 					getActivity().finish();
 					break;
 				default:

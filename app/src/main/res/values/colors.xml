@@ -13,4 +13,19 @@
     <color name="gray_back">#D8D8D8</color>
     <color name="orange_polito">#FF7C11</color>
 
+    <!--Timetable-->
+
+
+
+
+    <color name="border">#6400b8e6</color>
+
+
+    <color name="color1">#5200ff06</color>
+    <color name="color2">#5bff000f</color>
+    <color name="color3">#4b0015ff</color>
+    <color name="color4">#3600fff7</color>
+    <color name="color5">#4afffa00</color>
+    <color name="color6">#3bff00fa</color>
+
 </resources>

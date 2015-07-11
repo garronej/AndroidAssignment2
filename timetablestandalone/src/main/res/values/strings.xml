@@ -51,5 +51,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_view_detail">ViewDetail</string>
     <string name="export_google_callendar">Export to Google Callendar</string>
+    <string name="coursesSchedule">Courses schedule</string>
+    <string name="TeacherConsultationHours">Teacher consultation hours</string>
 
 </resources>

@@ -232,6 +232,32 @@
             android:theme="@style/ActionBarTheme"
             android:label="@string/schedule_changed_activity" />
 
+        <activity
+            android:name=".StudentFlow.timetable.MenuTimetable"
+            android:theme="@style/ActionBarTheme"
+            android:label="@string/title_activity_timetable"/>
+        <activity
+            android:name=".StudentFlow.timetable.SearchCourse"
+            android:theme="@style/ActionBarTheme"
+            android:label="@string/title_activity_search_course"/>
+        <activity
+            android:name=".StudentFlow.timetable.TimeTable"
+            android:theme="@style/ActionBarTheme"
+            android:label="@string/title_activity_timetable" />
+        <activity
+            android:name=".StudentFlow.timetable.SearchConsultation"
+            android:theme="@style/ActionBarTheme"
+            android:label="@string/title_activity_search_consultation"/>
+        <activity
+            android:name=".StudentFlow.timetable.ViewDetail"
+            android:label="@string/title_activity_view_detail"
+            android:parentActivityName="StudentFlow.timetable.TimeTable"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="StudentFlow.timetable.TimeTable" />
+        </activity>
+
         <!-- [START gcm_receiver] -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -267,6 +293,15 @@
             android:exported="false">
         </service>
 
+
+
+
+
     </application>
 
 </manifest>
+
+
+
+
+

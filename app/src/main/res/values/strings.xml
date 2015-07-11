@@ -213,4 +213,58 @@
     <string name="schedule_changed_activity">Schedule changed</string>
     <string name="message">Message</string>
     <string name="you_have_received_new_messages">You have received new messages</string>
+
+
+    <!--Timetable-->
+
+
+
+
+    <string name="mon">Monday</string>
+    <string name="tue">Tuesday</string>
+    <string name="wed">Wednesday</string>
+    <string name="thu">Thursday</string>
+    <string name="fri">Friday</string>
+
+    <string name="time8am">8</string>
+    <string name="time9am">9</string>
+    <string name="time10am">10</string>
+    <string name="time11am">11</string>
+    <string name="time12am">12</string>
+
+    <string name="time1pm">13</string>
+    <string name="time2pm">14</string>
+    <string name="time3pm">15</string>
+    <string name="time4pm">16</string>
+    <string name="time5pm">17</string>
+    <string name="time6pm">18</string>
+
+
+
+    <string name="seeFull">See full schedule</string>
+    <string name="selectAteacher">Select a teacher</string>
+
+
+    <string name="course">Course...</string>
+    <string name="teacher">Teacher ...</string>
+    <string name="searchByCourse">Search by course</string>
+    <string name="searchByTeacher">Search by teacher</string>
+
+    <string name="teacherName">Teacher Name</string>
+    <string name="room">Room</string>
+
+    <string name="noTeacherMatching">No teacher matching the search</string>
+    <string name="noCourseMatching">No course matching the search</string>
+
+    <string name="title_activity_timetable">timetable</string>
+    <string name="title_activity_search_course">Courses search filter</string>
+    <string name="title_activity_search_consultation">Consultation search filter</string>
+
+    <string name="title_activity_view_detail">ViewDetail</string>
+    <string name="export_google_callendar">Export to Google Calendar</string>
+    <string name="coursesSchedule">Courses schedule</string>
+    <string name="TeacherConsultationHours">Teacher consultation hours</string>
+    <string name="noCalendar">No calendar application installed on this device</string>
+
+    noCalendar
 </resources>
