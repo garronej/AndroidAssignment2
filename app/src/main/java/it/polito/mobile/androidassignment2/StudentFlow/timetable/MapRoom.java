@@ -149,9 +149,14 @@ public class MapRoom extends Fragment {
                             map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.coordinate, 18));
                             builder=null;
                             markerOptions.alpha(1.0f).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                            map.addMarker(markerOptions).showInfoWindow();
+                    }else{
+                            map.addMarker(markerOptions);
                     }
 
-                    map.addMarker(markerOptions);
+
+
+
 
                     try {
                         builder.include(place.coordinate);
