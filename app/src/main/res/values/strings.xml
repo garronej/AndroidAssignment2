@@ -265,6 +265,12 @@
     <string name="coursesSchedule">Courses schedule</string>
     <string name="TeacherConsultationHours">Teacher consultation hours</string>
     <string name="noCalendar">No calendar application installed on this device</string>
-
+    <string name="complete_address">Address</string>
+    <string name="created_on">Created On</string>
+    <string name="fav_ok">Added to Favourite</string>
+    <string name="unfav_ok">Removed from Favourite</string>
+    <string name="rem_in_ok">Is Adequate</string>
+    <string name="add_in_ok">Is Inadequate</string>
+    <string name="profile">Profile</string>
     noCalendar
 </resources>

@@ -8,9 +8,22 @@
         <item name="windowActionBar">false</item> <!-- For 2.x version -->
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
+    <!-- Customize your theme here. -->
+    <item name="actionBarStyle">@style/CustomizedActionBar</item>
+    <item name="android:actionBarStyle">@style/CustomizedActionBar</item>
 
-    </style>
 
+</style>
+<style name="MyItemText">
+<item name="android:layout_width">match_parent</item>
+<item name="android:layout_height">match_parent</item>
+<item name="android:layout_marginLeft">@dimen/side_margin</item>
+<item name="android:layout_marginRight">@dimen/side_margin</item>
+<item name="android:layout_marginTop">5dp</item>
+<item name="android:textSize">@dimen/item_text</item>
+<item name="android:textColor">#000</item>
+<item name="android:gravity">center_vertical</item>
+</style>
     <style name="NoticeBoardAppTheme.Title" parent="TextAppearance.AppCompat">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
@@ -66,5 +79,13 @@
         <item name="android:textColor">#000</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+    <style name="Widget.PicassoSample.DescriptionUrl" parent="android:Widget.TextView">
+        <item name="android:textSize">15sp</item>
+    </style>
 
+    <style name="Widget.PicassoSample.DescriptionText" parent="android:Widget.TextView">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="HoloTheme" parent="@android:style/Theme.Holo.Light" />
 </resources>

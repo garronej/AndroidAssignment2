@@ -19,5 +19,7 @@
         android:id="@+id/btn_load_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/app_default_background"
+        android:textColor="@color/fab_material_white"
         android:text="@string/load_more"/>
 </LinearLayout>

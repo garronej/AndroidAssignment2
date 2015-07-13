@@ -109,6 +109,7 @@
                     android:enabled="true"
                     android:text="@string/search"
                     android:textColor="#ffffff"
+                    android:background="@color/blue_sky"
                     android:textStyle="bold"/>
 
                 <Spinner

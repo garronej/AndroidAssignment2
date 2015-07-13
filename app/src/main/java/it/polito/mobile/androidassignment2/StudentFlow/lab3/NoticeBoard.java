@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.StudentFlow.lab3;
 
 import android.content.Context;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 
 import java.util.Locale;
 import java.util.zip.DataFormatException;
@@ -53,8 +55,11 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
     //private ViewPagerAdapter pagerAdapter;
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 	private CharSequence mTitle;
+    private Button bList;
+    private Button bMap;
+    private Menu mMenu;
 
-	public NavigationDrawerFragment getmNavigationDrawerFragment() {
+    public NavigationDrawerFragment getmNavigationDrawerFragment() {
 		return mNavigationDrawerFragment;
 	}
     /**
@@ -131,7 +136,47 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
 	    setTitle(mTitle);
 	    mNavigationDrawerFragment.setTitle(mTitle);
     }
-	public void onSectionAttached(int number) {
+/*
+    private void setUpMapChooser() {
+        bList = (Button) findViewById(R.id.btn_list);
+        bMap = (Button) findViewById(R.id.btn_map);
+
+
+        bList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAsMap=false;
+
+                bMap.setBackgroundColor(getResources().getColor(R.color.blue_sky));
+                if(mSectionsPagerAdapter.getFragmentAtPosition(0)!=null) {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .detach(mSectionsPagerAdapter.getFragmentAtPosition(0))
+                            .attach(mSectionsPagerAdapter.getFragmentAtPosition(0))
+                            .commit();
+                }
+                bList.setBackgroundColor(getResources().getColor(R.color.strong_blue));
+            }
+        });
+        bMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAsMap=true;
+                bList.setBackgroundColor(getResources().getColor(R.color.blue_sky));
+                if(mSectionsPagerAdapter.getFragmentAtPosition(1)!=null) {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .detach(mSectionsPagerAdapter.getFragmentAtPosition(1))
+                            .attach(mSectionsPagerAdapter.getFragmentAtPosition(1))
+                            .commit();
+                }
+                bMap.setBackgroundColor(getResources().getColor(R.color.strong_blue));
+            }
+        });
+        bList.callOnClick();
+    }
+*/
+    public void onSectionAttached(int number) {
 		switch (number) {
 			case 1:
 				mTitle = getString(R.string.title_section1);
@@ -209,7 +254,9 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_show_as_map) {
+	        onPrepareOptionsMenu(mMenu);
             showAsMap=!showAsMap;
+
             if(mSectionsPagerAdapter.getFragmentAtPosition(0)!=null) {
                 getSupportFragmentManager()
                         .beginTransaction()
@@ -273,33 +320,24 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
         info.putInt("kind", kind);
         alert.setCommunicator(this);
         alert.setArguments(info);
-        alert.show(getSupportFragmentManager(), "Confirm");
+	    alert.show(getSupportFragmentManager(), "Confirm");
 
     }
 
+
     @Override
     public boolean onPrepareOptionsMenu (Menu menu) {
-        MenuItem showAsMap = menu.findItem(R.id.action_show_as_map);
+       MenuItem showAsMap = menu.findItem(R.id.action_show_as_map);
         MenuItem search = menu.findItem(R.id.action_search);
+	    mMenu = menu;
         if(this.showAsMap){
-            showAsMap.setTitle(getResources().getString(R.string.action_show_as_list));
-        }else{
-            showAsMap.setTitle(getResources().getString(R.string.action_show_as_map));
+            //showAsMap.setTitle(getResources().getString(R.string.action_show_as_list));
+            showAsMap.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_sort_by_size));
+        } else {
+            showAsMap.setIcon(getResources().getDrawable(android.R.drawable.ic_dialog_map));
+            //showAsMap.setTitle(getResources().getString(R.string.action_show_as_map));
         }
-        switch(currentTabSelected) {
-            case 0:
-                showAsMap.setVisible(true);
-                search.setVisible(true);
-                break;
-            case 1:
-                showAsMap.setVisible(true);
-                search.setVisible(false);
-                break;
-            case 2:
-                showAsMap.setVisible(false);
-                search.setVisible(false);
-                break;
-        }
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -312,7 +350,6 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
         if(mSectionsPagerAdapter.getFragmentAtPosition(currentTabSelected)!=null)
             ((NoticeFragment)mSectionsPagerAdapter.getFragmentAtPosition(currentTabSelected)).refresh();
         invalidateOptionsMenu();
-
     }
 
 	@Override

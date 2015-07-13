@@ -19,6 +19,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -54,7 +55,7 @@ import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
 
 
-public class StudentProfileActivity extends ActionBarActivity implements Communicator {
+public class StudentProfileActivity extends AppCompatActivity implements Communicator {
 	private ImageView ivPhoto;
 	private ProgressBar pbPhotoSpinner;
 	private ProgressBar pbCvSpinner;
@@ -158,7 +159,7 @@ public class StudentProfileActivity extends ActionBarActivity implements Communi
 	}
 
 	private void addTabMenuButtonCallbacks() {
-		findViewById(R.id.tab_menu_student_search).setVisibility(View.INVISIBLE);
+		findViewById(R.id.tab_menu_student_search).setVisibility(View.GONE);
 		findViewById(R.id.tab_menu_student_profile).setBackgroundColor(getResources().getColor(R.color.strong_blue));
 		findViewById(R.id.tab_menu_student_offers).setBackgroundColor(getResources().getColor(R.color.blue_sky));
 		findViewById(R.id.tab_menu_student_companies).setBackgroundColor(getResources().getColor(R.color.blue_sky));
