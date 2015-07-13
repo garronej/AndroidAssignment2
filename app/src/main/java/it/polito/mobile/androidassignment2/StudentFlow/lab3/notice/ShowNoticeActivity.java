@@ -23,6 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.software.shell.fab.ActionButton;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -66,15 +68,15 @@ public class ShowNoticeActivity extends AppCompatActivity {
 	private TextView email;
     private TextView creationDate;
 	private TextView inappropriateCount;
-    private ImageView inappropriateFlag;
-    private Button bookmarksButton;
+    private ActionButton inappropriateFlag;
+    private ActionButton bookmarksButton;
 
 
-    private Button openGalleryButton;
+    private ActionButton openGalleryButton;
     private ViewGroup openGalleryParent;
 
     private ViewGroup uploadImagesParent;
-    private Button uploadImagesButton;
+    private ActionButton uploadImagesButton;
 
     private ProgressBar progressBar;
 
@@ -105,10 +107,10 @@ public class ShowNoticeActivity extends AppCompatActivity {
         inappropriateCount = (TextView) findViewById(R.id.inappropriate_count_tv);
         size = (TextView) findViewById(R.id.size_b);
         price = (TextView) findViewById(R.id.price_b);
-        openGalleryButton = (Button) findViewById(R.id.gallery_b);
-        bookmarksButton = (Button) findViewById(R.id.bookmark_b);
-        inappropriateFlag = (ImageView) findViewById(R.id.inadequate_b);
-        uploadImagesButton = (Button) findViewById(R.id.upload_b);
+        openGalleryButton = (ActionButton) findViewById(R.id.gallery_b);
+        bookmarksButton = (ActionButton) findViewById(R.id.bookmark_b);
+        inappropriateFlag = (ActionButton) findViewById(R.id.inadequate_b);
+        uploadImagesButton = (ActionButton) findViewById(R.id.upload_b);
         progressBar = (ProgressBar) findViewById(R.id.upload_pb);
         openGalleryParent = (ViewGroup) findViewById(R.id.gallery_l);
         uploadImagesParent = (ViewGroup) findViewById(R.id.upload_l);
@@ -336,7 +338,10 @@ public class ShowNoticeActivity extends AppCompatActivity {
 	}
 
     private void setupUnfav(){
-        bookmarksButton.setText(getResources().getString(R.string.remove_from_bookmarks));
+        //bookmarksButton.setText(getResources().getString(R.string.remove_from_bookmarks));
+        bookmarksButton.setImageDrawable(getResources().getDrawable(R.drawable.abc_btn_rating_star_on_mtrl_alpha));
+        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.fav_ok), Toast.LENGTH_SHORT).show();
+
         bookmarksButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -374,7 +379,10 @@ public class ShowNoticeActivity extends AppCompatActivity {
 
 
     private void setupFav(){
-        bookmarksButton.setText(getResources().getString(R.string.add_to_bookmarks));
+        //bookmarksButton.setText(getResources().getString(R.string.add_to_bookmarks));
+        bookmarksButton.setImageDrawable(getResources().getDrawable(R.drawable.abc_btn_rating_star_off_mtrl_alpha));
+        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.unfav_ok), Toast.LENGTH_SHORT).show();
+
         bookmarksButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -412,7 +420,9 @@ public class ShowNoticeActivity extends AppCompatActivity {
     }
 
     private void setupRemoveInadequate(){
-        inappropriateFlag.setImageDrawable(getResources().getDrawable(R.drawable.appropriate));
+       // inappropriateFlag.setImageDrawable(getResources().getDrawable(R.drawable.appropriate));
+        inappropriateFlag.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_deny));
+        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.add_in_ok), Toast.LENGTH_SHORT).show();
         inappropriateFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -451,7 +461,10 @@ public class ShowNoticeActivity extends AppCompatActivity {
 
 
     private void setupInadequate(){
-        inappropriateFlag.setImageDrawable(getResources().getDrawable(R.drawable.inappropriate));
+        //inappropriateFlag.setImageDrawable(getResources().getDrawable(R.drawable.inappropriate));
+        inappropriateFlag.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_flag));
+        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.rem_in_ok), Toast.LENGTH_SHORT).show();
+
         inappropriateFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

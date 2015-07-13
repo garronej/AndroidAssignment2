@@ -99,7 +99,7 @@ public class CompanyProfileActivity extends AppCompatActivity implements Communi
 
     }
     private void addTabMenuButtonCallbacks(){
-        findViewById(R.id.tab_menu_company_search).setVisibility(View.INVISIBLE);
+        findViewById(R.id.tab_menu_company_search).setVisibility(View.GONE);
 	    findViewById(R.id.tab_menu_company_profile).setBackgroundColor(getResources().getColor(R.color.strong_blue));
 	    findViewById(R.id.tab_menu_company_offers).setBackgroundColor(getResources().getColor(R.color.blue_sky));
 	    findViewById(R.id.tab_menu_company_students).setBackgroundColor(getResources().getColor(R.color.blue_sky));

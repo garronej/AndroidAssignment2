@@ -65,10 +65,10 @@ public class NoticesListView extends ListView {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 if (convertView == null) {
-                    convertView = ctx.getLayoutInflater().inflate(android.R.layout.two_line_list_item, parent, false);
+                    convertView = ctx.getLayoutInflater().inflate(R.layout.notice_item, parent, false);
                 }
                 Notice n = (Notice) getItem(position);
-                ((TextView) convertView.findViewById(android.R.id.text1)).setText(n.getTitle());
+                ((TextView) convertView.findViewById(R.id.mainName)).setText(n.getTitle());
                 String s ="";
                 if(n.getTags()!=null && n.getTags().length>0) {
                     s=n.getTags()[0];
@@ -77,7 +77,7 @@ public class NoticesListView extends ListView {
                     }
 
                 }
-                ((TextView) convertView.findViewById(android.R.id.text2)).setText(s);
+                ((TextView) convertView.findViewById(R.id.descrption)).setText(s);
                 return convertView;
             }
         });

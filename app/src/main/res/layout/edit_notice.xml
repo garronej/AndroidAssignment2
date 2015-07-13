@@ -2,187 +2,154 @@
 <ScrollView
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:focusableInTouchMode="true"
         >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            style="@style/ProfileItem" >
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_height="wrap_content" android:layout_width="match_parent" >
-                <TextView
-                    android:layout_height="wrap_content" android:layout_width="match_parent"
-                    android:text="@string/title"
-                    style="@style/NoticeBoardAppTheme.Title"
-                    />
-                <EditText
-                    android:id="@+id/title_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"/>
-            </LinearLayout>
-
-
-
+            <EditText
+                android:id="@+id/title_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileItemText"
+                android:hint="@string/title"
+                android:imeOptions="actionDone"
+                android:inputType="text"/>
         </LinearLayout>
 
-        <View android:background="@color/material_blue_grey_800" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_height="wrap_content" android:layout_width="match_parent"
-                android:text="@string/description"
-                style="@style/NoticeBoardAppTheme.Title"
-                />
+            style="@style/ProfileItem" >
+
             <EditText
                 android:id="@+id/description_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionDone"/>
+                style="@style/ProfileItemText"
+                android:hint="@string/description"/>
         </LinearLayout>
 
-        <View android:background="@color/material_blue_grey_800" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_height="wrap_content" android:layout_width="match_parent"
-                android:text="@string/location"
-                style="@style/NoticeBoardAppTheme.Title"/>
+            style="@style/ProfileItem" >
 
             <AutoCompleteTextView
                 android:id="@+id/location_ac"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/ProfileItemText"
                 android:imeOptions="actionDone"
+                android:hint="@string/complete_address"
                 android:inputType="text"
                 />
 
         </LinearLayout>
 
-
-
-        <View android:background="@color/material_blue_grey_800" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
-
-            <TextView
-                android:layout_height="wrap_content" android:layout_width="wrap_content"
-                android:text="@string/size_with_unit"
-                style="@style/NoticeBoardAppTheme.Title"
-                android:paddingRight="10dp"
-                />
-            <EditText
-                android:layout_width="0dp"
-                android:layout_weight="5"
-                android:layout_height="wrap_content"
-                android:id="@+id/size_et"
-                android:paddingRight="10dp"
-                android:clickable="false"
-                android:layout_marginRight="10dp"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionDone"
-                />
-
-
-            <TextView
-                android:layout_height="wrap_content" android:layout_width="wrap_content"
-                android:text="@string/price_with_unit"
-                style="@style/NoticeBoardAppTheme.Title"
-                android:paddingRight="10dp"
-                />
-
-            <EditText
-                android:id="@+id/price_et"
-                android:layout_width="0dp"
-                android:layout_weight="5"
-                android:layout_height="wrap_content"
-                android:paddingRight="10dp"
-                android:layout_gravity="end"
-                android:clickable="false"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionDone"
-                />
-
-        </LinearLayout>
-
-        <View android:background="@color/material_blue_grey_800" android:layout_width="match_parent" android:layout_height="1dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_height="wrap_content" android:layout_width="match_parent"
-                android:text="@string/tags"
-                style="@style/NoticeBoardAppTheme.Title"
-                />
-
+            style="@style/ProfileItem" >
             <it.polito.mobile.androidassignment2.StudentFlow.lab3.AutocompleteTokensInput
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tags_ac"
                 android:layout_marginTop="2dp"
-                android:imeOptions="actionDone"/>
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                style="@style/ProfileItemText"
+                android:hint="@string/tags"/>
         </LinearLayout>
 
-        <View android:background="@color/material_blue_grey_800" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <LinearLayout
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_height="wrap_content" android:layout_width="match_parent"
-                android:text="@string/phone_number"
-                style="@style/NoticeBoardAppTheme.Title"
-                />
+            style="@style/ProfileItem" >
+
             <EditText
                 android:id="@+id/telephone_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/ProfileItemText"
+                android:hint="@string/phone_number"
                 android:inputType="phone"
                 android:imeOptions="actionDone"/>
         </LinearLayout>
 
-        <View android:background="@color/material_blue_grey_800" android:layout_width="match_parent" android:layout_height="1dp"/>
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                android:id="@+id/size_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileItemText"
+                android:hint="@string/size"
+                android:inputType="number"
+                android:imeOptions="actionDone"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
+
+        <LinearLayout
+            style="@style/ProfileItem" >
+
+            <EditText
+                android:id="@+id/price_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileItemText"
+                android:hint="@string/price"
+                android:inputType="number"
+                android:imeOptions="actionDone"/>
+        </LinearLayout>
+
+        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
             android:layout_height="match_parent"
-
+            android:layout_marginRight="@dimen/side_margin"
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginLeft="@dimen/side_margin"
+            android:layout_marginBottom="@dimen/vertical_margin"
             >
-            <Button
+            <com.software.shell.fab.ActionButton
                 android:id="@+id/submit_b"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/fab_margin"
+                fab:button_color="@color/app_default_background"
+                fab:button_colorPressed="@color/fab_material_blue_900"
+                fab:image="@drawable/ic_action_accept"
+                fab:image_size="40dp"
+                fab:type="BIG"
                 />
+
             <ProgressBar
                 android:id="@+id/submit_pb"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/button_height"
                 android:layout_centerInParent="true"
                 android:visibility="invisible"
                 style="@android:style/Widget.ProgressBar.Small"
                 />
         </RelativeLayout>
+
     </LinearLayout>
 </ScrollView>

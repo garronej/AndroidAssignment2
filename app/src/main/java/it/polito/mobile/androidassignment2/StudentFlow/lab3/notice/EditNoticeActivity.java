@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.software.shell.fab.ActionButton;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,7 +45,7 @@ public class EditNoticeActivity extends AppCompatActivity {
     private AutoCompleteTextView acLocation;
 	private EditText etSize;
 	private EditText etPrice;
-	private Button bSubmit;
+	private ActionButton bSubmit;
     private ProgressBar pbSubmit;
     private int noticeId;
     private String role;
@@ -113,7 +115,7 @@ public class EditNoticeActivity extends AppCompatActivity {
         acLocation = (AutoCompleteTextView) findViewById(R.id.location_ac);
         etSize = (EditText) findViewById(R.id.size_et);
         etPrice = (EditText) findViewById(R.id.price_et);
-        bSubmit = (Button) findViewById(R.id.submit_b);
+        bSubmit = (ActionButton) findViewById(R.id.submit_b);
         pbSubmit = (ProgressBar) findViewById(R.id.submit_pb);
     }
 
@@ -134,7 +136,7 @@ public class EditNoticeActivity extends AppCompatActivity {
         location_autocomplete();
         acTags.setAdapter(new ArrayAdapter<String>(EditNoticeActivity.this, android.R.layout.simple_list_item_1, new ArrayList<String>()));
         if (role.equals("update")) {
-            bSubmit.setText(R.string.edit_notice);
+           // bSubmit.setText(R.string.edit_notice);
 
             String title = notice.getTitle();
             if (title != null && !title.equals("")) {
@@ -174,7 +176,7 @@ public class EditNoticeActivity extends AppCompatActivity {
                 etPrice.setText(String.valueOf(price));
             }
         } else { // role == create
-            bSubmit.setText(R.string.create_notice);
+           // bSubmit.setText(R.string.create_notice);
         }
     }
 

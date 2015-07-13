@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.StudentFlow.lab3.fragments;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
+
+import com.software.shell.fab.ActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -46,8 +49,11 @@ public class YourNoticesFragment extends Fragment implements NoticeFragment {
 
         root = inflater.inflate(R.layout.your_notices, container, false);
 
-        list=((NoticesListView) root.findViewById(R.id.your_notices_list));
-        root.findViewById(R.id.add_new_notice).setOnClickListener(new View.OnClickListener() {
+        list = ((NoticesListView) root.findViewById(R.id.your_notices_list));
+        {
+
+
+            root.findViewById(R.id.btn_new_rent).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), EditNoticeActivity.class);
@@ -56,6 +62,7 @@ public class YourNoticesFragment extends Fragment implements NoticeFragment {
             }
         });
 
+        }
         initWithData();
 
         return root;
