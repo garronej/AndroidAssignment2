@@ -265,6 +265,10 @@
     <string name="coursesSchedule">Courses schedule</string>
     <string name="TeacherConsultationHours">Teacher consultation hours</string>
     <string name="noCalendar">No calendar application installed on this device</string>
+    <string name="title_activity_search_room">SearchRoom</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="search_room">Search room</string>
 
     noCalendar
 </resources>

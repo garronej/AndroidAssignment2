@@ -1,195 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="it.polito.mobile.androidassignment2"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="it.polito.mobile.androidassignment2" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
 
     <!-- [START gcm_permission] -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <!-- [END gcm_permission] -->
-
-
     <application
         android:name=".context.AppContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/PoliAppTheme">
+        android:theme="@style/PoliAppTheme" >
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".StudentFlow.StudentProfileActivity"
             android:label="@string/title_activity_student_profile"
-            android:theme="@style/ActionBarTheme">
+            android:theme="@style/ActionBarTheme" >
         </activity>
-
-
-    <activity
+        <activity
             android:name=".CompanyFlow.ShowStudentProfileActivity"
             android:label="@string/title_activity_show_student_profile"
-            android:theme="@style/ActionBarTheme">
+            android:theme="@style/ActionBarTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StudentFlow.OffersListsActivity"/>
+                android:value=".StudentFlow.OffersListsActivity" />
         </activity>
         <activity
             android:name=".StudentFlow.EditStudentProfileActivity"
             android:label="@string/title_activity_edit_student_profile"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StudentFlow.StudentProfileActivity"/>
+                android:value=".StudentFlow.StudentProfileActivity" />
             >
         </activity>
         <activity
             android:name=".CompanyFlow.EditCompanyProfileActivity"
             android:label="@string/title_activity_edit_company_profile"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CompanyFlow.CompanyProfileActivity"/>
+                android:value=".CompanyFlow.CompanyProfileActivity" />
         </activity>
         <activity
             android:name=".StudentFlow.ShowCompanyProfileActivity"
             android:label="@string/title_activity_show_company_profile"
-            android:theme="@style/ActionBarTheme">
+            android:theme="@style/ActionBarTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CompanyFlow.StudentsFavouritesActivity"/>
+                android:value=".CompanyFlow.StudentsFavouritesActivity" />
             >
         </activity>
         <activity
             android:name=".StudentFlow.CompaniesFavouritesActivity"
             android:label="@string/title_activity_companies_favourites"
-            android:theme="@style/ActionBarTheme">
+            android:theme="@style/ActionBarTheme" >
         </activity>
         <activity
             android:name=".StudentFlow.SearchCompanies"
             android:label="@string/activity_search_companies"
             android:parentActivityName=".StudentFlow.CompaniesFavouritesActivity"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StudentFlow.CompaniesFavouritesActivity"/>
+                android:value=".StudentFlow.CompaniesFavouritesActivity" />
         </activity>
         <activity
             android:name=".CompanyFlow.StudentsFavouritesActivity"
             android:label="@string/title_activity_students_favourites"
-            android:theme="@style/ActionBarTheme">
+            android:theme="@style/ActionBarTheme" >
         </activity>
         <activity
             android:name=".CompanyFlow.SearchStudents"
             android:label="@string/activity_search_students"
             android:parentActivityName=".CompanyFlow.StudentsFavouritesActivity"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CompanyFlow.StudentsFavouritesActivity"/>
+                android:value=".CompanyFlow.StudentsFavouritesActivity" />
         </activity>
         <activity
             android:name=".AlertStudentOrCompany"
             android:label="@string/app_name"
             android:parentActivityName=".LoginActivity"
-            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar">
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LoginActivity"/>
+                android:value=".LoginActivity" />
         </activity>
 
         <service
             android:name=".s3client.network.NetworkService"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".StudentFlow.MainStudentActivity"
-            android:label="@string/title_activity_main_student">
+            android:label="@string/title_activity_main_student" >
         </activity>
         <activity
             android:name=".StudentFlow.SearchActivity"
             android:label="@string/title_activity_search"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".StudentFlow.InfoWrapperActivity"
-            android:label="@string/title_activity_info_wrapper">
+            android:label="@string/title_activity_info_wrapper" >
         </activity>
         <activity
             android:name=".CompanyFlow.CompanyProfileActivity"
             android:label="@string/title_activity_main_student"
-            android:theme="@style/ActionBarTheme">
+            android:theme="@style/ActionBarTheme" >
         </activity>
         <activity
             android:name=".CompanyFlow.OffersProposed"
             android:label="@string/title_activity_offers_proposed"
-            android:theme="@style/ActionBarTheme">
+            android:theme="@style/ActionBarTheme" >
         </activity>
         <activity
             android:name=".CompanyFlow.JobOfferCreation"
             android:label="@string/title_activity_job_offer_creation"
             android:parentActivityName=".CompanyFlow.OffersProposed"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CompanyFlow.OffersProposed"/>
+                android:value=".CompanyFlow.OffersProposed" />
         </activity>
         <activity
             android:name=".CompanyFlow.OfferEditActivity"
             android:label="@string/title_activity_offer_edit_activity"
             android:parentActivityName=".CompanyFlow.JobOfferCreation"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CompanyFlow.JobOfferCreation"/>
+                android:value=".CompanyFlow.JobOfferCreation" />
         </activity>
         <activity
             android:name=".CompanyFlow.OfferShowActivity"
             android:label="@string/title_activity_offer_show"
             android:parentActivityName=".CompanyFlow.OffersProposed"
-            android:theme="@style/ActionBarTheme">
+            android:theme="@style/ActionBarTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CompanyFlow.OffersProposed"/>
+                android:value=".CompanyFlow.OffersProposed" />
         </activity>
         <activity
             android:name=".StudentFlow.OffersListsActivity"
             android:label="@string/title_activity_offers_lists"
-            android:theme="@style/ActionBarTheme">
+            android:theme="@style/ActionBarTheme" >
         </activity>
         <activity
             android:name=".StudentFlow.SearchOffer"
             android:label="@string/title_activity_search_offer"
             android:theme="@style/ActionBarTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StudentFlow.OffersListsActivity"/>
+                android:value=".StudentFlow.OffersListsActivity" />
         </activity>
         <activity
             android:name=".StudentFlow.Main2StudentActivity"
             android:label="@string/title_activity_main2_student"
-            android:theme="@style/ActionBarTheme"
-            >
-
+            android:theme="@style/ActionBarTheme" >
         </activity>
 
         <meta-data
@@ -198,64 +194,74 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
         <uses-feature
             android:glEsVersion="0x00020000"
-            android:required="true"/>
+            android:required="true" />
+
         <activity
             android:name=".StudentFlow.lab3.NoticeBoard"
-            android:theme="@style/ActionBarTheme"
-            android:label="@string/notice_board" >
+            android:label="@string/notice_board"
+            android:theme="@style/ActionBarTheme" >
         </activity>
-        <activity android:name=".StudentFlow.lab3.notice.EditNoticeActivity"
-            android:theme="@style/ActionBarTheme"
-            android:label="@string/edit_notice">
-
+        <activity
+            android:name=".StudentFlow.lab3.notice.EditNoticeActivity"
+            android:label="@string/edit_notice"
+            android:theme="@style/ActionBarTheme" >
         </activity>
-        <activity android:name=".StudentFlow.lab3.notice.ShowNoticeActivity"
-            android:theme="@style/ActionBarTheme"
-            android:label="@string/show_notice">
-
+        <activity
+            android:name=".StudentFlow.lab3.notice.ShowNoticeActivity"
+            android:label="@string/show_notice"
+            android:theme="@style/ActionBarTheme" >
         </activity>
-
-        <activity android:name=".StudentFlow.lab3.notice.gallery.GalleryActivity"
-            android:theme="@style/ActionBarTheme"
-            android:label="@string/gallery">
-
-        </activity>
-        <activity android:name="nl.changer.polypicker.ImagePickerActivity"
+        <activity
+            android:name=".StudentFlow.lab3.notice.gallery.GalleryActivity"
             android:label="@string/gallery"
-            android:theme="@style/AppTheme">
-
+            android:theme="@style/ActionBarTheme" >
         </activity>
-
-        <activity android:name=".StudentFlow.ScheduleChangedActivity"
-            android:theme="@style/ActionBarTheme"
-            android:label="@string/schedule_changed_activity" />
-
+        <activity
+            android:name="nl.changer.polypicker.ImagePickerActivity"
+            android:label="@string/gallery"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".StudentFlow.ScheduleChangedActivity"
+            android:label="@string/schedule_changed_activity"
+            android:theme="@style/ActionBarTheme" />
         <activity
             android:name=".StudentFlow.timetable.MenuTimetable"
-            android:theme="@style/ActionBarTheme"
-            android:label="@string/title_activity_timetable"/>
+            android:label="@string/title_activity_timetable"
+            android:theme="@style/ActionBarTheme" />
         <activity
             android:name=".StudentFlow.timetable.SearchCourse"
-            android:theme="@style/ActionBarTheme"
-            android:label="@string/title_activity_search_course"/>
+            android:label="@string/title_activity_search_course"
+            android:theme="@style/ActionBarTheme" />
         <activity
             android:name=".StudentFlow.timetable.TimeTable"
-            android:theme="@style/ActionBarTheme"
-            android:label="@string/title_activity_timetable" />
+            android:label="@string/title_activity_timetable"
+            android:theme="@style/ActionBarTheme" />
         <activity
             android:name=".StudentFlow.timetable.SearchConsultation"
-            android:theme="@style/ActionBarTheme"
-            android:label="@string/title_activity_search_consultation"/>
+            android:label="@string/title_activity_search_consultation"
+            android:theme="@style/ActionBarTheme" />
         <activity
             android:name=".StudentFlow.timetable.ViewDetail"
             android:label="@string/title_activity_view_detail"
             android:parentActivityName="StudentFlow.timetable.TimeTable"
-            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar">
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="StudentFlow.timetable.TimeTable" />
+        </activity>
+
+        <activity
+            android:name=".StudentFlow.timetable.SearchRoom"
+            android:label="@string/title_activity_search_room"
+            android:parentActivityName="StudentFlow.timetable.MenuTimetable"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="StudentFlow.timetable.MenuTimetable" />
         </activity>
 
         <!-- [START gcm_receiver] -->
@@ -265,10 +271,12 @@
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="gcm.play.android.samples.com.gcmquickstart" />
             </intent-filter>
         </receiver>
         <!-- [END gcm_receiver] -->
+
 
         <!-- [START gcm_listener] -->
         <service
@@ -282,26 +290,18 @@
         <!-- [START instanceId_listener] -->
         <service
             android:name=".gcm.MyInstanceIDListenerService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <!-- [END instanceId_listener] -->
         <service
             android:name=".gcm.RegistrationIntentService"
-            android:exported="false">
+            android:exported="false" >
         </service>
-
-
-
 
 
     </application>
 
 </manifest>
-
-
-
-
-

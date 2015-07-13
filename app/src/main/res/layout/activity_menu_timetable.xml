@@ -22,13 +22,13 @@ tools:context="it.polito.mobile.androidassignment2.StudentFlow.timetable.MenuTim
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/timetable"
-        android:layout_weight="0.3" />
+        android:layout_weight="0.35" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.7">
+        android:layout_weight="0.65">
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -45,6 +45,16 @@ tools:context="it.polito.mobile.androidassignment2.StudentFlow.timetable.MenuTim
             android:text="@string/TeacherConsultationHours"
             android:id="@+id/button2"
             android:layout_gravity="center_horizontal" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search_room"
+            android:id="@+id/button3"
+            android:layout_gravity="center_horizontal" />
+
+
 
         <ProgressBar
             android:layout_width="wrap_content"
