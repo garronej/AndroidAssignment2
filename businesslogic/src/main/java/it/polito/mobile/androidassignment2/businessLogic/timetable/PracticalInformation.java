@@ -30,7 +30,7 @@ public class PracticalInformation {
 
             @Override
             public String toString() {
-                return new String(Integer.toString(this.hour) + ':' + Integer.toString(this.min));
+                return new String(Integer.toString(this.hour) + ':' + String.format("%02d", this.min));
             }
 
             public void add(int min) {
@@ -127,7 +127,7 @@ public class PracticalInformation {
         //Return something like 8h30 : 11h30
         public String getRange() {
 
-            return new String(this.startTime.toString() + " : " + this.getEndTime().toString());
+            return new String(this.startTime.toString() + " - " + this.getEndTime().toString());
 
         }
 
