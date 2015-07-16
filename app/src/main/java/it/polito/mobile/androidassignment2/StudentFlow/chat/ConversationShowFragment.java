@@ -94,7 +94,6 @@ public class ConversationShowFragment extends Fragment {
                     @Override
                     public void run() {
                         messageList.setSelectionFromTop(messages.size(),top);
-                        //TODO funziona quando cazzo vuole lui
                     }
                 });
 
@@ -103,8 +102,8 @@ public class ConversationShowFragment extends Fragment {
 
             @Override
             public void onException(Exception e) {
-                //TODO manage exception... this time we have to be careful to this...
-                //mettere toastino o cosa simile...
+                //TODO
+                Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT);
                 messageText.setText(m.getMessage());
                 Toast.makeText(getActivity(), "onException", Toast.LENGTH_SHORT).show();
             }
@@ -116,8 +115,7 @@ public class ConversationShowFragment extends Fragment {
         });
         }catch (Exception e){
             //TODO: what to do?
-            e.printStackTrace();
-            Toast.makeText(getActivity(), "exception", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT);
         }
 
     }
@@ -247,7 +245,8 @@ public class ConversationShowFragment extends Fragment {
 
                         @Override
                         public void onException(Exception e) {
-                            //TODO handle exception
+                            //TODO
+                            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT);
                         }
 
                         @Override

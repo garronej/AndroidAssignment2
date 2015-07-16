@@ -398,7 +398,7 @@ private void setUpNavigationDrawer(){
                 GooglePlayServicesUtil.getErrorDialog(resultCode, this,
                         PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
-                Log.i(TAG, "This device is not supported."); // TODO: toast it
+				Toast.makeText(StudentProfileActivity.this, R.string.device_not_supported, Toast.LENGTH_SHORT);
                 finish();
             }
             return false;

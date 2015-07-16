@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -193,6 +194,7 @@ public class ConversationsListFragment extends Fragment {
                         @Override
                         public void onException(Exception e) {
                             //TODO: handle exceptions
+                            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT);
 
                         }
 
@@ -204,7 +206,8 @@ public class ConversationsListFragment extends Fragment {
                     })
             );
         }catch(Exception e){
-            //TODO: what to do?
+            //TODO
+            throw new RuntimeException(e);
         }
 
     }

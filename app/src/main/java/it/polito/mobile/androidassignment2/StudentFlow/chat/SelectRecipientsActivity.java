@@ -117,7 +117,7 @@ public class SelectRecipientsActivity extends ActionBarActivity {
 
             @Override
             public void onException(Exception e) {
-                //TODO: handle exceptions
+                Toast.makeText(SelectRecipientsActivity.this, R.string.network_error, Toast.LENGTH_SHORT);
             }
 
             @Override
@@ -158,7 +158,7 @@ public class SelectRecipientsActivity extends ActionBarActivity {
 
                             @Override
                             public void onException(Exception e) {
-                                //TODO handle exception
+                                Toast.makeText(SelectRecipientsActivity.this, R.string.network_error, Toast.LENGTH_SHORT);
                             }
 
                             @Override
@@ -168,6 +168,7 @@ public class SelectRecipientsActivity extends ActionBarActivity {
                         });
                     }catch(Exception e){
                         //TODO: what to do?
+                        throw new RuntimeException(e);
                     }
 
                 }
@@ -188,7 +189,6 @@ public class SelectRecipientsActivity extends ActionBarActivity {
                     EditText title_tv = (EditText) findViewById(R.id.groupTitle);
                     if (selectedItems.size() == 0 || title_tv.getText().toString().trim().equals("")) {
                         if (selectedItems.size() == 0) {
-                            //TODO something better of a toast message...
                             Toast.makeText(SelectRecipientsActivity.this, R.string.no_student_selected, Toast.LENGTH_LONG).show();
                         }
                         if (title_tv.getText().toString().trim().equals("")) {
@@ -223,16 +223,16 @@ public class SelectRecipientsActivity extends ActionBarActivity {
 
                                 @Override
                                 public void onException(Exception e) {
-                                    //TODO handle exception
+                                    Toast.makeText(SelectRecipientsActivity.this, R.string.network_error, Toast.LENGTH_SHORT);
                                 }
 
                                 @Override
                                 public void cancel() {
-                                    //???
+                                    //TODO???
                                 }
                             });
                         } catch (Exception e) {
-                            //TODO: what todo??
+                            throw new RuntimeException(e);
                         }
 
 

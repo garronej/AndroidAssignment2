@@ -106,7 +106,7 @@ public class Conversation implements Serializable {
         if (isGroup()) {
             s = getTitle();
         } else {
-            //not really safe....
+            //TODO not really safe....
             try {
             s = getStudents().get(0).getId().equals(loggedStudentId) ?
                     getStudents().get(1).getFullname() :

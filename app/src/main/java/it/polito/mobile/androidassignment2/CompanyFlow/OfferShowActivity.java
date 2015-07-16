@@ -57,7 +57,6 @@ public class OfferShowActivity extends AppCompatActivity implements Communicator
         public void onReceive(Context context, Intent intent) {
             pbLogoSpinner.setVisibility(ProgressBar.GONE);
             Toast.makeText(getApplicationContext(), R.string.download_error, Toast.LENGTH_LONG).show();
-            //exTODO: set placeholder image
             photo.setImageDrawable(getResources().getDrawable(R.drawable.photo_placeholder_err));
         }
     }

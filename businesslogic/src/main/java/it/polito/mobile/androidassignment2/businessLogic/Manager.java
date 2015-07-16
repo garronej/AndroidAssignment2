@@ -593,7 +593,6 @@ public class Manager {
     }
 
 
-    //TODO test
     public static Task.General subscribeStudentOfJobOffer( int offerId, int studentId, ResultProcessor<Integer> postProcessor){
         Task.General t= new Task.General(Task.Method.SUBSCRIBE_STUDENTS_OF_JOB_OFFER,postProcessor);
         t.execute(offerId, studentId);
@@ -608,7 +607,6 @@ public class Manager {
     }
 
 
-    //TODO test
     public static Task.General unsubscribeStudentOfJobOffer( int offerId, int studentId, ResultProcessor<Integer> postProcessor){
         Task.General t= new Task.General(Task.Method.UNSUBSCRIBE_STUDENTS_OF_JOB_OFFER,postProcessor);
         t.execute(offerId, studentId);
@@ -621,7 +619,6 @@ public class Manager {
         return OfferManager.getStudentsOfJobOffer(offerId, criteria);
     }
 
-    //TODO test
     public static Task.General getStudentsOfJobOffer( int jobOffer, Student criteria, ResultProcessor<List<Student>> postProcessor){
 
         Task.General t= new Task.General(Task.Method.GET_STUDENTS_OF_JOB_OFFER,postProcessor);

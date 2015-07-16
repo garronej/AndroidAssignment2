@@ -176,7 +176,7 @@ public class CompaniesFavouritesActivity extends AppCompatActivity implements Co
 				}
 			});
 		} catch (Exception e) {
-			//TODO: handle exception
+			throw new RuntimeException(e);
 		}
 	}
 

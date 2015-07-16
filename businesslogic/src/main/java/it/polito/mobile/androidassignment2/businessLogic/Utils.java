@@ -14,7 +14,7 @@ public class Utils {
     public static String formatEmail(String email)throws DataFormatException {
 
         if( email == null) return null;
-        if( email == "" ) return null;//TODO: comparing references? rick
+        if( email == "" ) return null;
         if( email.equals("") ) return null;
 
         Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
@@ -30,7 +30,7 @@ public class Utils {
     //check for illegal character in a name and transform garRone into Garrone
     protected static String formatName(String name)throws DataFormatException {
 
-        if( name == "" ) return "";//TODO: comparing references? rick
+        if( name == "" ) return "";
         if( name.equals("") ) return "";
         if( name == null ) return null;
         /*
@@ -51,7 +51,7 @@ public class Utils {
 
     //To lower case
     protected static String toLowerCase( String in ){
-        if( in == "" ) return "";//TODO: comparing references? rick
+        if( in == "" ) return "";
         if( in.equals("") ) return "";
         if( in == null ) return null;
 
@@ -69,7 +69,7 @@ public class Utils {
     //Check password having more than 4 char and no space.
     public static void checkPassword( String pwd) throws DataFormatException{
 
-        if( pwd == null) return;//TODO: comparing references? rick
+        if( pwd == null) return;
         if( pwd.equals("") ) return;
 
         Pattern pattern = Pattern.compile("^(?=\\S+$).{4,}$");

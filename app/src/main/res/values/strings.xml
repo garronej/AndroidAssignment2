@@ -168,9 +168,6 @@
     <string name="laude">Laude</string>
     <string name="student_update_failed">The update of the student has failed. Please, check you have filled properly all the necessary fields.</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="rent_offers">Rent offers</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="your_offers">Your offers</string>
@@ -274,7 +271,7 @@
     <string name="load_earlier_messages">Load earlier messages</string>
     <string name="no_message">There is no message in this conversation!</string>
     <string name="empty_title_error">The title of a group conversation cannot be empty</string>
-    <string name="no_student_selected">You have not selected any student! You should select at least another student to create a conversation.</string>
+    <string name="no_student_selected">No students selected! You must select at least one student to create a conversation.</string>
     <string name="conversation_list_empty">No conversations yet</string>
 
     <string name="hello_world">Hello world!</string>
@@ -288,5 +285,6 @@
     <string name="add_in_ok">Is Inadequate</string>
     <string name="profile">Profile</string>
     <string name="select_recipient_title">Select recipient</string>
+    <string name="device_not_supported">This device is not supported</string>
 
 </resources>

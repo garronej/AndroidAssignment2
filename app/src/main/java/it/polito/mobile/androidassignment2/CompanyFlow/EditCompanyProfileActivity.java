@@ -146,7 +146,7 @@ public class EditCompanyProfileActivity extends ActionBarActivity {
 		etLocation.setText(loggedCompany.getLocation());
 		etMission.setText(loggedCompany.getMission());
 		if (loggedCompany.getNumberOfWorkers() != null) {
-			etNumberOfWorkers.setText(loggedCompany.getNumberOfWorkers().toString()); //TODO use something else not edit text + validate number
+			etNumberOfWorkers.setText(loggedCompany.getNumberOfWorkers().toString());
 		}
 		bUpdateProfile.setFocusableInTouchMode(true);
 		bUpdateProfile.setOnClickListener(new View.OnClickListener() {
