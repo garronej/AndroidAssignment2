@@ -265,6 +265,7 @@
     <string name="coursesSchedule">Courses schedule</string>
     <string name="TeacherConsultationHours">Teacher consultation hours</string>
     <string name="noCalendar">No calendar application installed on this device</string>
+    <string name="title_activity_search_room">SearchRoom</string>
 
     <string name="select_recipients_title">Select recipients</string>
     <string name="create_group">Create group</string>
@@ -275,5 +276,16 @@
     <string name="empty_title_error">The title of a group conversation cannot be empty</string>
     <string name="no_student_selected">You have not selected any student! You should select at least another student to create a conversation.</string>
     <string name="conversation_list_empty">You have no conversation! Click on the icons in the app bar to create a new one with a student or with a group of them.</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="search_room">Search room</string>
+
+    <string name="complete_address">Address</string>
+    <string name="created_on">Created On</string>
+    <string name="fav_ok">Added to Favourite</string>
+    <string name="unfav_ok">Removed from Favourite</string>
+    <string name="rem_in_ok">Is Adequate</string>
+    <string name="add_in_ok">Is Inadequate</string>
+    <string name="profile">Profile</string>
 
 </resources>

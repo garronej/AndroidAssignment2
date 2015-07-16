@@ -13,6 +13,10 @@ tools:context="it.polito.mobile.androidassignment2.StudentFlow.timetable.MenuTim
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:weightSum="1">
 
@@ -22,13 +26,13 @@ tools:context="it.polito.mobile.androidassignment2.StudentFlow.timetable.MenuTim
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/timetable"
-        android:layout_weight="0.3" />
+        android:layout_weight="0.4" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.7">
+        android:layout_weight="0.6">
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -36,7 +40,11 @@ tools:context="it.polito.mobile.androidassignment2.StudentFlow.timetable.MenuTim
             android:layout_height="wrap_content"
             android:text="@string/coursesSchedule"
             android:id="@+id/button1"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:background="@color/blue_sky"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:shadowColor="@color/strong_blue"/>
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -44,7 +52,27 @@ tools:context="it.polito.mobile.androidassignment2.StudentFlow.timetable.MenuTim
             android:layout_height="wrap_content"
             android:text="@string/TeacherConsultationHours"
             android:id="@+id/button2"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:background="@color/blue_sky"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:shadowColor="@color/strong_blue"
+            android:layout_marginTop="16dp"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search_room"
+            android:id="@+id/button3"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/blue_sky"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:shadowColor="@color/strong_blue"
+            android:layout_marginTop="16dp"/>
+
+
 
         <ProgressBar
             android:layout_width="wrap_content"

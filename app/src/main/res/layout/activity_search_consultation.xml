@@ -28,7 +28,7 @@
                 android:text="@string/searchByTeacher"
                 android:id="@+id/textView1"
                 android:gravity="center"
-                android:textColor="#ffff0200"
+                android:textColor="@color/strong_blue"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30px"/>
 
@@ -45,7 +45,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/selectAteacher"
                 android:id="@+id/button"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:padding="16dp"
+                android:background="@color/blue_sky"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:shadowColor="@color/strong_blue"/>
 
         </LinearLayout>
 

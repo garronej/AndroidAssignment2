@@ -30,7 +30,6 @@ public class ViewDetail extends Activity {
         getWindow().setLayout(screenWidth, ViewGroup.LayoutParams.WRAP_CONTENT); //set below the setContentview
 
 
-        //Il faut envoyer info.getDay() info.getTimeStart() info.getEndTime() teacher Name ifo.getRoom()
 
         Bundle extras = getIntent().getExtras();
 

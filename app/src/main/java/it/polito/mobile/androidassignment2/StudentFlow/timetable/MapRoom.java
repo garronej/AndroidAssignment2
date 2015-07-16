@@ -1,6 +1,7 @@
 package it.polito.mobile.androidassignment2.StudentFlow.timetable;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -43,14 +45,18 @@ public class MapRoom extends Fragment {
 
     private List<Place> places = new ArrayList<>();
     private MapView mapView;
+    private GoogleMap map = null;
+    private List<Marker> markers = new ArrayList<>();
 
-    public List<Place> getSamplePlaces(){
+
+
+    public static List<Place> getSamplePlaces(Context context){
 
         List<Place> out =new ArrayList<>();
 
         String resp = null;
         try {
-            InputStream is = (this.getActivity()).getAssets().open("room_coordinates.json");
+            InputStream is = context.getAssets().open("room_coordinates.json");
             Scanner scan = new Scanner(is);
             resp = new String();
             while (scan.hasNext())
@@ -88,6 +94,7 @@ public class MapRoom extends Fragment {
     }
 
 
+
     public void setPlaces(List<Place> places){
         this.places = places;
     }
@@ -110,7 +117,7 @@ public class MapRoom extends Fragment {
 
         //By uncommenting that there will be nothing to do in the main activity.
 
-        this.setPlaces(getSamplePlaces());
+        this.setPlaces(getSamplePlaces(this.getActivity()));
         //this.generateMap();
 
 
@@ -133,6 +140,9 @@ public class MapRoom extends Fragment {
 
             @Override
             public void onMapReady(final GoogleMap map) {
+
+                MapRoom.this.map = map;
+
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
                 for (Place place : MapRoom.this.places) {
@@ -144,29 +154,26 @@ public class MapRoom extends Fragment {
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
 
-
-                    if( MapRoom.this.centerMarkerTitle != null && place.title.equals(MapRoom.this.centerMarkerTitle)){
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.coordinate, 18));
-                            builder=null;
-                            markerOptions.alpha(1.0f).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                            map.addMarker(markerOptions).showInfoWindow();
-                    }else{
-                            map.addMarker(markerOptions);
+                    if (MapRoom.this.centerMarkerTitle != null && place.title.equals(MapRoom.this.centerMarkerTitle)) {
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.coordinate, 18));
+                        builder = null;
+                        markerOptions.alpha(1.0f).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                        markers.add(map.addMarker(markerOptions));
+                        markers.get(markers.size()-1).showInfoWindow();
+                    } else {
+                        markers.add(map.addMarker(markerOptions));
                     }
 
 
-
-
-
-                    try {
+                    if( builder != null )
                         builder.include(place.coordinate);
-                    }catch(NullPointerException exception){}
+
 
                 }
 
 
                 //If not explicitly centered on a marker, show them all.
-                if( builder != null ) {
+                if (builder != null) {
 
                     //Pre-positioning.
 
@@ -189,6 +196,28 @@ public class MapRoom extends Fragment {
         });
 
     }
+
+
+
+    public void centerOn(String centerMarkerTitle ){
+
+        if( centerMarkerTitle == null || this.map == null) return;
+
+        for (Marker marker : this.markers) {
+            if( marker.getAlpha() == 1.0f ){
+                marker.hideInfoWindow();
+                marker.setAlpha(0.3f);
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            }
+            if ( marker.getTitle().equals( centerMarkerTitle )) {
+                marker.setAlpha(1.0f);
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                this.map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 18));
+                marker.showInfoWindow();
+            }
+        }
+    }
+
 
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -34,7 +35,7 @@ import it.polito.mobile.chat.model.ChatHTTPClient;
 import it.polito.mobile.chat.model.Conversation;
 
 
-public class SelectRecipientsActivity extends ActionBarActivity {
+public class SelectRecipientsActivity extends AppCompatActivity {
 
     private final String TAG = "select recipients";
     private ListView lvRecipients;

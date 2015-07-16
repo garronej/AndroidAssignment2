@@ -33,6 +33,7 @@
             tools:context=".NoticeBoard" />
 
 
+
     </LinearLayout>
     <FrameLayout
         android:id="@+id/search_container"

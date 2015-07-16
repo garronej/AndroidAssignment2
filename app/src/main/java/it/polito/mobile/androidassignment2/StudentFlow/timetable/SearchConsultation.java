@@ -39,6 +39,8 @@ public class SearchConsultation extends AppCompatActivity {
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
+
+            //Open keyboard
             ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
             super.onCreate(savedInstanceState);
 
@@ -96,38 +98,36 @@ public class SearchConsultation extends AppCompatActivity {
             autoCompleteTextView1.setAdapter(adapter);
 
 
-            button.setOnClickListener( new View.OnClickListener() {
+            button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
+                    //Close keyboard
+                    ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(autoCompleteTextView1.getWindowToken(), 0);
 
                     Intent i = new Intent(SearchConsultation.this, TimeTable.class);
-                    i.putExtra("type","Consultation");
-
+                    i.putExtra("type", "Consultation");
 
 
                     String selectedTeacher = autoCompleteTextView1.getText().toString();
 
 
-
-
-                        boolean match = false;
-                        for(Consultation consultation : SearchConsultation.this.timeTableData.getConsultations()){
-                            if( consultation.getTeacher().equals(selectedTeacher)) {
-                                match = true;
-                                break;
-                            }
-
+                    boolean match = false;
+                    for (Consultation consultation : SearchConsultation.this.timeTableData.getConsultations()) {
+                        if (consultation.getTeacher().equals(selectedTeacher)) {
+                            match = true;
+                            break;
                         }
 
-                        if( !match ){
-                            Toast.makeText(SearchConsultation.this, getResources().getString(R.string.noTeacherMatching) , Toast.LENGTH_SHORT).show();
-                            return;
-                        }
+                    }
+
+                    if (!match) {
+                        Toast.makeText(SearchConsultation.this, getResources().getString(R.string.noTeacherMatching), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
 
-                        i.putExtra("selectedTeacher", selectedTeacher);
-
+                    i.putExtra("selectedTeacher", selectedTeacher);
 
 
                     startActivity(i);
