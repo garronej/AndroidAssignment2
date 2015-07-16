@@ -32,6 +32,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.StudentFlow.ScheduleChangedActivity;
 import it.polito.mobile.androidassignment2.StudentFlow.StudentProfileActivity;
+import it.polito.mobile.androidassignment2.StudentFlow.chat.ConversationsActivity;
 import it.polito.mobile.androidassignment2.StudentFlow.lab3.NoticeBoard;
 
 public class MyGcmListenerService extends GcmListenerService {
@@ -108,7 +109,7 @@ public class MyGcmListenerService extends GcmListenerService {
             editor.putInt("message_counter", counter);
             editor.commit();
 
-            intent = new Intent(this, NoticeBoard.class); //TODO: use conversationsActivity here
+            intent = new Intent(this, ConversationsActivity.class);
             notificationTitle = getApplicationContext().getString(R.string.app_name);
             notificationMessage = getApplicationContext().getString(R.string.you_have_received_new_messages);
         } else {
