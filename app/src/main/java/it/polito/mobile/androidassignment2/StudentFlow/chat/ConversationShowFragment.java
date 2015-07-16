@@ -238,7 +238,7 @@ public class ConversationShowFragment extends Fragment {
                             //TODO maybe the scrolling management has to be improved...
                             //Log.d("marco", "Index is "+index+" and top is "+top);
                             messageList.setSelectionFromTop(arg.size(), top);
-                            if (arg.isEmpty()) {
+                            if (arg.isEmpty() || arg.size() < NUMBER_OF_MESSAGES_PER_PAGE) {
                                 header.findViewById(id.btn_more_messages).setVisibility(View.GONE);
                             } else {
                                 header.findViewById(id.btn_more_messages).setVisibility(View.VISIBLE);
@@ -304,6 +304,11 @@ public class ConversationShowFragment extends Fragment {
             @Override
             public void process(List<Message> arg) {
                 messages = arg;
+                if (arg.isEmpty() || arg.size() < NUMBER_OF_MESSAGES_PER_PAGE) {
+                    header.findViewById(id.btn_more_messages).setVisibility(View.GONE);
+                } else {
+                    header.findViewById(id.btn_more_messages).setVisibility(View.VISIBLE);
+                }
                 messageList.setAdapter(new BaseAdapter() {
                     @Override
                     public int getCount() {
