@@ -1,0 +1,48 @@
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatsActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:orientation="horizontal">
+
+        <fragment
+            android:name="it.polito.mobile.androidassignment2.StudentFlow.chat.ConversationsListFragment"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_conversations_list"
+            android:id="@+id/conversations_list_fragment"
+            />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/primary_dark_material_light"
+            />
+        <fragment
+            android:name="it.polito.mobile.androidassignment2.StudentFlow.chat.ConversationShowFragment"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_conversation_show"
+            android:id="@+id/conversation_show_fragment"/>
+
+    </LinearLayout>
+
+    <fragment
+    android:id="@+id/navigation_drawer"
+    android:name="it.polito.mobile.androidassignment2.StudentFlow.NavigationDrawerFragment"
+    android:layout_width="@dimen/navigation_drawer_width"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    app:layout="@layout/fragment_navigation_drawer"
+    tools:layout="@layout/fragment_navigation_drawer"/>
+
+</android.support.v4.widget.DrawerLayout>

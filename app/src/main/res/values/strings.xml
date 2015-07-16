@@ -266,5 +266,14 @@
     <string name="TeacherConsultationHours">Teacher consultation hours</string>
     <string name="noCalendar">No calendar application installed on this device</string>
 
-    noCalendar
+    <string name="select_recipients_title">Select recipients</string>
+    <string name="create_group">Create group</string>
+    <string name="conversation_show_title">Conversation show</string>
+    <string name="write_your_message_here">Write your message here...</string>
+    <string name="load_earlier_messages">Load earlier messages</string>
+    <string name="no_message">There is no message in this conversation!</string>
+    <string name="empty_title_error">The title of a group conversation cannot be empty</string>
+    <string name="no_student_selected">You have not selected any student! You should select at least another student to create a conversation.</string>
+    <string name="conversation_list_empty">You have no conversation! Click on the icons in the app bar to create a new one with a student or with a group of them.</string>
+
 </resources>

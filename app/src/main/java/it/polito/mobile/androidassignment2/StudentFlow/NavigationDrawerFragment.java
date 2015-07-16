@@ -28,6 +28,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.StudentFlow.chat.ConversationsActivity;
 import it.polito.mobile.androidassignment2.StudentFlow.lab3.NoticeBoard;
 import it.polito.mobile.androidassignment2.StudentFlow.timetable.MenuTimetable;
 
@@ -217,6 +218,12 @@ private CharSequence mTitle;
 					startActivity(i);
 					getActivity().finish();
 					break;
+				case 2:
+					Intent i1 = new Intent(getActivity(), ConversationsActivity.class);
+					startActivity(i1);
+					getActivity().finish();
+					break;
+
 				case 1:
 					Intent i2 = new Intent(getActivity(), NoticeBoard.class);
 					startActivity(i2);
