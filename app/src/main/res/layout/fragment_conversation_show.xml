@@ -2,21 +2,31 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin">
 
     <ListView
+        android:scrollbarStyle="outsideInset"
         android:id="@+id/message_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:stackFromBottom="true"
+        android:layout_weight="1"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:dividerHeight="10dp"
         />
+
     <EditText
         android:id="@+id/message_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/write_your_message_here"
         android:imeOptions="actionDone"
+        android:layout_weight="0"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
 
         />
 

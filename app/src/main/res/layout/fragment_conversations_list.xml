@@ -9,7 +9,9 @@
         android:id="@+id/conversations_lv"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:scrollbarStyle="outsideOverlay"
+        android:scrollbarStyle="outsideInset"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         />
 
 </RelativeLayout>
