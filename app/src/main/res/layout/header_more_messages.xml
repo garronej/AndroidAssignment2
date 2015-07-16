@@ -4,9 +4,11 @@
     android:layout_height="match_parent">
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/load_earlier_messages"
         android:id="@+id/btn_more_messages"
         android:gravity="center"
+        android:layout_height="@dimen/button_height"
+        android:background="@color/blue_sky"
+        android:textColor="#fff"
         />
 </LinearLayout>
