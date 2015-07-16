@@ -63,7 +63,7 @@ public class SelectRecipientsActivity extends ActionBarActivity {
 
                 final int item_layout;
                 if (isMultipleSelection) {
-                    item_layout = android.R.layout.simple_list_item_multiple_choice;
+                    item_layout = R.layout.simple_list_item_multiple_choice_custom;
                     lvRecipients.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                     groupLL.setVisibility(View.VISIBLE);
 
