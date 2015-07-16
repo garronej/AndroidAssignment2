@@ -44,6 +44,7 @@ public class ConversationShowFragment extends Fragment {
     private final String TAG = "ConversationShowFrag";
     private ListView messageList;
     private EditText messageText;
+    private TextView tvNoMessages;
     private List<Message> messages = new ArrayList<>();
     private View header;
     private AsyncTask<Conversation, Void, List<Message>> t;
@@ -57,7 +58,7 @@ public class ConversationShowFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_conversation_show, container, false);
         messageList = (ListView)view.findViewById(R.id.message_list);
         messageText = (EditText)view.findViewById(R.id.message_et);
-
+        tvNoMessages = (TextView) view.findViewById(R.id.no_messages_tv);
 
         return view;
     }
@@ -82,6 +83,7 @@ public class ConversationShowFragment extends Fragment {
                 View v = messageList.getChildAt(0);
                 final int top = (v == null) ? 0 : v.getTop();
 
+                tvNoMessages.setVisibility(View.GONE);
                 messages.add(arg);
                 ((BaseAdapter)((HeaderViewListAdapter)messageList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
 
@@ -308,6 +310,13 @@ public class ConversationShowFragment extends Fragment {
                 } else {
                     header.findViewById(id.btn_more_messages).setVisibility(View.VISIBLE);
                 }
+
+                if (arg.isEmpty() || arg.size() == 0) {
+                    tvNoMessages.setVisibility(View.VISIBLE);
+                } else {
+                    tvNoMessages.setVisibility(View.GONE);
+                }
+
                 messageList.setAdapter(new BaseAdapter() {
                     @Override
                     public int getCount() {
