@@ -125,7 +125,8 @@ public class MyGcmListenerService extends GcmListenerService {
                 .setContentTitle(notificationTitle)
                 .setContentText(notificationMessage)
                 .setAutoCancel(true)
-                .setFullScreenIntent(pendingIntent, false)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                //.setFullScreenIntent(pendingIntent, false)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
                 .setNumber(counter);
