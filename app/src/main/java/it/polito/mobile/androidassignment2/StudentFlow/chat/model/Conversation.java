@@ -99,4 +99,25 @@ public class Conversation implements Serializable {
         }
         return m;
     }
+
+    public String getRecipientOrTitle(Integer loggedStudentId) {
+        String s = null;
+
+        if (isGroup()) {
+            s = getTitle();
+        } else {
+            //not really safe....
+            try {
+            s = getStudents().get(0).getId().equals(loggedStudentId) ?
+                    getStudents().get(1).getFullname() :
+                    getStudents().get(0).getFullname();
+
+            } catch (Exception e) {
+
+                //TODO: what to do?
+            }
+        }
+
+        return s;
+    }
 }

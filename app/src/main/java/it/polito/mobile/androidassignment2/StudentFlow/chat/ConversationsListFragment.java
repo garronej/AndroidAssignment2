@@ -148,19 +148,14 @@ public class ConversationsListFragment extends Fragment {
                                     TextView recipient = (TextView) convertView.findViewById(R.id.recipient_tv);
                                     TextView last_message_time = (TextView) convertView.findViewById(R.id.timestamp_tv);
                                     TextView message = (TextView) convertView.findViewById(R.id.message_snippet_tv);
-
-                                    if (c.isGroup()) {
-                                        recipient.setText(c.getTitle());
-                                    } else {
-                                        //not really safe....
-                                        try {
-                                            recipient.setText(c.getStudents().get(0).getId() == ((AppContext) getActivity().getApplication()).getSession().getStudentLogged().getId() ? c.getStudents().get(1).getFullname() : c.getStudents().get(0).getFullname());
-
-                                        } catch (Exception e) {
-
-                                            //TODO: what to do?
-                                        }
+                                    Integer loggedStudentId;
+                                    try{
+                                        loggedStudentId = ((AppContext) getActivity().getApplication()).getSession().getStudentLogged().getId();
+                                    }catch(Exception e ){
+                                        throw new RuntimeException(e);
                                     }
+                                    recipient.setText(c.getRecipientOrTitle(loggedStudentId));
+
                                     if (c.getLastMessage() != null) {
                                         SimpleDateFormat df = null;
 

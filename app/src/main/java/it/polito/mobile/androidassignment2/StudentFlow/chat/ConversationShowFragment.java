@@ -21,6 +21,7 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,7 +42,6 @@ public class ConversationShowFragment extends Fragment {
     //TODO for testing...put to 20 or something similar before the delivery..
     private static int NUMBER_OF_MESSAGES_PER_PAGE = 5;
     private final String TAG = "ConversationShowFrag";
-    private TextView membersTitle;
     private ListView messageList;
     private EditText messageText;
     private List<Message> messages = new ArrayList<>();
@@ -55,9 +55,7 @@ public class ConversationShowFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conversation_show, container, false);
-        membersTitle = (TextView) view.findViewById(R.id.members_tv);
         messageList = (ListView)view.findViewById(R.id.message_list);
-
         messageText = (EditText)view.findViewById(R.id.message_et);
 
 
@@ -108,6 +106,7 @@ public class ConversationShowFragment extends Fragment {
                 //TODO manage exception... this time we have to be careful to this...
                 //mettere toastino o cosa simile...
                 messageText.setText(m.getMessage());
+                Toast.makeText(getActivity(), "onException", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -117,6 +116,8 @@ public class ConversationShowFragment extends Fragment {
         });
         }catch (Exception e){
             //TODO: what to do?
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "exception", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -145,13 +146,17 @@ public class ConversationShowFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Conversation conversation = getConversation();
 
         try{
             studentId=((AppContext) getActivity().getApplication()).getSession().getStudentLogged().getId();
         }catch(Exception e ){
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
+        Conversation conversation = getConversation();
+        String s = conversation.getRecipientOrTitle(studentId);
+        getActivity().setTitle(s);
 
         //Log.d("marco", "studentId: "+studentId);
 
@@ -407,6 +412,5 @@ public class ConversationShowFragment extends Fragment {
             if(s.getId() == studentId) continue;
             membersList+=s.getFullname()+",";
         }
-        membersTitle.setText(membersList.substring(0,membersList.length()-1));
     }
 }
