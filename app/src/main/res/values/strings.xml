@@ -239,50 +239,49 @@
 
 
     <string name="seeFull">See full schedule</string>
-    <string name="selectAteacher">Select a teacher</string>
+    <string name="selectAteacher">Select a professor</string>
 
 
     <string name="course">Course...</string>
-    <string name="teacher">Teacher ...</string>
+    <string name="teacher">Professor...</string>
     <string name="searchByCourse">Search by course</string>
-    <string name="searchByTeacher">Search by teacher</string>
+    <string name="searchByTeacher">Search by professor</string>
 
-    <string name="teacherName">Teacher Name</string>
+    <string name="teacherName">Professor name</string>
     <string name="room">Room</string>
 
-    <string name="noTeacherMatching">No teacher matching the search</string>
-    <string name="noCourseMatching">No course matching the search</string>
+    <string name="noTeacherMatching">No professors matching the search</string>
+    <string name="noCourseMatching">No courses matching the search</string>
 
-    <string name="title_activity_timetable">timetable</string>
+    <string name="title_activity_timetable">Timetable</string>
     <string name="title_activity_search_course">Courses search filter</string>
     <string name="title_activity_search_consultation">Consultation search filter</string>
 
     <string name="title_activity_view_detail">ViewDetail</string>
     <string name="export_google_callendar">Export to Google Calendar</string>
     <string name="coursesSchedule">Courses schedule</string>
-    <string name="TeacherConsultationHours">Teacher consultation hours</string>
+    <string name="TeacherConsultationHours">Professor consultation hours</string>
     <string name="noCalendar">No calendar application installed on this device</string>
-    <string name="title_activity_search_room">SearchRoom</string>
+    <string name="title_activity_search_room">Search Room</string>
 
     <string name="select_recipients_title">Select recipients</string>
     <string name="create_group">Create group</string>
     <string name="conversation_show_title">Conversation show</string>
-    <string name="write_your_message_here">Write your message here...</string>
-    <string name="load_earlier_messages">Load earlier messages</string>
-    <string name="no_message">There is no message in this conversation!</string>
+    <string name="write_your_message_here">Write a message...</string>
+    <string name="load_earlier_messages">Load more messages</string>
+    <string name="no_message">No messages in this conversation</string>
     <string name="empty_title_error">The title of a group conversation cannot be empty</string>
     <string name="no_student_selected">No students selected! You must select at least one student to create a conversation.</string>
     <string name="conversation_list_empty">No conversations yet</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="search_room">Search room</string>
 
     <string name="complete_address">Address</string>
-    <string name="created_on">Created On</string>
-    <string name="fav_ok">Added to Favourite</string>
-    <string name="unfav_ok">Removed from Favourite</string>
-    <string name="rem_in_ok">Is Adequate</string>
-    <string name="add_in_ok">Is Inadequate</string>
+    <string name="created_on">Created on</string>
+    <string name="fav_ok">Added to favourite</string>
+    <string name="unfav_ok">Removed from favourite</string>
+    <string name="rem_in_ok">Is adequate</string>
+    <string name="add_in_ok">Is inadequate</string>
     <string name="profile">Profile</string>
     <string name="select_recipient_title">Select recipient</string>
     <string name="device_not_supported">This device is not supported</string>
