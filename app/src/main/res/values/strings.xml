@@ -287,5 +287,6 @@
     <string name="rem_in_ok">Is Adequate</string>
     <string name="add_in_ok">Is Inadequate</string>
     <string name="profile">Profile</string>
+    <string name="select_recipient_title">Select recipient</string>
 
 </resources>

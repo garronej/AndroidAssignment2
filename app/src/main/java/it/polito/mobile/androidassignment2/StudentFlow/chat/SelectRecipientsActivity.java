@@ -39,6 +39,12 @@ public class SelectRecipientsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         final boolean isMultipleSelection = getIntent().getBooleanExtra("isMultipleSelection", false);
         setContentView(R.layout.activity_select_recipients);
+        if (isMultipleSelection) {
+            setTitle(R.string.select_recipients_title);
+        } else {
+            setTitle(R.string.select_recipient_title);
+        }
+
         lvRecipients = (ListView) findViewById(R.id.recipients_lv);
         bCreateGroup = (Button) findViewById(R.id.create_group_b);
         final View groupLL = findViewById(R.id.groupLinearLayout);
