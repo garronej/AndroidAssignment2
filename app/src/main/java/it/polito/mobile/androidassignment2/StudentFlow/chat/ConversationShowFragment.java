@@ -105,9 +105,8 @@ public class ConversationShowFragment extends Fragment {
             @Override
             public void onException(Exception e) {
                 //TODO
-                Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
                 messageText.setText(m.getMessage());
-                Toast.makeText(getActivity(), "onException", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -155,8 +154,7 @@ public class ConversationShowFragment extends Fragment {
         }
 
         Conversation conversation = getConversation();
-        String s = conversation.getRecipientOrTitle(studentId);
-        getActivity().setTitle(s);
+
 
         //Log.d("marco", "studentId: "+studentId);
 
@@ -185,7 +183,8 @@ public class ConversationShowFragment extends Fragment {
             });
             messageText.setVisibility(View.INVISIBLE);
         }else {
-
+            String s = conversation.getRecipientOrTitle(studentId);
+            getActivity().setTitle(s);
             updateMembersListTV();
             messageText.setVisibility(View.VISIBLE);
             initMessageList();

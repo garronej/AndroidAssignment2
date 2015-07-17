@@ -172,7 +172,7 @@ public class ConversationsListFragment extends Fragment {
                                     }
                                     if (((ConversationsActivity) getActivity()).getSelectedConversation() != null
                                             && ((ConversationsActivity) getActivity()).getSelectedConversation().getId() == c.getId()) {
-                                        convertView.setBackgroundColor(Color.RED);
+                                        convertView.setBackgroundColor(Color.argb(0x33,0,0xb8,0xe6));
                                     } else {
                                         convertView.setBackgroundColor(Color.TRANSPARENT);
                                     }
