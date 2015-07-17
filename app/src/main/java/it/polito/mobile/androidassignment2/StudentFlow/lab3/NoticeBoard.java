@@ -254,7 +254,7 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_show_as_map) {
-	        onPrepareOptionsMenu(mMenu);
+	        //onPrepareOptionsMenu(mMenu);
             showAsMap=!showAsMap;
 
             if(mSectionsPagerAdapter.getFragmentAtPosition(0)!=null) {
@@ -271,6 +271,7 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
                         .attach(mSectionsPagerAdapter.getFragmentAtPosition(1))
                         .commit();
             }
+            onPrepareOptionsMenu(mMenu);
             return true;
         }
         if (id == R.id.action_search) {
