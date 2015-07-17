@@ -5,17 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"  >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <fragment
             android:name="it.polito.mobile.androidassignment2.StudentFlow.chat.ConversationShowFragment"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             tools:layout="@layout/fragment_conversation_show" />
 
-    </RelativeLayout>
+    </LinearLayout>
     <fragment
     android:id="@+id/navigation_drawer"
     android:name="it.polito.mobile.androidassignment2.StudentFlow.NavigationDrawerFragment"
