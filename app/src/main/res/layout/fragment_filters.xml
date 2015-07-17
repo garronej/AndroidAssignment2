@@ -3,27 +3,43 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/background_light"
-
+    android:elevation="20dp"
     android:focusable="false"
     android:orientation="vertical"
-    tools:context="it.polito.mobile.laboratory3.SearchFragment">
+    tools:context="it.polito.mobile.rentboard.SearchFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:orientation="vertical">
+
+
+            <it.polito.mobile.androidassignment2.StudentFlow.lab3.AutocompleteTokensInput
+                android:id="@+id/tags"
+                style="@style/MyItemText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/category"
+                android:imeOptions="actionDone"
+                android:inputType="text"/>
 
             <AutoCompleteTextView
                 android:id="@+id/location"
+                style="@style/MyItemText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:hint="@string/location"
+                android:hint="@string/complete_address"
                 android:imeOptions="actionDone"
 
                 android:inputType="text"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,10 +47,13 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/MyItemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:hint="@string/radius"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
                     />
 
                 <SeekBar
@@ -49,48 +68,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="2"/>
+                    android:layout_weight="2"
+                    android:hint="100 Km"
+                    android:textSize="17sp"/>
             </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/size"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:hint="@string/size"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
-                    />
-
-                <EditText
-                    android:id="@+id/price"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:hint="@string/price"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
-                    />
-            </LinearLayout>
-
-            <it.polito.mobile.androidassignment2.StudentFlow.lab3.AutocompleteTokensInput
-                android:id="@+id/tags"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/tags"
-                android:imeOptions="actionDone"
-                android:inputType="text"/>
-
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -101,31 +82,29 @@
                 <Button
                     android:id="@+id/search"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="@dimen/side_margin"
                     android:layout_weight="3"
+                    android:background="@color/blue_sky"
                     android:clickable="true"
                     android:enabled="true"
-                    android:text="@string/search"
+                    android:text="@string/action_search"
                     android:textColor="#ffffff"
-                    android:background="@color/blue_sky"
                     android:textStyle="bold"/>
 
                 <Spinner
                     android:id="@+id/sort"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="2"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="@dimen/side_margin"
+                    android:layout_marginRight="@dimen/side_margin"
+                    android:layout_weight="7"
                     android:background="@android:drawable/btn_dropdown"
                     android:spinnerMode="dropdown"/>
             </LinearLayout>
 
         </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+    </ScrollView>
+
 </LinearLayout>

@@ -27,7 +27,5 @@
         <item>Oldest</item>
         <item>Cheaper</item>
         <item>More expensive</item>
-        <item>Smaller</item>
-        <item>Bigger</item>
     </string-array>
 </resources>

@@ -43,7 +43,6 @@ public class EditNoticeActivity extends AppCompatActivity {
     private AutocompleteTokensInput acTags;
 	private EditText etTelephoneNumber;
     private AutoCompleteTextView acLocation;
-	private EditText etSize;
 	private EditText etPrice;
 	private ActionButton bSubmit;
     private ProgressBar pbSubmit;
@@ -113,7 +112,6 @@ public class EditNoticeActivity extends AppCompatActivity {
         acTags = (AutocompleteTokensInput) findViewById(R.id.tags_ac);
         etTelephoneNumber = (EditText) findViewById(R.id.telephone_et);
         acLocation = (AutoCompleteTextView) findViewById(R.id.location_ac);
-        etSize = (EditText) findViewById(R.id.size_et);
         etPrice = (EditText) findViewById(R.id.price_et);
         bSubmit = (ActionButton) findViewById(R.id.submit_b);
         pbSubmit = (ProgressBar) findViewById(R.id.submit_pb);
@@ -166,11 +164,6 @@ public class EditNoticeActivity extends AppCompatActivity {
                 acLocation.setText(location);
             }
 
-            int size = notice.getSize();
-            if (size != 0) {
-                etSize.setText(String.valueOf(size));
-            }
-
             double price = notice.getPrice();
             if (price != 0.0) {
                 etPrice.setText(String.valueOf(price));
@@ -218,13 +211,6 @@ public class EditNoticeActivity extends AppCompatActivity {
         String location = acLocation.getText().toString().trim();
         params.put("notice[full_location]", location);
 
-        String size = etSize.getText().toString().trim();
-        if (!size.equals("")) {
-            params.put("notice[size]", size);
-        } else {
-            params.put("notice[size]", "0");
-        }
-
         String price = etPrice.getText().toString().trim();
         if (!price.equals("")) {
             params.put("notice[price]", price);
@@ -233,7 +219,6 @@ public class EditNoticeActivity extends AppCompatActivity {
         }
         try {
             params.put("notice[student_id]", String.valueOf(((AppContext) getApplication()).getSession().getStudentLogged().getId()));
-            params.put("notice[type_of_notice]", "rent");
         }catch(Exception e ){
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);

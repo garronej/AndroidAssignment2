@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.software.shell.fab.ActionButton;
@@ -39,6 +41,9 @@ public class YourNoticesFragment extends Fragment implements NoticeFragment {
     private View root;
     private NoticesListView list;
 
+    private TextView tvNoNotices;
+    private ProgressBar pb;
+
     private List<AsyncTask<?,?,?>> pendingTasks = new ArrayList<>();
 
     public YourNoticesFragment(){}
@@ -63,6 +68,9 @@ public class YourNoticesFragment extends Fragment implements NoticeFragment {
         });
 
         }
+        pb = (ProgressBar) root.findViewById(R.id.progress_bar);
+        tvNoNotices = (TextView) root.findViewById(R.id.no_notices_tv);
+
         initWithData();
 
         return root;
@@ -119,6 +127,10 @@ public class YourNoticesFragment extends Fragment implements NoticeFragment {
 
     private void initList(List<Notice> notices){
         if(list!=null){
+            pb.setVisibility(View.GONE);
+            if (notices.size() == 0) {
+                tvNoNotices.setVisibility(View.VISIBLE);
+            }
             list.setContent(YourNoticesFragment.this.getActivity(), notices);
             //add the listener
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

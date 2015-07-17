@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -52,6 +54,10 @@ public class AllNoticesFragment extends Fragment implements NoticeFragment {
     private List<AsyncTask<?,?,?>> pendingTasks = new ArrayList<>();
     private MapView mapView;
     private Map<String, Notice> markerIdToNotice;
+    private View btnMore;
+
+    private TextView tvNoNotices;
+    private ProgressBar pb;
 
     public AllNoticesFragment(){}
 
@@ -73,7 +79,7 @@ public class AllNoticesFragment extends Fragment implements NoticeFragment {
 
         initWithData();
 
-        View btnMore = root.findViewById(R.id.btn_load_more);
+        btnMore = root.findViewById(R.id.btn_load_more);
 
         if(btnMore != null){
             btnMore.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +88,10 @@ public class AllNoticesFragment extends Fragment implements NoticeFragment {
                 addPageOfData();
                 }
             });
-
         }
+
+        pb = (ProgressBar) root.findViewById(R.id.progress_bar);
+        tvNoNotices = (TextView) root.findViewById(R.id.no_notices_tv);
 
 
         return root;
@@ -185,6 +193,9 @@ public class AllNoticesFragment extends Fragment implements NoticeFragment {
 
     private void initList(List<Notice> notices){
         if(list!=null){
+            pb.setVisibility(View.GONE);
+            if (countOfNotices == 0) { tvNoNotices.setVisibility(View.VISIBLE); }
+            btnMore.setVisibility(View.VISIBLE);
             list.setContent(AllNoticesFragment.this.getActivity(), notices);
             //add the listener
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -234,8 +245,12 @@ public class AllNoticesFragment extends Fragment implements NoticeFragment {
                     return;
                 }
                 countOfNotices+=notices.size();
-                if(list!=null)
+                if(list!=null) {
                     list.addNotices(notices);
+                    if (notices.size() < NUMBER_OF_ITEMS_PER_PAGE) {
+                        btnMore.setVisibility(View.GONE);
+                    }
+                }
 
                 if(mapView!=null){
                     if(notices.size()>0) {
@@ -300,9 +315,6 @@ public class AllNoticesFragment extends Fragment implements NoticeFragment {
             if(activity.getFilters().getInt("radius", -1)!=-1){
                 params.put("notice[radius]", ""+activity.getFilters().getInt("radius", -1));
             }
-            if(activity.getFilters().getInt("size", -1)!=-1){
-                params.put("notice[size]", ""+activity.getFilters().getInt("size", -1));
-            }
             if(activity.getFilters().getInt("price", -1)!=-1){
                 params.put("notice[price]", ""+activity.getFilters().getInt("price", -1));
             }
@@ -331,12 +343,6 @@ public class AllNoticesFragment extends Fragment implements NoticeFragment {
                     break;
                 case 3:
                     params.put("notice[price_order]", "desc");
-                    break;
-                case 4:
-                    params.put("notice[size_order]", "asc");
-                    break;
-                case 5:
-                    params.put("notice[size_order]", "desc");
                     break;
             }
 

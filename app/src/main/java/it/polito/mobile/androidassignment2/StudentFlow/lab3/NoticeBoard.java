@@ -482,11 +482,11 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return getString(R.string.rent_offers).toUpperCase(l);
+                    return getString(R.string.all).toUpperCase(l);
                 case 1:
-                    return getString(R.string.bookmarks).toUpperCase(l);
+                    return getString(R.string.fav).toUpperCase(l);
                 case 2:
-                    return getString(R.string.your_offers).toUpperCase(l);
+                    return getString(R.string.yours).toUpperCase(l);
             }
             return null;
         }

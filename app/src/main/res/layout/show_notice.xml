@@ -118,16 +118,13 @@
             android:layout_marginLeft="@dimen/side_margin"
             android:layout_marginRight="@dimen/side_margin"
             android:layout_marginTop="@dimen/vertical_margin"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <com.software.shell.fab.ActionButton
                 android:id="@+id/bookmark_b"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="top|left"
-                android:layout_marginBottom="@dimen/fab_margin"
-                android:layout_marginLeft="@dimen/fab_margin"
                 fab:button_color="@color/app_default_background"
                 fab:button_colorPressed="@color/fab_material_blue_900"
                 fab:image="@drawable/abc_btn_rating_star_off_mtrl_alpha"
@@ -137,9 +134,6 @@
                 android:id="@+id/inadequate_b"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="top|left"
-                android:layout_marginBottom="@dimen/fab_margin"
                 android:layout_marginLeft="@dimen/fab_margin"
                 fab:button_color="@color/app_default_background"
                 fab:button_colorPressed="@color/fab_material_blue_900"
@@ -181,25 +175,10 @@
             android:layout_marginTop="@dimen/vertical_margin"
             android:orientation="horizontal">
 
-
-            <Button
-                android:id="@+id/size_b"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/side_margin"
-                android:layout_weight="5"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="#fff"
-                />
-
             <Button
                 android:id="@+id/price_b"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_weight="5"
                 android:clickable="false"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"

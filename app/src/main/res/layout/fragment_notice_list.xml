@@ -7,12 +7,27 @@
     android:orientation="vertical"
     >
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_notices"
+        android:gravity="center"
+        android:id="@+id/no_notices_tv"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="visible"/>
+
     <it.polito.mobile.androidassignment2.StudentFlow.lab3.noticesList.NoticesListView
         android:id="@+id/notice_list"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
         android:layout_width="match_parent" android:layout_height="0dp"
         android:layout_weight="1"
     />

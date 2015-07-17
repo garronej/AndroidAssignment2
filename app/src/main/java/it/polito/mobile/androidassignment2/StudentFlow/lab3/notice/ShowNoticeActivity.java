@@ -62,7 +62,6 @@ public class ShowNoticeActivity extends AppCompatActivity {
 	private TextView description;
 	private TextView tags;
     private TextView address;
-    private TextView size;
     private TextView price;
 	private TextView phoneNumber;
 	private TextView email;
@@ -105,7 +104,6 @@ public class ShowNoticeActivity extends AppCompatActivity {
         address = (TextView) findViewById(R.id.location_tv);
         email = (TextView) findViewById(R.id.email_tv);
         inappropriateCount = (TextView) findViewById(R.id.inappropriate_count_tv);
-        size = (TextView) findViewById(R.id.size_b);
         price = (TextView) findViewById(R.id.price_b);
         openGalleryButton = (ActionButton) findViewById(R.id.gallery_b);
         bookmarksButton = (ActionButton) findViewById(R.id.bookmark_b);
@@ -177,10 +175,6 @@ public class ShowNoticeActivity extends AppCompatActivity {
         }
 
         inappropriateCount.setText(String.valueOf(notice.getCountInappropriate())); // it's at least 0
-
-        if (notice.getSize() != 0) {
-            size.setText(notice.getSize() + "mq");
-        }
 
         if (notice.getPrice() != 0.0) {
             price.setText(String.valueOf(notice.getPrice()) + "€");

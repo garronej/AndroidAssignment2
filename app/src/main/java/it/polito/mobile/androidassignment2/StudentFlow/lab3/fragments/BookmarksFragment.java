@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -49,6 +51,9 @@ public class BookmarksFragment extends Fragment implements NoticeFragment {
     private MapView mapView;
     private Map<String, Notice> markerIdToNotice;
 
+    private TextView tvNoNotices;
+    private ProgressBar pb;
+
     public BookmarksFragment(){}
 
     @Nullable
@@ -66,6 +71,9 @@ public class BookmarksFragment extends Fragment implements NoticeFragment {
         if(mapView!=null){
             mapView.onCreate(savedInstanceState);
         }
+
+        pb = (ProgressBar) root.findViewById(R.id.progress_bar);
+        tvNoNotices = (TextView) root.findViewById(R.id.no_notices_tv);
 
         initWithData();
 
@@ -162,7 +170,12 @@ public class BookmarksFragment extends Fragment implements NoticeFragment {
 
     private void initList(List<Notice> notices){
         if(list!=null){
+            pb.setVisibility(View.GONE);
             list.setContent(BookmarksFragment.this.getActivity(), notices);
+
+            if (notices.size() == 0) {
+                tvNoNotices.setVisibility(View.VISIBLE);
+            }
             //add the listener
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

@@ -286,4 +286,9 @@
     <string name="select_recipient_title">Select recipient</string>
     <string name="device_not_supported">This device is not supported</string>
 
+    <string name="all">All</string>
+    <string name="yours">Yours</string>
+    <string name="action_search">Search</string>
+    <string name="category">Tags</string>
+    <string name="no_notices">No notices yet</string>
 </resources>
