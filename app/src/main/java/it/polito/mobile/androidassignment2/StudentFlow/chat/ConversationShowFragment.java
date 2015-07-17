@@ -459,7 +459,7 @@ public class ConversationShowFragment extends Fragment {
                 if (s.getId() == studentId) continue;
                 members += s.getFullnameOrEmail() + ", ";
             }
-            tvMembers.setText(members.substring(0, members.length() - 1));
+            tvMembers.setText(members.substring(0, members.length() - 2));
             tvMembers.setVisibility(View.VISIBLE);
         }
     }
