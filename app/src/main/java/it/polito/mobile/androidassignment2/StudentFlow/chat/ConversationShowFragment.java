@@ -52,6 +52,7 @@ public class ConversationShowFragment extends Fragment {
     private ListView messageList;
     private EditText messageText;
     private TextView tvNoMessages;
+    private TextView tvMembers;
     private List<Message> messages = new ArrayList<>();
     private View header;
     private AsyncTask<Conversation, Void, List<Message>> t;
@@ -81,6 +82,7 @@ public class ConversationShowFragment extends Fragment {
         messageList = (ListView)view.findViewById(R.id.message_list);
         messageText = (EditText)view.findViewById(R.id.message_et);
         tvNoMessages = (TextView) view.findViewById(R.id.no_messages_tv);
+        tvMembers = (TextView) view.findViewById(R.id.members_tv);
 
         return view;
     }
@@ -450,11 +452,15 @@ public class ConversationShowFragment extends Fragment {
     }
 
     private void updateMembersListTV(){
-        String membersList ="";
-        //Log.d("marco", "In update of tv the student id is "+studentId);
-        for(Student s : getConversation().getStudents()){
-            if(s.getId() == studentId) continue;
-            membersList+=s.getFullnameOrEmail()+",";
+        Conversation conversation = getConversation();
+        if (conversation.isGroup()) {
+            String members = "";
+            for (Student s : conversation.getStudents()) {
+                if (s.getId() == studentId) continue;
+                members += s.getFullnameOrEmail() + ", ";
+            }
+            tvMembers.setText(members.substring(0, members.length() - 1));
+            tvMembers.setVisibility(View.VISIBLE);
         }
     }
 }
