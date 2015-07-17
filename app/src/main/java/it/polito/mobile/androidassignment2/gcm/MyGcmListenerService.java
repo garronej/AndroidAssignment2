@@ -126,11 +126,10 @@ public class MyGcmListenerService extends GcmListenerService {
                 .setContentTitle(notificationTitle)
                 .setContentText(notificationMessage)
                 .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                //.setFullScreenIntent(pendingIntent, false)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
-                .setNumber(counter);
+                .setNumber(counter)
+                .setTicker(notificationTitle);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
