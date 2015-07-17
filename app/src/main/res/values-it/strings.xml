@@ -242,5 +242,10 @@
     <string name="write_your_message_here">Scrivi un messaggio...</string>
     <string name="you_have_received_new_messages">Hai ricevuto nuovi messaggi</string>
     <string name="your_offers">Le tue offerte</string>
+    <string name="action_search">Ricerca</string>
+    <string name="all">Tutti</string>
+    <string name="category">Tag</string>
+    <string name="no_notices">Nessun annuncio</string>
+    <string name="yours">Tuoi</string>
 
 </resources>
