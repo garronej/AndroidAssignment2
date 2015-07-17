@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PoliJobs</string>
+    <string name="app_name">PoliTo</string>
     <string name="title_section1">Profilo</string>
     <string name="title_section2">Offerte</string>
     <string name="title_section3">Chat</string>
@@ -131,7 +131,7 @@
     <string name="applied">Candidato</string>
     <string name="companies">Aziende</string>
     <string name="related_offers">Offerte</string>
-    <string name="appName">PoliJobs</string>
+    <string name="appName">PoliTo</string>
     <string name="title_activity_search_offer">Cerca offerta</string>
     <string name="delete_offer">Cancella offerta</string>
     <string name="delete_offer_message">Vuoi cancellare questa offerta?</string>
