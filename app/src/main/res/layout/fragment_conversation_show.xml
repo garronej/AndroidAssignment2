@@ -1,5 +1,4 @@
-<LinearLayout
-    android:orientation="vertical"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,6 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:id="@+id/no_messages_tv"
         android:text="@string/no_message"
         android:visibility="gone"
@@ -21,6 +21,8 @@
     <ListView
         android:scrollbarStyle="outsideInset"
         android:id="@+id/message_list"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/message_et"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:stackFromBottom="true"
@@ -39,7 +41,8 @@
         android:layout_weight="0"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_alignParentBottom="true"
 
         />
 
-</LinearLayout>
+</RelativeLayout>
