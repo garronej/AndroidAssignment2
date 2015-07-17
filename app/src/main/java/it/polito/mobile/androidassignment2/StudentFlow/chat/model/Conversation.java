@@ -109,8 +109,8 @@ public class Conversation implements Serializable {
             //TODO not really safe....
             try {
             s = getStudents().get(0).getId().equals(loggedStudentId) ?
-                    getStudents().get(1).getFullname() :
-                    getStudents().get(0).getFullname();
+                    getStudents().get(1).getFullnameOrEmail() :
+                    getStudents().get(0).getFullnameOrEmail();
 
             } catch (Exception e) {
 

@@ -370,7 +370,7 @@ public class ConversationShowFragment extends Fragment {
                                 tvSender.setVisibility(View.VISIBLE);
 
                                 int senderIndex = getConversation().getStudents().indexOf(n.getSender());
-                                tvSender.setText(getConversation().getStudents().get(senderIndex).getFullname());
+                                tvSender.setText(getConversation().getStudents().get(senderIndex).getFullnameOrEmail());
                             }else{
                                 tvSender.setVisibility(View.GONE);
                             }
@@ -426,7 +426,7 @@ public class ConversationShowFragment extends Fragment {
         //Log.d("marco", "In update of tv the student id is "+studentId);
         for(Student s : getConversation().getStudents()){
             if(s.getId() == studentId) continue;
-            membersList+=s.getFullname()+",";
+            membersList+=s.getFullnameOrEmail()+",";
         }
     }
 }

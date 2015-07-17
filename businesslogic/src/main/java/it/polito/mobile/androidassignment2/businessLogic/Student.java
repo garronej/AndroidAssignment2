@@ -491,4 +491,8 @@ public class Student implements Serializable {
     public void setSex(String sex) {
         this.sex = sex;
     }
+
+    public String getFullnameOrEmail(){
+        return ( getFullname()==null || getFullname().equals("") ) ? getEmail() : getFullname();
+    }
 }

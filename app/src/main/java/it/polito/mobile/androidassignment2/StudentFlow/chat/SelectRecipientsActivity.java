@@ -94,7 +94,7 @@ public class SelectRecipientsActivity extends ActionBarActivity {
                             convertView = SelectRecipientsActivity.this.getLayoutInflater().inflate(item_layout, parent, false);
                         }
                         Student n = (Student) getItem(position);
-                        ((TextView) convertView.findViewById(android.R.id.text1)).setText(n.getFullname());
+                        ((TextView) convertView.findViewById(android.R.id.text1)).setText(n.getFullnameOrEmail());
 
                         if (convertView instanceof CheckedTextView) {
                             SparseBooleanArray checked = lvRecipients.getCheckedItemPositions();
