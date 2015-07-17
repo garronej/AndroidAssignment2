@@ -1,7 +1,10 @@
 package it.polito.mobile.androidassignment2.StudentFlow.chat;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +26,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,6 +42,7 @@ import it.polito.mobile.androidassignment2.StudentFlow.chat.model.Message;
 import it.polito.mobile.androidassignment2.StudentFlow.chat.model.Util;
 import it.polito.mobile.androidassignment2.businessLogic.Student;
 import it.polito.mobile.androidassignment2.context.AppContext;
+import it.polito.mobile.androidassignment2.gcm.MyGcmListenerService;
 
 
 public class ConversationShowFragment extends Fragment {
@@ -52,6 +59,21 @@ public class ConversationShowFragment extends Fragment {
     private AsyncTask<Conversation, Void, List<Message>> t2;
 
     private int studentId = -1 ;
+
+    private BroadcastReceiver messageReceivedBR = new MessageReceived();
+    public class MessageReceived extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //TODO MARCO: this should be refreshed only if messageJson is from this conversation
+            String messageJson = intent.getStringExtra("messageJson");
+            Toast.makeText(getActivity(), messageJson, Toast.LENGTH_SHORT).show();
+            try {
+                Message m = new Message(new JSONObject(messageJson).getJSONObject("message"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -393,12 +415,17 @@ public class ConversationShowFragment extends Fragment {
                 //nothing to do
             }
         });
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().registerReceiver(messageReceivedBR, new IntentFilter(MyGcmListenerService.MESSAGE_RECEIVED));
     }
 
     @Override
     public void onPause() {
-        super.onPause();
+        getActivity().unregisterReceiver(messageReceivedBR);
         if(t!=null && (t.getStatus()== AsyncTask.Status.RUNNING || t.getStatus() == AsyncTask.Status.PENDING)){
             t.cancel(true);
         }
@@ -408,6 +435,7 @@ public class ConversationShowFragment extends Fragment {
         if(t2!=null && (t2.getStatus()== AsyncTask.Status.RUNNING || t2.getStatus() == AsyncTask.Status.PENDING)){
             t2.cancel(true);
         }
+        super.onPause();
     }
 
     //only called from ConversationsActivity when both frags are visible at the same time

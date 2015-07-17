@@ -38,6 +38,7 @@ import it.polito.mobile.androidassignment2.StudentFlow.lab3.NoticeBoard;
 public class MyGcmListenerService extends GcmListenerService {
 
     private static final String TAG = "MyGcmListenerService";
+    public static final String MESSAGE_RECEIVED = "it.polito.mobile.androidassignment2.gcm.NEW_MESSAGE_RECEIVED";
 
     /**
      * Called when message is received.
@@ -52,6 +53,7 @@ public class MyGcmListenerService extends GcmListenerService {
         String title = data.getString("title");
         String message = data.getString("message");
         String type = data.getString("type");
+        String messageJson = data.getString("message_json");
 
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
@@ -67,7 +69,7 @@ public class MyGcmListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
-        sendNotification(type, title, message);
+        sendNotification(type, title, message, messageJson);
     }
     // [END receive_message]
 
@@ -78,7 +80,7 @@ public class MyGcmListenerService extends GcmListenerService {
      */
     private static int scheduleChangeCounter = 0;
 
-    private void sendNotification(String type, String title, String message) {
+    private void sendNotification(String type, String title, String message, String messageJson) {
         Intent intent = null;
         int notificationId;
         int counter;
@@ -110,8 +112,12 @@ public class MyGcmListenerService extends GcmListenerService {
             editor.commit();
 
             intent = new Intent(this, ConversationsActivity.class);
-            notificationTitle = getApplicationContext().getString(R.string.app_name);
+            notificationTitle = getApplicationContext().getString(R.string.new_message);
             notificationMessage = getApplicationContext().getString(R.string.you_have_received_new_messages);
+
+            Intent i = new Intent(MESSAGE_RECEIVED);
+            i.putExtra("messageJson", messageJson);
+            sendBroadcast(i);
         } else {
             throw new RuntimeException("type of notification not supported");
         }

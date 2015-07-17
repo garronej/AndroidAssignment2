@@ -2,7 +2,12 @@ package it.polito.mobile.androidassignment2.StudentFlow.chat;
 
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,8 +17,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +36,8 @@ import it.polito.mobile.androidassignment2.StudentFlow.chat.model.Conversation;
 import it.polito.mobile.androidassignment2.StudentFlow.chat.model.Message;
 import it.polito.mobile.androidassignment2.StudentFlow.chat.model.Util;
 import it.polito.mobile.androidassignment2.context.AppContext;
+import it.polito.mobile.androidassignment2.gcm.MyGcmListenerService;
+import it.polito.mobile.androidassignment2.s3client.models.DownloadModel;
 
 
 public class ConversationsListFragment extends Fragment {
@@ -37,6 +48,21 @@ public class ConversationsListFragment extends Fragment {
     private int selectedItem;
     private List<Conversation> conversations;
     private List<AsyncTask<Integer, Void, List<Conversation>>> tList;
+
+    private BroadcastReceiver messageReceivedBR = new MessageReceived();
+    public class MessageReceived extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //TODO MARCO
+            String messageJson = intent.getStringExtra("messageJson");
+            Toast.makeText(getActivity(), messageJson, Toast.LENGTH_SHORT).show();
+            try {
+                Message m = new Message(new JSONObject(messageJson).getJSONObject("message"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void onMessageSent(Message m) {
         if (((ConversationsActivity) getActivity()).getSelectedConversation() != null) {
@@ -86,16 +112,18 @@ public class ConversationsListFragment extends Fragment {
         super.onResume();
         tList = new ArrayList<>();
         refreshConversations();
+        getActivity().registerReceiver(messageReceivedBR, new IntentFilter(MyGcmListenerService.MESSAGE_RECEIVED));
     }
 
     @Override
     public void onPause() {
-        super.onPause();
+        getActivity().unregisterReceiver(messageReceivedBR);
         for(AsyncTask<?,?,?> t:tList){
             if(!t.isCancelled() && (t.getStatus()== AsyncTask.Status.RUNNING||t.getStatus()== AsyncTask.Status.PENDING)){
                 t.cancel(true);
             }
         }
+        super.onPause();
     }
 
     public void refreshConversations(){
