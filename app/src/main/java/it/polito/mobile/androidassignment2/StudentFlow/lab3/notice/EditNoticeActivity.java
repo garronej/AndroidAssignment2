@@ -242,6 +242,7 @@ public class EditNoticeActivity extends AppCompatActivity {
             bSubmit.setVisibility(View.VISIBLE);
         } else {
             AsyncTask<Void, Void, String> t = new AsyncTask<Void, Void, String>() {
+                Exception e;
                 @Override
                 protected String doInBackground(Void... voids) {
                     String response = null;
@@ -252,7 +253,7 @@ public class EditNoticeActivity extends AppCompatActivity {
                             response = RESTManager.send(RESTManager.POST, "notices/", params);
                         }
                     } catch (Exception e) {
-                        Toast.makeText(EditNoticeActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
+                        this.e=e;
                     }
                     return response;
                 }
@@ -260,6 +261,10 @@ public class EditNoticeActivity extends AppCompatActivity {
                 @Override
                 protected void onPostExecute(String response) {
                     super.onPostExecute(response);
+                    if(this.e!=null){
+                        Toast.makeText(EditNoticeActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     pbSubmit.setVisibility(View.GONE);
                     bSubmit.setVisibility(View.VISIBLE);
                     if (role.equals("create")) {

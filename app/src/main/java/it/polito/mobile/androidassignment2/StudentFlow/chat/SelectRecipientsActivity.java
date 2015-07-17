@@ -30,7 +30,6 @@ public class SelectRecipientsActivity extends ActionBarActivity {
 
     private final String TAG = "select recipients";
     private ListView lvRecipients;
-    private Button bCreateGroup;
     BaseAdapter arrayAdapter = null;
 
 
@@ -46,7 +45,7 @@ public class SelectRecipientsActivity extends ActionBarActivity {
         }
 
         lvRecipients = (ListView) findViewById(R.id.recipients_lv);
-        bCreateGroup = (Button) findViewById(R.id.create_group_b);
+        Button bCreateGroup = (Button) findViewById(R.id.create_group_b);
         final View groupLL = findViewById(R.id.groupLinearLayout);
 
         //these should be fetched from backend
@@ -117,7 +116,7 @@ public class SelectRecipientsActivity extends ActionBarActivity {
 
             @Override
             public void onException(Exception e) {
-                Toast.makeText(SelectRecipientsActivity.this, R.string.network_error, Toast.LENGTH_SHORT);
+                Toast.makeText(SelectRecipientsActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -158,7 +157,7 @@ public class SelectRecipientsActivity extends ActionBarActivity {
 
                             @Override
                             public void onException(Exception e) {
-                                Toast.makeText(SelectRecipientsActivity.this, R.string.network_error, Toast.LENGTH_SHORT);
+                                Toast.makeText(SelectRecipientsActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -223,12 +222,11 @@ public class SelectRecipientsActivity extends ActionBarActivity {
 
                                 @Override
                                 public void onException(Exception e) {
-                                    Toast.makeText(SelectRecipientsActivity.this, R.string.network_error, Toast.LENGTH_SHORT);
+                                    Toast.makeText(SelectRecipientsActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
                                 public void cancel() {
-                                    //TODO???
                                 }
                             });
                         } catch (Exception e) {

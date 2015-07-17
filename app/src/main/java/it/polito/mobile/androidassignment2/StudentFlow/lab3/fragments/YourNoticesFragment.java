@@ -130,6 +130,8 @@ public class YourNoticesFragment extends Fragment implements NoticeFragment {
             pb.setVisibility(View.GONE);
             if (notices.size() == 0) {
                 tvNoNotices.setVisibility(View.VISIBLE);
+            }else{
+                tvNoNotices.setVisibility(View.GONE);
             }
             list.setContent(YourNoticesFragment.this.getActivity(), notices);
             //add the listener
@@ -137,7 +139,7 @@ public class YourNoticesFragment extends Fragment implements NoticeFragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Intent intent = new Intent(getActivity(), ShowNoticeActivity.class);
-                    intent.putExtra("noticeId", (int)l);
+                    intent.putExtra("noticeId", (int) l);
                     startActivity(intent);
 
                 }

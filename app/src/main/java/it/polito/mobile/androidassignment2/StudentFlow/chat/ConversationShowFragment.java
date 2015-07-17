@@ -65,12 +65,30 @@ public class ConversationShowFragment extends Fragment {
     public class MessageReceived extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //TODO MARCO: this should be refreshed only if messageJson is from this conversation
+            //TODO: to be tested
             String messageJson = intent.getStringExtra("messageJson");
-            Toast.makeText(getActivity(), messageJson, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), messageJson, Toast.LENGTH_SHORT).show();
             try {
                 Message m = new Message(new JSONObject(messageJson).getJSONObject("message"));
-            } catch (JSONException e) {
+                Conversation thisConversation = getConversation();
+                if(thisConversation != null &&
+                        thisConversation.getId()==m.getConversation().getId()){
+                    View v = messageList.getChildAt(0);
+                    final int top = (v == null) ? 0 : v.getTop();
+
+                    tvNoMessages.setVisibility(View.GONE);
+                    messages.add(m);
+                    ((BaseAdapter)((HeaderViewListAdapter)messageList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
+
+
+                    messageList.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            messageList.setSelectionFromTop(messages.size(),top);
+                        }
+                    });
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -89,7 +107,7 @@ public class ConversationShowFragment extends Fragment {
 
     private void sendMessage() {
         if(messageText.getText().toString().trim().equals(""))return;
-        try{
+
         final Message m = new Message();
         m.setMessage(messageText.getText().toString().trim());
         messageText.setText("");
@@ -128,7 +146,6 @@ public class ConversationShowFragment extends Fragment {
 
             @Override
             public void onException(Exception e) {
-                //TODO
                 Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
                 messageText.setText(m.getMessage());
             }
@@ -138,10 +155,7 @@ public class ConversationShowFragment extends Fragment {
 
             }
         });
-        }catch (Exception e){
-            //TODO: what to do?
-            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT);
-        }
+
 
     }
     private void hideKeyboard() {
@@ -270,8 +284,7 @@ public class ConversationShowFragment extends Fragment {
 
                         @Override
                         public void onException(Exception e) {
-                            //TODO
-                            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT);
+                            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
                         }
 
                         @Override

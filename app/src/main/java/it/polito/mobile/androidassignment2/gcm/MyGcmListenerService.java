@@ -135,6 +135,7 @@ public class MyGcmListenerService extends GcmListenerService {
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
                 .setNumber(counter)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setTicker(notificationTitle);
 
         NotificationManager notificationManager =

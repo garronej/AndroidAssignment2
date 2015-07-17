@@ -53,11 +53,22 @@ public class ConversationsListFragment extends Fragment {
     public class MessageReceived extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //TODO MARCO
+            //TODO: to be tested
             String messageJson = intent.getStringExtra("messageJson");
-            Toast.makeText(getActivity(), messageJson, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), messageJson, Toast.LENGTH_SHORT).show();
             try {
                 Message m = new Message(new JSONObject(messageJson).getJSONObject("message"));
+                for (int i =0;i<conversations.size();++i) {
+                    if (m.getConversation().getId() == conversations.get(i).getId()) {
+                        Conversation c = conversations.get(i);
+                        c.setLastMessage(m);
+                        conversations.remove(i);
+                        conversations.add(0,c);
+                        ((BaseAdapter)lvConversations.getAdapter()).notifyDataSetChanged();
+                        lvConversations.setSelectionFromTop(0,0);
+                        break;
+                    }
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -221,8 +232,7 @@ public class ConversationsListFragment extends Fragment {
 
                         @Override
                         public void onException(Exception e) {
-                            //TODO: handle exceptions
-                            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT);
+                            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -234,7 +244,6 @@ public class ConversationsListFragment extends Fragment {
                     })
             );
         }catch(Exception e){
-            //TODO
             throw new RuntimeException(e);
         }
 
@@ -249,7 +258,6 @@ public class ConversationsListFragment extends Fragment {
                 m.put("recipient", c.getTitle());
             }else{
                 //not really safe....
-                //TODO change the student with the logged one
                 m.put("recipient", c.getStudents().get(0).getId()==FakeStudent.getId()?c.getStudents().get(1).getFullname():c.getStudents().get(0).getFullname());
             }
             if(c.getLastMessage()!=null) {

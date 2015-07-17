@@ -175,13 +175,15 @@ public class BookmarksFragment extends Fragment implements NoticeFragment {
 
             if (notices.size() == 0) {
                 tvNoNotices.setVisibility(View.VISIBLE);
+            }else{
+                tvNoNotices.setVisibility(View.GONE);
             }
             //add the listener
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Intent intent = new Intent(getActivity(), ShowNoticeActivity.class);
-                    intent.putExtra("noticeId", (int)l);
+                    intent.putExtra("noticeId", (int) l);
                     startActivity(intent);
 
                 }

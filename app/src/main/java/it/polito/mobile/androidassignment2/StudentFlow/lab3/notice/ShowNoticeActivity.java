@@ -334,7 +334,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
     private void setupUnfav(){
         //bookmarksButton.setText(getResources().getString(R.string.remove_from_bookmarks));
         bookmarksButton.setImageDrawable(getResources().getDrawable(R.drawable.abc_btn_rating_star_on_mtrl_alpha));
-        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.fav_ok), Toast.LENGTH_SHORT).show();
+
 
         bookmarksButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -362,6 +362,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
                             Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.network_error), Toast.LENGTH_LONG).show();
                             return;
                         }
+                        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.unfav_ok), Toast.LENGTH_SHORT).show();
                         setupFav();
                     }
                 };
@@ -375,7 +376,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
     private void setupFav(){
         //bookmarksButton.setText(getResources().getString(R.string.add_to_bookmarks));
         bookmarksButton.setImageDrawable(getResources().getDrawable(R.drawable.abc_btn_rating_star_off_mtrl_alpha));
-        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.unfav_ok), Toast.LENGTH_SHORT).show();
+        //
 
         bookmarksButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -404,6 +405,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
                             Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.network_error), Toast.LENGTH_LONG).show();
                             return;
                         }
+                        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.fav_ok), Toast.LENGTH_SHORT).show();
                         setupUnfav();
                     }
                 };
@@ -416,7 +418,6 @@ public class ShowNoticeActivity extends AppCompatActivity {
     private void setupRemoveInadequate(){
        // inappropriateFlag.setImageDrawable(getResources().getDrawable(R.drawable.appropriate));
         inappropriateFlag.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_deny));
-        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.add_in_ok), Toast.LENGTH_SHORT).show();
         inappropriateFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -444,6 +445,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
                             return;
                         }
                         inappropriateCount.setText("" + (Integer.parseInt(inappropriateCount.getText().toString()) - 1));
+                        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.rem_in_ok), Toast.LENGTH_SHORT).show();
                         setupInadequate();
                     }
                 };
@@ -457,7 +459,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
     private void setupInadequate(){
         //inappropriateFlag.setImageDrawable(getResources().getDrawable(R.drawable.inappropriate));
         inappropriateFlag.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_flag));
-        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.rem_in_ok), Toast.LENGTH_SHORT).show();
+
 
         inappropriateFlag.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -487,6 +489,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
                             return;
                         }
                         inappropriateCount.setText("" + (Integer.parseInt(inappropriateCount.getText().toString()) + 1));
+                        Toast.makeText(ShowNoticeActivity.this, getResources().getString(R.string.add_in_ok), Toast.LENGTH_SHORT).show();
                         setupRemoveInadequate();
                     }
                 };
@@ -632,12 +635,13 @@ public class ShowNoticeActivity extends AppCompatActivity {
         }
 
         AsyncTask<Void, Void, String> t = new AsyncTask<Void, Void, String>() {
+            private Exception e;
             @Override
             protected String doInBackground(Void... voids) {
                 try {
                     RESTManager.send(RESTManager.PUT, "notices/" + noticeId, params);
                 } catch (Exception e) {
-                    Toast.makeText(ShowNoticeActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
+                    this.e = e;
                 }
                 return null;
             }
@@ -645,6 +649,10 @@ public class ShowNoticeActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                if(this.e!=null){
+                    Toast.makeText(ShowNoticeActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 notice.setPictures(pendingPictures.toArray(new String[pendingPictures.size()]));
                 uploadImagesButton.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
