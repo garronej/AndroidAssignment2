@@ -23,9 +23,7 @@ public class Notice {
     private String address;
     private String telephone;
     private String[] tags;
-    private String typeOfNotice="rent";
     private String creationDate;
-    private int size;
     private int countInappropriate;
     private String[] pictures;
     private String email;
@@ -96,16 +94,7 @@ public class Notice {
             if( !buff.equals("null")){
                 this.creationDate = buff;
             }
-            buff = json.getString("type_of_notice");
 
-            if( !buff.equals("null")){
-                this.typeOfNotice = buff;
-            }
-            buff = json.getString("size");
-
-            if( !buff.equals("null")){
-                this.size = json.getInt("size");
-            }
             buff = json.getString("count_of_inappropriate");
 
             if( !buff.equals("null")){
@@ -235,14 +224,6 @@ public class Notice {
         this.tags = tags;
     }
 
-    public String getTypeOfNotice() {
-        return typeOfNotice;
-    }
-
-    public void setTypeOfNotice(String typeOfNotice) {
-        this.typeOfNotice = typeOfNotice;
-    }
-
     public String getCreationDate() {
         return creationDate;
     }
@@ -251,13 +232,6 @@ public class Notice {
         this.creationDate = creationDate;
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
 
     public int getCountInappropriate() {
         return countInappropriate;
@@ -288,9 +262,7 @@ public class Notice {
                 ", address='" + address + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", tags=" + Arrays.toString(tags) +
-                ", typeOfNotice='" + typeOfNotice + '\'' +
                 ", creationDate='" + creationDate + '\'' +
-                ", size=" + size +
                 ", countInappropriate=" + countInappropriate +
                 ", pictures=" + Arrays.toString(pictures) +
                 '}';
@@ -321,12 +293,7 @@ public class Notice {
         if(telephone!=null){
             s.put("notice[telephone_number]", telephone);
         }
-        if(typeOfNotice!=null){
-            s.put("notice[type_of_notice]", typeOfNotice);
-        }
-        //if(description!=null){
-            s.put("notice[size]", ""+size);
-        //}
+
         if(tags!=null && tags.length>0){
             String c=tags[0];
             for(int i=1;i<tags.length;i++){

@@ -91,21 +91,6 @@
             style="@style/ProfileItem" >
 
             <EditText
-                android:id="@+id/size_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/ProfileItemText"
-                android:hint="@string/size"
-                android:inputType="number"
-                android:imeOptions="actionDone"/>
-        </LinearLayout>
-
-        <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
-
-        <LinearLayout
-            style="@style/ProfileItem" >
-
-            <EditText
                 android:id="@+id/price_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

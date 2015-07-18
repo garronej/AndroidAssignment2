@@ -52,6 +52,7 @@ public class ConversationShowFragment extends Fragment {
     private ListView messageList;
     private EditText messageText;
     private TextView tvNoMessages;
+    private TextView tvMembers;
     private List<Message> messages = new ArrayList<>();
     private View header;
     private AsyncTask<Conversation, Void, List<Message>> t;
@@ -64,12 +65,30 @@ public class ConversationShowFragment extends Fragment {
     public class MessageReceived extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //TODO MARCO: this should be refreshed only if messageJson is from this conversation
+            //TODO: to be tested
             String messageJson = intent.getStringExtra("messageJson");
-            Toast.makeText(getActivity(), messageJson, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), messageJson, Toast.LENGTH_SHORT).show();
             try {
                 Message m = new Message(new JSONObject(messageJson).getJSONObject("message"));
-            } catch (JSONException e) {
+                Conversation thisConversation = getConversation();
+                if(thisConversation != null &&
+                        thisConversation.getId()==m.getConversation().getId()){
+                    View v = messageList.getChildAt(0);
+                    final int top = (v == null) ? 0 : v.getTop();
+
+                    tvNoMessages.setVisibility(View.GONE);
+                    messages.add(m);
+                    ((BaseAdapter)((HeaderViewListAdapter)messageList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
+
+
+                    messageList.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            messageList.setSelectionFromTop(messages.size(),top);
+                        }
+                    });
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -81,13 +100,14 @@ public class ConversationShowFragment extends Fragment {
         messageList = (ListView)view.findViewById(R.id.message_list);
         messageText = (EditText)view.findViewById(R.id.message_et);
         tvNoMessages = (TextView) view.findViewById(R.id.no_messages_tv);
+        tvMembers = (TextView) view.findViewById(R.id.members_tv);
 
         return view;
     }
 
     private void sendMessage() {
         if(messageText.getText().toString().trim().equals(""))return;
-        try{
+
         final Message m = new Message();
         m.setMessage(messageText.getText().toString().trim());
         messageText.setText("");
@@ -126,7 +146,6 @@ public class ConversationShowFragment extends Fragment {
 
             @Override
             public void onException(Exception e) {
-                //TODO
                 Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
                 messageText.setText(m.getMessage());
             }
@@ -136,10 +155,7 @@ public class ConversationShowFragment extends Fragment {
 
             }
         });
-        }catch (Exception e){
-            //TODO: what to do?
-            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT);
-        }
+
 
     }
     private void hideKeyboard() {
@@ -268,8 +284,7 @@ public class ConversationShowFragment extends Fragment {
 
                         @Override
                         public void onException(Exception e) {
-                            //TODO
-                            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT);
+                            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -450,11 +465,15 @@ public class ConversationShowFragment extends Fragment {
     }
 
     private void updateMembersListTV(){
-        String membersList ="";
-        //Log.d("marco", "In update of tv the student id is "+studentId);
-        for(Student s : getConversation().getStudents()){
-            if(s.getId() == studentId) continue;
-            membersList+=s.getFullnameOrEmail()+",";
+        Conversation conversation = getConversation();
+        if (conversation.isGroup()) {
+            String members = "";
+            for (Student s : conversation.getStudents()) {
+                if (s.getId() == studentId) continue;
+                members += s.getFullnameOrEmail() + ", ";
+            }
+            tvMembers.setText(members.substring(0, members.length() - 2));
+            tvMembers.setVisibility(View.VISIBLE);
         }
     }
 }

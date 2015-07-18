@@ -59,8 +59,6 @@ public class FiltersFragment extends Fragment {
         final Spinner sort = (Spinner) root.findViewById(R.id.sort);
         final AutocompleteTokensInput tagTokens = (AutocompleteTokensInput) root.findViewById(R.id.tags);
         setTagsAutocomplete(tagTokens);
-        final EditText textSize = (EditText) root.findViewById(R.id.size);
-        final EditText priceText = (EditText) root.findViewById(R.id.price);
 
         Button searchBtn = (Button) root.findViewById(R.id.search);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.sort_order));
@@ -96,9 +94,6 @@ public class FiltersFragment extends Fragment {
 
             radius.setProgress(activity.getFilters().getInt("radius", 0));
 
-            if(activity.getFilters().getInt("size", -1)!=-1){
-                textSize.setText("" + activity.getFilters().getInt("size", -1));
-            }
             if(activity.getFilters().getString("location")!=null
                     && !activity.getFilters().getString("location").equals("")){
                 location.setText(activity.getFilters().getString("location"));
@@ -109,9 +104,6 @@ public class FiltersFragment extends Fragment {
                 for(String s : tags){
                     tagTokens.addObject(s);
                 }
-            }
-            if(activity.getFilters().getInt("price", -1)!=-1){
-                priceText.setText("" + activity.getFilters().getInt("price", -1));
             }
 
             for(int i=0;i<sort.getAdapter().getCount();i++){
@@ -133,10 +125,6 @@ public class FiltersFragment extends Fragment {
 
                 bundle.putString("location", location.getText().toString());
                 bundle.putInt("radius", radius.getProgress());
-                if (!textSize.getText().toString().equals(""))
-                    bundle.putInt("size", Integer.parseInt(textSize.getText().toString()));
-                if (!priceText.getText().toString().equals(""))
-                    bundle.putInt("price", Integer.parseInt(priceText.getText().toString()));
                 String s = "";
                 for (Object o : tagTokens.getObjects()) {
                     s += o + ",";
