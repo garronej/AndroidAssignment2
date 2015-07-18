@@ -24,7 +24,7 @@
                 android:layout_marginBottom="@dimen/vertical_margin"
                 android:layout_marginLeft="@dimen/side_margin"
                 android:layout_marginRight="@dimen/side_margin"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_gravity="center_horizontal"
                 >
 
