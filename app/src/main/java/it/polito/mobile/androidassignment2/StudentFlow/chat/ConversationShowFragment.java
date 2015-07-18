@@ -55,6 +55,7 @@ public class ConversationShowFragment extends Fragment {
     private TextView tvMembers;
     private List<Message> messages = new ArrayList<>();
     private View header;
+    private Conversation currentConversation = null;
     private AsyncTask<Conversation, Void, List<Message>> t;
     private AsyncTask<Message, Void, Message> t1;
     private AsyncTask<Conversation, Void, List<Message>> t2;
@@ -70,9 +71,9 @@ public class ConversationShowFragment extends Fragment {
             //Toast.makeText(getActivity(), messageJson, Toast.LENGTH_SHORT).show();
             try {
                 Message m = new Message(new JSONObject(messageJson).getJSONObject("message"));
-                Conversation thisConversation = getConversation();
-                if(thisConversation != null &&
-                        thisConversation.getId()==m.getConversation().getId()){
+                //Conversation thisConversation = getConversation();
+                if(currentConversation != null &&
+                        currentConversation.getId()==m.getConversation().getId()){
                     View v = messageList.getChildAt(0);
                     final int top = (v == null) ? 0 : v.getTop();
 
@@ -116,7 +117,7 @@ public class ConversationShowFragment extends Fragment {
             s.manuallySetId(studentId);
             m.setSender(s);
 
-            m.setConversation(getConversation());
+            m.setConversation(currentConversation);
 
             t1=ChatHTTPClient.sendMessage(m, new ChatHTTPClient.ResultProcessor<Message>() {
                 @Override
@@ -194,12 +195,12 @@ public class ConversationShowFragment extends Fragment {
             throw new RuntimeException(e);
         }
 
-        Conversation conversation = getConversation();
+        currentConversation = getConversation();
 
 
         //Log.d("marco", "studentId: "+studentId);
 
-        if(conversation == null){
+        if(currentConversation == null){
             messageList.removeHeaderView(header);
             messageList.setAdapter(new BaseAdapter() {
                 @Override
@@ -224,7 +225,7 @@ public class ConversationShowFragment extends Fragment {
             });
             messageText.setVisibility(View.INVISIBLE);
         }else {
-            String s = conversation.getRecipientOrTitle(studentId);
+            String s = currentConversation.getRecipientOrTitle(studentId);
             getActivity().setTitle(s);
             updateMembersListTV();
             messageText.setVisibility(View.VISIBLE);
@@ -267,7 +268,7 @@ public class ConversationShowFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    t2 = ChatHTTPClient.getMessages(getConversation(), (int)Math.ceil(messages.size() / (double) NUMBER_OF_MESSAGES_PER_PAGE), NUMBER_OF_MESSAGES_PER_PAGE, new ChatHTTPClient.ResultProcessor<List<Message>>() {
+                    t2 = ChatHTTPClient.getMessages(currentConversation, (int)Math.ceil(messages.size() / (double) NUMBER_OF_MESSAGES_PER_PAGE), NUMBER_OF_MESSAGES_PER_PAGE, new ChatHTTPClient.ResultProcessor<List<Message>>() {
                         @Override
                         public void process(List<Message> arg) {
                             //int index = messageList.getFirstVisiblePosition();
@@ -344,6 +345,7 @@ public class ConversationShowFragment extends Fragment {
             @Override
             public void process(List<Message> arg) {
                 messages = arg;
+                currentConversation = getConversation();
                 if (arg.isEmpty() || arg.size() < NUMBER_OF_MESSAGES_PER_PAGE) {
                     header.findViewById(id.btn_more_messages).setVisibility(View.GONE);
                 } else {
@@ -406,11 +408,22 @@ public class ConversationShowFragment extends Fragment {
                             ((LinearLayout)convertView).setGravity(Gravity.LEFT);
                             lp.setMargins(0, 0, (int) ConversationShowFragment.this.getActivity().getResources().getDisplayMetrics().density * 30, 0);
                             container.setBackgroundResource(drawable.speech_bubble_brown);
-                            if(getConversation().isGroup()){
+                            if(currentConversation.isGroup()){
                                 tvSender.setVisibility(View.VISIBLE);
 
-                                int senderIndex = getConversation().getStudents().indexOf(n.getSender());
-                                tvSender.setText(getConversation().getStudents().get(senderIndex).getFullnameOrEmail());
+                                Log.d("marco", currentConversation.getTitle());
+                                Log.d("marco", "sender : " + n.getSender().getId());
+                                int senderIndex = -1;
+                                for(int i=0; i<currentConversation.getStudents().size();i++){
+                                    Log.d("marco","student "+currentConversation.getStudents().get(i).getId()+"; sender "+n.getSender().getId()+"; they are: "+currentConversation.getStudents().get(i).equals(n.getSender()));
+                                    if (currentConversation.getStudents().get(i).equals(n.getSender())){
+                                        senderIndex = i;
+                                        break;
+                                    }
+                                }
+                                //int senderIndex = currentConversation.getStudents().indexOf(n.getSender());
+                                Log.d("marco", "sender index : "+senderIndex);
+                                tvSender.setText(currentConversation.getStudents().get(senderIndex).getFullnameOrEmail());
                             }else{
                                 tvSender.setVisibility(View.GONE);
                             }

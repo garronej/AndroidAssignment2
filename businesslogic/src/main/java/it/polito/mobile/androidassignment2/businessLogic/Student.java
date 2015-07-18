@@ -479,7 +479,7 @@ public class Student implements Serializable {
     public boolean equals(Object o) {
         if(o instanceof Student){
             Student c = (Student) o;
-            return c.getId()==this.getId();
+            return c.getId().equals(this.getId());
         }
         return false;
     }
