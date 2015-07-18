@@ -400,14 +400,14 @@ public class ConversationShowFragment extends Fragment {
                             //lp.gravity = Gravity.RIGHT;
                             ((LinearLayout)convertView).setGravity(Gravity.RIGHT);
                             lp.setMargins((int) ConversationShowFragment.this.getActivity().getResources().getDisplayMetrics().density * 30, 0, 0, 0);
-                            container.setBackgroundResource(drawable.speech_bubble_green);
+                            container.setBackgroundResource(drawable.chat_bubbles_r);
                             tvSender.setVisibility(View.GONE);
 
                         } else {
                             //lp.gravity = Gravity.LEFT;
                             ((LinearLayout)convertView).setGravity(Gravity.LEFT);
                             lp.setMargins(0, 0, (int) ConversationShowFragment.this.getActivity().getResources().getDisplayMetrics().density * 30, 0);
-                            container.setBackgroundResource(drawable.speech_bubble_brown);
+                            container.setBackgroundResource(drawable.chat_bubbles_l);
                             if(currentConversation.isGroup()){
                                 tvSender.setVisibility(View.VISIBLE);
 
