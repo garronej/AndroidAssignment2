@@ -14,9 +14,12 @@
         android:layout_marginTop="5dp"
         android:textColor="@color/medium_dark_gray"
         android:gravity="center_horizontal"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:visibility="gone" />
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:singleLine="false"
+        android:visibility="gone"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" />
 
     <TextView
         android:layout_width="match_parent"
