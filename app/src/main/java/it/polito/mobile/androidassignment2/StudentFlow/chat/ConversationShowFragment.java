@@ -477,6 +477,8 @@ public class ConversationShowFragment extends Fragment {
             }
             tvMembers.setText(members.substring(0, members.length() - 2));
             tvMembers.setVisibility(View.VISIBLE);
+        }else{
+            tvMembers.setVisibility(View.GONE);
         }
     }
 }
