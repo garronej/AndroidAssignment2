@@ -29,7 +29,7 @@ public class Conversation implements Serializable {
             id=json.getInt("id");
             group = json.getBoolean("is_group");
             title = json.getString("title");
-            title = title.equals("null")?null:title;
+            title = title.equals("null")?null:title.trim();
             if(json.getString("last_message").equals("null")){
                 lastMessage=null;
             }else{

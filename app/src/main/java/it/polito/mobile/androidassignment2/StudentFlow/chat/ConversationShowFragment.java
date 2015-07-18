@@ -107,55 +107,58 @@ public class ConversationShowFragment extends Fragment {
 
     private void sendMessage() {
         if(messageText.getText().toString().trim().equals(""))return;
+        try{
+            final Message m = new Message();
+            m.setMessage(messageText.getText().toString().trim());
+            messageText.setText("");
+            hideKeyboard();
+            Student s = new Student();
+            s.manuallySetId(studentId);
+            m.setSender(s);
 
-        final Message m = new Message();
-        m.setMessage(messageText.getText().toString().trim());
-        messageText.setText("");
-        hideKeyboard();
-        Student s = new Student();
-        s.manuallySetId(studentId);
-        m.setSender(s);
+            m.setConversation(getConversation());
 
-        m.setConversation(getConversation());
+            t1=ChatHTTPClient.sendMessage(m, new ChatHTTPClient.ResultProcessor<Message>() {
+                @Override
+                public void process(Message arg) {
 
-        t1=ChatHTTPClient.sendMessage(m, new ChatHTTPClient.ResultProcessor<Message>() {
-            @Override
-            public void process(Message arg) {
+                    View v = messageList.getChildAt(0);
+                    final int top = (v == null) ? 0 : v.getTop();
 
-                View v = messageList.getChildAt(0);
-                final int top = (v == null) ? 0 : v.getTop();
-
-                tvNoMessages.setVisibility(View.GONE);
-                messages.add(arg);
-                ((BaseAdapter)((HeaderViewListAdapter)messageList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
+                    tvNoMessages.setVisibility(View.GONE);
+                    messages.add(arg);
+                    ((BaseAdapter)((HeaderViewListAdapter)messageList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
 
 
-                if(getActivity() instanceof ConversationsActivity){
-                    ((ConversationsActivity)getActivity()).onNewMessageSent(arg);
+                    if(getActivity() instanceof ConversationsActivity){
+                        ((ConversationsActivity)getActivity()).onNewMessageSent(arg);
+                    }
+
+                    messageList.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            messageList.setSelectionFromTop(messages.size(),top);
+                        }
+                    });
+
+
                 }
 
-                messageList.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        messageList.setSelectionFromTop(messages.size(),top);
-                    }
-                });
+                @Override
+                public void onException(Exception e) {
+                    Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
+                    messageText.setText(m.getMessage());
+                }
 
+                @Override
+                public void cancel() {
 
-            }
-
-            @Override
-            public void onException(Exception e) {
-                Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
-                messageText.setText(m.getMessage());
-            }
-
-            @Override
-            public void cancel() {
-
-            }
-        });
-
+                }
+            });
+        }catch (Exception e){
+            //TODO: what to do?
+            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
+        }
 
     }
     private void hideKeyboard() {
