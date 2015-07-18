@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">PoliJobs</string>
-    <string name="title_section1">Campus</string>
-    <string name="title_section2">Board</string>
+    <string name="app_name">PoliCampus</string>
+    <string name="title_section1">Time Table</string>
+    <string name="title_section2">Notices</string>
     <string name="title_section3">Chat</string>
     <string name="title_section4">Job</string>
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PoliJobs</string>
-    <string name="title_section1">Profilo</string>
-    <string name="title_section2">Offerte</string>
+    <string name="app_name">PoliCampus</string>
+    <string name="title_section1">Orari</string>
+    <string name="title_section2">Annunci</string>
     <string name="title_section3">Chat</string>
     <string name="action_settings">Impostazioni</string>
     <string name="resume">Riprendi</string>
