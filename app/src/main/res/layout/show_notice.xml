@@ -25,6 +25,7 @@
                 android:layout_marginLeft="@dimen/side_margin"
                 android:layout_marginRight="@dimen/side_margin"
                 android:visibility="visible"
+                android:layout_gravity="center_horizontal"
                 >
 
                 <com.software.shell.fab.ActionButton
@@ -72,7 +73,8 @@
                 android:layout_marginBottom="@dimen/vertical_margin"
                 android:layout_marginLeft="@dimen/side_margin"
                 android:layout_marginRight="@dimen/side_margin"
-                android:visibility="gone"
+                android:visibility="visible"
+                android:layout_gravity="center_horizontal"
                 >
 
                 <com.software.shell.fab.ActionButton
@@ -80,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="@dimen/fab_margin"
                     android:layout_marginLeft="@dimen/fab_margin"
                     android:visibility="visible"
@@ -95,12 +97,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/open_gallery"
+                    android:gravity="center_horizontal"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="false"
-
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_horizontal"/>
+                    android:layout_alignRight="@+id/gallery_b"
+                    android:layout_alignEnd="@+id/gallery_b"/>
 
             </RelativeLayout>
         </LinearLayout>
