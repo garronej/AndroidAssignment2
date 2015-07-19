@@ -178,11 +178,10 @@
             <Button
                 android:id="@+id/price_b"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:textColor="#fff"
+                android:background="@color/medium_dark_gray"
                 />
         </LinearLayout>
 

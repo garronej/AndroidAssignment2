@@ -151,12 +151,11 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_weight="2"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/sex_b"
                 android:textColor="#fff"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:clickable="false"
+                android:background="@color/medium_dark_gray"
                 android:layout_marginRight="@dimen/side_margin"
                 />
 
@@ -164,10 +163,9 @@
                 android:id="@+id/availability"
                 android:layout_width="0dp"
                 android:layout_weight="8"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:textColor="#fff"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:background="@color/medium_dark_gray"
                 android:layout_gravity="end"
                 android:clickable="false"
                 />
