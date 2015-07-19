@@ -425,6 +425,7 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
                 case 0://logout
                     new UnregistrationManager(NoticeBoard.this).unregisterGcm();
                     getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
+                    ((AppContext)getApplication()).freeSession();
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(i);
                     finish();

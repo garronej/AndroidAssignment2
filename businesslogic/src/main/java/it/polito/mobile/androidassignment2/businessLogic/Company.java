@@ -6,6 +6,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.zip.DataFormatException;
 /**
  * Created by Joseph on 04/05/2015.
  */
-public class Company {
+public class Company implements Serializable {
 
     private Integer id = null;
     private String email = null;

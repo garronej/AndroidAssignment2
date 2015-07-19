@@ -108,7 +108,7 @@ public class CompanyProfileActivity extends AppCompatActivity implements Communi
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), StudentsFavouritesActivity.class);
                 startActivity(i);
-	            finish();
+                finish();
             }
         });
         findViewById(R.id.tab_menu_company_offers).setOnClickListener(new View.OnClickListener() {
@@ -300,6 +300,7 @@ public class CompanyProfileActivity extends AppCompatActivity implements Communi
             switch (kind) {
                 case 0://logout
                     getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
+                    ((AppContext)getApplication()).freeSession();
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(i);
                     finish();
@@ -335,4 +336,6 @@ public class CompanyProfileActivity extends AppCompatActivity implements Communi
             }
         }
     }
+
+
 }

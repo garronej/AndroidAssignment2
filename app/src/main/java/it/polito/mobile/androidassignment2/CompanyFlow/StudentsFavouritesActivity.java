@@ -225,6 +225,7 @@ public class StudentsFavouritesActivity extends ActionBarActivity implements Com
 			switch (kind) {
 				case 0://logout
 					getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
+                    ((AppContext)getApplication()).freeSession();
 					Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 					startActivity(i);
 					finish();

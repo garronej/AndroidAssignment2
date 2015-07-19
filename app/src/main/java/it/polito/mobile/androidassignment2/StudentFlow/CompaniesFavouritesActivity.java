@@ -310,6 +310,7 @@ public class CompaniesFavouritesActivity extends AppCompatActivity implements Co
 				case 0://logout
 					new UnregistrationManager(CompaniesFavouritesActivity.this).unregisterGcm();
 					getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
+					((AppContext)getApplication()).freeSession();
 					Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 					startActivity(i);
 					finish();

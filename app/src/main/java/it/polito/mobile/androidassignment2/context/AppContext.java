@@ -3,9 +3,12 @@ package it.polito.mobile.androidassignment2.context;
 import android.app.Application;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 
+import java.io.ObjectInputStream;
 import java.util.zip.DataFormatException;
 
 import it.polito.mobile.androidassignment2.LoginActivity;
@@ -47,6 +50,8 @@ For getting timetable data
 
 public class AppContext extends Application {
 
+    public static final String SESSION_FILENAME = "sessionFile";
+
     public AppContext(){
         super();
     }
@@ -54,15 +59,33 @@ public class AppContext extends Application {
 
     private Session state = null;
 
-    public Session getSession() throws ExceptionInInitializerError{
+    public Session getSession(){
 
 
         if( this.state == null ){
-            throw new ExceptionInInitializerError("Session error : login First !");
-        }else{
-            return  this.state;
+            try {
+                FileInputStream fileInputStream = openFileInput(SESSION_FILENAME);
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                this.state = (Session) objectInputStream.readObject();
+                objectInputStream.close();
+                fileInputStream.close();
+            }catch (IOException|ClassNotFoundException e) {
+                e.printStackTrace();
+                Log.e("LoginPoliJobs", " session file unreadable");
+                Intent i = new Intent(this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                //throw new ExceptionInInitializerError("Session error : login First !");
+            }
+
         }
 
+        return  this.state;
+
+
+    }
+    public void freeSession() {
+        deleteFile(SESSION_FILENAME);
     }
 
 

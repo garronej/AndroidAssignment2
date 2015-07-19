@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -26,6 +27,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -240,6 +244,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 					editor.putString("PWD", password);
 
 					editor.commit();
+
+					try {
+						FileOutputStream fileOutputStream = openFileOutput(AppContext.SESSION_FILENAME, Context.MODE_PRIVATE);
+						ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+						objectOutputStream.writeObject(((AppContext)getApplication()).getSession());
+						objectOutputStream.close();
+						fileOutputStream.close();
+					} catch (IOException ee) {
+						ee.printStackTrace();
+						Log.e("LoginPoliJobs", "session write failed");
+					}
 
 
 

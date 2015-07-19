@@ -322,6 +322,7 @@ public class OffersListsActivity extends AppCompatActivity implements  Communica
 				case 0://logout
 					new UnregistrationManager(OffersListsActivity.this).unregisterGcm();
 					getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
+					((AppContext)getApplication()).freeSession();
 					Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 					startActivity(i);
 					finish();

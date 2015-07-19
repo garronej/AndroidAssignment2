@@ -5,6 +5,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.DataFormatException;
@@ -12,7 +13,7 @@ import java.util.zip.DataFormatException;
 /**
  * Created by Joseph on 04/05/2015.
  */
-public class Offer {
+public class Offer implements Serializable {
 
     private Integer id = null;
 

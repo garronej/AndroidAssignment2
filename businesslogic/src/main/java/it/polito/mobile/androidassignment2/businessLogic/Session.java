@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.zip.DataFormatException;
  *
  * Created by Joseph on 04/05/2015.
  */
-public class Session {
+public class Session implements Serializable {
 
 
 
