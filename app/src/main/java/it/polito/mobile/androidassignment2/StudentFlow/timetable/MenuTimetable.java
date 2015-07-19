@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -14,13 +16,20 @@ import android.widget.Toast;
 
 import com.software.shell.fab.ActionButton;
 
+import java.util.zip.DataFormatException;
+
+import it.polito.mobile.androidassignment2.AlertYesNo;
+import it.polito.mobile.androidassignment2.Communicator;
+import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.R;
+import it.polito.mobile.androidassignment2.StudentFlow.CompaniesFavouritesActivity;
 import it.polito.mobile.androidassignment2.StudentFlow.NavigationDrawerFragment;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.context.AppContext;
+import it.polito.mobile.androidassignment2.gcm.UnregistrationManager;
 
 
-public class MenuTimetable extends AppCompatActivity {
+public class MenuTimetable extends AppCompatActivity implements Communicator {
 
     private AsyncTask<?,?,?> task = null;
 
@@ -146,8 +155,94 @@ public class MenuTimetable extends AppCompatActivity {
     }
 
 
+    @Override
+    public void goSearch(int kind) {
 
+    }
 
+    @Override
+    public void respond(int itemIndex, int kind) {
 
+    }
 
+    @Override
+    public void dialogResponse(int result, int kind) {
+        if (result == 1) {
+            switch (kind) {
+                case 0://logout
+                    new UnregistrationManager(this).unregisterGcm();
+                    getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
+                    ((AppContext)getApplication()).freeSession();
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(i);
+                    finish();
+                    break;
+                case 1://delete account
+                    try {
+                        task = Manager.deleteStudent(((AppContext) getApplication()).getSession().getStudentLogged().getId(), new Manager.ResultProcessor<Integer>() {
+                            @Override
+                            public void process(Integer arg, Exception e) {
+                                task = null;
+                                if (e != null) {
+                                    Log.d(CompaniesFavouritesActivity.class.getSimpleName(), "Error deleteing user");
+                                    return;
+                                }
+                                getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
+                                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+
+                            @Override
+                            public void cancel() {
+                                task = null;
+                            }
+                        });
+                    } catch (DataFormatException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+                    return;
+            }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.global, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void showConfirmAlerter(int kind) {
+        AlertYesNo alert = new AlertYesNo();
+        Bundle info = new Bundle();
+        if (kind == 0)
+            info.putString("message", getResources().getString(R.string.logout_message));
+        else info.putString("message", getResources().getString(R.string.delete_user_message));
+
+        info.putString("title", getResources().getString(R.string.confirm));
+        info.putInt("kind", kind);
+        alert.setCommunicator(this);
+        alert.setArguments(info);
+        alert.show(getSupportFragmentManager(), "Confirm");
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            showConfirmAlerter(0);
+            return true;
+        }
+        if (id == R.id.action_delete) {
+            showConfirmAlerter(1);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
 }
