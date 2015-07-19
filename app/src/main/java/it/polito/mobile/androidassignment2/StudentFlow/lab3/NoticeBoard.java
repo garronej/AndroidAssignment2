@@ -484,7 +484,7 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
                 case 0:
                     return getString(R.string.all).toUpperCase(l);
                 case 1:
-                    return getString(R.string.fav).toUpperCase(l);
+                    return getString(R.string.favs).toUpperCase(l);
                 case 2:
                     return getString(R.string.yours).toUpperCase(l);
             }
