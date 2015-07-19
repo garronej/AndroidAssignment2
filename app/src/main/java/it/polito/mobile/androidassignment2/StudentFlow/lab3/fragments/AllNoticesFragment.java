@@ -155,7 +155,7 @@ public class AllNoticesFragment extends Fragment implements NoticeFragment {
                     for (Notice n : notices) {
                         Marker m = googleMap.addMarker(new MarkerOptions().position(new LatLng(n.getLatitude(), n.getLongitude()))
                                         .title(n.getTitle())
-                                        .snippet(n.getDescription())
+                                        .snippet(getResources().getString(R.string.tap_here_for_more_info))
                         );
                         markerIdToNotice.put(m.getId(), n);
 
@@ -262,7 +262,7 @@ public class AllNoticesFragment extends Fragment implements NoticeFragment {
                                 for (Notice n : notices) {
                                     Marker m=googleMap.addMarker(new MarkerOptions().position(new LatLng(n.getLatitude(), n.getLongitude()))
                                             .title(n.getTitle())
-                                            .snippet(n.getDescription()));
+                                            .snippet(getResources().getString(R.string.tap_here_for_more_info)));
                                     builder.include(new LatLng(n.getLatitude(), n.getLongitude()));
                                     markerIdToNotice.put(m.getId(), n);
                                 }

@@ -290,4 +290,5 @@
     <string name="action_search">Search</string>
     <string name="category">Tags</string>
     <string name="no_notices">No notices yet</string>
+    <string name="tap_here_for_more_info">Tap here for more info</string>
 </resources>
