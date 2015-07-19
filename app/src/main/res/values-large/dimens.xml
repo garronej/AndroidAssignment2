@@ -5,11 +5,11 @@
     <dimen name="transfer_row_height">30dp</dimen>
 
     <dimen name="profile_header">200dp</dimen>
-    <dimen name="item_label">15sp</dimen>
-    <dimen name="item_text">20sp</dimen>
-    <dimen name="side_margin">20dp</dimen>
+    <dimen name="item_label">20sp</dimen>
+    <dimen name="item_text">24sp</dimen>
+    <dimen name="side_margin">26dp</dimen>
     <dimen name="vertical_margin">10dp</dimen>
-    <dimen name="button_height">42dp</dimen>
+    <dimen name="button_height">54dp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->

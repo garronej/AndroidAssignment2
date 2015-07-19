@@ -44,10 +44,10 @@ public class SearchCourse extends AppCompatActivity {
             this.timeTableData = ((AppContext)getApplicationContext()).getTimeTableData();
 
 
-
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
             setContentView(R.layout.activity_search_course);
-            setUpNavigationDrawer();
+           // setUpNavigationDrawer();
 
 
             autoCompleteTextView1 = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
