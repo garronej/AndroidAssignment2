@@ -14,12 +14,17 @@
         android:layout_marginTop="5dp"
         android:textColor="@color/medium_dark_gray"
         android:gravity="center_horizontal"
+        android:layout_alignParentTop="true"
         android:ellipsize="end"
         android:maxLines="2"
         android:singleLine="false"
         android:visibility="gone"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
     <TextView
         android:layout_width="match_parent"
@@ -35,8 +40,10 @@
     <ListView
         android:scrollbarStyle="outsideInset"
         android:id="@+id/message_list"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/message_et"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:stackFromBottom="false"
         android:layout_weight="1"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -53,7 +60,7 @@
         android:layout_weight="0"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         />
-
+    </RelativeLayout>
 </LinearLayout>
