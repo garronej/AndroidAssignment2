@@ -243,8 +243,8 @@ public class ConversationsListFragment extends Fragment {
 
                     })
             );
-        }catch(Exception e){
-            throw new RuntimeException(e);
+        }catch(Exception|ExceptionInInitializerError e){
+            ((AppContext)getActivity().getApplication()).redirectToLogin(ConversationsActivity.class);
         }
 
     }

@@ -165,8 +165,8 @@ public class ConversationsActivity extends AppCompatActivity implements Conversa
                                 task = null;
                             }
                         });
-                    } catch (DataFormatException e) {
-                        e.printStackTrace();
+                    } catch (DataFormatException|ExceptionInInitializerError e) {
+                        ((AppContext)getApplication()).redirectToLogin(ConversationsActivity.class);
                     }
                     break;
                 default:

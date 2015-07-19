@@ -241,6 +241,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 					editor.commit();
 
+
+
 					if( ((AppContext)getApplication()).getSession().getWhoIsLogged() == Company.class){
 						Log.d("poliJobs", "Company");
 						Intent i = new Intent(getApplicationContext(), CompanyProfileActivity.class);
@@ -249,8 +251,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 
 					}else{
+						String redirect = LoginActivity.this.getIntent().getStringExtra("redirect");
+						Class<?> c = StudentProfileActivity.class;
+						if(redirect != null ){
+							try {
+								c = Class.forName(redirect);
+							} catch (ClassNotFoundException e1) {
+								Log.e("poliJobs", "Class : "+redirect+" does not exist");
+							}
+						}
+						Log.d("poliJobs", "Login send to "+c.getName());
 						Log.d("poliJobs", "Student");
-						Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
+						Intent i = new Intent(getApplicationContext(), c);
 						startActivity(i);
 						finish();
 					}

@@ -1,12 +1,14 @@
 package it.polito.mobile.androidassignment2.context;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.AsyncTask;
 
 import java.io.IOException;
 
 import java.util.zip.DataFormatException;
 
+import it.polito.mobile.androidassignment2.LoginActivity;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.businessLogic.RestApiException;
 import it.polito.mobile.androidassignment2.businessLogic.Session;
@@ -61,6 +63,14 @@ public class AppContext extends Application {
             return  this.state;
         }
 
+    }
+
+
+    public void redirectToLogin(Class<?> c){
+        Intent i = new Intent(this, LoginActivity.class);
+        i.putExtra("redirect", c.getName());
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 
 

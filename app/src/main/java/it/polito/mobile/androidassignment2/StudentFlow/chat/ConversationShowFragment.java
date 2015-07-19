@@ -228,9 +228,8 @@ public class ConversationShowFragment extends Fragment {
 
         try{
             studentId=((AppContext) getActivity().getApplication()).getSession().getStudentLogged().getId();
-        }catch(Exception e ){
-            e.printStackTrace();
-            throw new RuntimeException(e);
+        }catch(Exception|ExceptionInInitializerError e ){
+            ((AppContext)getActivity().getApplication()).redirectToLogin(ConversationsActivity.class);
         }
 
         currentConversation = getConversation();
