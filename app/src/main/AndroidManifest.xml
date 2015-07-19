@@ -248,7 +248,8 @@
             android:name=".StudentFlow.timetable.SearchCourse"
             android:label="@string/title_activity_search_course"
             android:theme="@style/ActionBarTheme"
-            android:parentActivityName=".StudentFlow.timetable.MenuTimetable">
+            android:parentActivityName=".StudentFlow.timetable.MenuTimetable"
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StudentFlow.timetable.MenuTimetable"/>
@@ -261,7 +262,8 @@
             android:name=".StudentFlow.timetable.SearchConsultation"
             android:label="@string/title_activity_search_consultation"
             android:theme="@style/ActionBarTheme"
-            android:parentActivityName=".StudentFlow.timetable.MenuTimetable">
+            android:parentActivityName=".StudentFlow.timetable.MenuTimetable"
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StudentFlow.timetable.MenuTimetable"/>
