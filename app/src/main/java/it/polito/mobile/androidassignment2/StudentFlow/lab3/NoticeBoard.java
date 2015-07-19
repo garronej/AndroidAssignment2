@@ -328,7 +328,7 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
 
     @Override
     public boolean onPrepareOptionsMenu (Menu menu) {
-       MenuItem showAsMap = menu.findItem(R.id.action_show_as_map);
+        MenuItem showAsMap = menu.findItem(R.id.action_show_as_map);
         MenuItem search = menu.findItem(R.id.action_search);
 	    mMenu = menu;
         if(this.showAsMap){
@@ -337,6 +337,16 @@ public class NoticeBoard extends AppCompatActivity implements Communicator,Mater
         } else {
             showAsMap.setIcon(getResources().getDrawable(android.R.drawable.ic_dialog_map));
             //showAsMap.setTitle(getResources().getString(R.string.action_show_as_map));
+        }
+        if(currentTabSelected == 2){
+            showAsMap.setVisible(false);
+        }else{
+            showAsMap.setVisible(true);
+        }
+        if(currentTabSelected == 0){
+            search.setVisible(true);
+        }else{
+            search.setVisible(false);
         }
 
         return super.onPrepareOptionsMenu(menu);
