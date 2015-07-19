@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.software.shell.fab.ActionButton;
+
 import it.polito.mobile.androidassignment2.R;
 import it.polito.mobile.androidassignment2.StudentFlow.NavigationDrawerFragment;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
@@ -28,15 +30,16 @@ public class MenuTimetable extends AppCompatActivity {
         setContentView(R.layout.activity_menu_timetable);
         setUpNavigationDrawer();
 
-        final ProgressBar progressBar =(ProgressBar)findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
+        final ProgressBar progressBar1 =(ProgressBar)findViewById(R.id.pb1);
+        progressBar1.setVisibility(View.GONE);
 
-        View button1 = findViewById(R.id.button1);
+        final ActionButton button1 = (ActionButton) findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                button1.setVisibility(View.INVISIBLE);
+                progressBar1.setVisibility(View.VISIBLE);
 
-                progressBar.setVisibility(View.VISIBLE);
 
                 task = ((AppContext) getApplicationContext()).retrieveTimeTableData(new Manager.ResultProcessor<Integer>() {
                     @Override
@@ -45,7 +48,8 @@ public class MenuTimetable extends AppCompatActivity {
 
                         task = null;
 
-                        progressBar.setVisibility(View.GONE);
+                        progressBar1.setVisibility(View.GONE);
+                        button1.setVisibility(View.VISIBLE);
 
                         if (e != null) {
                             Log.d(MenuTimetable.class.getName(), Log.getStackTraceString(e));
@@ -63,7 +67,8 @@ public class MenuTimetable extends AppCompatActivity {
                     public void cancel() {
 
                         task = null;
-                        progressBar.setVisibility(View.GONE);
+                        progressBar1.setVisibility(View.GONE);
+                        button1.setVisibility(View.VISIBLE);
 
                     }
 
@@ -72,12 +77,14 @@ public class MenuTimetable extends AppCompatActivity {
             }
         });
 
-        View button2 = findViewById(R.id.button2);
+        final ActionButton button2 = (ActionButton) findViewById(R.id.button2);
+        final ProgressBar progressBar2 =(ProgressBar)findViewById(R.id.pb2);
+        progressBar2.setVisibility(View.GONE);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                progressBar.setVisibility(View.VISIBLE);
+                button2.setVisibility(View.INVISIBLE);
+                progressBar2.setVisibility(View.VISIBLE);
 
                 task = ((AppContext) getApplicationContext()).retrieveTimeTableData(new Manager.ResultProcessor<Integer>() {
                     @Override
@@ -85,7 +92,8 @@ public class MenuTimetable extends AppCompatActivity {
 
                         task = null;
 
-                        progressBar.setVisibility(View.GONE);
+                        progressBar2.setVisibility(View.GONE);
+                        button2.setVisibility(View.VISIBLE);
 
                         if (e != null) {
                             Log.d(MenuTimetable.class.getName(), Log.getStackTraceString(e));
@@ -103,7 +111,8 @@ public class MenuTimetable extends AppCompatActivity {
                     public void cancel() {
 
                         task = null;
-                        progressBar.setVisibility(View.GONE);
+                        progressBar2.setVisibility(View.GONE);
+                        button2.setVisibility(View.VISIBLE);
 
                     }
 
@@ -113,6 +122,8 @@ public class MenuTimetable extends AppCompatActivity {
         });
 
         View button3 = findViewById(R.id.button3);
+        final ProgressBar progressBar3 =(ProgressBar)findViewById(R.id.pb3);
+        progressBar3.setVisibility(View.GONE);
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

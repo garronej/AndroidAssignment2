@@ -55,6 +55,19 @@
                     android:layout_marginLeft="@dimen/fab_margin"
                     android:layout_centerHorizontal="true"/>
 
+                <ProgressBar
+                    android:id="@+id/pb1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="53dp"
+                    android:layout_marginRight="@dimen/fab_margin"
+                    android:layout_marginLeft="@dimen/fab_margin"
+                    android:visibility="gone"
+                    />
+
 
 
                 <TextView
@@ -96,7 +109,18 @@
                     android:layout_marginLeft="@dimen/fab_margin"
                     android:layout_centerHorizontal="true"/>
 
-
+                <ProgressBar
+                    android:id="@+id/pb2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="53dp"
+                    android:layout_marginRight="@dimen/fab_margin"
+                    android:layout_marginLeft="@dimen/fab_margin"
+                    android:visibility="gone"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -138,7 +162,18 @@
                     android:layout_marginLeft="@dimen/fab_margin"
                     android:layout_centerHorizontal="true"/>
 
-
+                <ProgressBar
+                    android:id="@+id/pb3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="53dp"
+                    android:layout_marginRight="@dimen/fab_margin"
+                    android:layout_marginLeft="@dimen/fab_margin"
+                    android:visibility="gone"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -158,13 +193,6 @@
 
 
         </LinearLayout>
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_centerInParent="true"
-            android:progressDrawable="@drawable/circular_progress_bar"/>
     </RelativeLayout>
 
 
