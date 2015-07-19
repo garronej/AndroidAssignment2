@@ -103,6 +103,44 @@ public class ConversationShowFragment extends Fragment {
         tvNoMessages = (TextView) view.findViewById(R.id.no_messages_tv);
         tvMembers = (TextView) view.findViewById(R.id.members_tv);
 
+
+        header = getActivity().getLayoutInflater().inflate(R.layout.header_more_messages, messageList, false);
+        messageList.addHeaderView(header, null, false);
+        header.findViewById(id.btn_more_messages).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                t2 = ChatHTTPClient.getMessages(currentConversation, (int)Math.ceil(messages.size() / (double) NUMBER_OF_MESSAGES_PER_PAGE), NUMBER_OF_MESSAGES_PER_PAGE, new ChatHTTPClient.ResultProcessor<List<Message>>() {
+                    @Override
+                    public void process(List<Message> arg) {
+                        //int index = messageList.getFirstVisiblePosition();
+                        View v = messageList.getChildAt(0);
+                        int top = (v == null) ? 0 : v.getTop();
+                        messages.addAll(0, arg);
+                        ((BaseAdapter)((HeaderViewListAdapter)messageList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
+                        //TODO maybe the scrolling management has to be improved...
+                        //Log.d("marco", "Index is "+index+" and top is "+top);
+                        messageList.setSelectionFromTop(arg.size(), top);
+                        if (arg.isEmpty() || arg.size() < NUMBER_OF_MESSAGES_PER_PAGE) {
+                            header.findViewById(id.btn_more_messages).setVisibility(View.GONE);
+                        } else {
+                            header.findViewById(id.btn_more_messages).setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onException(Exception e) {
+                        Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void cancel() {
+                        //nothing to do
+                    }
+                });
+            }
+        });
+
         return view;
     }
 
@@ -201,7 +239,7 @@ public class ConversationShowFragment extends Fragment {
         //Log.d("marco", "studentId: "+studentId);
 
         if(currentConversation == null){
-            messageList.removeHeaderView(header);
+            //messageList.removeHeaderView(header);
             messageList.setAdapter(new BaseAdapter() {
                 @Override
                 public int getCount() {
@@ -261,44 +299,7 @@ public class ConversationShowFragment extends Fragment {
     }
 
     private void initMessageList(){
-        if(messageList.getHeaderViewsCount()==0) {
-            header = getActivity().getLayoutInflater().inflate(R.layout.header_more_messages, messageList, false);
-            messageList.addHeaderView(header, null, false);
-            header.findViewById(id.btn_more_messages).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    t2 = ChatHTTPClient.getMessages(currentConversation, (int)Math.ceil(messages.size() / (double) NUMBER_OF_MESSAGES_PER_PAGE), NUMBER_OF_MESSAGES_PER_PAGE, new ChatHTTPClient.ResultProcessor<List<Message>>() {
-                        @Override
-                        public void process(List<Message> arg) {
-                            //int index = messageList.getFirstVisiblePosition();
-                            View v = messageList.getChildAt(0);
-                            int top = (v == null) ? 0 : v.getTop();
-                            messages.addAll(0, arg);
-                            ((BaseAdapter)((HeaderViewListAdapter)messageList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
-                            //TODO maybe the scrolling management has to be improved...
-                            //Log.d("marco", "Index is "+index+" and top is "+top);
-                            messageList.setSelectionFromTop(arg.size(), top);
-                            if (arg.isEmpty() || arg.size() < NUMBER_OF_MESSAGES_PER_PAGE) {
-                                header.findViewById(id.btn_more_messages).setVisibility(View.GONE);
-                            } else {
-                                header.findViewById(id.btn_more_messages).setVisibility(View.VISIBLE);
-                            }
-                        }
-
-                        @Override
-                        public void onException(Exception e) {
-                            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void cancel() {
-                            //nothing to do
-                        }
-                    });
-                }
-            });
-        }
         messageText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -346,13 +347,14 @@ public class ConversationShowFragment extends Fragment {
             public void process(List<Message> arg) {
                 messages = arg;
                 currentConversation = getConversation();
-                if (arg.isEmpty() || arg.size() < NUMBER_OF_MESSAGES_PER_PAGE) {
+                Log.d("marco", "messaged : "+messages.size()+" and num "+NUMBER_OF_MESSAGES_PER_PAGE);
+                if (messages.isEmpty() || messages.size() < NUMBER_OF_MESSAGES_PER_PAGE) {
                     header.findViewById(id.btn_more_messages).setVisibility(View.GONE);
                 } else {
                     header.findViewById(id.btn_more_messages).setVisibility(View.VISIBLE);
                 }
 
-                if (arg.isEmpty() || arg.size() == 0) {
+                if (messages.isEmpty() || messages.size() == 0) {
                     tvNoMessages.setVisibility(View.VISIBLE);
                 } else {
                     tvNoMessages.setVisibility(View.GONE);
@@ -411,7 +413,7 @@ public class ConversationShowFragment extends Fragment {
                             if(currentConversation.isGroup()){
                                 tvSender.setVisibility(View.VISIBLE);
 
-                                Log.d("marco", currentConversation.getTitle());
+                                /*Log.d("marco", currentConversation.getTitle());
                                 Log.d("marco", "sender : " + n.getSender().getId());
                                 int senderIndex = -1;
                                 for(int i=0; i<currentConversation.getStudents().size();i++){
@@ -420,9 +422,9 @@ public class ConversationShowFragment extends Fragment {
                                         senderIndex = i;
                                         break;
                                     }
-                                }
-                                //int senderIndex = currentConversation.getStudents().indexOf(n.getSender());
-                                Log.d("marco", "sender index : "+senderIndex);
+                                }*/
+                                int senderIndex = currentConversation.getStudents().indexOf(n.getSender());
+                                //Log.d("marco", "sender index : "+senderIndex);
                                 tvSender.setText(currentConversation.getStudents().get(senderIndex).getFullnameOrEmail());
                             }else{
                                 tvSender.setVisibility(View.GONE);
