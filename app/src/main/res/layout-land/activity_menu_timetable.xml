@@ -46,7 +46,7 @@
                     android:visibility="visible"
                     app:button_color="@color/app_default_background"
                     app:button_colorPressed="@color/fab_material_green_900"
-                    app:image="@drawable/ic_action_image_upload"
+                    app:image="@drawable/schedule"
                     app:image_size="40dp"
                     app:type="BIG"
                     android:layout_centerHorizontal="true"/>
@@ -82,7 +82,7 @@
                     android:visibility="visible"
                     app:button_color="@color/app_default_background"
                     app:button_colorPressed="@color/fab_material_green_900"
-                    app:image="@drawable/ic_action_image_upload"
+                    app:image="@drawable/consultation"
                     app:image_size="40dp"
                     app:type="BIG"
                     android:layout_centerHorizontal="true"/>
@@ -119,7 +119,7 @@
                     android:visibility="visible"
                     app:button_color="@color/app_default_background"
                     app:button_colorPressed="@color/fab_material_green_900"
-                    app:image="@drawable/ic_action_image_upload"
+                    app:image="@drawable/room"
                     app:image_size="40dp"
                     app:type="BIG"
                     android:layout_centerHorizontal="true"/>
