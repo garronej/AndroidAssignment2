@@ -16,7 +16,7 @@
         <fragment
             android:name="it.polito.mobile.androidassignment2.StudentFlow.chat.ConversationsListFragment"
             android:layout_width="0dp"
-            android:layout_weight="4"
+            android:layout_weight="3"
             android:layout_height="wrap_content"
             tools:layout="@layout/fragment_conversations_list"
             android:id="@+id/conversations_list_fragment"
