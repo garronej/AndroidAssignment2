@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +43,7 @@ import it.polito.mobile.androidassignment2.businessLogic.RESTManager;
 import it.polito.mobile.androidassignment2.context.AppContext;
 import it.polito.mobile.androidassignment2.s3client.models.UploadModel;
 import it.polito.mobile.androidassignment2.s3client.network.TransferController;
+import nl.changer.polypicker.Config;
 import nl.changer.polypicker.ImagePickerActivity;
 
 
@@ -51,7 +53,8 @@ import nl.changer.polypicker.ImagePickerActivity;
 public class ShowNoticeActivity extends AppCompatActivity {
 
     private final static int ACTIVITY_MULTIUPLOAD = 147;
-    private final static int MAX_UPLOAD_PICTURES = 5;
+    private final static int MAX_UPLOAD_PICTURES = 3;
+    private final static String TAG = "ShowNoticeActivity";
 
     private int noticeId;
     private boolean isCreator;
@@ -209,7 +212,12 @@ public class ShowNoticeActivity extends AppCompatActivity {
         uploadImagesButton.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         Intent intent = new Intent(ShowNoticeActivity.this, ImagePickerActivity.class);
-        intent.putExtra(ImagePickerActivity.EXTRA_SELECTION_LIMIT, MAX_UPLOAD_PICTURES);
+        Config config = new Config.Builder()
+                .setTabSelectionIndicatorColor(R.color.blue_sky)
+                .setCameraButtonColor(R.color.blue_sky)
+                        .setSelectionLimit(MAX_UPLOAD_PICTURES)
+                        .build();
+        ImagePickerActivity.setConfig(config);
         startActivityForResult(intent, ACTIVITY_MULTIUPLOAD);
     }
 
@@ -605,6 +613,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
                     if (uri != null) {
                         uploadImagesButton.setVisibility(View.INVISIBLE);
                         progressBar.setVisibility(View.VISIBLE);
+                        Log.d(TAG, "start upload to s3");
                         TransferController.upload(ShowNoticeActivity.this, uri, "photo/student3");
                     }
                 }
@@ -623,6 +632,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
             pendingUploads--;
             if (pendingUploads == 0) {
                 putPictures();
+                Log.d(TAG, "upload to s3 finished, now sending to server");
             }
         }
     }
@@ -653,6 +663,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
                     Toast.makeText(ShowNoticeActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                Log.d(TAG, "finished sending to server");
                 notice.setPictures(pendingPictures.toArray(new String[pendingPictures.size()]));
                 uploadImagesButton.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);

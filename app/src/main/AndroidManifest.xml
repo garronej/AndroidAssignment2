@@ -14,6 +14,9 @@
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
 
     <!-- [START gcm_permission] -->
@@ -232,8 +235,7 @@
         </activity>
         <activity
             android:name="nl.changer.polypicker.ImagePickerActivity"
-            android:label="@string/gallery"
-            android:theme="@style/AppTheme">
+            android:label="@string/gallery">
         </activity>
         <activity
             android:name=".StudentFlow.ScheduleChangedActivity"

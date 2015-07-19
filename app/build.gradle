@@ -32,7 +32,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.1.1'
     compile 'com.github.hdodenhof:CircleImageView:v1.3.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'net.the4thdimension:poly-picker:1.0.11'
+    compile 'net.the4thdimension:poly-picker:1.0.14'
     compile(name:'MaterialTabsModule-release', ext:'aar')
 }
 repositories {
