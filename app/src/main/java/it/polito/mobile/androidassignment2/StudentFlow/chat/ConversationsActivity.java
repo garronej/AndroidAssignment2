@@ -21,7 +21,7 @@ import it.polito.mobile.androidassignment2.StudentFlow.chat.model.Conversation;
 import it.polito.mobile.androidassignment2.StudentFlow.chat.model.Message;
 import it.polito.mobile.androidassignment2.businessLogic.Manager;
 import it.polito.mobile.androidassignment2.context.AppContext;
-
+import it.polito.mobile.androidassignment2.gcm.UnregistrationManager;
 
 
 public class ConversationsActivity extends AppCompatActivity implements ConversationsListFragment.Callbacks, Communicator {
@@ -139,6 +139,7 @@ public class ConversationsActivity extends AppCompatActivity implements Conversa
         if (result == 1) {
             switch (kind) {
                 case 0://logout
+                    new UnregistrationManager(ConversationsActivity.this).unregisterGcm();
                     getSharedPreferences("login_pref", MODE_PRIVATE).edit().clear().commit();
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(i);
