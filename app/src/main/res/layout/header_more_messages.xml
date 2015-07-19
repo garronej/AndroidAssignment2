@@ -8,6 +8,7 @@
         android:text="@string/load_earlier_messages"
         android:id="@+id/btn_more_messages"
         android:gravity="center"
+        android:visibility="gone"
         android:layout_height="@dimen/button_height"
         android:background="@color/blue_sky"
         android:textColor="#fff"

@@ -1,1 +1,1 @@
-include ':app', ':businesslogic', ':chat'
+include ':app', ':businesslogic'
