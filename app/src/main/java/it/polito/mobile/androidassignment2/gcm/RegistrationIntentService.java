@@ -66,6 +66,8 @@ public class RegistrationIntentService extends IntentService {
                 Log.i(TAG, "GCM Registration Token: " + token);
                 Log.i(TAG, "GCM Registration studentId: " + studentId);
 
+                sharedPreferences.edit().putString(QuickstartPreferences.GCM_TOKEN, token).apply();
+
                 // send registration to servers.
                 sendRegistrationToServer(token, studentId);
 
