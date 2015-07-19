@@ -31,7 +31,7 @@ public class MenuTimetable extends AppCompatActivity {
         final ProgressBar progressBar =(ProgressBar)findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
 
-        Button button1 = (Button)findViewById(R.id.button1);
+        View button1 = findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +72,7 @@ public class MenuTimetable extends AppCompatActivity {
             }
         });
 
-        Button button2 = (Button)findViewById(R.id.button2);
+        View button2 = findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +112,7 @@ public class MenuTimetable extends AppCompatActivity {
             }
         });
 
-        Button button3 = (Button)findViewById(R.id.button3);
+        View button3 = findViewById(R.id.button3);
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

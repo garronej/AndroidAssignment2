@@ -24,35 +24,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:orientation="horizontal"
 
             >
             <RelativeLayout
                 android:id="@+id/courseScheduleLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/vertical_margin"
                 android:layout_marginLeft="@dimen/side_margin"
                 android:layout_marginRight="@dimen/side_margin"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
                 >
 
                 <com.software.shell.fab.ActionButton
                     android:id="@+id/button1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:layout_marginRight="@dimen/fab_margin"
                     android:visibility="visible"
                     app:button_color="@color/app_default_background"
                     app:button_colorPressed="@color/fab_material_green_900"
                     app:image="@drawable/ic_action_image_upload"
                     app:image_size="40dp"
                     app:type="BIG"
-                    android:layout_marginLeft="@dimen/fab_margin"
                     android:layout_centerHorizontal="true"/>
 
 
@@ -61,8 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/coursesSchedule"
-
-                    android:layout_alignParentBottom="true"
+                    android:layout_below="@+id/button1"
                     android:layout_centerHorizontal="true"
                     android:gravity="center_horizontal"/>
 
@@ -70,30 +65,26 @@
 
             <RelativeLayout
                 android:id="@+id/teacherConsultationLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/vertical_margin"
                 android:layout_marginLeft="@dimen/side_margin"
                 android:layout_marginRight="@dimen/side_margin"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
                 >
 
                 <com.software.shell.fab.ActionButton
                     android:id="@+id/button2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:layout_marginRight="@dimen/fab_margin"
                     android:visibility="visible"
                     app:button_color="@color/app_default_background"
                     app:button_colorPressed="@color/fab_material_green_900"
                     app:image="@drawable/ic_action_image_upload"
                     app:image_size="40dp"
                     app:type="BIG"
-                    android:layout_marginLeft="@dimen/fab_margin"
                     android:layout_centerHorizontal="true"/>
 
 
@@ -102,9 +93,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/TeacherConsultationHours"
-
-                    android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/button2"
                     android:gravity="center_horizontal"/>
 
             </RelativeLayout>
@@ -112,30 +102,26 @@
 
             <RelativeLayout
                 android:id="@+id/searchRoomLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/vertical_margin"
                 android:layout_marginLeft="@dimen/side_margin"
                 android:layout_marginRight="@dimen/side_margin"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
                 >
 
                 <com.software.shell.fab.ActionButton
                     android:id="@+id/button3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:layout_marginRight="@dimen/fab_margin"
                     android:visibility="visible"
                     app:button_color="@color/app_default_background"
                     app:button_colorPressed="@color/fab_material_green_900"
                     app:image="@drawable/ic_action_image_upload"
                     app:image_size="40dp"
                     app:type="BIG"
-                    android:layout_marginLeft="@dimen/fab_margin"
                     android:layout_centerHorizontal="true"/>
 
 
@@ -144,8 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/search_room"
-
-                    android:layout_alignParentBottom="true"
+                    android:layout_below="@+id/button3"
                     android:layout_centerHorizontal="true"
                     android:gravity="center_horizontal"/>
 
