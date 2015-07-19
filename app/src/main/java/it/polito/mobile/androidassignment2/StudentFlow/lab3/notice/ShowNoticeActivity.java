@@ -209,6 +209,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
     }
 
     private void uploadImages() {
+        Log.d(TAG, "click upload pics");
         uploadImagesButton.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         Intent intent = new Intent(ShowNoticeActivity.this, ImagePickerActivity.class);
@@ -224,7 +225,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+        registerReceiver(uploadFinished, new IntentFilter(UploadModel.INTENT_UPLOADED));
 
         uploadImagesParent.setVisibility(View.GONE);
         uploadImagesButton.setVisibility(View.VISIBLE);
@@ -336,7 +337,6 @@ public class ShowNoticeActivity extends AppCompatActivity {
         };
         t2.execute();
         pendingTasks.add(t2);
-        registerReceiver(uploadFinished, new IntentFilter(UploadModel.INTENT_UPLOADED));
 	}
 
     private void setupUnfav(){
@@ -593,6 +593,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == ACTIVITY_MULTIUPLOAD) {
+                Log.d(TAG, "onActivityResultMultiUp");
                 uploadImagesButton.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 Parcelable[] parcelableUris = intent.getParcelableArrayExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
