@@ -22,6 +22,7 @@ import java.util.Locale;
 
 import android.content.Context;
 
+import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -62,7 +63,8 @@ public class Util {
 
     public static AmazonS3Client getS3Client(Context context) {
         if (sS3Client == null) {
-            sS3Client = new AmazonS3Client(getCredProvider(context));
+            ClientConfiguration conf = new ClientConfiguration().withConnectionTimeout(60000).withSocketTimeout(60000);
+            sS3Client = new AmazonS3Client(getCredProvider(context), conf);
         }
         return sS3Client;
     }
