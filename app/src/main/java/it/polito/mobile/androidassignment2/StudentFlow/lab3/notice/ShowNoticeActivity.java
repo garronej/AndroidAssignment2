@@ -209,7 +209,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
     }
 
     private void uploadImages() {
-        Log.d(TAG, "click upload pics");
+        Log.w(TAG, "click upload pics");
         uploadImagesButton.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         Intent intent = new Intent(ShowNoticeActivity.this, ImagePickerActivity.class);
@@ -593,7 +593,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == ACTIVITY_MULTIUPLOAD) {
-                Log.d(TAG, "onActivityResultMultiUp");
+                Log.w(TAG, "onActivityResultMultiUp");
                 uploadImagesButton.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 Parcelable[] parcelableUris = intent.getParcelableArrayExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
@@ -614,7 +614,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
                     if (uri != null) {
                         uploadImagesButton.setVisibility(View.INVISIBLE);
                         progressBar.setVisibility(View.VISIBLE);
-                        Log.d(TAG, "start upload to s3");
+                        Log.w(TAG, "start upload to s3");
                         TransferController.upload(ShowNoticeActivity.this, uri, "photo/student3");
                     }
                 }
@@ -633,7 +633,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
             pendingUploads--;
             if (pendingUploads == 0) {
                 putPictures();
-                Log.d(TAG, "upload to s3 finished, now sending to server");
+                Log.w(TAG, "upload to s3 finished, now sending to server");
             }
         }
     }
@@ -664,7 +664,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
                     Toast.makeText(ShowNoticeActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Log.d(TAG, "finished sending to server");
+                Log.w(TAG, "finished sending to server");
                 notice.setPictures(pendingPictures.toArray(new String[pendingPictures.size()]));
                 uploadImagesButton.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
