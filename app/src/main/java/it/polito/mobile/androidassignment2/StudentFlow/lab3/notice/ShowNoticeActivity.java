@@ -210,8 +210,6 @@ public class ShowNoticeActivity extends AppCompatActivity {
 
     private void uploadImages() {
         Log.w(TAG, "click upload pics");
-        uploadImagesButton.setVisibility(View.INVISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
         Intent intent = new Intent(ShowNoticeActivity.this, ImagePickerActivity.class);
         Config config = new Config.Builder()
                 .setTabSelectionIndicatorColor(R.color.blue_sky)
@@ -226,10 +224,6 @@ public class ShowNoticeActivity extends AppCompatActivity {
 	protected void onResume() {
 		super.onResume();
         registerReceiver(uploadFinished, new IntentFilter(UploadModel.INTENT_UPLOADED));
-
-        uploadImagesParent.setVisibility(View.GONE);
-        uploadImagesButton.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.INVISIBLE);
 
         noticeId = getIntent().getIntExtra("noticeId", -1);
         if (noticeId == -1) { throw new RuntimeException("noticeId param is required"); }
@@ -594,7 +588,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == ACTIVITY_MULTIUPLOAD) {
                 Log.w(TAG, "onActivityResultMultiUp");
-                uploadImagesButton.setVisibility(View.GONE);
+                uploadImagesButton.setVisibility(View.INVISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
                 Parcelable[] parcelableUris = intent.getParcelableArrayExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
 
@@ -612,8 +606,6 @@ public class ShowNoticeActivity extends AppCompatActivity {
                         uri = getImageContentUri(ShowNoticeActivity.this, new File(uri.toString()));
                     }
                     if (uri != null) {
-                        uploadImagesButton.setVisibility(View.INVISIBLE);
-                        progressBar.setVisibility(View.VISIBLE);
                         Log.w(TAG, "start upload to s3");
                         TransferController.upload(ShowNoticeActivity.this, uri, "photo/student3");
                     }
@@ -666,6 +658,7 @@ public class ShowNoticeActivity extends AppCompatActivity {
                 }
                 Log.w(TAG, "finished sending to server");
                 notice.setPictures(pendingPictures.toArray(new String[pendingPictures.size()]));
+                pendingPictures.clear();
                 uploadImagesButton.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 openGalleryParent.setVisibility(View.VISIBLE);
