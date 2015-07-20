@@ -44,6 +44,7 @@
                 android:shadowRadius="1"
                 android:paddingLeft="4px"
                 android:paddingBottom="4px"
+                android:imeOptions="actionDone"
                 />
         </RelativeLayout>
 
@@ -55,6 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/ProfileItemText"
+                android:imeOptions="actionDone"
                 android:hint="@string/name"/>
         </LinearLayout>
 
@@ -68,6 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/ProfileItemText"
+                android:imeOptions="actionDone"
                 android:hint="@string/location"/>
         </LinearLayout>
 
@@ -81,8 +84,8 @@
                 android:textColorLink="@color/blue_sky"
                 style="@style/ProfileItemText"
                 android:hint="@string/number_of_workers"
+                android:imeOptions="actionDone"
                 android:inputType="number"/>
-                android:inputType="number"
         </LinearLayout>
 
         <View android:background="@color/medium_gray" android:layout_width="match_parent" android:layout_height="1dp"/>
@@ -93,6 +96,7 @@
             <EditText
                 android:id="@+id/edit_c_mission_et"
                 style="@style/ProfileItemText"
+                android:imeOptions="actionDone"
                 android:hint="@string/mission"/>
         </LinearLayout>
 
@@ -104,6 +108,7 @@
             <EditText
                 android:id="@+id/edit_c_description_et"
                 style="@style/ProfileItemText"
+                android:imeOptions="actionDone"
                 android:hint="@string/description"/>
         </LinearLayout>
 

@@ -136,6 +136,8 @@
                 android:id="@+id/edit_location_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 style="@style/ProfileItemText"
                 android:hint="@string/location"/>
         </LinearLayout>
@@ -165,7 +167,8 @@
                         style="@style/ProfileItemText"
                         android:layout_gravity="left"
                         android:layout_marginLeft="0dp"
-                        android:singleLine="false"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
                         android:hint="@string/name"/>
                 </LinearLayout>
 
@@ -182,7 +185,9 @@
                         android:layout_height="wrap_content"
                         style="@style/ProfileItemText"
                         android:layout_gravity="left"
+                        android:imeOptions="actionDone"
                         android:layout_marginLeft="0dp"
+                        android:singleLine="true"
                         android:hint="@string/surname"/>
                 </LinearLayout>
 

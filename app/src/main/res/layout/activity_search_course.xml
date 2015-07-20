@@ -26,9 +26,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:completionThreshold="1"
-            android:imeOptions="actionNext"
             android:imeActionId="@+id/button"
             android:hint="@string/course"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
             android:layout_marginLeft="@dimen/side_margin"
             android:layout_marginRight="@dimen/side_margin"/>
 
@@ -47,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
+            android:singleLine="true"
             android:completionThreshold="1"
             android:hint="@string/teacher"
             android:layout_marginLeft="@dimen/side_margin"
