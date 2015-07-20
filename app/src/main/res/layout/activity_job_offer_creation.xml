@@ -21,6 +21,8 @@
                 android:id="@+id/job_title"
                 style="@style/ProfileItemText"
                 android:hint="@string/job_title"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
                 android:imeActionId="@+id/location"/>
         </LinearLayout>
 

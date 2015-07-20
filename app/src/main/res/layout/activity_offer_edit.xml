@@ -52,6 +52,8 @@
             <EditText
                 style="@style/ProfileItemText"
                 android:id="@+id/job_title"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:hint="@string/job_title"/>
         </LinearLayout>
 
@@ -64,6 +66,8 @@
             <EditText
                 style="@style/ProfileItemText"
                 android:id="@+id/location"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:hint="@string/location"/>
         </LinearLayout>
 
@@ -75,6 +79,8 @@
             <EditText
                 style="@style/ProfileItemText"
                 android:id="@+id/job_offer_code"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:hint="@string/job_offer_code"/>
         </LinearLayout>
 
@@ -98,6 +104,8 @@
             <EditText
                 style="@style/ProfileItemText"
                 android:id="@+id/kind_of_contract"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:hint="@string/kind_of_contract"/>
         </LinearLayout>
 
@@ -110,6 +118,8 @@
                 style="@style/ProfileItemText"
                 android:id="@+id/number_of_months"
                 android:inputType="number"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:hint="@string/number_of_months"/>
         </LinearLayout>
 
@@ -122,6 +132,7 @@
             <it.polito.mobile.androidassignment2.CompetencesCompletionTextView
                 style="@style/ProfileItemText"
                 android:id="@+id/competences"
+                android:imeOptions="actionDone"
                 android:hint="@string/competences"/>
         </LinearLayout>
 

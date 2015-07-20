@@ -105,6 +105,7 @@
             android:inputType="numberDecimal"
 
             android:imeOptions="actionDone"
+            android:singleLine="true"
             style="@style/ProfileItemText"/>
 
         <LinearLayout
